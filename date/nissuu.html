@@ -16,11 +16,51 @@
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
     <nav>
-      <a href="../money/tedori.html">お金・給与</a>
-      <a href="../health/bmi.html">健康・生活</a>
-      <a href="../life/loan.html">生活・節約</a>
-      <a href="../date/nissuu.html" class="active">日付・時間</a>
-      <a href="../tax/furusato.html">節税</a>
+      <div class="nav-item">
+        <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../money/tedori.html">💴 手取り計算</a>
+          <a href="../money/zangyo.html">⏰ 残業代計算</a>
+          <a href="../money/bonus.html">🎁 ボーナス手取り計算</a>
+          <a href="../money/nenshu.html">📈 年収→月収・時給計算</a>
+          <a href="../money/shakaihoken.html">🏥 社会保険料シミュレーション</a>
+          <a href="../money/taisyokukin.html">👴 退職金手取り計算</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="../health/bmi.html" class="nav-link">健康・生活 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../health/bmi.html">⚖️ BMI計算</a>
+          <a href="../health/metabolism.html">🔥 基礎代謝計算</a>
+          <a href="../health/calorie.html">🍱 消費カロリー計算</a>
+          <a href="../health/idealweight.html">👗 理想体重・モデル体重計算</a>
+          <a href="../health/alcohol.html">🍺 飲酒カロリー計算</a>
+          <a href="../health/steps.html">🚶 歩数→消費カロリー計算</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="../life/loan.html" class="nav-link">生活・節約 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../life/loan.html">🏦 ローン返済シミュレーション</a>
+          <a href="../life/denki.html">💡 電気代計算</a>
+          <a href="../life/gasoline.html">⛽ ガソリン代計算</a>
+        </div>
+      </div>
+      <div class="nav-item active">
+        <a href="../date/nissuu.html" class="nav-link">日付・時間 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../date/nissuu.html">📅 日数計算</a>
+          <a href="../date/nenrei.html">🎂 年齢計算</a>
+          <a href="../date/jikan.html">⏱️ 勤務時間計算</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="../tax/furusato.html" class="nav-link">節税 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../tax/furusato.html">🎎 ふるさと納税 上限額計算</a>
+          <a href="../tax/setsuzei.html">📊 節税シミュレーション</a>
+        </div>
+      </div>
     </nav>
   </div>
 </header>
@@ -122,5 +162,6 @@ function calcNissuu() {
   document.getElementById('result').classList.add('show');
 }
 </script>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>
