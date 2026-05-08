@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://hakarun.net/</loc><priority>1.0</priority></url>
+  <url><loc>https://hakarun.net/money/tedori.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/money/zangyo.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/money/bonus.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/money/nenshu.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/money/shakaihoken.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/money/taisyokukin.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/health/bmi.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/health/metabolism.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/health/calorie.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/health/idealweight.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/health/alcohol.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/health/steps.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/life/loan.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/life/denki.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/life/gasoline.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/date/nissuu.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/date/nenrei.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/date/jikan.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/tax/furusato.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/tax/setsuzei.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/privacy.html</loc><priority>0.3</priority></url>
+  <url><loc>https://hakarun.net/disclaimer.html</loc><priority>0.3</priority></url>
+  <url><loc>https://hakarun.net/contact.html</loc><priority>0.3</priority></url>
+</urlset>
