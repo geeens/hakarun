@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>歩数→消費カロリー計算｜はかるん</title>
+  <meta name="description" content="歩数と体重から消費カロリー・歩いた距離を計算。ウォーキングのダイエット効果を確認できます。">
+  <link rel="stylesheet" href="../style.css">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-LR8XWPZCN9');
+  </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+</head>
+<body>
+<header>
+  <div class="container">
+    <a href="../index.html" class="logo">📐 はかるん</a>
+    <nav>
+      <a href="../money/tedori.html">お金・給与</a>
+      <a href="../health/bmi.html" class="active">健康・生活</a>
+      <a href="../life/loan.html">生活・節約</a>
+      <a href="../date/nissuu.html">日付・時間</a>
+      <a href="../tax/furusato.html">節税</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="container">
+    <div class="page-header">
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 歩数→消費カロリー計算</div>
+      <h1>🚶 歩数→消費カロリー計算</h1>
+      <p class="subtitle">歩数と体重から消費カロリーと歩いた距離を計算します</p>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="calc-card">
+      <div class="form-group">
+        <label>歩数</label>
+        <div class="input-wrap">
+          <input type="number" id="steps" placeholder="8000" min="0">
+          <span class="unit">歩</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>体重</label>
+        <div class="input-wrap">
+          <input type="number" id="weight" placeholder="60" min="1">
+          <span class="unit">kg</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>身長（任意）</label>
+        <div class="input-wrap">
+          <input type="number" id="height" placeholder="165" min="50">
+          <span class="unit">cm</span>
+        </div>
+        <p class="hint">入力すると歩幅をより正確に計算できます</p>
+      </div>
+      <button class="btn btn-primary" onclick="calcSteps()">計算する</button>
+      <div class="result-area" id="result">
+        <div class="result-main">
+          <div class="label">消費カロリー（概算）</div>
+          <div class="value" id="res-cal">—</div>
+        </div>
+        <div class="result-table">
+          <table>
+            <tbody>
+              <tr><td>歩数</td><td id="res-steps">—</td></tr>
+              <tr><td>歩いた距離</td><td id="res-distance">—</td></tr>
+              <tr><td>消費カロリー</td><td id="res-cal2">—</td></tr>
+              <tr><td>脂肪燃焼量（目安）</td><td id="res-fat">—</td></tr>
+              <tr><td>1万歩あたりのカロリー</td><td id="res-per10k">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="info-box"><strong>厚生労働省の推奨は1日8,000〜10,000歩。</strong>毎日続けることが大切です。エレベーターの代わりに階段を使うだけでも歩数が増えます。</div>
+      </div>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="article">
+      <h2>ウォーキングのダイエット効果</h2>
+      <p>ウォーキングは有酸素運動の代表格です。激しい運動が苦手な方でも無理なく続けられます。</p>
+      <h3>1万歩歩くと何kcal消費する？</h3>
+      <p>体重60kgの人が1万歩歩いた場合、約300kcalを消費します。これはご飯約1杯分のカロリーに相当します。</p>
+      <h3>脂肪1kgを落とすには？</h3>
+      <p>脂肪1kgは約7,200kcalに相当します。毎日1万歩歩き続けると、約24日で1kgの脂肪が燃焼できる計算になります。</p>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="footer-logo">📐 はかるん</div>
+  <div class="footer-links">
+    <a href="../index.html">トップ</a>
+    <a href="bmi.html">BMI計算</a>
+    <a href="calorie.html">消費カロリー計算</a>
+    <a href="alcohol.html">飲酒カロリー計算</a>
+  </div>
+  <div class="footer-links" style="margin-top:12px">
+    <a href="../privacy.html">プライバシーポリシー</a>
+    <a href="../disclaimer.html">免責事項</a>
+    <a href="../contact.html">お問い合わせ</a>
+  </div>
+  <p class="copyright">※ 計算結果はあくまで目安です。健康に関することは医師にご相談ください。</p>
+  <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
+</footer>
+<script>
+function calcSteps() {
+  const steps = parseFloat(document.getElementById('steps').value);
+  const weight = parseFloat(document.getElementById('weight').value);
+  const height = parseFloat(document.getElementById('height').value);
+  if (!steps || !weight) { alert('歩数と体重を入力してください'); return; }
+  const stride = height ? height * 0.45 / 100 : 0.7;
+  const distance = steps * stride / 1000;
+  const cal = weight * steps * 0.0005;
+  const fat = cal / 7200;
+  const per10k = weight * 10000 * 0.0005;
+  document.getElementById('res-cal').textContent = Math.round(cal) + ' kcal';
+  document.getElementById('res-steps').textContent = steps.toLocaleString('ja-JP') + ' 歩';
+  document.getElementById('res-distance').textContent = distance.toFixed(2) + ' km';
+  document.getElementById('res-cal2').textContent = Math.round(cal) + ' kcal';
+  document.getElementById('res-fat').textContent = (fat * 1000).toFixed(1) + ' g';
+  document.getElementById('res-per10k').textContent = Math.round(per10k) + ' kcal';
+  document.getElementById('result').classList.add('show');
+}
+</script>
+</body>
+</html>

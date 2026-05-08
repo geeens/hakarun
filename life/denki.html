@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>電気代計算｜はかるん</title>
+  <meta name="description" content="家電の消費電力と使用時間から電気代をかんたん計算。節電の参考に。">
+  <link rel="stylesheet" href="../style.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+</head>
+<body>
+<header>
+  <div class="container">
+    <a href="../index.html" class="logo">📐 はかるん</a>
+    <nav>
+      <a href="../money/tedori.html">お金・給与</a>
+      <a href="../health/bmi.html">健康・生活</a>
+      <a href="../life/loan.html" class="active">生活・節約</a>
+      <a href="../date/nissuu.html">日付・時間</a>
+      <a href="../tax/furusato.html">節税</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="container">
+    <div class="page-header">
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 電気代計算</div>
+      <h1>💡 電気代計算</h1>
+      <p class="subtitle">家電の消費電力と使用時間から電気代を計算します</p>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="calc-card">
+      <div class="form-group">
+        <label>消費電力</label>
+        <div class="input-wrap">
+          <input type="number" id="watt" placeholder="200" min="0">
+          <span class="unit">W（ワット）</span>
+        </div>
+        <p class="hint">家電の裏面や説明書に「消費電力 ○○W」と書かれています</p>
+      </div>
+      <div class="form-group">
+        <label>1日の使用時間</label>
+        <div class="input-wrap">
+          <input type="number" id="hours" placeholder="8" min="0" max="24" step="0.5">
+          <span class="unit">時間</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>電気料金単価</label>
+        <div class="input-wrap">
+          <input type="number" id="price" placeholder="30" min="0" value="30">
+          <span class="unit">円/kWh</span>
+        </div>
+        <p class="hint">2024年の目安は25〜35円/kWh。電力会社の明細でご確認ください</p>
+      </div>
+      <button class="btn btn-primary" onclick="calcDenki()">計算する</button>
+      <div class="result-area" id="result">
+        <div class="result-main">
+          <div class="label">1ヶ月の電気代（概算）</div>
+          <div class="value" id="res-month">—</div>
+        </div>
+        <div class="result-table">
+          <table>
+            <tbody>
+              <tr><td>1時間あたり</td><td id="res-hour">—</td></tr>
+              <tr><td>1日あたり</td><td id="res-day">—</td></tr>
+              <tr><td>1ヶ月あたり（30日）</td><td id="res-month2">—</td></tr>
+              <tr><td>1年あたり</td><td id="res-year">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="article">
+      <h2>主な家電の消費電力の目安</h2>
+      <ul>
+        <li>エアコン（冷房）：500〜1,000W</li>
+        <li>電子レンジ：500〜1,500W</li>
+        <li>冷蔵庫：150〜400W</li>
+        <li>洗濯機：500W前後</li>
+        <li>テレビ（50型）：100〜200W</li>
+        <li>LED電球：6〜10W</li>
+        <li>パソコン（デスクトップ）：200〜400W</li>
+        <li>スマートフォン充電：5〜20W</li>
+      </ul>
+      <h3>節電のポイント</h3>
+      <p>消費電力が大きいエアコン・電子レンジ・冷蔵庫の節電が効果的です。エアコンは設定温度を1℃変えるだけで約10%の節電になります。</p>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="footer-logo">📐 はかるん</div>
+  <div class="footer-links">
+    <a href="../index.html">トップ</a>
+    <a href="gasoline.html">ガソリン代計算</a>
+    <a href="loan.html">ローン返済計算</a>
+    <a href="../money/tedori.html">手取り計算</a>
+  </div>
+  <div class="footer-links" style="margin-top:12px">
+    <a href="../privacy.html">プライバシーポリシー</a>
+    <a href="../disclaimer.html">免責事項</a>
+    <a href="../contact.html">お問い合わせ</a>
+  </div>
+  <p class="copyright">※ 計算結果はあくまで目安です。正確な金額は電力会社にご確認ください。</p>
+  <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
+</footer>
+<script>
+function calcDenki() {
+  const watt = parseFloat(document.getElementById('watt').value);
+  const hours = parseFloat(document.getElementById('hours').value);
+  const price = parseFloat(document.getElementById('price').value) || 30;
+  if (!watt || !hours) { alert('消費電力と使用時間を入力してください'); return; }
+  const kw = watt / 1000;
+  const hourCost = kw * price;
+  const dayCost = hourCost * hours;
+  const monthCost = dayCost * 30;
+  const yearCost = dayCost * 365;
+  const fmt = n => n < 1 ? n.toFixed(2) + ' 円' : Math.round(n).toLocaleString('ja-JP') + ' 円';
+  document.getElementById('res-month').textContent = Math.round(monthCost).toLocaleString('ja-JP') + ' 円';
+  document.getElementById('res-hour').textContent = fmt(hourCost);
+  document.getElementById('res-day').textContent = fmt(dayCost);
+  document.getElementById('res-month2').textContent = Math.round(monthCost).toLocaleString('ja-JP') + ' 円';
+  document.getElementById('res-year').textContent = Math.round(yearCost).toLocaleString('ja-JP') + ' 円';
+  document.getElementById('result').classList.add('show');
+}
+</script>
+</body>
+</html>

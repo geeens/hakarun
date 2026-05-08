@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>勤務時間計算｜はかるん</title>
+  <meta name="description" content="出勤・退勤時刻と休憩時間から実労働時間をかんたん計算。月間の労働時間もわかります。">
+  <link rel="stylesheet" href="../style.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+</head>
+<body>
+<header>
+  <div class="container">
+    <a href="../index.html" class="logo">📐 はかるん</a>
+    <nav>
+      <a href="../money/tedori.html">お金・給与</a>
+      <a href="../health/bmi.html">健康・生活</a>
+      <a href="../life/loan.html">生活・節約</a>
+      <a href="../date/nissuu.html" class="active">日付・時間</a>
+      <a href="../tax/furusato.html">節税</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="container">
+    <div class="page-header">
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 勤務時間計算</div>
+      <h1>⏱️ 勤務時間計算</h1>
+      <p class="subtitle">出勤・退勤時刻と休憩時間から実労働時間を計算します</p>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="calc-card">
+      <div class="form-group">
+        <label>出勤時刻</label>
+        <div class="input-wrap">
+          <input type="time" id="start" value="09:00">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>退勤時刻</label>
+        <div class="input-wrap">
+          <input type="time" id="end" value="18:00">
+        </div>
+        <p class="hint">日をまたぐ場合（深夜勤務など）も正しく計算されます</p>
+      </div>
+      <div class="form-group">
+        <label>休憩時間</label>
+        <div class="input-wrap">
+          <input type="number" id="break" placeholder="60" min="0" value="60">
+          <span class="unit">分</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>1ヶ月の出勤日数（任意）</label>
+        <div class="input-wrap">
+          <input type="number" id="workdays" placeholder="20" min="1" max="31">
+          <span class="unit">日</span>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="calcJikan()">計算する</button>
+      <div class="result-area" id="result">
+        <div class="result-main">
+          <div class="label">実労働時間</div>
+          <div class="value" id="res-work">—</div>
+        </div>
+        <div class="result-table">
+          <table>
+            <tbody>
+              <tr><td>出勤〜退勤</td><td id="res-total">—</td></tr>
+              <tr><td>休憩時間</td><td id="res-break">—</td></tr>
+              <tr><td>実労働時間</td><td id="res-work2">—</td></tr>
+              <tr><td>所定労働時間（8時間）との差</td><td id="res-diff">—</td></tr>
+              <tr><td>月間労働時間（出勤日数×実労働）</td><td id="res-month">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="info-box"><strong>法定労働時間は1日8時間・週40時間。</strong>これを超える場合は残業代（25%増し）が発生します。<a href="../money/zangyo.html">残業代計算ツール</a>もご利用ください。</div>
+      </div>
+    </div>
+    <div class="ad-area">広告</div>
+  </div>
+</main>
+<footer>
+  <div class="footer-logo">📐 はかるん</div>
+  <div class="footer-links">
+    <a href="../index.html">トップ</a>
+    <a href="nissuu.html">日数計算</a>
+    <a href="nenrei.html">年齢計算</a>
+    <a href="../money/zangyo.html">残業代計算</a>
+  </div>
+  <div class="footer-links" style="margin-top:12px">
+    <a href="../privacy.html">プライバシーポリシー</a>
+    <a href="../disclaimer.html">免責事項</a>
+    <a href="../contact.html">お問い合わせ</a>
+  </div>
+  <p class="copyright">© 2024 はかるん</p>
+</footer>
+<script>
+function calcJikan() {
+  const startStr = document.getElementById('start').value;
+  const endStr = document.getElementById('end').value;
+  const breakMin = parseFloat(document.getElementById('break').value) || 0;
+  const workdays = parseFloat(document.getElementById('workdays').value);
+  if (!startStr || !endStr) { alert('出勤・退勤時刻を入力してください'); return; }
+  const [sh, sm] = startStr.split(':').map(Number);
+  const [eh, em] = endStr.split(':').map(Number);
+  let totalMin = (eh * 60 + em) - (sh * 60 + sm);
+  if (totalMin <= 0) totalMin += 24 * 60;
+  const workMin = totalMin - breakMin;
+  const wh = Math.floor(workMin / 60);
+  const wm = workMin % 60;
+  const diffMin = workMin - 480;
+  const diffStr = diffMin >= 0 ? `+${Math.floor(diffMin/60)}時間${diffMin%60}分（残業）` : `${Math.floor(diffMin/60)}時間${Math.abs(diffMin%60)}分`;
+  document.getElementById('res-work').textContent = `${wh}時間${wm}分`;
+  document.getElementById('res-total').textContent = `${Math.floor(totalMin/60)}時間${totalMin%60}分`;
+  document.getElementById('res-break').textContent = `${breakMin}分`;
+  document.getElementById('res-work2').textContent = `${wh}時間${wm}分`;
+  document.getElementById('res-diff').textContent = diffStr;
+  document.getElementById('res-month').textContent = workdays ? `${Math.floor(workMin*workdays/60)}時間${(workMin*workdays)%60}分` : '—（出勤日数を入力すると表示）';
+  document.getElementById('result').classList.add('show');
+}
+</script>
+</body>
+</html>

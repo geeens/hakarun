@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>理想体重・モデル体重計算｜はかるん</title>
+  <meta name="description" content="身長から理想体重・モデル体重・美容体重を計算。目標体重の設定に役立てましょう。">
+  <link rel="stylesheet" href="../style.css">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-LR8XWPZCN9');
+  </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+</head>
+<body>
+<header>
+  <div class="container">
+    <a href="../index.html" class="logo">📐 はかるん</a>
+    <nav>
+      <a href="../money/tedori.html">お金・給与</a>
+      <a href="../health/bmi.html" class="active">健康・生活</a>
+      <a href="../life/loan.html">生活・節約</a>
+      <a href="../date/nissuu.html">日付・時間</a>
+      <a href="../tax/furusato.html">節税</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="container">
+    <div class="page-header">
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 理想体重・モデル体重計算</div>
+      <h1>✨ 理想体重・モデル体重計算</h1>
+      <p class="subtitle">身長から理想体重・モデル体重・美容体重を計算します</p>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="calc-card">
+      <div class="form-group">
+        <label>身長</label>
+        <div class="input-wrap">
+          <input type="number" id="height" placeholder="160" min="50" max="250">
+          <span class="unit">cm</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>現在の体重（任意）</label>
+        <div class="input-wrap">
+          <input type="number" id="weight" placeholder="55" min="0">
+          <span class="unit">kg</span>
+        </div>
+        <p class="hint">入力すると目標体重までの差も表示されます</p>
+      </div>
+      <button class="btn btn-primary" onclick="calcIdealWeight()">計算する</button>
+      <div class="result-area" id="result">
+        <div class="result-main">
+          <div class="label">理想体重（BMI=22）</div>
+          <div class="value" id="res-ideal">—</div>
+          <div class="sub">最も病気になりにくい体重</div>
+        </div>
+        <div class="result-table">
+          <table>
+            <tbody>
+              <tr><td>理想体重（BMI=22）</td><td id="res-ideal2">—</td></tr>
+              <tr><td>美容体重（BMI=20）</td><td id="res-beauty">—</td></tr>
+              <tr><td>モデル体重（BMI=18）</td><td id="res-model">—</td></tr>
+              <tr><td>現在のBMI</td><td id="res-bmi">—</td></tr>
+              <tr><td>理想体重まであと</td><td id="res-diff">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="info-box"><strong>無理なダイエットは禁物！</strong> モデル体重・美容体重は見た目の目安です。健康的な観点からは理想体重（BMI=22）が推奨されています。</div>
+      </div>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="article">
+      <h2>理想体重・モデル体重・美容体重の違い</h2>
+      <ul>
+        <li><strong>理想体重（BMI=22）</strong>：最も病気になりにくいとされる体重。健康的な観点から推奨。</li>
+        <li><strong>美容体重（BMI=20）</strong>：見た目がスリムに見えやすい体重の目安。</li>
+        <li><strong>モデル体重（BMI=18）</strong>：ファッションモデルに多い体型の目安。低体重気味で健康リスクあり。</li>
+      </ul>
+      <h3>無理な減量のリスク</h3>
+      <p>BMI18以下は「低体重（やせ）」に分類され、栄養不足・骨粗しょう症・免疫力低下などのリスクがあります。健康を優先した目標体重の設定をおすすめします。</p>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="footer-logo">📐 はかるん</div>
+  <div class="footer-links">
+    <a href="../index.html">トップ</a>
+    <a href="bmi.html">BMI計算</a>
+    <a href="metabolism.html">基礎代謝計算</a>
+    <a href="calorie.html">消費カロリー計算</a>
+  </div>
+  <div class="footer-links" style="margin-top:12px">
+    <a href="../privacy.html">プライバシーポリシー</a>
+    <a href="../disclaimer.html">免責事項</a>
+    <a href="../contact.html">お問い合わせ</a>
+  </div>
+  <p class="copyright">※ 計算結果はあくまで目安です。健康に関することは医師にご相談ください。</p>
+  <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
+</footer>
+<script>
+function calcIdealWeight() {
+  const h = parseFloat(document.getElementById('height').value);
+  const w = parseFloat(document.getElementById('weight').value);
+  if (!h) { alert('身長を入力してください'); return; }
+  const hm = h / 100;
+  const ideal = 22 * hm * hm;
+  const beauty = 20 * hm * hm;
+  const model = 18 * hm * hm;
+  document.getElementById('res-ideal').textContent = ideal.toFixed(1) + ' kg';
+  document.getElementById('res-ideal2').textContent = ideal.toFixed(1) + ' kg';
+  document.getElementById('res-beauty').textContent = beauty.toFixed(1) + ' kg';
+  document.getElementById('res-model').textContent = model.toFixed(1) + ' kg';
+  if (w) {
+    const bmi = w / (hm * hm);
+    const diff = w - ideal;
+    document.getElementById('res-bmi').textContent = bmi.toFixed(1);
+    document.getElementById('res-diff').textContent = diff > 0 ? `+${diff.toFixed(1)} kg（減量目標）` : `${diff.toFixed(1)} kg（増量目標）`;
+  } else {
+    document.getElementById('res-bmi').textContent = '—（体重を入力すると表示）';
+    document.getElementById('res-diff').textContent = '—（体重を入力すると表示）';
+  }
+  document.getElementById('result').classList.add('show');
+}
+</script>
+</body>
+</html>

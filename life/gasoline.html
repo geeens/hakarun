@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ガソリン代計算｜はかるん</title>
+  <meta name="description" content="走行距離・燃費・ガソリン単価からガソリン代をかんたん計算。往復・月間の費用もわかります。">
+  <link rel="stylesheet" href="../style.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+</head>
+<body>
+<header>
+  <div class="container">
+    <a href="../index.html" class="logo">📐 はかるん</a>
+    <nav>
+      <a href="../money/tedori.html">お金・給与</a>
+      <a href="../health/bmi.html">健康・生活</a>
+      <a href="../life/loan.html" class="active">生活・節約</a>
+      <a href="../date/nissuu.html">日付・時間</a>
+      <a href="../tax/furusato.html">節税</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="container">
+    <div class="page-header">
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; ガソリン代計算</div>
+      <h1>⛽ ガソリン代計算</h1>
+      <p class="subtitle">走行距離・燃費・ガソリン単価からガソリン代を計算します</p>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="calc-card">
+      <div class="form-group">
+        <label>走行距離</label>
+        <div class="input-wrap">
+          <input type="number" id="distance" placeholder="100" min="0">
+          <span class="unit">km</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>燃費</label>
+        <div class="input-wrap">
+          <input type="number" id="fuel" placeholder="15" min="0.1" step="0.1">
+          <span class="unit">km/L</span>
+        </div>
+        <p class="hint">カタログ燃費の約80%が実際の燃費の目安です</p>
+      </div>
+      <div class="form-group">
+        <label>ガソリン単価</label>
+        <div class="input-wrap">
+          <input type="number" id="price" placeholder="170" min="0">
+          <span class="unit">円/L</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>計算方法</label>
+        <div class="radio-group">
+          <label><input type="radio" name="mode" value="one" checked> 片道</label>
+          <label><input type="radio" name="mode" value="round"> 往復</label>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="calcGasoline()">計算する</button>
+      <div class="result-area" id="result">
+        <div class="result-main">
+          <div class="label">ガソリン代（概算）</div>
+          <div class="value" id="res-cost">—</div>
+        </div>
+        <div class="result-table">
+          <table>
+            <tbody>
+              <tr><td>走行距離</td><td id="res-dist">—</td></tr>
+              <tr><td>必要なガソリン量</td><td id="res-liter">—</td></tr>
+              <tr><td>ガソリン代</td><td id="res-cost2">—</td></tr>
+              <tr><td>月20日通勤した場合</td><td id="res-month">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="article">
+      <h2>ガソリン代の節約方法</h2>
+      <ul>
+        <li><strong>急発進・急ブレーキを避ける</strong>：燃費が10〜20%改善します</li>
+        <li><strong>タイヤの空気圧を適正に保つ</strong>：空気圧が低いと燃費が悪化します</li>
+        <li><strong>エアコンを控えめに使う</strong>：燃費に大きく影響します</li>
+        <li><strong>ガソリンスタンドを比較する</strong>：同じ地域でも価格差があります</li>
+      </ul>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="footer-logo">📐 はかるん</div>
+  <div class="footer-links">
+    <a href="../index.html">トップ</a>
+    <a href="denki.html">電気代計算</a>
+    <a href="loan.html">ローン返済計算</a>
+    <a href="../money/tedori.html">手取り計算</a>
+  </div>
+  <div class="footer-links" style="margin-top:12px">
+    <a href="../privacy.html">プライバシーポリシー</a>
+    <a href="../disclaimer.html">免責事項</a>
+    <a href="../contact.html">お問い合わせ</a>
+  </div>
+  <p class="copyright">※ 計算結果はあくまで目安です。</p>
+  <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
+</footer>
+<script>
+function calcGasoline() {
+  let dist = parseFloat(document.getElementById('distance').value);
+  const fuel = parseFloat(document.getElementById('fuel').value);
+  const price = parseFloat(document.getElementById('price').value);
+  const mode = document.querySelector('input[name="mode"]:checked').value;
+  if (!dist || !fuel || !price) { alert('すべての項目を入力してください'); return; }
+  if (mode === 'round') dist *= 2;
+  const liter = dist / fuel;
+  const cost = liter * price;
+  const month = cost * 20;
+  const fmt = n => Math.round(n).toLocaleString('ja-JP');
+  document.getElementById('res-cost').textContent = fmt(cost) + ' 円';
+  document.getElementById('res-dist').textContent = dist + ' km';
+  document.getElementById('res-liter').textContent = liter.toFixed(2) + ' L';
+  document.getElementById('res-cost2').textContent = fmt(cost) + ' 円';
+  document.getElementById('res-month').textContent = fmt(month) + ' 円';
+  document.getElementById('result').classList.add('show');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>社会保険料シミュレーション｜はかるん</title>
+  <meta name="description" content="月収から健康保険・厚生年金・雇用保険の社会保険料を計算。毎月いくら引かれるか確認できます。">
+  <link rel="stylesheet" href="../style.css">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-LR8XWPZCN9');
+  </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+</head>
+<body>
+<header>
+  <div class="container">
+    <a href="../index.html" class="logo">📐 はかるん</a>
+    <nav>
+      <a href="../money/tedori.html" class="active">お金・給与</a>
+      <a href="../health/bmi.html">健康・生活</a>
+      <a href="../life/loan.html">生活・節約</a>
+      <a href="../date/nissuu.html">日付・時間</a>
+      <a href="../tax/furusato.html">節税</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="container">
+    <div class="page-header">
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 社会保険料シミュレーション</div>
+      <h1>🏥 社会保険料シミュレーション</h1>
+      <p class="subtitle">月収から社会保険料の内訳と合計を計算します</p>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="calc-card">
+      <div class="form-group">
+        <label>月収（額面）</label>
+        <div class="input-wrap">
+          <input type="number" id="salary" placeholder="300000" min="0">
+          <span class="unit">円</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>年齢</label>
+        <div class="radio-group">
+          <label><input type="radio" name="age" value="under40" checked> 40歳未満</label>
+          <label><input type="radio" name="age" value="over40"> 40歳以上（介護保険あり）</label>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="calcShakaiHoken()">計算する</button>
+      <div class="result-area" id="result">
+        <div class="result-main">
+          <div class="label">社会保険料 合計</div>
+          <div class="value" id="res-total">—</div>
+          <div class="sub" id="res-rate">月収の —%</div>
+        </div>
+        <div class="result-table">
+          <table>
+            <thead><tr><th>種類</th><th>料率</th><th>金額</th></tr></thead>
+            <tbody>
+              <tr class="deduct"><td>健康保険料</td><td>4.985%</td><td id="res-health">—</td></tr>
+              <tr class="deduct"><td>介護保険料</td><td id="care-rate">—</td><td id="res-care">—</td></tr>
+              <tr class="deduct"><td>厚生年金保険料</td><td>9.15%</td><td id="res-pension">—</td></tr>
+              <tr class="deduct"><td>雇用保険料</td><td>0.6%</td><td id="res-employ">—</td></tr>
+              <tr class="total"><td colspan="2">合計</td><td id="res-sum">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="info-box">会社も同額程度を負担しています。社会保険料の合計（労使合計）は月収の約30%に達します。</div>
+      </div>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="article">
+      <h2>社会保険料とは？</h2>
+      <p>社会保険料とは、健康保険・年金・雇用保険など、社会保障のために毎月給与から天引きされるお金です。会社員は給与の約15%が引かれます。</p>
+      <h3>各保険の役割</h3>
+      <ul>
+        <li><strong>健康保険</strong>：病院代が3割負担になる保険</li>
+        <li><strong>介護保険</strong>：40歳から加入。介護が必要になったときに使えるサービスの保険</li>
+        <li><strong>厚生年金</strong>：老後にもらえる年金の積立</li>
+        <li><strong>雇用保険</strong>：失業したときの生活費をサポートする保険</li>
+      </ul>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="footer-logo">📐 はかるん</div>
+  <div class="footer-links">
+    <a href="../index.html">トップ</a>
+    <a href="tedori.html">手取り計算</a>
+    <a href="nenshu.html">年収計算</a>
+    <a href="taisyokukin.html">退職金計算</a>
+  </div>
+  <div class="footer-links" style="margin-top:12px">
+    <a href="../privacy.html">プライバシーポリシー</a>
+    <a href="../disclaimer.html">免責事項</a>
+    <a href="../contact.html">お問い合わせ</a>
+  </div>
+  <p class="copyright">※ 計算結果はあくまで目安です。正確な金額は専門家にご相談ください。</p>
+  <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
+</footer>
+<script>
+function fmt(n) { return Math.round(n).toLocaleString('ja-JP') + ' 円'; }
+function calcShakaiHoken() {
+  const salary = parseFloat(document.getElementById('salary').value);
+  if (!salary || salary <= 0) { alert('月収を入力してください'); return; }
+  const isOver40 = document.querySelector('input[name="age"]:checked').value === 'over40';
+  const health = salary * 0.04985;
+  const care = isOver40 ? salary * 0.009 : 0;
+  const pension = Math.min(salary, 650000) * 0.0915;
+  const employ = salary * 0.006;
+  const total = health + care + pension + employ;
+  const rate = (total / salary * 100).toFixed(1);
+  document.getElementById('res-total').textContent = fmt(total);
+  document.getElementById('res-rate').textContent = `月収の ${rate}%`;
+  document.getElementById('res-health').textContent = fmt(health);
+  document.getElementById('care-rate').textContent = isOver40 ? '0.9%' : '—（40歳未満）';
+  document.getElementById('res-care').textContent = isOver40 ? fmt(care) : '0 円';
+  document.getElementById('res-pension').textContent = fmt(pension);
+  document.getElementById('res-employ').textContent = fmt(employ);
+  document.getElementById('res-sum').textContent = fmt(total);
+  document.getElementById('result').classList.add('show');
+}
+</script>
+</body>
+</html>

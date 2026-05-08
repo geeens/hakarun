@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>日数計算｜はかるん</title>
+  <meta name="description" content="2つの日付の間の日数・週数・月数をかんたん計算。イベントまでの残り日数にも。">
+  <link rel="stylesheet" href="../style.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+</head>
+<body>
+<header>
+  <div class="container">
+    <a href="../index.html" class="logo">📐 はかるん</a>
+    <nav>
+      <a href="../money/tedori.html">お金・給与</a>
+      <a href="../health/bmi.html">健康・生活</a>
+      <a href="../life/loan.html">生活・節約</a>
+      <a href="../date/nissuu.html" class="active">日付・時間</a>
+      <a href="../tax/furusato.html">節税</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="container">
+    <div class="page-header">
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 日数計算</div>
+      <h1>📅 日数計算</h1>
+      <p class="subtitle">2つの日付の間の日数・週数・月数を計算します</p>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="calc-card">
+      <div class="form-group">
+        <label>開始日</label>
+        <div class="input-wrap">
+          <input type="date" id="start">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>終了日</label>
+        <div class="input-wrap">
+          <input type="date" id="end">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>計算方法</label>
+        <div class="radio-group">
+          <label><input type="radio" name="mode" value="include" checked> 両端を含む</label>
+          <label><input type="radio" name="mode" value="exclude"> 開始日を除く</label>
+        </div>
+        <p class="hint">「今日から○日後」は「開始日を除く」を選択してください</p>
+      </div>
+      <button class="btn btn-primary" onclick="calcNissuu()">計算する</button>
+      <div class="result-area" id="result">
+        <div class="result-main">
+          <div class="label">日数</div>
+          <div class="value" id="res-days">—</div>
+        </div>
+        <div class="result-table">
+          <table>
+            <tbody>
+              <tr><td>日数</td><td id="res-days2">—</td></tr>
+              <tr><td>週数</td><td id="res-weeks">—</td></tr>
+              <tr><td>おおよその月数</td><td id="res-months">—</td></tr>
+              <tr><td>開始日の曜日</td><td id="res-start-day">—</td></tr>
+              <tr><td>終了日の曜日</td><td id="res-end-day">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="article">
+      <h2>日数計算の使い方</h2>
+      <ul>
+        <li><strong>イベントまでの残り日数</strong>：今日を開始日、イベント当日を終了日に入力</li>
+        <li><strong>期間の確認</strong>：契約期間や保証期間の残り日数を確認</li>
+        <li><strong>記念日の計算</strong>：付き合い始めた日から何日経過したか確認</li>
+      </ul>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="footer-logo">📐 はかるん</div>
+  <div class="footer-links">
+    <a href="../index.html">トップ</a>
+    <a href="nenrei.html">年齢計算</a>
+    <a href="jikan.html">勤務時間計算</a>
+    <a href="../money/tedori.html">手取り計算</a>
+  </div>
+  <div class="footer-links" style="margin-top:12px">
+    <a href="../privacy.html">プライバシーポリシー</a>
+    <a href="../disclaimer.html">免責事項</a>
+    <a href="../contact.html">お問い合わせ</a>
+  </div>
+  <p class="copyright">© 2024 はかるん</p>
+</footer>
+<script>
+const DAYS = ['日曜日','月曜日','火曜日','水曜日','木曜日','金曜日','土曜日'];
+document.addEventListener('DOMContentLoaded', () => {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('start').value = today;
+  document.getElementById('end').value = today;
+});
+function calcNissuu() {
+  const s = new Date(document.getElementById('start').value);
+  const e = new Date(document.getElementById('end').value);
+  if (!document.getElementById('start').value || !document.getElementById('end').value) { alert('日付を入力してください'); return; }
+  const mode = document.querySelector('input[name="mode"]:checked').value;
+  const diff = Math.round((e - s) / 86400000);
+  const days = mode === 'include' ? diff + 1 : diff;
+  if (days < 0) { alert('終了日は開始日以降の日付を入力してください'); return; }
+  document.getElementById('res-days').textContent = days + ' 日';
+  document.getElementById('res-days2').textContent = days + ' 日';
+  document.getElementById('res-weeks').textContent = Math.floor(days / 7) + ' 週 ' + (days % 7) + ' 日';
+  document.getElementById('res-months').textContent = (days / 30.4).toFixed(1) + ' ヶ月';
+  document.getElementById('res-start-day').textContent = DAYS[s.getDay()];
+  document.getElementById('res-end-day').textContent = DAYS[e.getDay()];
+  document.getElementById('result').classList.add('show');
+}
+</script>
+</body>
+</html>

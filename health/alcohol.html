@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>飲酒カロリー計算｜はかるん</title>
+  <meta name="description" content="ビール・日本酒・ワイン・焼酎・チューハイなどのカロリーと純アルコール量を計算。">
+  <link rel="stylesheet" href="../style.css">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-LR8XWPZCN9');
+  </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+</head>
+<body>
+<header>
+  <div class="container">
+    <a href="../index.html" class="logo">📐 はかるん</a>
+    <nav>
+      <a href="../money/tedori.html">お金・給与</a>
+      <a href="../health/bmi.html" class="active">健康・生活</a>
+      <a href="../life/loan.html">生活・節約</a>
+      <a href="../date/nissuu.html">日付・時間</a>
+      <a href="../tax/furusato.html">節税</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="container">
+    <div class="page-header">
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 飲酒カロリー計算</div>
+      <h1>🍺 飲酒カロリー計算</h1>
+      <p class="subtitle">お酒の種類と量からカロリーと純アルコール量を計算します</p>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="calc-card">
+      <div class="form-group">
+        <label>お酒の種類</label>
+        <div class="input-wrap">
+          <select id="type">
+            <option value="beer">ビール（5%）</option>
+            <option value="happoshu">発泡酒・第三のビール（5%）</option>
+            <option value="sake">日本酒（15%）</option>
+            <option value="wine">ワイン（12%）</option>
+            <option value="whisky">ウイスキー（40%）</option>
+            <option value="shochu25">焼酎（25%）</option>
+            <option value="shochu35">焼酎（35%）</option>
+            <option value="chuhai">チューハイ（5%）</option>
+            <option value="umeshu">梅酒（13%）</option>
+            <option value="custom">カスタム（度数を入力）</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group" id="custom-group" style="display:none">
+        <label>アルコール度数</label>
+        <div class="input-wrap">
+          <input type="number" id="custom-degree" placeholder="5" min="0" max="100">
+          <span class="unit">%</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>飲む量</label>
+        <div class="input-wrap">
+          <input type="number" id="amount" placeholder="350" min="0">
+          <span class="unit">ml</span>
+        </div>
+        <p class="hint">ビール中瓶=500ml、日本酒1合=180ml、ワイングラス=120ml、ウイスキーシングル=30ml</p>
+      </div>
+      <button class="btn btn-primary" onclick="calcAlcohol()">計算する</button>
+      <div class="result-area" id="result">
+        <div class="result-main">
+          <div class="label">カロリー（概算）</div>
+          <div class="value" id="res-cal">—</div>
+        </div>
+        <div class="result-table">
+          <table>
+            <tbody>
+              <tr><td>カロリー</td><td id="res-cal2">—</td></tr>
+              <tr><td>純アルコール量</td><td id="res-alcohol">—</td></tr>
+              <tr><td>お酒が抜けるまでの目安</td><td id="res-time">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="info-box"><strong>節度ある飲酒の目安：</strong>純アルコール量で1日20g以下（ビール中瓶1本・日本酒1合程度）が厚生労働省の推奨です。</div>
+      </div>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="article">
+      <h2>お酒のカロリーの特徴</h2>
+      <p>アルコールは1gあたり約7kcalのカロリーがあります（糖質は4kcal/g）。アルコールのカロリーは「エンプティカロリー」とも呼ばれ、栄養素がほとんどありません。</p>
+      <h3>飲み過ぎに注意</h3>
+      <p>純アルコール量20gはビール中瓶1本・日本酒1合・ワイン2杯程度に相当します。これを超えると健康リスクが高まります。</p>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="footer-logo">📐 はかるん</div>
+  <div class="footer-links">
+    <a href="../index.html">トップ</a>
+    <a href="bmi.html">BMI計算</a>
+    <a href="calorie.html">消費カロリー計算</a>
+    <a href="steps.html">歩数カロリー計算</a>
+  </div>
+  <div class="footer-links" style="margin-top:12px">
+    <a href="../privacy.html">プライバシーポリシー</a>
+    <a href="../disclaimer.html">免責事項</a>
+    <a href="../contact.html">お問い合わせ</a>
+  </div>
+  <p class="copyright">※ 計算結果はあくまで目安です。健康に関することは医師にご相談ください。</p>
+  <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
+</footer>
+<script>
+const DEGREES = { beer:5, happoshu:5, sake:15, wine:12, whisky:40, shochu25:25, shochu35:35, chuhai:5, umeshu:13 };
+const EXTRA_CAL = { beer:3.5, happoshu:2.5, sake:6, wine:2, whisky:0, shochu25:0, shochu35:0, chuhai:4, umeshu:12, custom:0 };
+
+document.getElementById('type').addEventListener('change', function() {
+  document.getElementById('custom-group').style.display = this.value === 'custom' ? 'block' : 'none';
+});
+
+function calcAlcohol() {
+  const type = document.getElementById('type').value;
+  const amount = parseFloat(document.getElementById('amount').value);
+  if (!amount) { alert('飲む量を入力してください'); return; }
+  let degree = type === 'custom' ? parseFloat(document.getElementById('custom-degree').value) || 0 : DEGREES[type];
+  const extraCal = type === 'custom' ? 0 : EXTRA_CAL[type];
+  const pureAlcohol = amount * degree / 100 * 0.8;
+  const alcoholCal = pureAlcohol * 7.1;
+  const extraCalTotal = amount * extraCal / 100;
+  const totalCal = Math.round(alcoholCal + extraCalTotal);
+  const clearTime = (pureAlcohol / 5).toFixed(1);
+  document.getElementById('res-cal').textContent = totalCal + ' kcal';
+  document.getElementById('res-cal2').textContent = totalCal + ' kcal';
+  document.getElementById('res-alcohol').textContent = pureAlcohol.toFixed(1) + ' g';
+  document.getElementById('res-time').textContent = `約 ${clearTime} 時間`;
+  document.getElementById('result').classList.add('show');
+}
+</script>
+</body>
+</html>
