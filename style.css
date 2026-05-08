@@ -500,6 +500,24 @@ footer .copyright { font-size: 12px; }
   transform: translateX(-50%);
 }
 
+/* ===== FAQ ===== */
+.faq-item {
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0;
+}
+.faq-item:last-child { border-bottom: none; }
+.faq-q {
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 6px;
+  font-size: 15px;
+}
+.faq-a {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.7;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 600px) {
   header .container { gap: 10px; }
