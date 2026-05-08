@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ふるさと納税 上限額計算｜はかるん</title>
+  <meta name="description" content="年収と家族構成からふるさと納税の上限額（自己負担2,000円になる寄付額）をかんたん計算。">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header>
+  <div class="container">
+    <a href="../index.html" class="logo">📐 はかるん</a>
+    <nav>
+      <a href="../money/tedori.html">お金・給与</a>
+      <a href="../health/bmi.html">健康・生活</a>
+      <a href="../tax/furusato.html" class="active">ふるさと納税・節税</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="container">
+    <div class="page-header">
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; ふるさと納税 上限額計算</div>
+      <h1>🎎 ふるさと納税 上限額計算</h1>
+      <p class="subtitle">自己負担2,000円になる寄付の上限額を計算します</p>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="calc-card">
+      <div class="form-group">
+        <label>給与年収（税引き前）</label>
+        <div class="input-wrap">
+          <input type="number" id="income" placeholder="5000000" min="0">
+          <span class="unit">円</span>
+        </div>
+        <p class="hint">源泉徴収票の「支払金額」に記載されている金額を入力してください</p>
+      </div>
+      <div class="form-group">
+        <label>家族構成</label>
+        <div class="input-wrap">
+          <select id="family">
+            <option value="single">独身 または 共働き（子なし）</option>
+            <option value="couple">配偶者控除あり（専業主婦・夫）</option>
+            <option value="child1">共働き＋子ども1人（16歳未満）</option>
+            <option value="child1_16">共働き＋子ども1人（16〜18歳）</option>
+            <option value="child1_19">共働き＋子ども1人（19〜22歳）</option>
+            <option value="couple_child1">配偶者控除あり＋子ども1人（16歳未満）</option>
+            <option value="couple_child1_16">配偶者控除あり＋子ども1人（16〜18歳）</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="calcFurusato()">計算する</button>
+      <div class="result-area" id="result">
+        <div class="result-main">
+          <div class="label">ふるさと納税の上限額（目安）</div>
+          <div class="value" id="res-limit">—</div>
+          <div class="sub">この金額まで寄付すれば自己負担は2,000円</div>
+        </div>
+        <div class="result-table">
+          <table>
+            <tbody>
+              <tr><td>給与年収</td><td id="res-income">—</td></tr>
+              <tr><td>給与所得</td><td id="res-kyuyo">—</td></tr>
+              <tr><td>住民税の所得割（概算）</td><td id="res-jumin">—</td></tr>
+              <tr><td>寄付の上限額</td><td id="res-limit2">—</td></tr>
+              <tr><td>実質の自己負担</td><td>2,000 円</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="info-box">
+          <strong>⚠️ この計算はあくまで目安です。</strong><br>
+          医療費控除・住宅ローン控除などがある場合、上限額は下がります。正確な上限額はお住まいの市区町村にご確認ください。また、ふるさと納税の控除を受けるには確定申告またはワンストップ特例の申請が必要です。
+        </div>
+      </div>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="article">
+      <h2>ふるさと納税とは？わかりやすく解説</h2>
+      <p>ふるさと納税とは、好きな都道府県・市区町村に寄付をすると、翌年の住民税や所得税が減額される制度です。寄付のお礼として「返礼品」（食べ物・日用品など）がもらえるため、実質2,000円の自己負担でお得に買い物できる仕組みです。</p>
+      <h3>上限額を超えると損になる</h3>
+      <p>上限額を超えた分は税金が戻ってきません。上限額内に収めることが重要です。年収・家族構成によって上限額は変わります。</p>
+      <h3>手続き方法（2択）</h3>
+      <ul>
+        <li><strong>ワンストップ特例</strong>：寄付先が5自治体以内で確定申告不要の方向け。寄付後に自治体へ申請書を送るだけ。</li>
+        <li><strong>確定申告</strong>：寄付先が6自治体以上の方、または確定申告をする方向け。</li>
+      </ul>
+      <h3>申し込みは年内（12月31日）まで</h3>
+      <p>その年の住民税から控除されるには、12月31日までに寄付を完了する必要があります。</p>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="footer-logo">📐 はかるん</div>
+  <div class="footer-links">
+    <a href="../index.html">トップ</a>
+    <a href="setsuzei.html">節税シミュレーション</a>
+    <a href="../money/tedori.html">手取り計算</a>
+    <a href="../health/bmi.html">BMI計算</a>
+  </div>
+  <p class="copyright">※ 計算結果はあくまで目安です。正確な金額は専門家にご相談ください。</p>
+  <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
+</footer>
+<script>
+function fmt(n) { return Math.round(n).toLocaleString('ja-JP') + ' 円'; }
+
+function calcFurusato() {
+  const income = parseFloat(document.getElementById('income').value);
+  if (!income || income <= 0) { alert('年収を入力してください'); return; }
+
+  const family = document.getElementById('family').value;
+
+  // 給与所得控除
+  let kyuyoKojo = 0;
+  if (income <= 1625000) kyuyoKojo = 550000;
+  else if (income <= 1800000) kyuyoKojo = income * 0.4 - 100000;
+  else if (income <= 3600000) kyuyoKojo = income * 0.3 + 80000;
+  else if (income <= 6600000) kyuyoKojo = income * 0.2 + 440000;
+  else if (income <= 8500000) kyuyoKojo = income * 0.1 + 1100000;
+  else kyuyoKojo = 1950000;
+
+  const kyuyoShotoku = income - kyuyoKojo;
+
+  // 社会保険料控除（概算：給与の14.5%）
+  const socialKojo = income * 0.145;
+
+  // 扶養控除・配偶者控除（住民税用）
+  let fuyoKojo = 0;
+  if (family === 'couple') fuyoKojo = 330000;
+  else if (family === 'child1') fuyoKojo = 0;
+  else if (family === 'child1_16') fuyoKojo = 330000;
+  else if (family === 'child1_19') fuyoKojo = 450000;
+  else if (family === 'couple_child1') fuyoKojo = 330000;
+  else if (family === 'couple_child1_16') fuyoKojo = 330000 + 330000;
+
+  // 住民税の基礎控除：43万円
+  const kisoKojo = 430000;
+  const kazeiShotoku = Math.max(0, kyuyoShotoku - socialKojo - kisoKojo - fuyoKojo);
+
+  // 住民税所得割：10%
+  const juminWarari = kazeiShotoku * 0.10;
+
+  // 所得税率（ふるさと納税の控除計算用）
+  let shotokuZeiritsu = 0.05;
+  const kazeiShotokuKokuzei = Math.max(0, kyuyoShotoku - socialKojo - 480000 - fuyoKojo);
+  if (kazeiShotokuKokuzei <= 1950000) shotokuZeiritsu = 0.05;
+  else if (kazeiShotokuKokuzei <= 3300000) shotokuZeiritsu = 0.10;
+  else if (kazeiShotokuKokuzei <= 6950000) shotokuZeiritsu = 0.20;
+  else if (kazeiShotokuKokuzei <= 9000000) shotokuZeiritsu = 0.23;
+  else shotokuZeiritsu = 0.33;
+
+  // 上限額の計算式
+  // 上限 = (住民税所得割 × 0.2) / (1 - 0.2142 - 所得税率 × 1.021) + 2000
+  const denominator = 1 - 0.2 - shotokuZeiritsu * 1.021;
+  let limit = (juminWarari * 0.2) / denominator + 2000;
+  limit = Math.floor(limit / 1000) * 1000; // 千円単位に切り捨て
+
+  document.getElementById('res-limit').textContent = fmt(limit);
+  document.getElementById('res-income').textContent = fmt(income);
+  document.getElementById('res-kyuyo').textContent = fmt(kyuyoShotoku);
+  document.getElementById('res-jumin').textContent = fmt(juminWarari);
+  document.getElementById('res-limit2').textContent = fmt(limit);
+  document.getElementById('result').classList.add('show');
+}
+</script>
+</body>
+</html>

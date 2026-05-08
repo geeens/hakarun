@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>節税シミュレーション｜はかるん</title>
+  <meta name="description" content="iDeCo・医療費控除・生命保険料控除など、主な節税方法の効果を年収別にシミュレーション。">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header>
+  <div class="container">
+    <a href="../index.html" class="logo">📐 はかるん</a>
+    <nav>
+      <a href="../money/tedori.html">お金・給与</a>
+      <a href="../health/bmi.html">健康・生活</a>
+      <a href="../tax/furusato.html" class="active">ふるさと納税・節税</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="container">
+    <div class="page-header">
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 節税シミュレーション</div>
+      <h1>📊 節税シミュレーション</h1>
+      <p class="subtitle">iDeCo・医療費控除・生命保険料控除などで年間いくら節税できるか計算します</p>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="calc-card">
+      <div class="form-group">
+        <label>給与年収（税引き前）</label>
+        <div class="input-wrap">
+          <input type="number" id="income" placeholder="5000000" min="0">
+          <span class="unit">円</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>iDeCo（個人型確定拠出年金）の月額掛金</label>
+        <div class="input-wrap">
+          <input type="number" id="ideco" placeholder="0" min="0" value="0">
+          <span class="unit">円/月</span>
+        </div>
+        <p class="hint">会社員は月最大23,000円、自営業者は月最大68,000円まで</p>
+      </div>
+
+      <div class="form-group">
+        <label>1年間の医療費（自己負担分の合計）</label>
+        <div class="input-wrap">
+          <input type="number" id="medical" placeholder="0" min="0" value="0">
+          <span class="unit">円</span>
+        </div>
+        <p class="hint">10万円（または年収の5%）を超えた分が控除の対象になります</p>
+      </div>
+
+      <div class="form-group">
+        <label>生命保険料（1年間の支払額）</label>
+        <div class="input-wrap">
+          <input type="number" id="lifeins" placeholder="0" min="0" value="0">
+          <span class="unit">円</span>
+        </div>
+        <p class="hint">新制度：最大4万円が控除対象（所得税）</p>
+      </div>
+
+      <div class="form-group">
+        <label>ふるさと納税の寄付額（予定）</label>
+        <div class="input-wrap">
+          <input type="number" id="furusato" placeholder="0" min="0" value="0">
+          <span class="unit">円</span>
+        </div>
+        <p class="hint">自己負担2,000円を引いた額が控除されます</p>
+      </div>
+
+      <button class="btn btn-primary" onclick="calcSetsuzei()">節税額を計算する</button>
+
+      <div class="result-area" id="result">
+        <div class="result-main">
+          <div class="label">年間の節税効果（概算）</div>
+          <div class="value" id="res-total">—</div>
+          <div class="sub">所得税＋住民税の軽減合計</div>
+        </div>
+        <div class="result-table">
+          <table>
+            <thead><tr><th>節税手段</th><th>控除額</th><th>節税効果</th></tr></thead>
+            <tbody>
+              <tr><td>iDeCo</td><td id="res-ideco-kojo">—</td><td id="res-ideco-effect">—</td></tr>
+              <tr><td>医療費控除</td><td id="res-med-kojo">—</td><td id="res-med-effect">—</td></tr>
+              <tr><td>生命保険料控除</td><td id="res-ins-kojo">—</td><td id="res-ins-effect">—</td></tr>
+              <tr><td>ふるさと納税</td><td id="res-furu-kojo">—</td><td id="res-furu-effect">—</td></tr>
+              <tr class="total"><td colspan="2">合計節税額</td><td id="res-sum">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="info-box">
+          <strong>⚠️ この計算はあくまで概算です。</strong><br>
+          実際の節税額は他の控除や条件によって変わります。確定申告や年末調整でしっかり手続きを行いましょう。
+        </div>
+      </div>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="article">
+      <h2>節税の基本をわかりやすく解説</h2>
+      <p>節税とは、法律の範囲内で税金を減らすことです。「脱税」とは違い、正しい手続きを踏めば誰でもできます。</p>
+      <h3>iDeCo（イデコ）</h3>
+      <p>老後のための積立投資です。積み立てた全額が「所得控除」になるため、年収が高いほど節税効果が大きくなります。60歳まで引き出せない点に注意が必要です。</p>
+      <h3>医療費控除</h3>
+      <p>1年間に支払った医療費が10万円を超えた場合、超えた分が控除されます。家族の分もまとめて申告できます。</p>
+      <h3>生命保険料控除</h3>
+      <p>生命保険・医療保険・個人年金の保険料を払っている場合、一定額が控除されます。年末調整で手続きできます。</p>
+      <h3>ふるさと納税</h3>
+      <p>自己負担2,000円で返礼品がもらえるお得な制度です。上限額内であれば寄付額のほぼ全額が税金から差し引かれます。</p>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="footer-logo">📐 はかるん</div>
+  <div class="footer-links">
+    <a href="../index.html">トップ</a>
+    <a href="furusato.html">ふるさと納税計算</a>
+    <a href="../money/tedori.html">手取り計算</a>
+    <a href="../health/bmi.html">BMI計算</a>
+  </div>
+  <p class="copyright">※ 計算結果はあくまで目安です。正確な金額は専門家にご相談ください。</p>
+  <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
+</footer>
+<script>
+function fmt(n) { return Math.round(n).toLocaleString('ja-JP') + ' 円'; }
+
+function getTaxRate(income) {
+  // 給与所得控除
+  let kyuyoKojo = 0;
+  if (income <= 1625000) kyuyoKojo = 550000;
+  else if (income <= 1800000) kyuyoKojo = income * 0.4 - 100000;
+  else if (income <= 3600000) kyuyoKojo = income * 0.3 + 80000;
+  else if (income <= 6600000) kyuyoKojo = income * 0.2 + 440000;
+  else if (income <= 8500000) kyuyoKojo = income * 0.1 + 1100000;
+  else kyuyoKojo = 1950000;
+
+  const kyuyoShotoku = income - kyuyoKojo;
+  const socialKojo = income * 0.145;
+  const kazei = Math.max(0, kyuyoShotoku - socialKojo - 480000);
+
+  let rate = 0.05;
+  if (kazei <= 1950000) rate = 0.05;
+  else if (kazei <= 3300000) rate = 0.10;
+  else if (kazei <= 6950000) rate = 0.20;
+  else if (kazei <= 9000000) rate = 0.23;
+  else if (kazei <= 18000000) rate = 0.33;
+  else rate = 0.40;
+  return rate;
+}
+
+function calcSetsuzei() {
+  const income = parseFloat(document.getElementById('income').value);
+  if (!income || income <= 0) { alert('年収を入力してください'); return; }
+
+  const idecoMonthly = parseFloat(document.getElementById('ideco').value) || 0;
+  const medical = parseFloat(document.getElementById('medical').value) || 0;
+  const lifeins = parseFloat(document.getElementById('lifeins').value) || 0;
+  const furusato = parseFloat(document.getElementById('furusato').value) || 0;
+
+  const taxRate = getTaxRate(income);
+  const totalRate = taxRate * 1.021 + 0.10; // 所得税（復興税込）＋住民税
+
+  // iDeCo：年間掛金全額が控除
+  const idecoAnnual = idecoMonthly * 12;
+  const idecoEffect = idecoAnnual * totalRate;
+
+  // 医療費控除：10万円超の分（上限200万）
+  const medKojo = Math.min(2000000, Math.max(0, medical - 100000));
+  const medEffect = medKojo * totalRate;
+
+  // 生命保険料控除（所得税：新制度、最大4万円）
+  let insKojo = 0;
+  if (lifeins <= 20000) insKojo = lifeins;
+  else if (lifeins <= 40000) insKojo = lifeins / 2 + 10000;
+  else if (lifeins <= 80000) insKojo = lifeins / 4 + 20000;
+  else insKojo = 40000;
+  const insEffect = insKojo * (taxRate * 1.021) + insKojo * 0.10;
+
+  // ふるさと納税：自己負担2000円を除いた額
+  const furuKojo = Math.max(0, furusato - 2000);
+  const furuEffect = furuKojo;
+
+  const total = idecoEffect + medEffect + insEffect + furuEffect;
+
+  document.getElementById('res-total').textContent = fmt(total);
+  document.getElementById('res-ideco-kojo').textContent = fmt(idecoAnnual);
+  document.getElementById('res-ideco-effect').textContent = fmt(idecoEffect);
+  document.getElementById('res-med-kojo').textContent = fmt(medKojo);
+  document.getElementById('res-med-effect').textContent = fmt(medEffect);
+  document.getElementById('res-ins-kojo').textContent = fmt(insKojo);
+  document.getElementById('res-ins-effect').textContent = fmt(insEffect);
+  document.getElementById('res-furu-kojo').textContent = fmt(furuKojo);
+  document.getElementById('res-furu-effect').textContent = fmt(furuEffect);
+  document.getElementById('res-sum').textContent = fmt(total);
+  document.getElementById('result').classList.add('show');
+}
+</script>
+</body>
+</html>

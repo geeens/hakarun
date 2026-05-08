@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ボーナス手取り計算｜はかるん</title>
+  <meta name="description" content="ボーナスから引かれる社会保険料・所得税を計算し、実際の手取り額を確認できます。">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header>
+  <div class="container">
+    <a href="../index.html" class="logo">📐 はかるん</a>
+    <nav>
+      <a href="../money/tedori.html" class="active">お金・給与</a>
+      <a href="../health/bmi.html">健康・生活</a>
+      <a href="../tax/furusato.html">ふるさと納税・節税</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="container">
+    <div class="page-header">
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; ボーナス手取り計算</div>
+      <h1>🎁 ボーナス手取り計算</h1>
+      <p class="subtitle">ボーナス（賞与）から引かれる額と手取りを計算します</p>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="calc-card">
+      <div class="form-group">
+        <label>ボーナス支給額（額面）</label>
+        <div class="input-wrap">
+          <input type="number" id="bonus" placeholder="500000" min="0">
+          <span class="unit">円</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>前月の月収（税引き前）</label>
+        <div class="input-wrap">
+          <input type="number" id="prevSalary" placeholder="300000" min="0">
+          <span class="unit">円</span>
+        </div>
+        <p class="hint">ボーナスの所得税計算に使います（前月の月給を入力）</p>
+      </div>
+      <div class="form-group">
+        <label>年齢</label>
+        <div class="radio-group">
+          <label><input type="radio" name="age" value="under40" checked> 40歳未満</label>
+          <label><input type="radio" name="age" value="over40"> 40歳以上</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>扶養家族の人数</label>
+        <div class="input-wrap">
+          <select id="dependents">
+            <option value="0">0人（独身・共働き）</option>
+            <option value="1">1人</option>
+            <option value="2">2人</option>
+            <option value="3">3人</option>
+            <option value="4">4人以上</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="calcBonus()">計算する</button>
+      <div class="result-area" id="result">
+        <div class="result-main">
+          <div class="label">ボーナス手取り（概算）</div>
+          <div class="value" id="res-tedori">—</div>
+          <div class="sub" id="res-rate">手取り率 —%</div>
+        </div>
+        <div class="result-table">
+          <table>
+            <thead><tr><th>項目</th><th>金額</th></tr></thead>
+            <tbody>
+              <tr><td>ボーナス支給額（額面）</td><td id="res-bonus">—</td></tr>
+              <tr class="deduct"><td>健康保険料</td><td id="res-health">—</td></tr>
+              <tr class="deduct"><td>介護保険料</td><td id="res-care">—</td></tr>
+              <tr class="deduct"><td>厚生年金保険料</td><td id="res-pension">—</td></tr>
+              <tr class="deduct"><td>雇用保険料</td><td id="res-employ">—</td></tr>
+              <tr class="deduct"><td>所得税</td><td id="res-income">—</td></tr>
+              <tr class="total"><td>手取り合計</td><td id="res-total">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="info-box">
+          <strong>⚠️ この計算はあくまで概算です。</strong><br>
+          ボーナスの所得税は「賞与に対する源泉徴収税額の算出率の表」に基づき計算しています。実際の金額は給与明細でご確認ください。
+        </div>
+      </div>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="article">
+      <h2>ボーナスの手取りはなぜ少ない？</h2>
+      <p>ボーナスからも毎月の給与と同じように、社会保険料と所得税が引かれます。そのため、額面の75〜85%程度が手取りになることが多いです。</p>
+      <h3>ボーナスに特有の計算方法</h3>
+      <p>ボーナスの所得税は、前月の給与を使った特別な計算方法（源泉徴収税率表）で計算されます。前月の給与が高いほど、ボーナスの税率も高くなります。</p>
+      <h3>住民税はボーナスから引かれない</h3>
+      <p>住民税は毎月の給与から一定額が引かれる仕組みのため、ボーナスからは原則引かれません。</p>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="footer-logo">📐 はかるん</div>
+  <div class="footer-links">
+    <a href="../index.html">トップ</a>
+    <a href="tedori.html">手取り計算</a>
+    <a href="zangyo.html">残業代計算</a>
+    <a href="../health/bmi.html">BMI計算</a>
+  </div>
+  <p class="copyright">※ 計算結果はあくまで目安です。正確な金額は専門家にご相談ください。</p>
+  <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
+</footer>
+<script>
+function fmt(n) { return Math.round(n).toLocaleString('ja-JP') + ' 円'; }
+
+function calcBonus() {
+  const bonus = parseFloat(document.getElementById('bonus').value);
+  const prevSalary = parseFloat(document.getElementById('prevSalary').value);
+  if (!bonus || bonus <= 0) { alert('ボーナス支給額を入力してください'); return; }
+  if (!prevSalary || prevSalary <= 0) { alert('前月の月収を入力してください'); return; }
+
+  const isOver40 = document.querySelector('input[name="age"]:checked').value === 'over40';
+  const dependents = parseInt(document.getElementById('dependents').value);
+
+  const healthAmt  = bonus * 0.04985;
+  const careAmt    = isOver40 ? bonus * 0.009 : 0;
+  const pensionAmt = Math.min(bonus, 1500000) * 0.0915;
+  const employAmt  = bonus * 0.006;
+  const socialTotal = healthAmt + careAmt + pensionAmt + employAmt;
+
+  // 前月給与から社会保険料を引いた課税月収で税率を決定
+  const prevSocial = prevSalary * (0.04985 + (isOver40 ? 0.009 : 0) + 0.0915 + 0.006);
+  const prevTaxable = Math.max(0, prevSalary - prevSocial) - (dependents * 31667);
+
+  // 簡易税率テーブル（国税庁 令和6年版）
+  let taxRate = 0;
+  if (prevTaxable <= 68000) taxRate = 0;
+  else if (prevTaxable <= 79000) taxRate = 0.02;
+  else if (prevTaxable <= 252000) taxRate = 0.04;
+  else if (prevTaxable <= 299000) taxRate = 0.06;
+  else if (prevTaxable <= 363000) taxRate = 0.08;
+  else if (prevTaxable <= 418000) taxRate = 0.10;
+  else if (prevTaxable <= 528000) taxRate = 0.12;
+  else if (prevTaxable <= 583000) taxRate = 0.14;
+  else if (prevTaxable <= 688000) taxRate = 0.16;
+  else if (prevTaxable <= 756000) taxRate = 0.18;
+  else if (prevTaxable <= 896000) taxRate = 0.20;
+  else if (prevTaxable <= 1008000) taxRate = 0.22;
+  else if (prevTaxable <= 1260000) taxRate = 0.24;
+  else taxRate = 0.28;
+
+  const incomeTax = (bonus - socialTotal) * taxRate;
+  const tedori = bonus - socialTotal - incomeTax;
+  const rate = (tedori / bonus * 100).toFixed(1);
+
+  document.getElementById('res-tedori').textContent = fmt(tedori);
+  document.getElementById('res-rate').textContent = `手取り率 ${rate}%`;
+  document.getElementById('res-bonus').textContent = fmt(bonus);
+  document.getElementById('res-health').textContent = '- ' + fmt(healthAmt);
+  document.getElementById('res-care').textContent = isOver40 ? '- ' + fmt(careAmt) : '- 0 円（40歳未満）';
+  document.getElementById('res-pension').textContent = '- ' + fmt(pensionAmt);
+  document.getElementById('res-employ').textContent = '- ' + fmt(employAmt);
+  document.getElementById('res-income').textContent = '- ' + fmt(incomeTax);
+  document.getElementById('res-total').textContent = fmt(tedori);
+  document.getElementById('result').classList.add('show');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>消費カロリー計算｜はかるん</title>
+  <meta name="description" content="1日の活動量から消費カロリーを計算。ダイエット・体重管理に役立てましょう。">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header>
+  <div class="container">
+    <a href="../index.html" class="logo">📐 はかるん</a>
+    <nav>
+      <a href="../money/tedori.html">お金・給与</a>
+      <a href="../health/bmi.html" class="active">健康・生活</a>
+      <a href="../tax/furusato.html">ふるさと納税・節税</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="container">
+    <div class="page-header">
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 消費カロリー計算</div>
+      <h1>🍱 消費カロリー計算</h1>
+      <p class="subtitle">1日の活動量から消費カロリーと必要な摂取カロリーを計算します</p>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="calc-card">
+      <div class="form-group">
+        <label>性別</label>
+        <div class="radio-group">
+          <label><input type="radio" name="gender" value="male" checked> 男性</label>
+          <label><input type="radio" name="gender" value="female"> 女性</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>年齢</label>
+        <div class="input-wrap">
+          <input type="number" id="age" placeholder="30" min="10" max="100">
+          <span class="unit">歳</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>身長</label>
+        <div class="input-wrap">
+          <input type="number" id="height" placeholder="170" min="50" max="250">
+          <span class="unit">cm</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>体重</label>
+        <div class="input-wrap">
+          <input type="number" id="weight" placeholder="65" min="1" max="300">
+          <span class="unit">kg</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>1日の活動レベル</label>
+        <div class="input-wrap">
+          <select id="activity">
+            <option value="1.2">座りがち（デスクワーク中心、ほぼ運動なし）</option>
+            <option value="1.375">軽い運動（週1〜3日、軽めの運動）</option>
+            <option value="1.55" selected>適度な運動（週3〜5日、中程度の運動）</option>
+            <option value="1.725">ハードな運動（週6〜7日、激しい運動）</option>
+            <option value="1.9">非常にハード（肉体労働 or アスリート）</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>目標</label>
+        <div class="radio-group">
+          <label><input type="radio" name="goal" value="maintain" checked> 体重を維持したい</label>
+          <label><input type="radio" name="goal" value="lose"> 痩せたい（-0.5kg/週）</label>
+          <label><input type="radio" name="goal" value="gain"> 増やしたい（+0.5kg/週）</label>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="calcCalorie()">計算する</button>
+      <div class="result-area" id="result">
+        <div class="result-main">
+          <div class="label">1日の目標摂取カロリー</div>
+          <div class="value" id="res-target">—</div>
+          <div class="sub" id="res-goal-label">—</div>
+        </div>
+        <div class="result-table">
+          <table>
+            <tbody>
+              <tr><td>基礎代謝量</td><td id="res-bmr">—</td></tr>
+              <tr><td>1日の総消費カロリー</td><td id="res-tdee">—</td></tr>
+              <tr><td>体重維持カロリー</td><td id="res-maintain">—</td></tr>
+              <tr><td>減量目標カロリー（-0.5kg/週）</td><td id="res-lose">—</td></tr>
+              <tr><td>増量目標カロリー（+0.5kg/週）</td><td id="res-gain">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="info-box">
+          <strong>0.5kgの脂肪 ≒ 3,500kcal</strong><br>
+          1週間で0.5kg痩せるには、1日あたり約500kcal少なく食べる必要があります。無理な制限は体に負担がかかるため、徐々に減らすのがおすすめです。
+        </div>
+      </div>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="article">
+      <h2>消費カロリーとは？わかりやすく解説</h2>
+      <p>消費カロリーとは、1日に体が使うエネルギーの合計です。基礎代謝（何もしなくても消費する分）＋活動で消費する分の合計です。</p>
+      <h3>摂取カロリーと消費カロリーの関係</h3>
+      <ul>
+        <li>摂取 ＝ 消費：体重が維持される</li>
+        <li>摂取 ＜ 消費：体重が減る（脂肪が燃える）</li>
+        <li>摂取 ＞ 消費：体重が増える（脂肪が蓄積する）</li>
+      </ul>
+      <h3>健康的なダイエットの目安</h3>
+      <p>1ヶ月に体重の5%以上を落とすのは体への負担が大きいです。1ヶ月に1〜2kgのペースが無理のない目安とされています。</p>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="footer-logo">📐 はかるん</div>
+  <div class="footer-links">
+    <a href="../index.html">トップ</a>
+    <a href="bmi.html">BMI計算</a>
+    <a href="metabolism.html">基礎代謝計算</a>
+    <a href="../money/tedori.html">手取り計算</a>
+  </div>
+  <p class="copyright">※ 計算結果はあくまで目安です。健康に関することは医師にご相談ください。</p>
+  <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
+</footer>
+<script>
+function calcCalorie() {
+  const gender = document.querySelector('input[name="gender"]:checked').value;
+  const age = parseFloat(document.getElementById('age').value);
+  const h = parseFloat(document.getElementById('height').value);
+  const w = parseFloat(document.getElementById('weight').value);
+  const activity = parseFloat(document.getElementById('activity').value);
+  const goal = document.querySelector('input[name="goal"]:checked').value;
+  if (!age || !h || !w) { alert('すべての項目を入力してください'); return; }
+
+  let bmr;
+  if (gender === 'male') bmr = 88.362 + (13.397 * w) + (4.799 * h) - (5.677 * age);
+  else bmr = 447.593 + (9.247 * w) + (3.098 * h) - (4.330 * age);
+
+  const tdee = bmr * activity;
+  const lose = tdee - 500;
+  const gain = tdee + 500;
+
+  let target, goalLabel;
+  if (goal === 'maintain') { target = tdee; goalLabel = '体重維持のカロリー'; }
+  else if (goal === 'lose') { target = lose; goalLabel = '週0.5kg減量のカロリー'; }
+  else { target = gain; goalLabel = '週0.5kg増量のカロリー'; }
+
+  const fmt = n => Math.round(n).toLocaleString('ja-JP') + ' kcal';
+  document.getElementById('res-target').textContent = fmt(target);
+  document.getElementById('res-goal-label').textContent = goalLabel;
+  document.getElementById('res-bmr').textContent = fmt(bmr);
+  document.getElementById('res-tdee').textContent = fmt(tdee);
+  document.getElementById('res-maintain').textContent = fmt(tdee);
+  document.getElementById('res-lose').textContent = fmt(lose);
+  document.getElementById('res-gain').textContent = fmt(gain);
+  document.getElementById('result').classList.add('show');
+}
+</script>
+</body>
+</html>

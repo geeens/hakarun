@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>手取り計算｜はかるん</title>
+  <meta name="description" content="月収から手取り額をかんたん計算。社会保険料・所得税・住民税の内訳もわかります。">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <a href="../index.html" class="logo">📐 はかるん</a>
+    <nav>
+      <a href="../money/tedori.html" class="active">お金・給与</a>
+      <a href="../health/bmi.html">健康・生活</a>
+      <a href="../tax/furusato.html">ふるさと納税・節税</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <div class="page-header">
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 手取り計算</div>
+      <h1>💴 手取り計算</h1>
+      <p class="subtitle">月収（額面）から毎月の手取り額を計算します</p>
+    </div>
+
+    <div class="ad-area">広告</div>
+
+    <div class="calc-card">
+
+      <div class="form-group">
+        <label>月収（額面・総支給額）</label>
+        <div class="input-wrap">
+          <input type="number" id="salary" placeholder="300000" min="0">
+          <span class="unit">円</span>
+        </div>
+        <p class="hint">給与明細の「総支給額」に記載されている金額を入力してください</p>
+      </div>
+
+      <div class="form-group">
+        <label>年齢</label>
+        <div class="radio-group">
+          <label><input type="radio" name="age" value="under40" checked> 40歳未満</label>
+          <label><input type="radio" name="age" value="over40"> 40歳以上</label>
+        </div>
+        <p class="hint">40歳以上は介護保険料が追加されます</p>
+      </div>
+
+      <div class="form-group">
+        <label>扶養家族の人数</label>
+        <div class="input-wrap">
+          <select id="dependents">
+            <option value="0">0人（独身・共働き）</option>
+            <option value="1">1人</option>
+            <option value="2">2人</option>
+            <option value="3">3人</option>
+            <option value="4">4人以上</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="calcTedori()">計算する</button>
+
+      <div class="result-area" id="result">
+        <div class="result-main">
+          <div class="label">毎月の手取り（概算）</div>
+          <div class="value" id="res-tedori">—</div>
+          <div class="sub" id="res-rate">手取り率 —%</div>
+        </div>
+
+        <div class="result-table">
+          <table>
+            <thead>
+              <tr><th>項目</th><th>金額</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>月収（額面）</td><td id="res-salary">—</td></tr>
+              <tr class="deduct"><td>健康保険料</td><td id="res-health">—</td></tr>
+              <tr class="deduct"><td>介護保険料</td><td id="res-care">—</td></tr>
+              <tr class="deduct"><td>厚生年金保険料</td><td id="res-pension">—</td></tr>
+              <tr class="deduct"><td>雇用保険料</td><td id="res-employ">—</td></tr>
+              <tr class="deduct"><td>所得税（概算）</td><td id="res-income">—</td></tr>
+              <tr class="deduct"><td>住民税（概算）</td><td id="res-resident">—</td></tr>
+              <tr class="total"><td>手取り合計</td><td id="res-total">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="info-box">
+          <strong>⚠️ この計算はあくまで概算です。</strong><br>
+          実際の金額は勤務先・住所・家族構成などにより異なります。正確な金額は給与明細または会社の担当者にご確認ください。
+        </div>
+      </div>
+    </div>
+
+    <div class="ad-area">広告</div>
+
+    <div class="article">
+      <h2>手取りとは？わかりやすく解説</h2>
+      <p>手取りとは、給与から税金や社会保険料を差し引いた、実際に口座に振り込まれる金額のことです。「額面」と「手取り」は違います。</p>
+
+      <h3>引かれるお金の種類</h3>
+      <ul>
+        <li><strong>健康保険料</strong>：病院にかかったときのための保険。給与の約5〜6%が引かれます。</li>
+        <li><strong>介護保険料</strong>：40歳から追加される、介護サービスのための保険。</li>
+        <li><strong>厚生年金保険料</strong>：将来もらう年金のための積立。給与の約9%が引かれます。</li>
+        <li><strong>雇用保険料</strong>：失業したときのための保険。給与の約0.6%と少額です。</li>
+        <li><strong>所得税</strong>：収入に応じて国に納める税金。</li>
+        <li><strong>住民税</strong>：住んでいる市区町村に納める税金。前年の収入で決まります。</li>
+      </ul>
+
+      <h3>手取りの目安</h3>
+      <p>一般的に、手取りは額面の75〜85%程度になることが多いです。年収や扶養家族の有無によって変わります。</p>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="footer-logo">📐 はかるん</div>
+  <div class="footer-links">
+    <a href="../index.html">トップ</a>
+    <a href="zangyo.html">残業代計算</a>
+    <a href="bonus.html">ボーナス手取り</a>
+    <a href="../health/bmi.html">BMI計算</a>
+  </div>
+  <p class="copyright">※ 計算結果はあくまで目安です。正確な金額は専門家にご相談ください。</p>
+  <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
+</footer>
+
+<script>
+function fmt(n) {
+  return Math.round(n).toLocaleString('ja-JP') + ' 円';
+}
+
+function calcTedori() {
+  const salary = parseFloat(document.getElementById('salary').value);
+  if (!salary || salary <= 0) { alert('月収を入力してください'); return; }
+
+  const isOver40 = document.querySelector('input[name="age"]:checked').value === 'over40';
+  const dependents = parseInt(document.getElementById('dependents').value);
+
+  // 社会保険料（標準的な協会けんぽ 2024年度）
+  const healthRate = 0.04985;     // 健康保険（労働者負担）
+  const careRate = isOver40 ? 0.009 : 0; // 介護保険（40歳以上）
+  const pensionRate = 0.0915;     // 厚生年金（労働者負担）
+  const employRate = 0.006;       // 雇用保険
+
+  // 厚生年金の上限：標準報酬月額65万円
+  const pensionBase = Math.min(salary, 650000);
+
+  const healthAmt  = salary * healthRate;
+  const careAmt    = salary * careRate;
+  const pensionAmt = pensionBase * pensionRate;
+  const employAmt  = salary * employRate;
+  const socialTotal = healthAmt + careAmt + pensionAmt + employAmt;
+
+  // 所得税（年収換算で計算）
+  const annualSalary = salary * 12;
+  const annualSocial = socialTotal * 12;
+
+  // 給与所得控除
+  let kyuyoKojo = 0;
+  if (annualSalary <= 1625000) kyuyoKojo = 550000;
+  else if (annualSalary <= 1800000) kyuyoKojo = annualSalary * 0.4 - 100000;
+  else if (annualSalary <= 3600000) kyuyoKojo = annualSalary * 0.3 + 80000;
+  else if (annualSalary <= 6600000) kyuyoKojo = annualSalary * 0.2 + 440000;
+  else if (annualSalary <= 8500000) kyuyoKojo = annualSalary * 0.1 + 1100000;
+  else kyuyoKojo = 1950000;
+
+  const kyuyoShotoku = Math.max(0, annualSalary - kyuyoKojo);
+
+  // 基礎控除：480000円
+  // 扶養控除：扶養1人につき380000円
+  const kisoKojo = 480000;
+  const fuyoKojo = dependents * 380000;
+
+  const kazeiShotoku = Math.max(0, kyuyoShotoku - annualSocial - kisoKojo - fuyoKojo);
+
+  // 所得税率（累進課税）
+  let incomeTax = 0;
+  if (kazeiShotoku <= 1950000) incomeTax = kazeiShotoku * 0.05;
+  else if (kazeiShotoku <= 3300000) incomeTax = kazeiShotoku * 0.10 - 97500;
+  else if (kazeiShotoku <= 6950000) incomeTax = kazeiShotoku * 0.20 - 427500;
+  else if (kazeiShotoku <= 9000000) incomeTax = kazeiShotoku * 0.23 - 636000;
+  else if (kazeiShotoku <= 18000000) incomeTax = kazeiShotoku * 0.33 - 1536000;
+  else if (kazeiShotoku <= 40000000) incomeTax = kazeiShotoku * 0.40 - 2796000;
+  else incomeTax = kazeiShotoku * 0.45 - 4796000;
+  incomeTax *= 1.021; // 復興特別所得税
+
+  const monthlyIncomeTax = Math.max(0, incomeTax / 12);
+
+  // 住民税（概算：課税所得の10% + 均等割5000円）
+  const juminKazei = Math.max(0, kyuyoShotoku - annualSocial - 430000 - fuyoKojo);
+  const annualJumin = juminKazei * 0.10 + 5000;
+  const monthlyJumin = Math.max(0, annualJumin / 12);
+
+  const totalDeduct = socialTotal + monthlyIncomeTax + monthlyJumin;
+  const tedori = salary - totalDeduct;
+  const rate = (tedori / salary * 100).toFixed(1);
+
+  // 表示
+  document.getElementById('res-tedori').textContent = fmt(tedori);
+  document.getElementById('res-rate').textContent = `手取り率 ${rate}%`;
+  document.getElementById('res-salary').textContent = fmt(salary);
+  document.getElementById('res-health').textContent = '- ' + fmt(healthAmt);
+  document.getElementById('res-care').textContent = isOver40 ? '- ' + fmt(careAmt) : '- 0 円（40歳未満）';
+  document.getElementById('res-pension').textContent = '- ' + fmt(pensionAmt);
+  document.getElementById('res-employ').textContent = '- ' + fmt(employAmt);
+  document.getElementById('res-income').textContent = '- ' + fmt(monthlyIncomeTax);
+  document.getElementById('res-resident').textContent = '- ' + fmt(monthlyJumin);
+  document.getElementById('res-total').textContent = fmt(tedori);
+
+  document.getElementById('result').classList.add('show');
+}
+</script>
+
+</body>
+</html>

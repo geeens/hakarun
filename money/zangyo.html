@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>残業代計算｜はかるん</title>
+  <meta name="description" content="時間外・深夜・休日労働の割増賃金をかんたん計算。残業代がいくらになるか確認できます。">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <a href="../index.html" class="logo">📐 はかるん</a>
+    <nav>
+      <a href="../money/tedori.html" class="active">お金・給与</a>
+      <a href="../health/bmi.html">健康・生活</a>
+      <a href="../tax/furusato.html">ふるさと納税・節税</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <div class="page-header">
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 残業代計算</div>
+      <h1>⏰ 残業代計算</h1>
+      <p class="subtitle">時間外・深夜・休日の割増賃金をかんたん計算</p>
+    </div>
+
+    <div class="ad-area">広告</div>
+
+    <div class="calc-card">
+
+      <div class="form-group">
+        <label>月収（基本給＋固定手当）</label>
+        <div class="input-wrap">
+          <input type="number" id="monthly" placeholder="250000" min="0">
+          <span class="unit">円</span>
+        </div>
+        <p class="hint">残業代の計算に使う月給です。交通費・残業代は含めないでください</p>
+      </div>
+
+      <div class="form-group">
+        <label>1ヶ月の所定労働時間</label>
+        <div class="input-wrap">
+          <input type="number" id="workHours" placeholder="160" min="1">
+          <span class="unit">時間</span>
+        </div>
+        <p class="hint">例：週5日 × 8時間 × 4週 = 160時間</p>
+      </div>
+
+      <div class="form-group">
+        <label>時間外労働（通常残業）</label>
+        <div class="input-wrap">
+          <input type="number" id="overtime" placeholder="20" min="0" value="0">
+          <span class="unit">時間</span>
+        </div>
+        <p class="hint">平日の時間外労働。割増率：25%増し（月60時間超は50%増し）</p>
+      </div>
+
+      <div class="form-group">
+        <label>深夜労働（22時〜翌5時）</label>
+        <div class="input-wrap">
+          <input type="number" id="midnight" placeholder="0" min="0" value="0">
+          <span class="unit">時間</span>
+        </div>
+        <p class="hint">時間外と重なる場合は合算で50%増し。深夜のみなら25%増し</p>
+      </div>
+
+      <div class="form-group">
+        <label>休日労働（法定休日）</label>
+        <div class="input-wrap">
+          <input type="number" id="holiday" placeholder="0" min="0" value="0">
+          <span class="unit">時間</span>
+        </div>
+        <p class="hint">法定休日（週に1日）の労働。割増率：35%増し</p>
+      </div>
+
+      <button class="btn btn-primary" onclick="calcZangyo()">計算する</button>
+
+      <div class="result-area" id="result">
+        <div class="result-main">
+          <div class="label">残業代合計（概算）</div>
+          <div class="value" id="res-total">—</div>
+          <div class="sub" id="res-hourly">時給換算 — 円</div>
+        </div>
+
+        <div class="result-table">
+          <table>
+            <thead>
+              <tr><th>項目</th><th>時間数</th><th>割増率</th><th>金額</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>時間外労働（〜60時間）</td>
+                <td id="res-ot-h">—</td>
+                <td>×1.25</td>
+                <td id="res-ot-amt">—</td>
+              </tr>
+              <tr>
+                <td>時間外労働（60時間超）</td>
+                <td id="res-ot60-h">—</td>
+                <td>×1.50</td>
+                <td id="res-ot60-amt">—</td>
+              </tr>
+              <tr>
+                <td>深夜労働（単独）</td>
+                <td id="res-mid-h">—</td>
+                <td>×1.25</td>
+                <td id="res-mid-amt">—</td>
+              </tr>
+              <tr>
+                <td>休日労働</td>
+                <td id="res-hol-h">—</td>
+                <td>×1.35</td>
+                <td id="res-hol-amt">—</td>
+              </tr>
+              <tr class="total">
+                <td colspan="3">合計</td>
+                <td id="res-sum">—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="info-box">
+          <strong>⚠️ この計算はあくまで概算です。</strong><br>
+          実際の残業代は会社の就業規則・雇用契約によって異なります。月60時間超の割増率50%は中小企業は2023年4月から適用です。
+        </div>
+      </div>
+    </div>
+
+    <div class="ad-area">広告</div>
+
+    <div class="article">
+      <h2>残業代の計算方法をわかりやすく解説</h2>
+      <p>残業代（割増賃金）は、法律で決められた計算方法があります。勝手に減らすことは違法です。</p>
+
+      <h3>1時間あたりの単価（基礎時給）の計算</h3>
+      <p>まず「1時間働いたらいくらか」を計算します。<br>
+      <strong>基礎時給 ＝ 月給 ÷ 月の所定労働時間</strong></p>
+
+      <h3>割増率の種類</h3>
+      <ul>
+        <li><strong>時間外労働（残業）</strong>：基礎時給 × 1.25倍</li>
+        <li><strong>月60時間を超える残業</strong>：基礎時給 × 1.50倍</li>
+        <li><strong>深夜労働（22時〜5時）</strong>：基礎時給 × 1.25倍（残業と重なる場合は1.50倍）</li>
+        <li><strong>法定休日の労働</strong>：基礎時給 × 1.35倍</li>
+      </ul>
+
+      <h3>未払い残業代の時効</h3>
+      <p>残業代の請求には時効があります。2020年4月以降の残業代は<strong>3年間</strong>請求できます。</p>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="footer-logo">📐 はかるん</div>
+  <div class="footer-links">
+    <a href="../index.html">トップ</a>
+    <a href="tedori.html">手取り計算</a>
+    <a href="bonus.html">ボーナス手取り</a>
+    <a href="../health/bmi.html">BMI計算</a>
+  </div>
+  <p class="copyright">※ 計算結果はあくまで目安です。正確な金額は専門家にご相談ください。</p>
+  <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
+</footer>
+
+<script>
+function fmt(n) {
+  return Math.round(n).toLocaleString('ja-JP') + ' 円';
+}
+
+function calcZangyo() {
+  const monthly = parseFloat(document.getElementById('monthly').value);
+  const workHours = parseFloat(document.getElementById('workHours').value);
+  const overtime = parseFloat(document.getElementById('overtime').value) || 0;
+  const midnight = parseFloat(document.getElementById('midnight').value) || 0;
+  const holiday = parseFloat(document.getElementById('holiday').value) || 0;
+
+  if (!monthly || monthly <= 0) { alert('月収を入力してください'); return; }
+  if (!workHours || workHours <= 0) { alert('所定労働時間を入力してください'); return; }
+
+  const hourly = monthly / workHours;
+
+  // 時間外：60時間以内は1.25倍、60時間超は1.50倍
+  const ot60 = Math.min(overtime, 60);
+  const otOver60 = Math.max(0, overtime - 60);
+  const otAmt = hourly * 0.25 * ot60;
+  const ot60Amt = hourly * 0.50 * otOver60;
+
+  // 深夜単独：1.25倍
+  const midAmt = hourly * 0.25 * midnight;
+
+  // 休日：1.35倍
+  const holAmt = hourly * 0.35 * holiday;
+
+  const total = otAmt + ot60Amt + midAmt + holAmt;
+
+  document.getElementById('res-total').textContent = fmt(total);
+  document.getElementById('res-hourly').textContent = `基礎時給 ${Math.round(hourly).toLocaleString('ja-JP')} 円`;
+
+  document.getElementById('res-ot-h').textContent = ot60 + ' 時間';
+  document.getElementById('res-ot-amt').textContent = fmt(otAmt);
+  document.getElementById('res-ot60-h').textContent = otOver60 + ' 時間';
+  document.getElementById('res-ot60-amt').textContent = fmt(ot60Amt);
+  document.getElementById('res-mid-h').textContent = midnight + ' 時間';
+  document.getElementById('res-mid-amt').textContent = fmt(midAmt);
+  document.getElementById('res-hol-h').textContent = holiday + ' 時間';
+  document.getElementById('res-hol-amt').textContent = fmt(holAmt);
+  document.getElementById('res-sum').textContent = fmt(total);
+
+  document.getElementById('result').classList.add('show');
+}
+</script>
+
+</body>
+</html>

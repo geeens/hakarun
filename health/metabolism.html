@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>基礎代謝計算｜はかるん</title>
+  <meta name="description" content="性別・年齢・身長・体重から基礎代謝量を計算。何もしなくても消費するカロリーがわかります。">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header>
+  <div class="container">
+    <a href="../index.html" class="logo">📐 はかるん</a>
+    <nav>
+      <a href="../money/tedori.html">お金・給与</a>
+      <a href="../health/bmi.html" class="active">健康・生活</a>
+      <a href="../tax/furusato.html">ふるさと納税・節税</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="container">
+    <div class="page-header">
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 基礎代謝計算</div>
+      <h1>🔥 基礎代謝計算</h1>
+      <p class="subtitle">何もしなくても1日に消費するカロリーを計算します</p>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="calc-card">
+      <div class="form-group">
+        <label>性別</label>
+        <div class="radio-group">
+          <label><input type="radio" name="gender" value="male" checked> 男性</label>
+          <label><input type="radio" name="gender" value="female"> 女性</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>年齢</label>
+        <div class="input-wrap">
+          <input type="number" id="age" placeholder="30" min="10" max="100">
+          <span class="unit">歳</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>身長</label>
+        <div class="input-wrap">
+          <input type="number" id="height" placeholder="170" min="50" max="250">
+          <span class="unit">cm</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>体重</label>
+        <div class="input-wrap">
+          <input type="number" id="weight" placeholder="65" min="1" max="300">
+          <span class="unit">kg</span>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="calcMetabolism()">計算する</button>
+      <div class="result-area" id="result">
+        <div class="result-main">
+          <div class="label">基礎代謝量</div>
+          <div class="value" id="res-bmr">—</div>
+          <div class="sub">1日に最低限消費するカロリー</div>
+        </div>
+        <div class="result-table">
+          <table>
+            <tbody>
+              <tr><td>基礎代謝量（Harris-Benedict式）</td><td id="res-bmr2">—</td></tr>
+              <tr><td>座りがちな生活での消費カロリー</td><td id="res-sedentary">—</td></tr>
+              <tr><td>軽い運動をしている場合</td><td id="res-light">—</td></tr>
+              <tr><td>週3〜5日運動している場合</td><td id="res-moderate">—</td></tr>
+              <tr><td>毎日ハードに運動している場合</td><td id="res-heavy">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="info-box">
+          <strong>基礎代謝とは？</strong><br>
+          寝ているだけ・何もしなくても、呼吸や体温維持のために消費するカロリーのことです。ダイエットの基準になる数値です。
+        </div>
+      </div>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="article">
+      <h2>基礎代謝とは？わかりやすく解説</h2>
+      <p>基礎代謝（きそたいしゃ）とは、生きているだけで自然と消費されるエネルギーのことです。心臓を動かしたり、体温を保ったりするために使われます。</p>
+      <h3>基礎代謝が高いとどうなる？</h3>
+      <p>基礎代謝が高いほど、何もしなくてもカロリーを消費するため、太りにくい体になります。筋肉量を増やすと基礎代謝が上がります。</p>
+      <h3>計算式（Harris-Benedict式）</h3>
+      <ul>
+        <li>男性：88.362 ＋（13.397 × 体重kg）＋（4.799 × 身長cm）－（5.677 × 年齢）</li>
+        <li>女性：447.593 ＋（9.247 × 体重kg）＋（3.098 × 身長cm）－（4.330 × 年齢）</li>
+      </ul>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="footer-logo">📐 はかるん</div>
+  <div class="footer-links">
+    <a href="../index.html">トップ</a>
+    <a href="bmi.html">BMI計算</a>
+    <a href="calorie.html">消費カロリー計算</a>
+    <a href="../money/tedori.html">手取り計算</a>
+  </div>
+  <p class="copyright">※ 計算結果はあくまで目安です。健康に関することは医師にご相談ください。</p>
+  <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
+</footer>
+<script>
+function calcMetabolism() {
+  const gender = document.querySelector('input[name="gender"]:checked').value;
+  const age = parseFloat(document.getElementById('age').value);
+  const h = parseFloat(document.getElementById('height').value);
+  const w = parseFloat(document.getElementById('weight').value);
+  if (!age || !h || !w) { alert('すべての項目を入力してください'); return; }
+
+  let bmr;
+  if (gender === 'male') {
+    bmr = 88.362 + (13.397 * w) + (4.799 * h) - (5.677 * age);
+  } else {
+    bmr = 447.593 + (9.247 * w) + (3.098 * h) - (4.330 * age);
+  }
+
+  const fmt = n => Math.round(n).toLocaleString('ja-JP') + ' kcal';
+  document.getElementById('res-bmr').textContent = Math.round(bmr).toLocaleString('ja-JP') + ' kcal';
+  document.getElementById('res-bmr2').textContent = fmt(bmr);
+  document.getElementById('res-sedentary').textContent = fmt(bmr * 1.2);
+  document.getElementById('res-light').textContent = fmt(bmr * 1.375);
+  document.getElementById('res-moderate').textContent = fmt(bmr * 1.55);
+  document.getElementById('res-heavy').textContent = fmt(bmr * 1.725);
+  document.getElementById('result').classList.add('show');
+}
+</script>
+</body>
+</html>

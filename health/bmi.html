@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMI計算｜はかるん</title>
+  <meta name="description" content="身長と体重を入力するだけでBMIを計算。肥満度の判定と適正体重もわかります。">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header>
+  <div class="container">
+    <a href="../index.html" class="logo">📐 はかるん</a>
+    <nav>
+      <a href="../money/tedori.html">お金・給与</a>
+      <a href="../health/bmi.html" class="active">健康・生活</a>
+      <a href="../tax/furusato.html">ふるさと納税・節税</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="container">
+    <div class="page-header">
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; BMI計算</div>
+      <h1>⚖️ BMI計算</h1>
+      <p class="subtitle">身長と体重から肥満度（BMI）を計算します</p>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="calc-card">
+      <div class="form-group">
+        <label>身長</label>
+        <div class="input-wrap">
+          <input type="number" id="height" placeholder="170" min="50" max="250">
+          <span class="unit">cm</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>体重</label>
+        <div class="input-wrap">
+          <input type="number" id="weight" placeholder="65" min="1" max="300">
+          <span class="unit">kg</span>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="calcBMI()">計算する</button>
+
+      <div class="result-area" id="result">
+        <div class="result-main">
+          <div class="label">あなたのBMI</div>
+          <div class="value" id="res-bmi">—</div>
+          <div class="sub" id="res-judge">—</div>
+        </div>
+
+        <div class="bmi-bar">
+          <div class="bmi-indicator" id="bmi-indicator" style="left:0%"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:#64748B;margin-bottom:16px">
+          <span>低体重<br>〜18.4</span>
+          <span style="text-align:center">普通<br>18.5〜24.9</span>
+          <span style="text-align:right">肥満<br>25〜</span>
+        </div>
+
+        <div class="result-table">
+          <table>
+            <tbody>
+              <tr><td>身長</td><td id="res-height">—</td></tr>
+              <tr><td>体重</td><td id="res-weight">—</td></tr>
+              <tr><td>BMI</td><td id="res-bmi2">—</td></tr>
+              <tr><td>判定</td><td id="res-judge2">—</td></tr>
+              <tr><td>適正体重（BMI=22）</td><td id="res-ideal">—</td></tr>
+              <tr><td>適正体重まであと</td><td id="res-diff">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="info-box">
+          <strong>BMI 22 が最も病気になりにくい体重</strong>とされています。ただし筋肉量や体型によって個人差があります。
+        </div>
+      </div>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="article">
+      <h2>BMIとは？わかりやすく解説</h2>
+      <p>BMI（Body Mass Index）は、身長と体重から肥満度を測る国際的な指標です。</p>
+      <h3>BMIの計算式</h3>
+      <p><strong>BMI ＝ 体重(kg) ÷ 身長(m) ÷ 身長(m)</strong><br>
+      例：体重65kg・身長170cmの場合 → 65 ÷ 1.7 ÷ 1.7 ≒ 22.5</p>
+      <h3>判定基準（日本肥満学会）</h3>
+      <ul>
+        <li>18.4以下：低体重（やせ）</li>
+        <li>18.5〜24.9：普通体重</li>
+        <li>25.0〜29.9：肥満（1度）</li>
+        <li>30.0〜34.9：肥満（2度）</li>
+        <li>35.0〜39.9：肥満（3度）</li>
+        <li>40.0以上：肥満（4度）</li>
+      </ul>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="footer-logo">📐 はかるん</div>
+  <div class="footer-links">
+    <a href="../index.html">トップ</a>
+    <a href="metabolism.html">基礎代謝計算</a>
+    <a href="calorie.html">消費カロリー計算</a>
+    <a href="../money/tedori.html">手取り計算</a>
+  </div>
+  <p class="copyright">※ 計算結果はあくまで目安です。健康に関することは医師にご相談ください。</p>
+  <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
+</footer>
+<script>
+function calcBMI() {
+  const h = parseFloat(document.getElementById('height').value);
+  const w = parseFloat(document.getElementById('weight').value);
+  if (!h || !w) { alert('身長と体重を入力してください'); return; }
+
+  const hm = h / 100;
+  const bmi = w / (hm * hm);
+  const ideal = 22 * hm * hm;
+  const diff = w - ideal;
+
+  let judge = '', color = '';
+  if (bmi < 18.5)      { judge = '低体重（やせ）';   color = '#60A5FA'; }
+  else if (bmi < 25)   { judge = '普通体重';          color = '#34D399'; }
+  else if (bmi < 30)   { judge = '肥満（1度）';       color = '#FBBF24'; }
+  else if (bmi < 35)   { judge = '肥満（2度）';       color = '#F87171'; }
+  else if (bmi < 40)   { judge = '肥満（3度）';       color = '#EF4444'; }
+  else                  { judge = '肥満（4度）';       color = '#DC2626'; }
+
+  // バー上の位置（BMI 15〜40の範囲でマッピング）
+  const pos = Math.min(100, Math.max(0, (bmi - 15) / 25 * 100));
+
+  document.getElementById('res-bmi').textContent = bmi.toFixed(1);
+  document.getElementById('res-bmi').style.color = color;
+  document.getElementById('res-judge').textContent = judge;
+  document.getElementById('res-height').textContent = h + ' cm';
+  document.getElementById('res-weight').textContent = w + ' kg';
+  document.getElementById('res-bmi2').textContent = bmi.toFixed(1);
+  document.getElementById('res-judge2').textContent = judge;
+  document.getElementById('res-ideal').textContent = ideal.toFixed(1) + ' kg';
+  document.getElementById('res-diff').textContent = diff > 0
+    ? `+${diff.toFixed(1)} kg（減量目標）`
+    : `${diff.toFixed(1)} kg（増量目標）`;
+  document.getElementById('bmi-indicator').style.left = pos + '%';
+  document.getElementById('result').classList.add('show');
+}
+</script>
+</body>
+</html>
