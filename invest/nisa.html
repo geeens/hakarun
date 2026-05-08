@@ -115,8 +115,7 @@
       <div class="form-group">
         <label>口座の種類</label>
         <div class="radio-group">
-          <label><input type="radio" name="nisa" value="tsumitate" checked> つみたて投資枠（NISA）</label>
-          <label><input type="radio" name="nisa" value="seichou"> 成長投資枠（NISA）</label>
+          <label><input type="radio" name="nisa" value="nisa" checked> 非課税口座（NISA）</label>
           <label><input type="radio" name="nisa" value="taxable"> 課税口座（一般）</label>
         </div>
       </div>
@@ -174,7 +173,7 @@ function calcNisa() {
   const profit = total - principal;
   const taxRate = 0.20315;
   const tax = profit * taxRate;
-  const isNisa = nisaType !== 'taxable';
+  const isNisa = nisaType === 'nisa';
   const fmt = n => Math.round(n).toLocaleString('ja-JP') + ' 円';
   document.getElementById('res-main').textContent = fmt(isNisa ? total : total - tax);
   document.getElementById('res-principal').textContent = fmt(principal);
@@ -183,12 +182,10 @@ function calcNisa() {
   document.getElementById('res-tax').textContent = isNisa ? '非課税（NISA）' : fmt(tax);
   document.getElementById('res-saving').textContent = isNisa ? fmt(tax) + '（節税効果）' : '—';
   const info = document.getElementById('nisa-info');
-  if (nisaType === 'tsumitate') {
-    info.innerHTML = '<strong>つみたて投資枠の上限：</strong>年間120万円（月10万円）。長期・積立・分散投資向けの非課税制度です。';
-  } else if (nisaType === 'seichou') {
-    info.innerHTML = '<strong>成長投資枠の上限：</strong>年間240万円。個別株・投資信託など幅広く投資できます。つみたて投資枠との併用可能。';
+  if (isNisa) {
+    info.innerHTML = '<strong>NISAの非課税メリット：</strong>運用益に通常かかる約20%の税金がゼロになります。つみたて投資枠は年120万円、成長投資枠は年240万円まで利用できます。';
   } else {
-    info.innerHTML = '<strong>課税口座では</strong>運用益に約20.315%の税金がかかります。NISAを活用すると上記の税金が非課税になります。';
+    info.innerHTML = '<strong>課税口座では</strong>運用益に約20.315%の税金がかかります。NISAを活用するとこの税金が非課税になります。';
   }
   document.getElementById('result').classList.add('show');
 }
