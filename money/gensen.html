@@ -3,27 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>積立貯金シミュレーション｜月々の積立で将来いくら貯まる？無料計算｜はかるん</title>
-  <meta name="description" content="毎月の積立額・積立期間・年利を入力して将来の貯蓄額を無料シミュレーション。元本・利息の内訳もわかります。">
+  <title>源泉徴収税計算｜フリーランス・副業の源泉徴収額を計算｜はかるん</title>
+  <meta name="description" content="報酬額を入力するだけで源泉徴収税額と手取り額を計算。フリーランス・副業・講師料などの確認に。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
-  <script type="application/ld+json">
-  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
-    { "@type": "Question", "name": "積立貯金と定期預金の違いは？", "acceptedAnswer": { "@type": "Answer", "text": "積立貯金は毎月一定額を積み立てる方法で、定期預金はまとまった金額を一定期間預ける方法です。少額から始めやすいのが積立の特徴です。" } },
-    { "@type": "Question", "name": "複利と単利の違いは？", "acceptedAnswer": { "@type": "Answer", "text": "単利は元本にだけ利息がつきます。複利は利息にも利息がつくため、長期間預けるほど有利です。このシミュレーターは複利で計算しています。" } },
-    { "@type": "Question", "name": "NISAで積立するとどうなりますか？", "acceptedAnswer": { "@type": "Answer", "text": "NISAのつみたて投資枠を使うと、運用益（利益）にかかる約20%の税金が非課税になります。長期積立では大きな節税効果が見込めます。" } }
-  ] }
-  </script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
-        <nav>
-      <div class="nav-item">
+    <nav>
+      <div class="nav-item active">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../money/tedori.html">💴 手取り計算</a>
@@ -60,7 +53,7 @@
           <a href="../health/kougaku.html">🏥 高額療養費計算</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../life/loan.html" class="nav-link">生活・節約 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../life/loan.html">🏦 ローン返済シミュレーション</a>
@@ -127,71 +120,50 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 積立貯金シミュレーション</div>
-      <h1>💰 積立貯金シミュレーション</h1>
-      <p class="subtitle">毎月の積立額から将来の貯蓄額をシミュレーションします</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; お金・給与 &rsaquo; 🧾 源泉徴収税計算</div>
+      <h1>🧾 源泉徴収税計算</h1>
+      <p class="subtitle">報酬から源泉徴収される税額と手取り額を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>月々の積立額</label>
-        <div class="input-wrap">
-          <input type="number" id="monthly" placeholder="30000" min="0">
-          <span class="unit">円</span>
-        </div>
+        <label>報酬・料金の金額</label>
+        <div class="input-wrap"><input type="number" id="fee" placeholder="100000" min="0"><span class="unit">円</span></div>
       </div>
       <div class="form-group">
-        <label>積立期間</label>
-        <div class="input-wrap">
-          <input type="number" id="years" placeholder="10" min="1" max="60">
-          <span class="unit">年</span>
+        <label>報酬の種類</label>
+        <div class="radio-group">
+          <label><input type="radio" name="type" value="normal" checked> 一般（10.21%）</label>
+          <label><input type="radio" name="type" value="high"> 100万超（20.42%）</label>
         </div>
+        <p class="hint">原稿料・講演料・デザイン料・プログラミング報酬など。100万円を超える部分は20.42%。</p>
       </div>
-      <div class="form-group">
-        <label>年利（利息がない場合は0）</label>
-        <div class="input-wrap">
-          <input type="number" id="rate" placeholder="0" min="0" max="30" step="0.1">
-          <span class="unit">%</span>
-        </div>
-        <p class="hint">普通預金は約0.02〜0.1%、NISAなどの長期投資は3〜7%が目安です</p>
-      </div>
-      <button class="btn btn-primary" onclick="calcChochiku()">計算する</button>
+      <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">最終積立額</div>
+          <div class="label">手取り額</div>
           <div class="value" id="res-main">—</div>
         </div>
-        <div class="result-table">
-          <table><tbody>
-            <tr><td>元本合計</td><td id="res-principal">—</td></tr>
-            <tr><td>利息合計</td><td id="res-interest">—</td></tr>
-            <tr class="total"><td>最終積立額</td><td id="res-total">—</td></tr>
-          </tbody></table>
-        </div>
+        <div class="result-table"><table><tbody>
+          <tr><td>報酬額</td><td id="res-fee">—</td></tr>
+          <tr><td>源泉徴収税額</td><td id="res-tax">—</td></tr>
+          <tr><td>手取り額</td><td id="res-net">—</td></tr>
+        </tbody></table></div>
+        <div class="info-box">源泉徴収された税金は確定申告で精算されます。年間の所得が少ない場合は還付を受けられることがあります。</div>
       </div>
     </div>
     <div class="ad-area">広告</div>
-
     <div class="article">
-      <h2>積立貯金・投資の複利効果とは</h2>
-      <p>積立貯金とは、毎月一定額を継続して貯め続ける方法です。少額でも長期間続けることで、複利（利息に利息がつく）の効果により元本以上の資産を形成できます。「塵も積もれば山となる」の言葉通り、月1万円の積立でも10年で120万円、20年で240万円の元本になります。</p>
-      <p>金利がつく場合は元本+利息に対してさらに利息がつく複利効果により、長期になるほど資産の増え方が加速します。たとえば月3万円を年利5%で20年間積み立てると、元本720万円に対して最終的には約1,240万円になります（運用益約520万円）。</p>
-      <p>現在の銀行の普通預金金利は非常に低いですが、NISAを活用したインデックス投資や積立定期預金など、より有利な方法を選ぶことで資産形成が加速します。まずは無理のない金額から始め、生活費の6ヶ月分の緊急資金を確保した上で積立を始めることをおすすめします。</p>
+      <h2>🧾 源泉徴収税計算について</h2>
+      <p>フリーランスや副業で報酬を受け取るとき、支払い側が税金をあらかじめ差し引いて支払う「源泉徴収」という制度があります。原稿料・講演料・デザイン料・プログラミング報酬・講師料などが対象です。</p>
+      <p>源泉徴収税率は報酬額100万円以下の部分が10.21%、100万円を超える部分が20.42%です（2025年現在）。たとえば50万円の報酬なら5万1,050円が差し引かれ、手取りは約44万9,000円になります。</p>
+      <p>源泉徴収はあくまで仮払いの税金です。確定申告を行うことで、実際の所得税額と精算されます。経費を計上すると源泉徴収額より税金が少なくなり、差額が還付されることもあります。フリーランスの方は必ず年一回の確定申告を行いましょう。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item">
-        <div class="faq-q">Q. 積立貯金と定期預金の違いは？</div>
-        <div class="faq-a">積立貯金は毎月一定額を積み立てる方法で、定期預金はまとまった金額を一定期間預ける方法です。少額から始めやすいのが積立の特徴です。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. 複利と単利の違いは？</div>
-        <div class="faq-a">単利は元本にだけ利息がつきます。複利は利息にも利息がつくため、長期間預けるほど有利です。このシミュレーターは複利で計算しています。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. NISAで積立するとどうなりますか？</div>
-        <div class="faq-a">NISAのつみたて投資枠を使うと、運用益（利益）にかかる約20%の税金が非課税になります。長期積立では大きな節税効果が見込めます。</div>
-      </div>
+      <div class="faq-item"><div class="faq-q">Q. 源泉徴収の対象になる報酬は？</div><div class="faq-a">原稿料・講演料・デザイン料・翻訳料・プログラミング報酬・弁護士・税理士への報酬などが対象です。物品販売やコンサル料は対象外の場合もあります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 源泉徴収されたら確定申告は不要？</div><div class="faq-a">いいえ。フリーランスや副業収入がある場合は原則確定申告が必要です。源泉徴収は仮払いなので、確定申告で精算します。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 消費税は源泉徴収の対象？</div><div class="faq-a">報酬と消費税を明確に区分して請求する場合、消費税部分は源泉徴収の対象外です。請求書で「報酬○円、消費税○円」と分けて記載するのがベターです。</div></div>
     </div>
   </div>
 </main>
@@ -199,9 +171,9 @@
   <div class="footer-logo">📐 はかるん</div>
   <div class="footer-links">
     <a href="../index.html">トップ</a>
-    <a href="loan.html">ローン返済計算</a>
-    <a href="../invest/fukuri.html">複利計算</a>
-    <a href="../invest/nisa.html">NISA・投資シミュレーション</a>
+    <a href="../money/tedori.html">手取り計算</a>
+    <a href="../invest/nisa.html">NISA計算</a>
+    <a href="../tax/furusato.html">ふるさと納税</a>
   </div>
   <div class="footer-links" style="margin-top:12px">
     <a href="../privacy.html">プライバシーポリシー</a>
@@ -212,30 +184,26 @@
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
 <script>
-function fmt(n) { return Math.round(n).toLocaleString('ja-JP') + ' 円'; }
-function calcChochiku() {
-  var monthly = parseFloat(document.getElementById('monthly').value);
-  var years = parseFloat(document.getElementById('years').value);
-  var rate = parseFloat(document.getElementById('rate').value) || 0;
-  if (!monthly || monthly <= 0) { alert('月々の積立額を入力してください'); return; }
-  if (!years || years <= 0) { alert('積立期間を入力してください'); return; }
-  var n = years * 12;
-  var r = rate / 100 / 12;
-  var total;
-  if (r === 0) {
-    total = monthly * n;
+function calc() {
+  const fee = parseFloat(document.getElementById('fee').value);
+  const type = document.querySelector('input[name="type"]:checked').value;
+  if (!fee) { alert('報酬額を入力してください'); return; }
+  let tax;
+  if (type === 'normal') {
+    tax = Math.floor(fee * 0.1021);
   } else {
-    total = monthly * (Math.pow(1 + r, n) - 1) / r;
+    if (fee <= 1000000) { tax = Math.floor(fee * 0.1021); }
+    else { tax = Math.floor(1000000 * 0.1021) + Math.floor((fee - 1000000) * 0.2042); }
   }
-  var principal = monthly * n;
-  var interest = total - principal;
-  document.getElementById('res-main').textContent = fmt(total);
-  document.getElementById('res-principal').textContent = fmt(principal);
-  document.getElementById('res-interest').textContent = fmt(interest);
-  document.getElementById('res-total').textContent = fmt(total);
+  const net = fee - tax;
+  const fmt = n => Math.round(n).toLocaleString('ja-JP') + ' 円';
+  document.getElementById('res-main').textContent = fmt(net);
+  document.getElementById('res-fee').textContent = fmt(fee);
+  document.getElementById('res-tax').textContent = fmt(tax);
+  document.getElementById('res-net').textContent = fmt(net);
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

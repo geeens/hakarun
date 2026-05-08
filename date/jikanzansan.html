@@ -3,26 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>積立貯金シミュレーション｜月々の積立で将来いくら貯まる？無料計算｜はかるん</title>
-  <meta name="description" content="毎月の積立額・積立期間・年利を入力して将来の貯蓄額を無料シミュレーション。元本・利息の内訳もわかります。">
+  <title>時間の足し算・引き算｜時間と分を計算｜はかるん</title>
+  <meta name="description" content="時間と分を入力するだけで足し算・引き算を計算。勤務時間の合計・残り時間の計算に。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
-  <script type="application/ld+json">
-  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
-    { "@type": "Question", "name": "積立貯金と定期預金の違いは？", "acceptedAnswer": { "@type": "Answer", "text": "積立貯金は毎月一定額を積み立てる方法で、定期預金はまとまった金額を一定期間預ける方法です。少額から始めやすいのが積立の特徴です。" } },
-    { "@type": "Question", "name": "複利と単利の違いは？", "acceptedAnswer": { "@type": "Answer", "text": "単利は元本にだけ利息がつきます。複利は利息にも利息がつくため、長期間預けるほど有利です。このシミュレーターは複利で計算しています。" } },
-    { "@type": "Question", "name": "NISAで積立するとどうなりますか？", "acceptedAnswer": { "@type": "Answer", "text": "NISAのつみたて投資枠を使うと、運用益（利益）にかかる約20%の税金が非課税になります。長期積立では大きな節税効果が見込めます。" } }
-  ] }
-  </script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
-        <nav>
+    <nav>
       <div class="nav-item">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
@@ -60,7 +53,7 @@
           <a href="../health/kougaku.html">🏥 高額療養費計算</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../life/loan.html" class="nav-link">生活・節約 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../life/loan.html">🏦 ローン返済シミュレーション</a>
@@ -77,7 +70,7 @@
           <a href="../life/subscri.html">📺 サブスク費用計算</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../date/nissuu.html" class="nav-link">日付・時間 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../date/nissuu.html">📅 日数計算</a>
@@ -127,71 +120,53 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 積立貯金シミュレーション</div>
-      <h1>💰 積立貯金シミュレーション</h1>
-      <p class="subtitle">毎月の積立額から将来の貯蓄額をシミュレーションします</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 日付・時間 &rsaquo; ⌛ 時間の足し算・引き算</div>
+      <h1>⌛ 時間の足し算・引き算</h1>
+      <p class="subtitle">時間と分の足し算・引き算を行います</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>月々の積立額</label>
-        <div class="input-wrap">
-          <input type="number" id="monthly" placeholder="30000" min="0">
-          <span class="unit">円</span>
+        <label>時間①</label>
+        <div class="input-wrap"><input type="number" id="h1" placeholder="3" min="0"><span class="unit">時間</span><input type="number" id="m1" placeholder="30" min="0" max="59"><span class="unit">分</span></div>
+      </div>
+      <div class="form-group">
+        <label>計算方法</label>
+        <div class="radio-group">
+          <label><input type="radio" name="op" value="add" checked> ＋ 足し算</label>
+          <label><input type="radio" name="op" value="sub"> − 引き算</label>
         </div>
       </div>
       <div class="form-group">
-        <label>積立期間</label>
-        <div class="input-wrap">
-          <input type="number" id="years" placeholder="10" min="1" max="60">
-          <span class="unit">年</span>
-        </div>
+        <label>時間②</label>
+        <div class="input-wrap"><input type="number" id="h2" placeholder="1" min="0"><span class="unit">時間</span><input type="number" id="m2" placeholder="45" min="0" max="59"><span class="unit">分</span></div>
       </div>
-      <div class="form-group">
-        <label>年利（利息がない場合は0）</label>
-        <div class="input-wrap">
-          <input type="number" id="rate" placeholder="0" min="0" max="30" step="0.1">
-          <span class="unit">%</span>
-        </div>
-        <p class="hint">普通預金は約0.02〜0.1%、NISAなどの長期投資は3〜7%が目安です</p>
-      </div>
-      <button class="btn btn-primary" onclick="calcChochiku()">計算する</button>
+      <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">最終積立額</div>
+          <div class="label">計算結果</div>
           <div class="value" id="res-main">—</div>
         </div>
-        <div class="result-table">
-          <table><tbody>
-            <tr><td>元本合計</td><td id="res-principal">—</td></tr>
-            <tr><td>利息合計</td><td id="res-interest">—</td></tr>
-            <tr class="total"><td>最終積立額</td><td id="res-total">—</td></tr>
-          </tbody></table>
-        </div>
+        <div class="result-table"><table><tbody>
+          <tr><td>時間①</td><td id="res-t1">—</td></tr>
+          <tr><td>時間②</td><td id="res-t2">—</td></tr>
+          <tr><td>結果</td><td id="res-result">—</td></tr>
+          <tr><td>分換算</td><td id="res-min">—</td></tr>
+        </tbody></table></div>
       </div>
     </div>
     <div class="ad-area">広告</div>
-
     <div class="article">
-      <h2>積立貯金・投資の複利効果とは</h2>
-      <p>積立貯金とは、毎月一定額を継続して貯め続ける方法です。少額でも長期間続けることで、複利（利息に利息がつく）の効果により元本以上の資産を形成できます。「塵も積もれば山となる」の言葉通り、月1万円の積立でも10年で120万円、20年で240万円の元本になります。</p>
-      <p>金利がつく場合は元本+利息に対してさらに利息がつく複利効果により、長期になるほど資産の増え方が加速します。たとえば月3万円を年利5%で20年間積み立てると、元本720万円に対して最終的には約1,240万円になります（運用益約520万円）。</p>
-      <p>現在の銀行の普通預金金利は非常に低いですが、NISAを活用したインデックス投資や積立定期預金など、より有利な方法を選ぶことで資産形成が加速します。まずは無理のない金額から始め、生活費の6ヶ月分の緊急資金を確保した上で積立を始めることをおすすめします。</p>
+      <h2>⌛ 時間の足し算・引き算について</h2>
+      <p>勤務時間の合計・残り作業時間の計算など、時間の足し算・引き算は日常的によく使います。60分＝1時間という単位のため、普通の計算より少し面倒に感じますが、このツールを使えばすぐに計算できます。</p>
+      <p>例えば「3時間30分と1時間45分を足すと？」という場合、30分＋45分＝75分＝1時間15分なので、合計は5時間15分になります。繰り上がりの計算が必要なため、ミスしやすいですがこのツールなら正確に計算できます。</p>
+      <p>また「8時間勤務のうち3時間30分経過した。残りは？」といった引き算の場面でも活用できます。複数日の勤務時間を合算したい場合は、2つずつ順番に計算してください。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item">
-        <div class="faq-q">Q. 積立貯金と定期預金の違いは？</div>
-        <div class="faq-a">積立貯金は毎月一定額を積み立てる方法で、定期預金はまとまった金額を一定期間預ける方法です。少額から始めやすいのが積立の特徴です。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. 複利と単利の違いは？</div>
-        <div class="faq-a">単利は元本にだけ利息がつきます。複利は利息にも利息がつくため、長期間預けるほど有利です。このシミュレーターは複利で計算しています。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. NISAで積立するとどうなりますか？</div>
-        <div class="faq-a">NISAのつみたて投資枠を使うと、運用益（利益）にかかる約20%の税金が非課税になります。長期積立では大きな節税効果が見込めます。</div>
-      </div>
+      <div class="faq-item"><div class="faq-q">Q. 60分より大きい数を分に入れても大丈夫？</div><div class="faq-a">はい、例えば「分」に90と入力すると1時間30分として計算されます。ただし0〜59の範囲で入力することをおすすめします。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 複数の時間を合計するには？</div><div class="faq-a">2つずつ計算してください。例えば3つの時間を合計する場合は、①と②を計算した結果に③を足す形で計算できます。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 引き算でマイナスになったら？</div><div class="faq-a">時間②が時間①より大きい場合はマイナスになります。エラーを表示しますので入れ替えて計算してください。</div></div>
     </div>
   </div>
 </main>
@@ -199,9 +174,9 @@
   <div class="footer-logo">📐 はかるん</div>
   <div class="footer-links">
     <a href="../index.html">トップ</a>
-    <a href="loan.html">ローン返済計算</a>
-    <a href="../invest/fukuri.html">複利計算</a>
-    <a href="../invest/nisa.html">NISA・投資シミュレーション</a>
+    <a href="../money/tedori.html">手取り計算</a>
+    <a href="../invest/nisa.html">NISA計算</a>
+    <a href="../tax/furusato.html">ふるさと納税</a>
   </div>
   <div class="footer-links" style="margin-top:12px">
     <a href="../privacy.html">プライバシーポリシー</a>
@@ -212,30 +187,29 @@
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
 <script>
-function fmt(n) { return Math.round(n).toLocaleString('ja-JP') + ' 円'; }
-function calcChochiku() {
-  var monthly = parseFloat(document.getElementById('monthly').value);
-  var years = parseFloat(document.getElementById('years').value);
-  var rate = parseFloat(document.getElementById('rate').value) || 0;
-  if (!monthly || monthly <= 0) { alert('月々の積立額を入力してください'); return; }
-  if (!years || years <= 0) { alert('積立期間を入力してください'); return; }
-  var n = years * 12;
-  var r = rate / 100 / 12;
-  var total;
-  if (r === 0) {
-    total = monthly * n;
-  } else {
-    total = monthly * (Math.pow(1 + r, n) - 1) / r;
-  }
-  var principal = monthly * n;
-  var interest = total - principal;
-  document.getElementById('res-main').textContent = fmt(total);
-  document.getElementById('res-principal').textContent = fmt(principal);
-  document.getElementById('res-interest').textContent = fmt(interest);
-  document.getElementById('res-total').textContent = fmt(total);
+function calc() {
+  const h1=parseInt(document.getElementById('h1').value)||0;
+  const m1=parseInt(document.getElementById('m1').value)||0;
+  const h2=parseInt(document.getElementById('h2').value)||0;
+  const m2=parseInt(document.getElementById('m2').value)||0;
+  const op=document.querySelector('input[name="op"]:checked').value;
+  const t1=h1*60+m1;
+  const t2=h2*60+m2;
+  let result;
+  if(op==='add') result=t1+t2;
+  else result=t1-t2;
+  if(result<0){alert('引き算の結果がマイナスになります。時間①と②を入れ替えて計算してください');return;}
+  const rh=Math.floor(result/60);
+  const rm=result%60;
+  const fmt=t=>`${Math.floor(t/60)}時間${t%60}分`;
+  document.getElementById('res-main').textContent=`${rh}時間${rm}分`;
+  document.getElementById('res-t1').textContent=fmt(t1);
+  document.getElementById('res-t2').textContent=fmt(t2);
+  document.getElementById('res-result').textContent=`${rh}時間${rm}分`;
+  document.getElementById('res-min').textContent=result+' 分';
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

@@ -3,26 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>積立貯金シミュレーション｜月々の積立で将来いくら貯まる？無料計算｜はかるん</title>
-  <meta name="description" content="毎月の積立額・積立期間・年利を入力して将来の貯蓄額を無料シミュレーション。元本・利息の内訳もわかります。">
+  <title>サブスク費用計算｜月々のサブスク料金の合計を計算｜はかるん</title>
+  <meta name="description" content="サブスクリプションの月額を入力するだけで合計月額と年間費用を計算。サブスク見直しに。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
-  <script type="application/ld+json">
-  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
-    { "@type": "Question", "name": "積立貯金と定期預金の違いは？", "acceptedAnswer": { "@type": "Answer", "text": "積立貯金は毎月一定額を積み立てる方法で、定期預金はまとまった金額を一定期間預ける方法です。少額から始めやすいのが積立の特徴です。" } },
-    { "@type": "Question", "name": "複利と単利の違いは？", "acceptedAnswer": { "@type": "Answer", "text": "単利は元本にだけ利息がつきます。複利は利息にも利息がつくため、長期間預けるほど有利です。このシミュレーターは複利で計算しています。" } },
-    { "@type": "Question", "name": "NISAで積立するとどうなりますか？", "acceptedAnswer": { "@type": "Answer", "text": "NISAのつみたて投資枠を使うと、運用益（利益）にかかる約20%の税金が非課税になります。長期積立では大きな節税効果が見込めます。" } }
-  ] }
-  </script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
-        <nav>
+    <nav>
       <div class="nav-item">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
@@ -127,71 +120,51 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 積立貯金シミュレーション</div>
-      <h1>💰 積立貯金シミュレーション</h1>
-      <p class="subtitle">毎月の積立額から将来の貯蓄額をシミュレーションします</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 生活・節約 &rsaquo; 📺 サブスク費用計算</div>
+      <h1>📺 サブスク費用計算</h1>
+      <p class="subtitle">月々のサブスクリプション料金の合計・年間費用を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>月々の積立額</label>
-        <div class="input-wrap">
-          <input type="number" id="monthly" placeholder="30000" min="0">
-          <span class="unit">円</span>
+        <label>サブスクリプション一覧（使っているものを入力）</label>
+        <div style="display:grid;gap:8px;margin-top:8px">
+          <div class="input-wrap"><input type="text" id="name1" placeholder="Netflix" style="flex:2"><input type="number" id="fee1" placeholder="1490" min="0" style="flex:1"><span class="unit">円/月</span></div>
+          <div class="input-wrap"><input type="text" id="name2" placeholder="Spotify" style="flex:2"><input type="number" id="fee2" placeholder="980" min="0" style="flex:1"><span class="unit">円/月</span></div>
+          <div class="input-wrap"><input type="text" id="name3" placeholder="Amazon Prime" style="flex:2"><input type="number" id="fee3" placeholder="600" min="0" style="flex:1"><span class="unit">円/月</span></div>
+          <div class="input-wrap"><input type="text" id="name4" placeholder="Disney+" style="flex:2"><input type="number" id="fee4" placeholder="990" min="0" style="flex:1"><span class="unit">円/月</span></div>
+          <div class="input-wrap"><input type="text" id="name5" placeholder="その他1" style="flex:2"><input type="number" id="fee5" placeholder="0" min="0" style="flex:1"><span class="unit">円/月</span></div>
+          <div class="input-wrap"><input type="text" id="name6" placeholder="その他2" style="flex:2"><input type="number" id="fee6" placeholder="0" min="0" style="flex:1"><span class="unit">円/月</span></div>
+          <div class="input-wrap"><input type="text" id="name7" placeholder="その他3" style="flex:2"><input type="number" id="fee7" placeholder="0" min="0" style="flex:1"><span class="unit">円/月</span></div>
+          <div class="input-wrap"><input type="text" id="name8" placeholder="その他4" style="flex:2"><input type="number" id="fee8" placeholder="0" min="0" style="flex:1"><span class="unit">円/月</span></div>
         </div>
       </div>
-      <div class="form-group">
-        <label>積立期間</label>
-        <div class="input-wrap">
-          <input type="number" id="years" placeholder="10" min="1" max="60">
-          <span class="unit">年</span>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>年利（利息がない場合は0）</label>
-        <div class="input-wrap">
-          <input type="number" id="rate" placeholder="0" min="0" max="30" step="0.1">
-          <span class="unit">%</span>
-        </div>
-        <p class="hint">普通預金は約0.02〜0.1%、NISAなどの長期投資は3〜7%が目安です</p>
-      </div>
-      <button class="btn btn-primary" onclick="calcChochiku()">計算する</button>
+      <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">最終積立額</div>
+          <div class="label">月間サブスク合計</div>
           <div class="value" id="res-main">—</div>
         </div>
-        <div class="result-table">
-          <table><tbody>
-            <tr><td>元本合計</td><td id="res-principal">—</td></tr>
-            <tr><td>利息合計</td><td id="res-interest">—</td></tr>
-            <tr class="total"><td>最終積立額</td><td id="res-total">—</td></tr>
-          </tbody></table>
-        </div>
+        <div class="result-table"><table><tbody>
+          <tr><td>月間合計</td><td id="res-monthly">—</td></tr>
+          <tr><td>年間合計</td><td id="res-yearly">—</td></tr>
+          <tr><td>登録数</td><td id="res-count">—</td></tr>
+        </tbody></table></div>
+        <div class="info-box" id="info-box"></div>
       </div>
     </div>
     <div class="ad-area">広告</div>
-
     <div class="article">
-      <h2>積立貯金・投資の複利効果とは</h2>
-      <p>積立貯金とは、毎月一定額を継続して貯め続ける方法です。少額でも長期間続けることで、複利（利息に利息がつく）の効果により元本以上の資産を形成できます。「塵も積もれば山となる」の言葉通り、月1万円の積立でも10年で120万円、20年で240万円の元本になります。</p>
-      <p>金利がつく場合は元本+利息に対してさらに利息がつく複利効果により、長期になるほど資産の増え方が加速します。たとえば月3万円を年利5%で20年間積み立てると、元本720万円に対して最終的には約1,240万円になります（運用益約520万円）。</p>
-      <p>現在の銀行の普通預金金利は非常に低いですが、NISAを活用したインデックス投資や積立定期預金など、より有利な方法を選ぶことで資産形成が加速します。まずは無理のない金額から始め、生活費の6ヶ月分の緊急資金を確保した上で積立を始めることをおすすめします。</p>
+      <h2>📺 サブスク費用計算について</h2>
+      <p>動画配信・音楽・クラウドストレージ・ゲーム・ニュースアプリなど、サブスクリプション（定額制）サービスは今や生活の一部になっています。1つ1つは数百〜千円程度でも、複数加入すると月に5,000〜10,000円以上になっていることも珍しくありません。</p>
+      <p>サブスクの怖いところは「なんとなく払い続けてしまう」ことです。「使っていないのに契約したまま」というケースも多く、定期的に見直すことで無駄な支出を減らせます。このツールで全てのサブスクを一覧にして、年間費用を把握してみましょう。</p>
+      <p>見直しのポイントは、①月1回未満しか使っていないサービスは解約を検討、②似たようなサービスが重複していないか確認、③家族や友人とのファミリープランを活用する、などです。年間数万円の節約につながることがあります。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item">
-        <div class="faq-q">Q. 積立貯金と定期預金の違いは？</div>
-        <div class="faq-a">積立貯金は毎月一定額を積み立てる方法で、定期預金はまとまった金額を一定期間預ける方法です。少額から始めやすいのが積立の特徴です。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. 複利と単利の違いは？</div>
-        <div class="faq-a">単利は元本にだけ利息がつきます。複利は利息にも利息がつくため、長期間預けるほど有利です。このシミュレーターは複利で計算しています。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. NISAで積立するとどうなりますか？</div>
-        <div class="faq-a">NISAのつみたて投資枠を使うと、運用益（利益）にかかる約20%の税金が非課税になります。長期積立では大きな節税効果が見込めます。</div>
-      </div>
+      <div class="faq-item"><div class="faq-q">Q. サブスクを解約するタイミングは？</div><div class="faq-a">ほとんどのサービスは月末までに解約すれば翌月から請求が止まります。更新日前日までに解約手続きをするのが基本です。解約後も当月末まで使えるサービスが多いです。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 使っていないサブスクの確認方法は？</div><div class="faq-a">クレジットカードや銀行の明細を確認するのが確実です。「subscli」などのサブスク管理アプリを活用する方法もあります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 年払いと月払いどちがお得？</div><div class="faq-a">多くのサービスで年払いにすると10〜20%割引になります。長期的に使い続けるサービスは年払いにした方がお得ですが、途中解約すると返金されないことが多いので注意が必要です。</div></div>
     </div>
   </div>
 </main>
@@ -199,9 +172,9 @@
   <div class="footer-logo">📐 はかるん</div>
   <div class="footer-links">
     <a href="../index.html">トップ</a>
-    <a href="loan.html">ローン返済計算</a>
-    <a href="../invest/fukuri.html">複利計算</a>
-    <a href="../invest/nisa.html">NISA・投資シミュレーション</a>
+    <a href="../money/tedori.html">手取り計算</a>
+    <a href="../invest/nisa.html">NISA計算</a>
+    <a href="../tax/furusato.html">ふるさと納税</a>
   </div>
   <div class="footer-links" style="margin-top:12px">
     <a href="../privacy.html">プライバシーポリシー</a>
@@ -212,30 +185,26 @@
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
 <script>
-function fmt(n) { return Math.round(n).toLocaleString('ja-JP') + ' 円'; }
-function calcChochiku() {
-  var monthly = parseFloat(document.getElementById('monthly').value);
-  var years = parseFloat(document.getElementById('years').value);
-  var rate = parseFloat(document.getElementById('rate').value) || 0;
-  if (!monthly || monthly <= 0) { alert('月々の積立額を入力してください'); return; }
-  if (!years || years <= 0) { alert('積立期間を入力してください'); return; }
-  var n = years * 12;
-  var r = rate / 100 / 12;
-  var total;
-  if (r === 0) {
-    total = monthly * n;
-  } else {
-    total = monthly * (Math.pow(1 + r, n) - 1) / r;
+function calc() {
+  let total=0,count=0;
+  for(let i=1;i<=8;i++){
+    const fee=parseFloat(document.getElementById('fee'+i).value)||0;
+    if(fee>0)count++;
+    total+=fee;
   }
-  var principal = monthly * n;
-  var interest = total - principal;
-  document.getElementById('res-main').textContent = fmt(total);
-  document.getElementById('res-principal').textContent = fmt(principal);
-  document.getElementById('res-interest').textContent = fmt(interest);
-  document.getElementById('res-total').textContent = fmt(total);
+  if(total===0){alert('サブスクの料金を入力してください');return;}
+  const fmt=n=>Math.round(n).toLocaleString('ja-JP')+' 円';
+  document.getElementById('res-main').textContent=fmt(total);
+  document.getElementById('res-monthly').textContent=fmt(total);
+  document.getElementById('res-yearly').textContent=fmt(total*12);
+  document.getElementById('res-count').textContent=count+' 件';
+  const info=document.getElementById('info-box');
+  if(total>10000) info.innerHTML=`月<strong>${fmt(total)}</strong>（年間<strong>${fmt(total*12)}</strong>）のサブスク費用です。使っていないサービスの解約を検討しましょう。`;
+  else if(total>5000) info.innerHTML=`月<strong>${fmt(total)}</strong>（年間<strong>${fmt(total*12)}</strong>）のサブスク費用です。定期的に見直して、必要なものだけ残しましょう。`;
+  else info.innerHTML=`月<strong>${fmt(total)}</strong>（年間<strong>${fmt(total*12)}</strong>）のサブスク費用です。`;
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

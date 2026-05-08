@@ -3,26 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>積立貯金シミュレーション｜月々の積立で将来いくら貯まる？無料計算｜はかるん</title>
-  <meta name="description" content="毎月の積立額・積立期間・年利を入力して将来の貯蓄額を無料シミュレーション。元本・利息の内訳もわかります。">
+  <title>水分補給量計算｜1日に必要な水分量を計算｜はかるん</title>
+  <meta name="description" content="体重と活動レベルを入力するだけで1日に必要な水分量を計算。熱中症・脱水症状予防に。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
-  <script type="application/ld+json">
-  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
-    { "@type": "Question", "name": "積立貯金と定期預金の違いは？", "acceptedAnswer": { "@type": "Answer", "text": "積立貯金は毎月一定額を積み立てる方法で、定期預金はまとまった金額を一定期間預ける方法です。少額から始めやすいのが積立の特徴です。" } },
-    { "@type": "Question", "name": "複利と単利の違いは？", "acceptedAnswer": { "@type": "Answer", "text": "単利は元本にだけ利息がつきます。複利は利息にも利息がつくため、長期間預けるほど有利です。このシミュレーターは複利で計算しています。" } },
-    { "@type": "Question", "name": "NISAで積立するとどうなりますか？", "acceptedAnswer": { "@type": "Answer", "text": "NISAのつみたて投資枠を使うと、運用益（利益）にかかる約20%の税金が非課税になります。長期積立では大きな節税効果が見込めます。" } }
-  ] }
-  </script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
-        <nav>
+    <nav>
       <div class="nav-item">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
@@ -41,7 +34,7 @@
           <a href="../money/jikyu.html">🧮 時給→年収換算</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../health/bmi.html" class="nav-link">健康・生活 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../health/bmi.html">⚖️ BMI計算</a>
@@ -60,7 +53,7 @@
           <a href="../health/kougaku.html">🏥 高額療養費計算</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../life/loan.html" class="nav-link">生活・節約 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../life/loan.html">🏦 ローン返済シミュレーション</a>
@@ -127,71 +120,50 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 積立貯金シミュレーション</div>
-      <h1>💰 積立貯金シミュレーション</h1>
-      <p class="subtitle">毎月の積立額から将来の貯蓄額をシミュレーションします</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 健康・生活 &rsaquo; 💧 水分補給量計算</div>
+      <h1>💧 水分補給量計算</h1>
+      <p class="subtitle">体重・活動量から1日に必要な水分補給量を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>月々の積立額</label>
-        <div class="input-wrap">
-          <input type="number" id="monthly" placeholder="30000" min="0">
-          <span class="unit">円</span>
-        </div>
+        <label>体重</label>
+        <div class="input-wrap"><input type="number" id="weight" placeholder="60" min="1" max="200" step="0.1"><span class="unit">kg</span></div>
       </div>
       <div class="form-group">
-        <label>積立期間</label>
-        <div class="input-wrap">
-          <input type="number" id="years" placeholder="10" min="1" max="60">
-          <span class="unit">年</span>
+        <label>活動レベル</label>
+        <div class="radio-group">
+          <label><input type="radio" name="level" value="low"> 低い（デスクワーク中心）</label>
+          <label><input type="radio" name="level" value="normal" checked> 普通（日常的に動く）</label>
+          <label><input type="radio" name="level" value="high"> 高い（運動・肉体労働）</label>
         </div>
       </div>
-      <div class="form-group">
-        <label>年利（利息がない場合は0）</label>
-        <div class="input-wrap">
-          <input type="number" id="rate" placeholder="0" min="0" max="30" step="0.1">
-          <span class="unit">%</span>
-        </div>
-        <p class="hint">普通預金は約0.02〜0.1%、NISAなどの長期投資は3〜7%が目安です</p>
-      </div>
-      <button class="btn btn-primary" onclick="calcChochiku()">計算する</button>
+      <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">最終積立額</div>
+          <div class="label">1日に必要な水分量（目安）</div>
           <div class="value" id="res-main">—</div>
         </div>
-        <div class="result-table">
-          <table><tbody>
-            <tr><td>元本合計</td><td id="res-principal">—</td></tr>
-            <tr><td>利息合計</td><td id="res-interest">—</td></tr>
-            <tr class="total"><td>最終積立額</td><td id="res-total">—</td></tr>
-          </tbody></table>
-        </div>
+        <div class="result-table"><table><tbody>
+          <tr><td>飲料水として摂るべき量</td><td id="res-drink">—</td></tr>
+          <tr><td>食事から摂れる水分（目安）</td><td id="res-food">—</td></tr>
+          <tr><td>合計必要水分量</td><td id="res-total">—</td></tr>
+        </tbody></table></div>
+        <div class="info-box">食事（ご飯・野菜・汁物など）からも水分が補給されます。飲料水としてはその差し引き分を意識しましょう。</div>
       </div>
     </div>
     <div class="ad-area">広告</div>
-
     <div class="article">
-      <h2>積立貯金・投資の複利効果とは</h2>
-      <p>積立貯金とは、毎月一定額を継続して貯め続ける方法です。少額でも長期間続けることで、複利（利息に利息がつく）の効果により元本以上の資産を形成できます。「塵も積もれば山となる」の言葉通り、月1万円の積立でも10年で120万円、20年で240万円の元本になります。</p>
-      <p>金利がつく場合は元本+利息に対してさらに利息がつく複利効果により、長期になるほど資産の増え方が加速します。たとえば月3万円を年利5%で20年間積み立てると、元本720万円に対して最終的には約1,240万円になります（運用益約520万円）。</p>
-      <p>現在の銀行の普通預金金利は非常に低いですが、NISAを活用したインデックス投資や積立定期預金など、より有利な方法を選ぶことで資産形成が加速します。まずは無理のない金額から始め、生活費の6ヶ月分の緊急資金を確保した上で積立を始めることをおすすめします。</p>
+      <h2>💧 水分補給量計算について</h2>
+      <p>人間の体の約60%は水分でできています。1日に汗・尿・呼吸などで排出される水分量は約2〜3リットルとされており、それを補給しないと脱水症状や熱中症のリスクが高まります。特に夏場や運動時は意識的な水分補給が重要です。</p>
+      <p>必要な水分量は体重×30〜40mlが目安とされています。体重60kgの人なら1日1,800〜2,400mlが目安です。ただし食事からも約600〜800ml程度の水分が摂れるため、飲料水としては1,200〜1,600ml程度が目標になります。</p>
+      <p>水分補給のポイントは「のどが渇いてから飲む」ではなく「こまめに飲む」ことです。特に高齢者はのどの渇きを感じにくくなるため、意識して水分を摂るようにしましょう。水・お茶・スポーツドリンクが適しています。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item">
-        <div class="faq-q">Q. 積立貯金と定期預金の違いは？</div>
-        <div class="faq-a">積立貯金は毎月一定額を積み立てる方法で、定期預金はまとまった金額を一定期間預ける方法です。少額から始めやすいのが積立の特徴です。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. 複利と単利の違いは？</div>
-        <div class="faq-a">単利は元本にだけ利息がつきます。複利は利息にも利息がつくため、長期間預けるほど有利です。このシミュレーターは複利で計算しています。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. NISAで積立するとどうなりますか？</div>
-        <div class="faq-a">NISAのつみたて投資枠を使うと、運用益（利益）にかかる約20%の税金が非課税になります。長期積立では大きな節税効果が見込めます。</div>
-      </div>
+      <div class="faq-item"><div class="faq-q">Q. 1日2リットルの水は必要？</div><div class="faq-a">「1日2リットル」はよく言われますが、体重・活動量・気温によって異なります。食事からの水分も含めると、飲料水は体重×30ml程度が一般的な目安です。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 水分不足のサインは？</div><div class="faq-a">尿の色が濃い黄色になる・口が乾く・頭痛・めまいなどが水分不足のサインです。尿が薄い黄色〜透明になるくらいが適切な水分量の目安です。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. コーヒーやお茶は水分補給になる？</div><div class="faq-a">カフェインを含む飲み物には利尿作用がありますが、摂取量より尿量が多くなるわけではなく、水分補給として数えられます。ただし糖分の多いジュースは控えめにしましょう。</div></div>
     </div>
   </div>
 </main>
@@ -199,9 +171,9 @@
   <div class="footer-logo">📐 はかるん</div>
   <div class="footer-links">
     <a href="../index.html">トップ</a>
-    <a href="loan.html">ローン返済計算</a>
-    <a href="../invest/fukuri.html">複利計算</a>
-    <a href="../invest/nisa.html">NISA・投資シミュレーション</a>
+    <a href="../money/tedori.html">手取り計算</a>
+    <a href="../invest/nisa.html">NISA計算</a>
+    <a href="../tax/furusato.html">ふるさと納税</a>
   </div>
   <div class="footer-links" style="margin-top:12px">
     <a href="../privacy.html">プライバシーポリシー</a>
@@ -212,30 +184,21 @@
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
 <script>
-function fmt(n) { return Math.round(n).toLocaleString('ja-JP') + ' 円'; }
-function calcChochiku() {
-  var monthly = parseFloat(document.getElementById('monthly').value);
-  var years = parseFloat(document.getElementById('years').value);
-  var rate = parseFloat(document.getElementById('rate').value) || 0;
-  if (!monthly || monthly <= 0) { alert('月々の積立額を入力してください'); return; }
-  if (!years || years <= 0) { alert('積立期間を入力してください'); return; }
-  var n = years * 12;
-  var r = rate / 100 / 12;
-  var total;
-  if (r === 0) {
-    total = monthly * n;
-  } else {
-    total = monthly * (Math.pow(1 + r, n) - 1) / r;
-  }
-  var principal = monthly * n;
-  var interest = total - principal;
-  document.getElementById('res-main').textContent = fmt(total);
-  document.getElementById('res-principal').textContent = fmt(principal);
-  document.getElementById('res-interest').textContent = fmt(interest);
-  document.getElementById('res-total').textContent = fmt(total);
+function calc() {
+  const weight = parseFloat(document.getElementById('weight').value);
+  const level = document.querySelector('input[name="level"]:checked').value;
+  if (!weight) { alert('体重を入力してください'); return; }
+  const multiplier = level === 'low' ? 30 : level === 'normal' ? 35 : 45;
+  const total = weight * multiplier;
+  const food = 700;
+  const drink = total - food;
+  document.getElementById('res-main').textContent = Math.round(total) + ' ml（約' + (total/1000).toFixed(1) + 'L）';
+  document.getElementById('res-drink').textContent = Math.round(drink) + ' ml（約' + (drink/1000).toFixed(1) + 'L）';
+  document.getElementById('res-food').textContent = Math.round(food) + ' ml（約' + (food/1000).toFixed(1) + 'L）';
+  document.getElementById('res-total').textContent = Math.round(total) + ' ml（約' + (total/1000).toFixed(1) + 'L）';
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

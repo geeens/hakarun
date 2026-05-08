@@ -3,26 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>積立貯金シミュレーション｜月々の積立で将来いくら貯まる？無料計算｜はかるん</title>
-  <meta name="description" content="毎月の積立額・積立期間・年利を入力して将来の貯蓄額を無料シミュレーション。元本・利息の内訳もわかります。">
+  <title>高額療養費計算｜医療費の自己負担上限を計算｜はかるん</title>
+  <meta name="description" content="年収と1ヶ月の医療費を入力するだけで高額療養費制度の自己負担上限と還付額を計算。入院・手術の費用計画に。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
-  <script type="application/ld+json">
-  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
-    { "@type": "Question", "name": "積立貯金と定期預金の違いは？", "acceptedAnswer": { "@type": "Answer", "text": "積立貯金は毎月一定額を積み立てる方法で、定期預金はまとまった金額を一定期間預ける方法です。少額から始めやすいのが積立の特徴です。" } },
-    { "@type": "Question", "name": "複利と単利の違いは？", "acceptedAnswer": { "@type": "Answer", "text": "単利は元本にだけ利息がつきます。複利は利息にも利息がつくため、長期間預けるほど有利です。このシミュレーターは複利で計算しています。" } },
-    { "@type": "Question", "name": "NISAで積立するとどうなりますか？", "acceptedAnswer": { "@type": "Answer", "text": "NISAのつみたて投資枠を使うと、運用益（利益）にかかる約20%の税金が非課税になります。長期積立では大きな節税効果が見込めます。" } }
-  ] }
-  </script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
-        <nav>
+    <nav>
       <div class="nav-item">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
@@ -41,7 +34,7 @@
           <a href="../money/jikyu.html">🧮 時給→年収換算</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../health/bmi.html" class="nav-link">健康・生活 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../health/bmi.html">⚖️ BMI計算</a>
@@ -60,7 +53,7 @@
           <a href="../health/kougaku.html">🏥 高額療養費計算</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../life/loan.html" class="nav-link">生活・節約 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../life/loan.html">🏦 ローン返済シミュレーション</a>
@@ -127,71 +120,52 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 積立貯金シミュレーション</div>
-      <h1>💰 積立貯金シミュレーション</h1>
-      <p class="subtitle">毎月の積立額から将来の貯蓄額をシミュレーションします</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 健康・生活 &rsaquo; 🏥 高額療養費計算</div>
+      <h1>🏥 高額療養費計算</h1>
+      <p class="subtitle">月収と医療費から高額療養費制度の自己負担上限額を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>月々の積立額</label>
-        <div class="input-wrap">
-          <input type="number" id="monthly" placeholder="30000" min="0">
-          <span class="unit">円</span>
+        <label>年収（目安）</label>
+        <div class="radio-group">
+          <label><input type="radio" name="income" value="1"> 〜370万円</label>
+          <label><input type="radio" name="income" value="2" checked> 370〜770万円</label>
+          <label><input type="radio" name="income" value="3"> 770〜1160万円</label>
+          <label><input type="radio" name="income" value="4"> 1160万円超</label>
+          <label><input type="radio" name="income" value="0"> 住民税非課税</label>
         </div>
       </div>
       <div class="form-group">
-        <label>積立期間</label>
-        <div class="input-wrap">
-          <input type="number" id="years" placeholder="10" min="1" max="60">
-          <span class="unit">年</span>
-        </div>
+        <label>1ヶ月の医療費（3割負担の窓口支払額）</label>
+        <div class="input-wrap"><input type="number" id="medical" placeholder="200000" min="0"><span class="unit">円</span></div>
       </div>
-      <div class="form-group">
-        <label>年利（利息がない場合は0）</label>
-        <div class="input-wrap">
-          <input type="number" id="rate" placeholder="0" min="0" max="30" step="0.1">
-          <span class="unit">%</span>
-        </div>
-        <p class="hint">普通預金は約0.02〜0.1%、NISAなどの長期投資は3〜7%が目安です</p>
-      </div>
-      <button class="btn btn-primary" onclick="calcChochiku()">計算する</button>
+      <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">最終積立額</div>
+          <div class="label">自己負担の上限額</div>
           <div class="value" id="res-main">—</div>
         </div>
-        <div class="result-table">
-          <table><tbody>
-            <tr><td>元本合計</td><td id="res-principal">—</td></tr>
-            <tr><td>利息合計</td><td id="res-interest">—</td></tr>
-            <tr class="total"><td>最終積立額</td><td id="res-total">—</td></tr>
-          </tbody></table>
-        </div>
+        <div class="result-table"><table><tbody>
+          <tr><td>窓口での支払い額</td><td id="res-paid">—</td></tr>
+          <tr><td>自己負担の上限額</td><td id="res-limit">—</td></tr>
+          <tr><td>高額療養費として還付される額</td><td id="res-refund">—</td></tr>
+        </tbody></table></div>
+        <div class="info-box">高額療養費制度を利用するには、加入している健康保険組合・協会けんぽ・市区町村（国民健康保険）に申請が必要です。「限度額適用認定証」を事前に取得すると窓口での支払いが上限額までに抑えられます。</div>
       </div>
     </div>
     <div class="ad-area">広告</div>
-
     <div class="article">
-      <h2>積立貯金・投資の複利効果とは</h2>
-      <p>積立貯金とは、毎月一定額を継続して貯め続ける方法です。少額でも長期間続けることで、複利（利息に利息がつく）の効果により元本以上の資産を形成できます。「塵も積もれば山となる」の言葉通り、月1万円の積立でも10年で120万円、20年で240万円の元本になります。</p>
-      <p>金利がつく場合は元本+利息に対してさらに利息がつく複利効果により、長期になるほど資産の増え方が加速します。たとえば月3万円を年利5%で20年間積み立てると、元本720万円に対して最終的には約1,240万円になります（運用益約520万円）。</p>
-      <p>現在の銀行の普通預金金利は非常に低いですが、NISAを活用したインデックス投資や積立定期預金など、より有利な方法を選ぶことで資産形成が加速します。まずは無理のない金額から始め、生活費の6ヶ月分の緊急資金を確保した上で積立を始めることをおすすめします。</p>
+      <h2>🏥 高額療養費計算について</h2>
+      <p>高額療養費制度とは、1ヶ月の医療費の自己負担が一定の上限額を超えた場合、超えた分が後から払い戻される制度です。入院・手術など高額な医療費がかかった際に、家計への負担を大きく軽減できます。</p>
+      <p>自己負担の上限額は年収によって異なります。年収約370〜770万円の標準的な収入の方なら、月の上限は約8万円程度です。100万円の医療費がかかっても、3割負担の30万円を支払い、さらに高額療養費として約22万円が還付されるイメージです。</p>
+      <p>事前に「限度額適用認定証」を取得しておくと、病院の窓口での支払いが上限額までに抑えられ、一旦多額の現金を用意する必要がなくなります。入院が決まったら早めに手続きをしておきましょう。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item">
-        <div class="faq-q">Q. 積立貯金と定期預金の違いは？</div>
-        <div class="faq-a">積立貯金は毎月一定額を積み立てる方法で、定期預金はまとまった金額を一定期間預ける方法です。少額から始めやすいのが積立の特徴です。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. 複利と単利の違いは？</div>
-        <div class="faq-a">単利は元本にだけ利息がつきます。複利は利息にも利息がつくため、長期間預けるほど有利です。このシミュレーターは複利で計算しています。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. NISAで積立するとどうなりますか？</div>
-        <div class="faq-a">NISAのつみたて投資枠を使うと、運用益（利益）にかかる約20%の税金が非課税になります。長期積立では大きな節税効果が見込めます。</div>
-      </div>
+      <div class="faq-item"><div class="faq-q">Q. 高額療養費の申請方法は？</div><div class="faq-a">退院後に加入している健康保険（協会けんぽ・健康保険組合・市区町村の国保）に申請します。通常は領収書のコピーと申請書を提出します。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 「限度額適用認定証」とは？</div><div class="faq-a">入院前に健康保険に申請して取得できる証明書です。病院に提示することで窓口支払いが上限額までに抑えられます（事後申請より便利）。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 外来と入院は別々に計算する？</div><div class="faq-a">原則として外来と入院は別々に計算します。ただし1ヶ月の外来の自己負担が限度額を超えた場合、超えた分は後日還付されます。</div></div>
     </div>
   </div>
 </main>
@@ -199,9 +173,9 @@
   <div class="footer-logo">📐 はかるん</div>
   <div class="footer-links">
     <a href="../index.html">トップ</a>
-    <a href="loan.html">ローン返済計算</a>
-    <a href="../invest/fukuri.html">複利計算</a>
-    <a href="../invest/nisa.html">NISA・投資シミュレーション</a>
+    <a href="../money/tedori.html">手取り計算</a>
+    <a href="../invest/nisa.html">NISA計算</a>
+    <a href="../tax/furusato.html">ふるさと納税</a>
   </div>
   <div class="footer-links" style="margin-top:12px">
     <a href="../privacy.html">プライバシーポリシー</a>
@@ -212,30 +186,26 @@
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
 <script>
-function fmt(n) { return Math.round(n).toLocaleString('ja-JP') + ' 円'; }
-function calcChochiku() {
-  var monthly = parseFloat(document.getElementById('monthly').value);
-  var years = parseFloat(document.getElementById('years').value);
-  var rate = parseFloat(document.getElementById('rate').value) || 0;
-  if (!monthly || monthly <= 0) { alert('月々の積立額を入力してください'); return; }
-  if (!years || years <= 0) { alert('積立期間を入力してください'); return; }
-  var n = years * 12;
-  var r = rate / 100 / 12;
-  var total;
-  if (r === 0) {
-    total = monthly * n;
-  } else {
-    total = monthly * (Math.pow(1 + r, n) - 1) / r;
-  }
-  var principal = monthly * n;
-  var interest = total - principal;
-  document.getElementById('res-main').textContent = fmt(total);
-  document.getElementById('res-principal').textContent = fmt(principal);
-  document.getElementById('res-interest').textContent = fmt(interest);
-  document.getElementById('res-total').textContent = fmt(total);
+function calc() {
+  const income = document.querySelector('input[name="income"]:checked').value;
+  const medical = parseFloat(document.getElementById('medical').value);
+  if (!medical) { alert('医療費を入力してください'); return; }
+  let limit;
+  if (income === '0') limit = 35400;
+  else if (income === '1') limit = 57600;
+  else if (income === '2') limit = 80100 + Math.max(0, (medical / 0.3 - 267000)) * 0.01;
+  else if (income === '3') limit = 167400 + Math.max(0, (medical / 0.3 - 558000)) * 0.01;
+  else limit = 252600 + Math.max(0, (medical / 0.3 - 842000)) * 0.01;
+  limit = Math.round(limit);
+  const refund = Math.max(0, medical - limit);
+  const fmt = n => Math.round(n).toLocaleString('ja-JP') + ' 円';
+  document.getElementById('res-main').textContent = fmt(limit);
+  document.getElementById('res-paid').textContent = fmt(medical);
+  document.getElementById('res-limit').textContent = fmt(limit);
+  document.getElementById('res-refund').textContent = refund > 0 ? fmt(refund) : '還付なし（上限額以下）';
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

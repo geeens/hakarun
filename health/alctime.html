@@ -3,26 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>積立貯金シミュレーション｜月々の積立で将来いくら貯まる？無料計算｜はかるん</title>
-  <meta name="description" content="毎月の積立額・積立期間・年利を入力して将来の貯蓄額を無料シミュレーション。元本・利息の内訳もわかります。">
+  <title>アルコール分解時間計算｜飲酒後の運転OKまでの時間を計算｜はかるん</title>
+  <meta name="description" content="飲んだお酒の種類と量を入力するだけでアルコール分解時間を計算。飲酒後の運転・仕事の参考に。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
-  <script type="application/ld+json">
-  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
-    { "@type": "Question", "name": "積立貯金と定期預金の違いは？", "acceptedAnswer": { "@type": "Answer", "text": "積立貯金は毎月一定額を積み立てる方法で、定期預金はまとまった金額を一定期間預ける方法です。少額から始めやすいのが積立の特徴です。" } },
-    { "@type": "Question", "name": "複利と単利の違いは？", "acceptedAnswer": { "@type": "Answer", "text": "単利は元本にだけ利息がつきます。複利は利息にも利息がつくため、長期間預けるほど有利です。このシミュレーターは複利で計算しています。" } },
-    { "@type": "Question", "name": "NISAで積立するとどうなりますか？", "acceptedAnswer": { "@type": "Answer", "text": "NISAのつみたて投資枠を使うと、運用益（利益）にかかる約20%の税金が非課税になります。長期積立では大きな節税効果が見込めます。" } }
-  ] }
-  </script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
-        <nav>
+    <nav>
       <div class="nav-item">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
@@ -41,7 +34,7 @@
           <a href="../money/jikyu.html">🧮 時給→年収換算</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../health/bmi.html" class="nav-link">健康・生活 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../health/bmi.html">⚖️ BMI計算</a>
@@ -60,7 +53,7 @@
           <a href="../health/kougaku.html">🏥 高額療養費計算</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../life/loan.html" class="nav-link">生活・節約 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../life/loan.html">🏦 ローン返済シミュレーション</a>
@@ -127,71 +120,59 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 積立貯金シミュレーション</div>
-      <h1>💰 積立貯金シミュレーション</h1>
-      <p class="subtitle">毎月の積立額から将来の貯蓄額をシミュレーションします</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 健康・生活 &rsaquo; 🍺 アルコール分解時間計算</div>
+      <h1>🍺 アルコール分解時間計算</h1>
+      <p class="subtitle">飲んだお酒の量から体内のアルコールが分解されるまでの時間を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>月々の積立額</label>
+        <label>お酒の種類と量</label>
         <div class="input-wrap">
-          <input type="number" id="monthly" placeholder="30000" min="0">
-          <span class="unit">円</span>
+          <select id="drink-type">
+            <option value="5,350">ビール中瓶（350ml・5%）</option>
+            <option value="5,500">ビール大瓶（500ml・5%）</option>
+            <option value="9,350">チューハイ（350ml・9%）</option>
+            <option value="15,60">日本酒（1合・15%）</option>
+            <option value="40,45">ウイスキー（ダブル・40%）</option>
+            <option value="14,125">ワイン（グラス1杯・14%）</option>
+            <option value="25,60">焼酎（1杯・25%）</option>
+          </select>
         </div>
       </div>
       <div class="form-group">
-        <label>積立期間</label>
-        <div class="input-wrap">
-          <input type="number" id="years" placeholder="10" min="1" max="60">
-          <span class="unit">年</span>
-        </div>
+        <label>杯数・本数</label>
+        <div class="input-wrap"><input type="number" id="cups" placeholder="2" min="1" max="20"><span class="unit">杯（本）</span></div>
       </div>
       <div class="form-group">
-        <label>年利（利息がない場合は0）</label>
-        <div class="input-wrap">
-          <input type="number" id="rate" placeholder="0" min="0" max="30" step="0.1">
-          <span class="unit">%</span>
-        </div>
-        <p class="hint">普通預金は約0.02〜0.1%、NISAなどの長期投資は3〜7%が目安です</p>
+        <label>体重</label>
+        <div class="input-wrap"><input type="number" id="weight" placeholder="60" min="30" max="150"><span class="unit">kg</span></div>
       </div>
-      <button class="btn btn-primary" onclick="calcChochiku()">計算する</button>
+      <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">最終積立額</div>
+          <div class="label">アルコール分解にかかる時間（目安）</div>
           <div class="value" id="res-main">—</div>
         </div>
-        <div class="result-table">
-          <table><tbody>
-            <tr><td>元本合計</td><td id="res-principal">—</td></tr>
-            <tr><td>利息合計</td><td id="res-interest">—</td></tr>
-            <tr class="total"><td>最終積立額</td><td id="res-total">—</td></tr>
-          </tbody></table>
-        </div>
+        <div class="result-table"><table><tbody>
+          <tr><td>純アルコール量</td><td id="res-alcohol">—</td></tr>
+          <tr><td>分解にかかる時間</td><td id="res-hours">—</td></tr>
+        </tbody></table></div>
+        <div class="info-box"><strong>⚠️ 注意：</strong>このツールはあくまで目安です。実際の分解時間は個人差があります。「計算上は大丈夫」でも飲酒運転は絶対にしないでください。</div>
       </div>
     </div>
     <div class="ad-area">広告</div>
-
     <div class="article">
-      <h2>積立貯金・投資の複利効果とは</h2>
-      <p>積立貯金とは、毎月一定額を継続して貯め続ける方法です。少額でも長期間続けることで、複利（利息に利息がつく）の効果により元本以上の資産を形成できます。「塵も積もれば山となる」の言葉通り、月1万円の積立でも10年で120万円、20年で240万円の元本になります。</p>
-      <p>金利がつく場合は元本+利息に対してさらに利息がつく複利効果により、長期になるほど資産の増え方が加速します。たとえば月3万円を年利5%で20年間積み立てると、元本720万円に対して最終的には約1,240万円になります（運用益約520万円）。</p>
-      <p>現在の銀行の普通預金金利は非常に低いですが、NISAを活用したインデックス投資や積立定期預金など、より有利な方法を選ぶことで資産形成が加速します。まずは無理のない金額から始め、生活費の6ヶ月分の緊急資金を確保した上で積立を始めることをおすすめします。</p>
+      <h2>🍺 アルコール分解時間計算について</h2>
+      <p>飲酒後の運転は法律で厳しく禁止されています。「一晩寝れば大丈夫」と思っていても、翌朝まで体内にアルコールが残っていることがあります。特に大量に飲んだ翌日の運転には注意が必要です。</p>
+      <p>アルコールの分解速度は体重・性別・体質によって異なりますが、一般的に体重60kgの人では1時間に約4〜5gの純アルコールを分解できると言われています。ビール500ml（アルコール5%）に含まれる純アルコールは約20gのため、分解には約4〜5時間かかる計算になります。</p>
+      <p>このツールの計算はあくまで参考値です。実際の分解時間には個人差が大きく、食事の有無・飲むペース・体調によっても変わります。少しでもアルコールが残っていると感じたら絶対に運転しないでください。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item">
-        <div class="faq-q">Q. 積立貯金と定期預金の違いは？</div>
-        <div class="faq-a">積立貯金は毎月一定額を積み立てる方法で、定期預金はまとまった金額を一定期間預ける方法です。少額から始めやすいのが積立の特徴です。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. 複利と単利の違いは？</div>
-        <div class="faq-a">単利は元本にだけ利息がつきます。複利は利息にも利息がつくため、長期間預けるほど有利です。このシミュレーターは複利で計算しています。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. NISAで積立するとどうなりますか？</div>
-        <div class="faq-a">NISAのつみたて投資枠を使うと、運用益（利益）にかかる約20%の税金が非課税になります。長期積立では大きな節税効果が見込めます。</div>
-      </div>
+      <div class="faq-item"><div class="faq-q">Q. 翌日の朝まで残る量は？</div><div class="faq-a">ビール大瓶3本（純アルコール約60g）を飲んだ場合、体重60kgの人で分解に約12〜15時間かかる場合があります。夜11時まで飲んでいると翌朝でもアルコールが残る可能性があります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. アルコールを早く分解する方法は？</div><div class="faq-a">時間をかけること以外に確実な方法はありません。水を飲む・寝る・運動するなども分解速度を大きく変えることはできません。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 酒気帯び運転の基準は？</div><div class="faq-a">血中アルコール濃度0.03%以上（呼気1リットルあたり0.15mg以上）が酒気帯び運転の基準です。少量でも検出されると違反になります。</div></div>
     </div>
   </div>
 </main>
@@ -199,9 +180,9 @@
   <div class="footer-logo">📐 はかるん</div>
   <div class="footer-links">
     <a href="../index.html">トップ</a>
-    <a href="loan.html">ローン返済計算</a>
-    <a href="../invest/fukuri.html">複利計算</a>
-    <a href="../invest/nisa.html">NISA・投資シミュレーション</a>
+    <a href="../money/tedori.html">手取り計算</a>
+    <a href="../invest/nisa.html">NISA計算</a>
+    <a href="../tax/furusato.html">ふるさと納税</a>
   </div>
   <div class="footer-links" style="margin-top:12px">
     <a href="../privacy.html">プライバシーポリシー</a>
@@ -212,30 +193,23 @@
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
 <script>
-function fmt(n) { return Math.round(n).toLocaleString('ja-JP') + ' 円'; }
-function calcChochiku() {
-  var monthly = parseFloat(document.getElementById('monthly').value);
-  var years = parseFloat(document.getElementById('years').value);
-  var rate = parseFloat(document.getElementById('rate').value) || 0;
-  if (!monthly || monthly <= 0) { alert('月々の積立額を入力してください'); return; }
-  if (!years || years <= 0) { alert('積立期間を入力してください'); return; }
-  var n = years * 12;
-  var r = rate / 100 / 12;
-  var total;
-  if (r === 0) {
-    total = monthly * n;
-  } else {
-    total = monthly * (Math.pow(1 + r, n) - 1) / r;
-  }
-  var principal = monthly * n;
-  var interest = total - principal;
-  document.getElementById('res-main').textContent = fmt(total);
-  document.getElementById('res-principal').textContent = fmt(principal);
-  document.getElementById('res-interest').textContent = fmt(interest);
-  document.getElementById('res-total').textContent = fmt(total);
+function calc() {
+  const drinkVal = document.getElementById('drink-type').value.split(',');
+  const pct = parseFloat(drinkVal[0]);
+  const ml = parseFloat(drinkVal[1]);
+  const cups = parseFloat(document.getElementById('cups').value);
+  const weight = parseFloat(document.getElementById('weight').value);
+  if (!cups || !weight) { alert('杯数と体重を入力してください'); return; }
+  const totalMl = ml * cups;
+  const pureAlcohol = totalMl * (pct/100) * 0.8;
+  const burnRate = weight * 0.1;
+  const hours = pureAlcohol / burnRate;
+  document.getElementById('res-main').textContent = Math.ceil(hours) + ' 時間以上';
+  document.getElementById('res-alcohol').textContent = pureAlcohol.toFixed(1) + ' g';
+  document.getElementById('res-hours').textContent = '約' + hours.toFixed(1) + ' 時間';
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

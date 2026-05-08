@@ -3,26 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>積立貯金シミュレーション｜月々の積立で将来いくら貯まる？無料計算｜はかるん</title>
-  <meta name="description" content="毎月の積立額・積立期間・年利を入力して将来の貯蓄額を無料シミュレーション。元本・利息の内訳もわかります。">
+  <title>外食vs自炊コスト比較｜年間の食費差額を計算｜はかるん</title>
+  <meta name="description" content="外食と自炊の1食あたりの費用を入力するだけで月間・年間の食費差額を計算。節約効果の確認に。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
-  <script type="application/ld+json">
-  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
-    { "@type": "Question", "name": "積立貯金と定期預金の違いは？", "acceptedAnswer": { "@type": "Answer", "text": "積立貯金は毎月一定額を積み立てる方法で、定期預金はまとまった金額を一定期間預ける方法です。少額から始めやすいのが積立の特徴です。" } },
-    { "@type": "Question", "name": "複利と単利の違いは？", "acceptedAnswer": { "@type": "Answer", "text": "単利は元本にだけ利息がつきます。複利は利息にも利息がつくため、長期間預けるほど有利です。このシミュレーターは複利で計算しています。" } },
-    { "@type": "Question", "name": "NISAで積立するとどうなりますか？", "acceptedAnswer": { "@type": "Answer", "text": "NISAのつみたて投資枠を使うと、運用益（利益）にかかる約20%の税金が非課税になります。長期積立では大きな節税効果が見込めます。" } }
-  ] }
-  </script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
-        <nav>
+    <nav>
       <div class="nav-item">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
@@ -127,71 +120,65 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 積立貯金シミュレーション</div>
-      <h1>💰 積立貯金シミュレーション</h1>
-      <p class="subtitle">毎月の積立額から将来の貯蓄額をシミュレーションします</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 生活・節約 &rsaquo; 🍽️ 外食vs自炊コスト比較</div>
+      <h1>🍽️ 外食vs自炊コスト比較</h1>
+      <p class="subtitle">外食と自炊の食費を比較して年間の差額を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>月々の積立額</label>
-        <div class="input-wrap">
-          <input type="number" id="monthly" placeholder="30000" min="0">
-          <span class="unit">円</span>
-        </div>
+        <label>外食の1食あたりの費用</label>
+        <div class="input-wrap"><input type="number" id="out" placeholder="800" min="0"><span class="unit">円</span></div>
+        <p class="hint">例：ランチ800円、夕食1,200円など</p>
       </div>
       <div class="form-group">
-        <label>積立期間</label>
-        <div class="input-wrap">
-          <input type="number" id="years" placeholder="10" min="1" max="60">
-          <span class="unit">年</span>
-        </div>
+        <label>自炊の1食あたりの費用</label>
+        <div class="input-wrap"><input type="number" id="home" placeholder="300" min="0"><span class="unit">円</span></div>
+        <p class="hint">食材費÷食数。1週間の食材費÷食事回数で計算できます。</p>
       </div>
       <div class="form-group">
-        <label>年利（利息がない場合は0）</label>
-        <div class="input-wrap">
-          <input type="number" id="rate" placeholder="0" min="0" max="30" step="0.1">
-          <span class="unit">%</span>
-        </div>
-        <p class="hint">普通預金は約0.02〜0.1%、NISAなどの長期投資は3〜7%が目安です</p>
+        <label>1日の食事回数</label>
+        <div class="input-wrap"><input type="number" id="meals" placeholder="3" min="1" max="5"><span class="unit">回</span></div>
       </div>
-      <button class="btn btn-primary" onclick="calcChochiku()">計算する</button>
+      <div class="form-group">
+        <label>週に何日外食する？</label>
+        <div class="input-wrap">
+          <select id="days">
+            <option value="1">週1日</option>
+            <option value="2">週2日</option>
+            <option value="3" selected>週3日</option>
+            <option value="5">週5日（平日のみ）</option>
+            <option value="7">毎日</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">最終積立額</div>
+          <div class="label">外食→自炊に変えた場合の年間節約額</div>
           <div class="value" id="res-main">—</div>
         </div>
-        <div class="result-table">
-          <table><tbody>
-            <tr><td>元本合計</td><td id="res-principal">—</td></tr>
-            <tr><td>利息合計</td><td id="res-interest">—</td></tr>
-            <tr class="total"><td>最終積立額</td><td id="res-total">—</td></tr>
-          </tbody></table>
-        </div>
+        <div class="result-table"><table><tbody>
+          <tr><td>外食の月間食費</td><td id="res-out-m">—</td></tr>
+          <tr><td>自炊した場合の月間食費</td><td id="res-home-m">—</td></tr>
+          <tr><td>月間の節約額</td><td id="res-save-m">—</td></tr>
+          <tr><td>年間の節約額</td><td id="res-save-y">—</td></tr>
+        </tbody></table></div>
+        <div class="info-box" id="info-box"></div>
       </div>
     </div>
     <div class="ad-area">広告</div>
-
     <div class="article">
-      <h2>積立貯金・投資の複利効果とは</h2>
-      <p>積立貯金とは、毎月一定額を継続して貯め続ける方法です。少額でも長期間続けることで、複利（利息に利息がつく）の効果により元本以上の資産を形成できます。「塵も積もれば山となる」の言葉通り、月1万円の積立でも10年で120万円、20年で240万円の元本になります。</p>
-      <p>金利がつく場合は元本+利息に対してさらに利息がつく複利効果により、長期になるほど資産の増え方が加速します。たとえば月3万円を年利5%で20年間積み立てると、元本720万円に対して最終的には約1,240万円になります（運用益約520万円）。</p>
-      <p>現在の銀行の普通預金金利は非常に低いですが、NISAを活用したインデックス投資や積立定期預金など、より有利な方法を選ぶことで資産形成が加速します。まずは無理のない金額から始め、生活費の6ヶ月分の緊急資金を確保した上で積立を始めることをおすすめします。</p>
+      <h2>🍽️ 外食vs自炊コスト比較について</h2>
+      <p>食費は毎月かかる生活費の中で、工夫次第で大きく削減できる項目の一つです。外食の費用は1食500〜1,500円が一般的ですが、自炊では同じ内容を200〜400円程度で作れることも多く、毎日3食外食するのと毎日自炊するのでは年間で数十万円の差が生まれることもあります。</p>
+      <p>ただし自炊には時間・労力・光熱費・食材ロスなどのコストもかかります。「全て自炊」にこだわるより、ランチは外食・夕食は自炊など、バランスを取りながら節約するのが現実的です。</p>
+      <p>このツールで外食と自炊の差額を把握し、自分にとって最適なバランスを見つけましょう。週3日だけ自炊に切り替えるだけでも、年間数万円の節約につながることがあります。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item">
-        <div class="faq-q">Q. 積立貯金と定期預金の違いは？</div>
-        <div class="faq-a">積立貯金は毎月一定額を積み立てる方法で、定期預金はまとまった金額を一定期間預ける方法です。少額から始めやすいのが積立の特徴です。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. 複利と単利の違いは？</div>
-        <div class="faq-a">単利は元本にだけ利息がつきます。複利は利息にも利息がつくため、長期間預けるほど有利です。このシミュレーターは複利で計算しています。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. NISAで積立するとどうなりますか？</div>
-        <div class="faq-a">NISAのつみたて投資枠を使うと、運用益（利益）にかかる約20%の税金が非課税になります。長期積立では大きな節税効果が見込めます。</div>
-      </div>
+      <div class="faq-item"><div class="faq-q">Q. 自炊の1食あたりのコストは？</div><div class="faq-a">自炊の場合、食材費÷食事回数で計算します。週の食材費が6,000円で21食（3食×7日）なら1食約286円です。作り置きや食材の使い回しをすると更に節約できます。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. コンビニ食は外食に含まれる？</div><div class="faq-a">このツールでは外食・中食（コンビニ・テイクアウト・デリバリー）をまとめて「外食」として計算しています。コンビニ弁当は1食500〜700円程度が多いです。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 食費節約のコツは？</div><div class="faq-a">週1回まとめ買いして食材を使い回す・安い曜日・時間帯に買い物する・作り置きを活用するなどが効果的です。また、昼食を自炊（弁当）にするだけで月1〜2万円の節約になることが多いです。</div></div>
     </div>
   </div>
 </main>
@@ -199,9 +186,9 @@
   <div class="footer-logo">📐 はかるん</div>
   <div class="footer-links">
     <a href="../index.html">トップ</a>
-    <a href="loan.html">ローン返済計算</a>
-    <a href="../invest/fukuri.html">複利計算</a>
-    <a href="../invest/nisa.html">NISA・投資シミュレーション</a>
+    <a href="../money/tedori.html">手取り計算</a>
+    <a href="../invest/nisa.html">NISA計算</a>
+    <a href="../tax/furusato.html">ふるさと納税</a>
   </div>
   <div class="footer-links" style="margin-top:12px">
     <a href="../privacy.html">プライバシーポリシー</a>
@@ -212,30 +199,26 @@
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
 <script>
-function fmt(n) { return Math.round(n).toLocaleString('ja-JP') + ' 円'; }
-function calcChochiku() {
-  var monthly = parseFloat(document.getElementById('monthly').value);
-  var years = parseFloat(document.getElementById('years').value);
-  var rate = parseFloat(document.getElementById('rate').value) || 0;
-  if (!monthly || monthly <= 0) { alert('月々の積立額を入力してください'); return; }
-  if (!years || years <= 0) { alert('積立期間を入力してください'); return; }
-  var n = years * 12;
-  var r = rate / 100 / 12;
-  var total;
-  if (r === 0) {
-    total = monthly * n;
-  } else {
-    total = monthly * (Math.pow(1 + r, n) - 1) / r;
-  }
-  var principal = monthly * n;
-  var interest = total - principal;
-  document.getElementById('res-main').textContent = fmt(total);
-  document.getElementById('res-principal').textContent = fmt(principal);
-  document.getElementById('res-interest').textContent = fmt(interest);
-  document.getElementById('res-total').textContent = fmt(total);
+function calc() {
+  const out=parseFloat(document.getElementById('out').value);
+  const home=parseFloat(document.getElementById('home').value);
+  const meals=parseFloat(document.getElementById('meals').value)||3;
+  const days=parseFloat(document.getElementById('days').value);
+  if(!out||!home){alert('外食と自炊の1食あたりの費用を入力してください');return;}
+  const outMonthly=out*meals*days*52/12;
+  const homeMonthly=home*meals*days*52/12;
+  const saveM=outMonthly-homeMonthly;
+  const saveY=saveM*12;
+  const fmt=n=>Math.round(n).toLocaleString('ja-JP')+' 円';
+  document.getElementById('res-main').textContent=fmt(saveY);
+  document.getElementById('res-out-m').textContent=fmt(outMonthly);
+  document.getElementById('res-home-m').textContent=fmt(homeMonthly);
+  document.getElementById('res-save-m').textContent=fmt(saveM);
+  document.getElementById('res-save-y').textContent=fmt(saveY);
+  document.getElementById('info-box').innerHTML=`外食を自炊に変えると月<strong>${fmt(saveM)}</strong>、年間<strong>${fmt(saveY)}</strong>の節約になります。`;
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>
