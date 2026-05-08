@@ -3,58 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>年収から月収・時給を計算｜年収を月収・日給・時給に換算する無料ツール｜はかるん</title>
-  <meta name="description" content="年収を入力するだけで月収・週収・日給・時給を自動計算。年収500万・600万・800万の時給もすぐわかります。">
+  <title>複利計算｜元本・金利・期間から将来の資産額を無料計算｜はかるん</title>
+  <meta name="description" content="元本・年利・期間を入力するだけで複利計算を無料シミュレーション。資産が何倍になるか・72の法則もわかります。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
-  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-LR8XWPZCN9');
-  </script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "年収と月収の違いは何ですか？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "年収はボーナスを含めた1年間の総支給額、月収は毎月の給与支給額です。ボーナスがある場合は「月収×12＜年収」になります。"
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "時給に換算する計算式は？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "月収÷（1ヶ月の労働日数×1日の労働時間）で計算できます。一般的には月収÷160時間（月20日×8時間）が目安です。"
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "年収600万円の時給はいくらですか？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "年収600万円÷12ヶ月÷160時間（月間労働時間）＝約3,125円が目安です。"
-      }
-    }
-  ]
-}
-</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "複利とは何ですか？", "acceptedAnswer": {"@type": "Answer", "text": "利息にさらに利息がつく仕組みです。単利は元本にしか利息がつきませんが、複利は利息も元本に加えて再投資するため、長期間では大きな差が生まれます。"}}, {"@type": "Question", "name": "72の法則とは？", "acceptedAnswer": {"@type": "Answer", "text": "「72÷年利（%）＝資産が2倍になる年数」という概算式です。例えば年利6%なら72÷6＝12年で資産が約2倍になります。"}}, {"@type": "Question", "name": "単利と複利の違いは？", "acceptedAnswer": {"@type": "Answer", "text": "単利は毎回元本だけに利息がつきます。複利は利息を元本に組み入れて再運用するため、時間が経つほど単利との差が大きくなります。長期投資では複利の効果が絶大です。"}}]}</script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
         <nav>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../money/tedori.html">💴 手取り計算</a>
@@ -117,7 +80,7 @@
           <a href="../calc/speed.html">🚗 速さ・距離・時間</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../invest/fukuri.html" class="nav-link">投資・資産 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../invest/fukuri.html">📈 複利計算</a>
@@ -130,79 +93,54 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 年収→月収・時給計算</div>
-      <h1>💹 年収→月収・時給計算</h1>
-      <p class="subtitle">年収から月収・日給・時給をかんたん計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 複利計算</div>
+      <h1>📈 複利計算</h1>
+      <p class="subtitle">元本・金利・期間から将来の資産額を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>年収（税引き前）</label>
-        <div class="input-wrap">
-          <input type="number" id="nenshu" placeholder="4000000" min="0">
-          <span class="unit">円</span>
-        </div>
+        <label>元本</label>
+        <div class="input-wrap"><input type="number" id="principal" placeholder="1000000" min="0"><span class="unit">円</span></div>
       </div>
       <div class="form-group">
-        <label>1日の所定労働時間</label>
-        <div class="input-wrap">
-          <input type="number" id="hours" placeholder="8" min="1" max="24" value="8">
-          <span class="unit">時間</span>
-        </div>
+        <label>年利</label>
+        <div class="input-wrap"><input type="number" id="rate" placeholder="5" min="0" max="50" step="0.1"><span class="unit">%</span></div>
+        <p class="hint">長期投資の想定利回りの目安：インデックス投資3〜7%</p>
       </div>
       <div class="form-group">
-        <label>1ヶ月の出勤日数</label>
-        <div class="input-wrap">
-          <input type="number" id="days" placeholder="20" min="1" max="31" value="20">
-          <span class="unit">日</span>
+        <label>期間</label>
+        <div class="input-wrap"><input type="number" id="years" placeholder="20" min="1" max="50"><span class="unit">年</span></div>
+      </div>
+      <div class="form-group">
+        <label>複利の頻度</label>
+        <div class="radio-group">
+          <label><input type="radio" name="freq" value="year" checked> 年1回</label>
+          <label><input type="radio" name="freq" value="month"> 月1回</label>
         </div>
       </div>
-      <button class="btn btn-primary" onclick="calcNenshu()">計算する</button>
+      <button class="btn btn-primary" onclick="calcFukuri()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">月収（概算）</div>
-          <div class="value" id="res-monthly">—</div>
+          <div class="label">最終金額</div>
+          <div class="value" id="res-main">—</div>
         </div>
-        <div class="result-table">
-          <table>
-            <tbody>
-              <tr><td>年収</td><td id="res-nenshu">—</td></tr>
-              <tr><td>月収</td><td id="res-monthly2">—</td></tr>
-              <tr><td>日給</td><td id="res-daily">—</td></tr>
-              <tr><td>時給</td><td id="res-hourly">—</td></tr>
-              <tr><td>分給</td><td id="res-minute">—</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="result-table"><table><tbody>
+          <tr><td>元本</td><td id="res-principal">—</td></tr>
+          <tr><td>運用益（利息合計）</td><td id="res-profit">—</td></tr>
+          <tr><td>最終金額</td><td id="res-total">—</td></tr>
+          <tr><td>元本比（何倍になった？）</td><td id="res-ratio">—</td></tr>
+          <tr><td>利益率</td><td id="res-rate">—</td></tr>
+        </tbody></table></div>
+        <div class="info-box"><strong>72の法則：</strong>資産が2倍になるまでの年数は「72÷年利」で概算できます。年利6%なら約12年で2倍です。</div>
       </div>
     </div>
     <div class="ad-area">広告</div>
     <div class="article">
-      <h2>年収・月収・時給の換算方法</h2>
-      <p>求人票では「年収」「月給」「時給」など様々な表記があります。比較するときは同じ単位に揃えましょう。</p>
-      <h3>計算式</h3>
-      <ul>
-        <li>月収 = 年収 ÷ 12</li>
-        <li>日給 = 月収 ÷ 月の出勤日数</li>
-        <li>時給 = 日給 ÷ 1日の労働時間</li>
-      </ul>
-      <h3>注意点</h3>
-      <p>ボーナスが含まれている場合、毎月の給与は年収÷12より少なくなります。求人票の「年収」にボーナスが含まれるか確認しましょう。</p>
-    </div>
-    <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item">
-        <div class="faq-q">Q. 年収と月収の違いは何ですか？</div>
-        <div class="faq-a">年収はボーナスを含めた1年間の総支給額、月収は毎月の給与支給額です。ボーナスがある場合は「月収×12＜年収」になります。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. 時給に換算する計算式は？</div>
-        <div class="faq-a">月収÷（1ヶ月の労働日数×1日の労働時間）で計算できます。一般的には月収÷160時間（月20日×8時間）が目安です。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. 年収600万円の時給はいくらですか？</div>
-        <div class="faq-a">年収600万円÷12ヶ月÷160時間（月間労働時間）＝約3,125円が目安です。</div>
-      </div>
+      <div class="faq-item"><div class="faq-q">Q. 複利とは何ですか？</div><div class="faq-a">利息にさらに利息がつく仕組みです。単利は元本にしか利息がつきませんが、複利は利息も元本に加えて再投資するため、長期間では大きな差が生まれます。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 72の法則とは？</div><div class="faq-a">「72÷年利（%）＝資産が2倍になる年数」という概算式です。例えば年利6%なら72÷6＝12年で資産が約2倍になります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 単利と複利の違いは？</div><div class="faq-a">単利は毎回元本だけに利息がつきます。複利は利息を元本に組み入れて再運用するため、時間が経つほど単利との差が大きくなります。長期投資では複利の効果が絶大です。</div></div>
     </div>
   </div>
 </main>
@@ -210,35 +148,38 @@
   <div class="footer-logo">📐 はかるん</div>
   <div class="footer-links">
     <a href="../index.html">トップ</a>
-    <a href="tedori.html">手取り計算</a>
-    <a href="zangyo.html">残業代計算</a>
-    <a href="bonus.html">ボーナス手取り</a>
+    <a href="../invest/nisa.html">NISA・投資シミュレーション</a> <a href="../life/chochiku.html">積立貯金計算</a>
   </div>
   <div class="footer-links" style="margin-top:12px">
     <a href="../privacy.html">プライバシーポリシー</a>
     <a href="../disclaimer.html">免責事項</a>
     <a href="../contact.html">お問い合わせ</a>
   </div>
-  <p class="copyright">※ 計算結果はあくまで目安です。正確な金額は専門家にご相談ください。</p>
+  <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
 <script>
-function fmt(n) { return Math.round(n).toLocaleString('ja-JP') + ' 円'; }
-function calcNenshu() {
-  const nenshu = parseFloat(document.getElementById('nenshu').value);
-  const hours = parseFloat(document.getElementById('hours').value) || 8;
-  const days = parseFloat(document.getElementById('days').value) || 20;
-  if (!nenshu || nenshu <= 0) { alert('年収を入力してください'); return; }
-  const monthly = nenshu / 12;
-  const daily = monthly / days;
-  const hourly = daily / hours;
-  const minute = hourly / 60;
-  document.getElementById('res-monthly').textContent = fmt(monthly);
-  document.getElementById('res-nenshu').textContent = fmt(nenshu);
-  document.getElementById('res-monthly2').textContent = fmt(monthly);
-  document.getElementById('res-daily').textContent = fmt(daily);
-  document.getElementById('res-hourly').textContent = fmt(hourly);
-  document.getElementById('res-minute').textContent = Math.round(minute).toLocaleString('ja-JP') + ' 円';
+function calcFukuri() {
+  const P = parseFloat(document.getElementById('principal').value);
+  const rate = parseFloat(document.getElementById('rate').value);
+  const years = parseFloat(document.getElementById('years').value);
+  const freq = document.querySelector('input[name="freq"]:checked').value;
+  if (!P || rate === undefined || !years) { alert('すべての項目を入力してください'); return; }
+  let A;
+  if (freq === 'year') {
+    A = P * Math.pow(1 + rate / 100, years);
+  } else {
+    const r = rate / 100 / 12;
+    A = P * Math.pow(1 + r, years * 12);
+  }
+  const profit = A - P;
+  const fmt = n => Math.round(n).toLocaleString('ja-JP') + ' 円';
+  document.getElementById('res-main').textContent = fmt(A);
+  document.getElementById('res-principal').textContent = fmt(P);
+  document.getElementById('res-profit').textContent = fmt(profit);
+  document.getElementById('res-total').textContent = fmt(A);
+  document.getElementById('res-ratio').textContent = (A / P).toFixed(2) + ' 倍';
+  document.getElementById('res-rate').textContent = (profit / P * 100).toFixed(1) + '%';
   document.getElementById('result').classList.add('show');
 }
 </script>

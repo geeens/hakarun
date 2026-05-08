@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>比率計算｜割合・比率・比例配分を無料計算｜はかるん</title>
+  <meta name="description" content="比率・割合の計算を3つのモードで無料計算。AはBの何倍か・比例式を解く・合計を比率で配分する計算に対応。">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../style.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+    { "@type": "Question", "name": "比率とパーセントの違いは？", "acceptedAnswer": { "@type": "Answer", "text": "比率は「3:2」のように2つの量の関係を表します。パーセントは全体を100としたときの割合です。例えば3:2の合計5のうち3は60%、2は40%になります。" } },
+    { "@type": "Question", "name": "3:2に配分するとはどういう意味ですか？", "acceptedAnswer": { "@type": "Answer", "text": "合計を3+2=5等分して、一方に3/5、もう一方に2/5を割り当てることです。例えば1000円を3:2で配分すると600円と400円になります。" } },
+    { "@type": "Question", "name": "比率の計算式は？", "acceptedAnswer": { "@type": "Answer", "text": "A:B = X:? を解くには「? = X × B ÷ A」です。例えば3:4 = 9:? なら 9×4÷3=12 となります。" } }
+  ] }
+  </script>
+</head>
+<body>
+<header>
+  <div class="container">
+    <a href="../index.html" class="logo">📐 はかるん</a>
+        <nav>
+      <div class="nav-item">
+        <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../money/tedori.html">💴 手取り計算</a>
+          <a href="../money/zangyo.html">⏰ 残業代計算</a>
+          <a href="../money/bonus.html">🎁 ボーナス手取り計算</a>
+          <a href="../money/nenshu.html">📈 年収→月収・時給計算</a>
+          <a href="../money/shakaihoken.html">🏥 社会保険料シミュレーション</a>
+          <a href="../money/taisyokukin.html">👴 退職金手取り計算</a>
+          <a href="../money/shohizei.html">🛒 消費税計算</a>
+          <a href="../money/warikan.html">👥 割り勘計算</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="../health/bmi.html" class="nav-link">健康・生活 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../health/bmi.html">⚖️ BMI計算</a>
+          <a href="../health/metabolism.html">🔥 基礎代謝計算</a>
+          <a href="../health/calorie.html">🍱 消費カロリー計算</a>
+          <a href="../health/idealweight.html">👗 理想体重・モデル体重計算</a>
+          <a href="../health/alcohol.html">🍺 飲酒カロリー計算</a>
+          <a href="../health/steps.html">🚶 歩数→消費カロリー計算</a>
+          <a href="../health/taishibo.html">📊 体脂肪率計算</a>
+          <a href="../health/ninshin.html">🤰 妊娠週数計算</a>
+          <a href="../health/suimin.html">😴 睡眠時間計算</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="../life/loan.html" class="nav-link">生活・節約 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../life/loan.html">🏦 ローン返済シミュレーション</a>
+          <a href="../life/denki.html">💡 電気代計算</a>
+          <a href="../life/gasoline.html">⛽ ガソリン代計算</a>
+          <a href="../life/chochiku.html">💰 積立貯金シミュレーション</a>
+          <a href="../life/suidou.html">🚿 水道代計算</a>
+          <a href="../life/seikatsuhi.html">🏠 生活費配分計算</a>
+          <a href="../life/hikkoshi.html">🚚 引越し費用計算</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="../date/nissuu.html" class="nav-link">日付・時間 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../date/nissuu.html">📅 日数計算</a>
+          <a href="../date/nenrei.html">🎂 年齢計算</a>
+          <a href="../date/jikan.html">⏱️ 勤務時間計算</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="../tax/furusato.html" class="nav-link">節税 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../tax/furusato.html">🎎 ふるさと納税 上限額計算</a>
+          <a href="../tax/setsuzei.html">📊 節税シミュレーション</a>
+        </div>
+      </div>
+      <div class="nav-item active">
+        <a href="../calc/percent.html" class="nav-link">計算・変換 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../calc/percent.html">🔢 パーセント計算</a>
+          <a href="../calc/unit.html">📐 単位変換</a>
+          <a href="../calc/wariai.html">➗ 比率計算</a>
+          <a href="../calc/speed.html">🚗 速さ・距離・時間</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="../invest/fukuri.html" class="nav-link">投資・資産 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../invest/fukuri.html">📈 複利計算</a>
+          <a href="../invest/nisa.html">💹 NISA・投資シミュレーション</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="container">
+    <div class="page-header">
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 比率計算</div>
+      <h1>➗ 比率計算</h1>
+      <p class="subtitle">割合・比率・比例配分を3つのモードで計算します</p>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="calc-card">
+      <div class="form-group">
+        <label>計算モード</label>
+        <div class="radio-group">
+          <label><input type="radio" name="mode" value="1" checked> モード1：AはBの何倍か</label>
+          <label><input type="radio" name="mode" value="2"> モード2：A:B = X:? を解く</label>
+          <label><input type="radio" name="mode" value="3"> モード3：合計をA:Bで配分する</label>
+        </div>
+      </div>
+
+      <div id="form1">
+        <div class="form-group">
+          <label>A（比べる数値）</label>
+          <div class="input-wrap"><input type="number" id="m1a" placeholder="6" step="any"></div>
+        </div>
+        <div class="form-group">
+          <label>B（基準の数値）</label>
+          <div class="input-wrap"><input type="number" id="m1b" placeholder="2" step="any"></div>
+        </div>
+      </div>
+
+      <div id="form2" style="display:none">
+        <div class="form-group">
+          <label>A（比率の左）</label>
+          <div class="input-wrap"><input type="number" id="m2a" placeholder="3" step="any"></div>
+        </div>
+        <div class="form-group">
+          <label>B（比率の右）</label>
+          <div class="input-wrap"><input type="number" id="m2b" placeholder="4" step="any"></div>
+        </div>
+        <div class="form-group">
+          <label>X（既知の値）</label>
+          <div class="input-wrap"><input type="number" id="m2x" placeholder="9" step="any"></div>
+        </div>
+        <p class="hint">A:B = X:? の「?」を求めます</p>
+      </div>
+
+      <div id="form3" style="display:none">
+        <div class="form-group">
+          <label>合計値</label>
+          <div class="input-wrap"><input type="number" id="m3total" placeholder="1000" step="any"></div>
+        </div>
+        <div class="form-group">
+          <label>A（比率の左）</label>
+          <div class="input-wrap"><input type="number" id="m3a" placeholder="3" step="any"></div>
+        </div>
+        <div class="form-group">
+          <label>B（比率の右）</label>
+          <div class="input-wrap"><input type="number" id="m3b" placeholder="2" step="any"></div>
+        </div>
+        <p class="hint">合計を A:B の比率で2つに分けます</p>
+      </div>
+
+      <button class="btn btn-primary" onclick="calcWariai()">計算する</button>
+      <div class="result-area" id="result">
+        <div class="result-main">
+          <div class="label" id="res-label">結果</div>
+          <div class="value" id="res-main">—</div>
+        </div>
+        <div class="result-table">
+          <table><tbody id="res-tbody"></tbody></table>
+        </div>
+      </div>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="article">
+      <h2>よくある質問</h2>
+      <div class="faq-item">
+        <div class="faq-q">Q. 比率とパーセントの違いは？</div>
+        <div class="faq-a">比率は「3:2」のように2つの量の関係を表します。パーセントは全体を100としたときの割合です。例えば3:2の合計5のうち3は60%、2は40%になります。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q. 3:2に配分するとはどういう意味ですか？</div>
+        <div class="faq-a">合計を3+2=5等分して、一方に3/5、もう一方に2/5を割り当てることです。例えば1000円を3:2で配分すると600円と400円になります。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q. 比率の計算式は？</div>
+        <div class="faq-a">A:B = X:? を解くには「? = X × B ÷ A」です。例えば3:4 = 9:? なら 9×4÷3=12 となります。</div>
+      </div>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="footer-logo">📐 はかるん</div>
+  <div class="footer-links">
+    <a href="../index.html">トップ</a>
+    <a href="percent.html">パーセント計算</a>
+    <a href="unit.html">単位変換</a>
+    <a href="speed.html">速さ・距離・時間</a>
+  </div>
+  <div class="footer-links" style="margin-top:12px">
+    <a href="../privacy.html">プライバシーポリシー</a>
+    <a href="../disclaimer.html">免責事項</a>
+    <a href="../contact.html">お問い合わせ</a>
+  </div>
+  <p class="copyright">※ 計算結果はあくまで目安です。</p>
+  <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
+</footer>
+<script>
+document.querySelectorAll('input[name="mode"]').forEach(function(r) {
+  r.addEventListener('change', function() {
+    var m = document.querySelector('input[name="mode"]:checked').value;
+    document.getElementById('form1').style.display = m === '1' ? '' : 'none';
+    document.getElementById('form2').style.display = m === '2' ? '' : 'none';
+    document.getElementById('form3').style.display = m === '3' ? '' : 'none';
+  });
+});
+function fmtN(n) { return parseFloat(n.toPrecision(8)).toLocaleString('ja-JP'); }
+function calcWariai() {
+  var mode = document.querySelector('input[name="mode"]:checked').value;
+  var label, main, rows = [];
+  if (mode === '1') {
+    var a = parseFloat(document.getElementById('m1a').value);
+    var b = parseFloat(document.getElementById('m1b').value);
+    if (isNaN(a) || isNaN(b) || b === 0) { alert('AとB（0以外）を入力してください'); return; }
+    var res = a / b;
+    label = 'A は B の何倍か';
+    main = fmtN(res) + ' 倍';
+    rows = [['A', fmtN(a)], ['B', fmtN(b)], ['A ÷ B', fmtN(res) + ' 倍']];
+  } else if (mode === '2') {
+    var a = parseFloat(document.getElementById('m2a').value);
+    var b = parseFloat(document.getElementById('m2b').value);
+    var x = parseFloat(document.getElementById('m2x').value);
+    if (isNaN(a) || isNaN(b) || isNaN(x) || a === 0) { alert('A（0以外）・B・Xを入力してください'); return; }
+    var res = x * b / a;
+    label = a + ':' + b + ' = ' + x + ':?';
+    main = fmtN(res);
+    rows = [['A:B', a + ':' + b], ['X', fmtN(x)], ['?（求める値）', fmtN(res)]];
+  } else {
+    var total = parseFloat(document.getElementById('m3total').value);
+    var a = parseFloat(document.getElementById('m3a').value);
+    var b = parseFloat(document.getElementById('m3b').value);
+    if (isNaN(total) || isNaN(a) || isNaN(b) || a + b === 0) { alert('合計・A・Bを入力してください'); return; }
+    var resA = total * a / (a + b);
+    var resB = total * b / (a + b);
+    label = '合計 ' + fmtN(total) + ' を ' + a + ':' + b + ' で配分';
+    main = fmtN(resA) + ' : ' + fmtN(resB);
+    rows = [['合計', fmtN(total)], ['比率', a + ':' + b], ['A の分（' + a + '）', fmtN(resA)], ['B の分（' + b + '）', fmtN(resB)]];
+  }
+  document.getElementById('res-label').textContent = label;
+  document.getElementById('res-main').textContent = main;
+  var tbody = document.getElementById('res-tbody');
+  tbody.innerHTML = '';
+  rows.forEach(function(r) {
+    var tr = document.createElement('tr');
+    tr.innerHTML = '<td>' + r[0] + '</td><td>' + r[1] + '</td>';
+    tbody.appendChild(tr);
+  });
+  document.getElementById('result').classList.add('show');
+}
+</script>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
+</body>
+</html>

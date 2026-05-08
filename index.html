@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>はかるん｜無料の計算ツール集</title>
-  <meta name="description" content="手取り計算・BMI計算・ローン返済・日数計算など、生活に役立つ無料計算ツールを集めたサイトです。">
+  <meta name="description" content="手取り計算・BMI計算・ローン返済・NISA・パーセント計算など、生活に役立つ無料計算ツールを集めたサイトです。">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
@@ -25,6 +25,8 @@
           <a href="money/nenshu.html">📈 年収→月収・時給計算</a>
           <a href="money/shakaihoken.html">🏥 社会保険料シミュレーション</a>
           <a href="money/taisyokukin.html">👴 退職金手取り計算</a>
+          <a href="money/shohizei.html">🛒 消費税計算</a>
+          <a href="money/warikan.html">👥 割り勘計算</a>
         </div>
       </div>
       <div class="nav-item">
@@ -36,6 +38,9 @@
           <a href="health/idealweight.html">👗 理想体重・モデル体重計算</a>
           <a href="health/alcohol.html">🍺 飲酒カロリー計算</a>
           <a href="health/steps.html">🚶 歩数→消費カロリー計算</a>
+          <a href="health/taishibo.html">📊 体脂肪率計算</a>
+          <a href="health/ninshin.html">🤰 妊娠週数計算</a>
+          <a href="health/suimin.html">😴 睡眠時間計算</a>
         </div>
       </div>
       <div class="nav-item">
@@ -44,6 +49,10 @@
           <a href="life/loan.html">🏦 ローン返済シミュレーション</a>
           <a href="life/denki.html">💡 電気代計算</a>
           <a href="life/gasoline.html">⛽ ガソリン代計算</a>
+          <a href="life/chochiku.html">💰 積立貯金シミュレーション</a>
+          <a href="life/suidou.html">🚿 水道代計算</a>
+          <a href="life/seikatsuhi.html">🏠 生活費配分計算</a>
+          <a href="life/hikkoshi.html">🚚 引越し費用計算</a>
         </div>
       </div>
       <div class="nav-item">
@@ -61,6 +70,22 @@
           <a href="tax/setsuzei.html">📊 節税シミュレーション</a>
         </div>
       </div>
+      <div class="nav-item">
+        <a href="calc/percent.html" class="nav-link">計算・変換 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="calc/percent.html">🔢 パーセント計算</a>
+          <a href="calc/unit.html">📐 単位変換</a>
+          <a href="calc/wariai.html">➗ 比率計算</a>
+          <a href="calc/speed.html">🚗 速さ・距離・時間</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="invest/fukuri.html" class="nav-link">投資・資産 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="invest/fukuri.html">📈 複利計算</a>
+          <a href="invest/nisa.html">💹 NISA・投資シミュレーション</a>
+        </div>
+      </div>
     </nav>
   </div>
 </header>
@@ -68,142 +93,84 @@
   <div class="container">
     <div class="hero">
       <h1>はかるん</h1>
-      <p>生活に役立つ計算ツールをまとめました。<br>お金・健康・節税・ローン・日付を、無料でかんたんに計算。</p>
+      <p>生活に役立つ計算ツールをまとめました。<br>お金・健康・節税・投資・日付を、無料でかんたんに計算。</p>
     </div>
     <div class="ad-area">広告</div>
 
-    <!-- お金・給与 -->
     <div class="category-section">
       <h2>💰 お金・給与</h2>
       <div class="tool-grid">
-        <a href="money/tedori.html" class="tool-card">
-          <div class="icon">💴</div>
-          <div class="name">手取り計算</div>
-          <div class="desc">月収から手取りをかんたん計算</div>
-        </a>
-        <a href="money/zangyo.html" class="tool-card">
-          <div class="icon">⏰</div>
-          <div class="name">残業代計算</div>
-          <div class="desc">時間外・深夜・休日の割増賃金を計算</div>
-        </a>
-        <a href="money/bonus.html" class="tool-card">
-          <div class="icon">🎁</div>
-          <div class="name">ボーナス手取り計算</div>
-          <div class="desc">ボーナスから引かれる額と手取りを計算</div>
-        </a>
-        <a href="money/nenshu.html" class="tool-card">
-          <div class="icon">📈</div>
-          <div class="name">年収→月収・時給計算</div>
-          <div class="desc">年収から月収・日給・時給を逆算</div>
-        </a>
-        <a href="money/shakaihoken.html" class="tool-card">
-          <div class="icon">🏥</div>
-          <div class="name">社会保険料シミュレーション</div>
-          <div class="desc">健康保険・厚生年金・雇用保険の負担額を試算</div>
-        </a>
-        <a href="money/taisyokukin.html" class="tool-card">
-          <div class="icon">👴</div>
-          <div class="name">退職金手取り計算</div>
-          <div class="desc">退職金から税金を引いた手取り額を計算</div>
-        </a>
+        <a href="money/tedori.html" class="tool-card"><div class="icon">💴</div><div class="name">手取り計算</div><div class="desc">月収から手取りをかんたん計算</div></a>
+        <a href="money/zangyo.html" class="tool-card"><div class="icon">⏰</div><div class="name">残業代計算</div><div class="desc">時間外・深夜・休日の割増賃金を計算</div></a>
+        <a href="money/bonus.html" class="tool-card"><div class="icon">🎁</div><div class="name">ボーナス手取り計算</div><div class="desc">ボーナスから引かれる額と手取りを計算</div></a>
+        <a href="money/nenshu.html" class="tool-card"><div class="icon">📈</div><div class="name">年収→月収・時給計算</div><div class="desc">年収から月収・日給・時給を逆算</div></a>
+        <a href="money/shakaihoken.html" class="tool-card"><div class="icon">🏥</div><div class="name">社会保険料シミュレーション</div><div class="desc">健康保険・厚生年金・雇用保険の負担額を試算</div></a>
+        <a href="money/taisyokukin.html" class="tool-card"><div class="icon">👴</div><div class="name">退職金手取り計算</div><div class="desc">退職金から税金を引いた手取り額を計算</div></a>
+        <a href="money/shohizei.html" class="tool-card"><div class="icon">🛒</div><div class="name">消費税計算</div><div class="desc">税抜き・税込み金額を相互変換</div></a>
+        <a href="money/warikan.html" class="tool-card"><div class="icon">👥</div><div class="name">割り勘計算</div><div class="desc">人数・金額から一人あたりの支払いを計算</div></a>
       </div>
     </div>
 
-    <!-- 健康・生活 -->
     <div class="category-section">
       <h2>🌿 健康・生活</h2>
       <div class="tool-grid">
-        <a href="health/bmi.html" class="tool-card">
-          <div class="icon">⚖️</div>
-          <div class="name">BMI計算</div>
-          <div class="desc">身長と体重から肥満度を判定</div>
-        </a>
-        <a href="health/metabolism.html" class="tool-card">
-          <div class="icon">🔥</div>
-          <div class="name">基礎代謝計算</div>
-          <div class="desc">何もしなくても消費するカロリーを計算</div>
-        </a>
-        <a href="health/calorie.html" class="tool-card">
-          <div class="icon">🍱</div>
-          <div class="name">消費カロリー計算</div>
-          <div class="desc">1日の活動量から消費カロリーを計算</div>
-        </a>
-        <a href="health/idealweight.html" class="tool-card">
-          <div class="icon">👗</div>
-          <div class="name">理想体重・モデル体重計算</div>
-          <div class="desc">身長から理想体重・美容体重を計算</div>
-        </a>
-        <a href="health/alcohol.html" class="tool-card">
-          <div class="icon">🍺</div>
-          <div class="name">飲酒カロリー計算</div>
-          <div class="desc">お酒の種類と量からカロリーを計算</div>
-        </a>
-        <a href="health/steps.html" class="tool-card">
-          <div class="icon">🚶</div>
-          <div class="name">歩数→消費カロリー計算</div>
-          <div class="desc">歩数から消費カロリーと距離を計算</div>
-        </a>
+        <a href="health/bmi.html" class="tool-card"><div class="icon">⚖️</div><div class="name">BMI計算</div><div class="desc">身長と体重から肥満度を判定</div></a>
+        <a href="health/metabolism.html" class="tool-card"><div class="icon">🔥</div><div class="name">基礎代謝計算</div><div class="desc">何もしなくても消費するカロリーを計算</div></a>
+        <a href="health/calorie.html" class="tool-card"><div class="icon">🍱</div><div class="name">消費カロリー計算</div><div class="desc">1日の活動量から消費カロリーを計算</div></a>
+        <a href="health/idealweight.html" class="tool-card"><div class="icon">👗</div><div class="name">理想体重・モデル体重計算</div><div class="desc">身長から理想体重・美容体重を計算</div></a>
+        <a href="health/alcohol.html" class="tool-card"><div class="icon">🍺</div><div class="name">飲酒カロリー計算</div><div class="desc">お酒の種類と量からカロリーを計算</div></a>
+        <a href="health/steps.html" class="tool-card"><div class="icon">🚶</div><div class="name">歩数→消費カロリー計算</div><div class="desc">歩数から消費カロリーと距離を計算</div></a>
+        <a href="health/taishibo.html" class="tool-card"><div class="icon">📊</div><div class="name">体脂肪率計算</div><div class="desc">身長・体重・年齢から体脂肪率を推定</div></a>
+        <a href="health/ninshin.html" class="tool-card"><div class="icon">🤰</div><div class="name">妊娠週数計算</div><div class="desc">最終月経日から妊娠週数・出産予定日を計算</div></a>
+        <a href="health/suimin.html" class="tool-card"><div class="icon">😴</div><div class="name">睡眠時間計算</div><div class="desc">起床時間から最適な就寝時間を計算</div></a>
       </div>
     </div>
 
-    <!-- 生活・節約 -->
     <div class="category-section">
       <h2>🏠 生活・節約</h2>
       <div class="tool-grid">
-        <a href="life/loan.html" class="tool-card">
-          <div class="icon">🏦</div>
-          <div class="name">ローン返済シミュレーション</div>
-          <div class="desc">月々の返済額・総利息をかんたん計算</div>
-        </a>
-        <a href="life/denki.html" class="tool-card">
-          <div class="icon">💡</div>
-          <div class="name">電気代計算</div>
-          <div class="desc">家電の消費電力から電気代を計算</div>
-        </a>
-        <a href="life/gasoline.html" class="tool-card">
-          <div class="icon">⛽</div>
-          <div class="name">ガソリン代計算</div>
-          <div class="desc">走行距離・燃費からガソリン代を計算</div>
-        </a>
+        <a href="life/loan.html" class="tool-card"><div class="icon">🏦</div><div class="name">ローン返済シミュレーション</div><div class="desc">月々の返済額・総利息をかんたん計算</div></a>
+        <a href="life/denki.html" class="tool-card"><div class="icon">💡</div><div class="name">電気代計算</div><div class="desc">家電の消費電力から電気代を計算</div></a>
+        <a href="life/gasoline.html" class="tool-card"><div class="icon">⛽</div><div class="name">ガソリン代計算</div><div class="desc">走行距離・燃費からガソリン代を計算</div></a>
+        <a href="life/chochiku.html" class="tool-card"><div class="icon">💰</div><div class="name">積立貯金シミュレーション</div><div class="desc">月々の積立で将来いくら貯まるか計算</div></a>
+        <a href="life/suidou.html" class="tool-card"><div class="icon">🚿</div><div class="name">水道代計算</div><div class="desc">月間使用水量から水道代を計算</div></a>
+        <a href="life/seikatsuhi.html" class="tool-card"><div class="icon">🏠</div><div class="name">生活費配分計算</div><div class="desc">月収から理想的な生活費の内訳を計算</div></a>
+        <a href="life/hikkoshi.html" class="tool-card"><div class="icon">🚚</div><div class="name">引越し費用計算</div><div class="desc">距離・荷物量・時期から引越し費用の目安を計算</div></a>
       </div>
     </div>
 
-    <!-- 日付・時間 -->
     <div class="category-section">
       <h2>📅 日付・時間</h2>
       <div class="tool-grid">
-        <a href="date/nissuu.html" class="tool-card">
-          <div class="icon">📅</div>
-          <div class="name">日数計算</div>
-          <div class="desc">2つの日付の間の日数・週数・月数を計算</div>
-        </a>
-        <a href="date/nenrei.html" class="tool-card">
-          <div class="icon">🎂</div>
-          <div class="name">年齢計算</div>
-          <div class="desc">生年月日から年齢・誕生日までの日数を計算</div>
-        </a>
-        <a href="date/jikan.html" class="tool-card">
-          <div class="icon">⏱️</div>
-          <div class="name">勤務時間計算</div>
-          <div class="desc">出退勤時刻と休憩時間から実労働時間を計算</div>
-        </a>
+        <a href="date/nissuu.html" class="tool-card"><div class="icon">📅</div><div class="name">日数計算</div><div class="desc">2つの日付の間の日数・週数・月数を計算</div></a>
+        <a href="date/nenrei.html" class="tool-card"><div class="icon">🎂</div><div class="name">年齢計算</div><div class="desc">生年月日から年齢・誕生日までの日数を計算</div></a>
+        <a href="date/jikan.html" class="tool-card"><div class="icon">⏱️</div><div class="name">勤務時間計算</div><div class="desc">出退勤時刻と休憩時間から実労働時間を計算</div></a>
       </div>
     </div>
 
-    <!-- 節税 -->
     <div class="category-section">
       <h2>🏘️ 節税</h2>
       <div class="tool-grid">
-        <a href="tax/furusato.html" class="tool-card">
-          <div class="icon">🎎</div>
-          <div class="name">ふるさと納税 上限額計算</div>
-          <div class="desc">年収と家族構成から寄付上限額を計算</div>
-        </a>
-        <a href="tax/setsuzei.html" class="tool-card">
-          <div class="icon">📊</div>
-          <div class="name">節税シミュレーション</div>
-          <div class="desc">iDeCo・医療費控除などで節税額を試算</div>
-        </a>
+        <a href="tax/furusato.html" class="tool-card"><div class="icon">🎎</div><div class="name">ふるさと納税 上限額計算</div><div class="desc">年収と家族構成から寄付上限額を計算</div></a>
+        <a href="tax/setsuzei.html" class="tool-card"><div class="icon">📊</div><div class="name">節税シミュレーション</div><div class="desc">iDeCo・医療費控除などで節税額を試算</div></a>
+      </div>
+    </div>
+
+    <div class="category-section">
+      <h2>🔢 計算・変換</h2>
+      <div class="tool-grid">
+        <a href="calc/percent.html" class="tool-card"><div class="icon">🔢</div><div class="name">パーセント計算</div><div class="desc">割引・増税・比率をかんたん計算</div></a>
+        <a href="calc/unit.html" class="tool-card"><div class="icon">📐</div><div class="name">単位変換</div><div class="desc">長さ・重さ・温度・面積を変換</div></a>
+        <a href="calc/wariai.html" class="tool-card"><div class="icon">➗</div><div class="name">比率計算</div><div class="desc">割合・比率・比例配分をかんたん計算</div></a>
+        <a href="calc/speed.html" class="tool-card"><div class="icon">🚗</div><div class="name">速さ・距離・時間計算</div><div class="desc">3つの関係をかんたん計算</div></a>
+      </div>
+    </div>
+
+    <div class="category-section">
+      <h2>💹 投資・資産</h2>
+      <div class="tool-grid">
+        <a href="invest/fukuri.html" class="tool-card"><div class="icon">📈</div><div class="name">複利計算</div><div class="desc">元本・金利・期間から将来の資産額を計算</div></a>
+        <a href="invest/nisa.html" class="tool-card"><div class="icon">💹</div><div class="name">NISA・投資シミュレーション</div><div class="desc">積立投資の将来価値とNISA節税メリットを計算</div></a>
       </div>
     </div>
 
@@ -216,7 +183,7 @@
     <a href="money/tedori.html">手取り計算</a>
     <a href="health/bmi.html">BMI計算</a>
     <a href="life/loan.html">ローン返済</a>
-    <a href="date/nissuu.html">日数計算</a>
+    <a href="invest/nisa.html">NISA計算</a>
     <a href="tax/furusato.html">ふるさと納税</a>
   </div>
   <div class="footer-links" style="margin-top:12px">
@@ -227,5 +194,6 @@
   <p class="copyright">※ 計算結果はあくまで目安です。正確な金額は専門家にご相談ください。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

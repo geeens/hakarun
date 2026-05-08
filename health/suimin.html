@@ -3,45 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>日数計算｜2つの日付の間の日数・週数・月数を無料計算｜はかるん</title>
-  <meta name="description" content="開始日と終了日を選ぶだけで日数・週数・月数を無料計算。イベントまでの残り日数や記念日の確認にも使えます。">
+  <title>睡眠時間計算｜起床時間から最適な就寝時間を無料計算｜はかるん</title>
+  <meta name="description" content="起床時間または就寝時間を入力するだけで、90分の睡眠サイクルに合わせた最適な就寝・起床時間を無料計算します。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "「両端を含む」とはどういう意味ですか？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "開始日と終了日の両方を1日として数える計算方法です。例えば1月1日から1月3日の場合、「両端を含む」と3日、「開始日を除く」と2日になります。"
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "営業日（平日）だけの日数を計算できますか？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "このツールは暦日（カレンダーの日数）を計算します。土日祝日を除いた営業日の計算には対応していません。"
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "うるう年は自動的に計算されますか？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "はい。2月29日を含む期間も正しく計算されます。"
-      }
-    }
-  ]
-}
-</script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+    { "@type": "Question", "name": "理想の睡眠時間は何時間ですか？", "acceptedAnswer": { "@type": "Answer", "text": "成人は7〜9時間が理想とされています。ただし個人差があり、6時間で十分な人もいれば9時間必要な人もいます。" } },
+    { "@type": "Question", "name": "睡眠の90分サイクルとは？", "acceptedAnswer": { "@type": "Answer", "text": "睡眠はノンレム睡眠とレム睡眠が約90分ごとに繰り返されます。このサイクルの切れ目に起きると目覚めがスッキリしやすいと言われています。" } },
+    { "@type": "Question", "name": "寝付くまでの時間はどのくらい？", "acceptedAnswer": { "@type": "Answer", "text": "平均的には横になってから14分程度で眠りに落ちると言われています。この計算ツールでも14分を考慮して就寝時間を算出しています。" } }
+  ] }
+  </script>
 </head>
 <body>
 <header>
@@ -61,7 +36,7 @@
           <a href="../money/warikan.html">👥 割り勘計算</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../health/bmi.html" class="nav-link">健康・生活 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../health/bmi.html">⚖️ BMI計算</a>
@@ -87,7 +62,7 @@
           <a href="../life/hikkoshi.html">🚚 引越し費用計算</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../date/nissuu.html" class="nav-link">日付・時間 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../date/nissuu.html">📅 日数計算</a>
@@ -124,73 +99,62 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 日数計算</div>
-      <h1>📅 日数計算</h1>
-      <p class="subtitle">2つの日付の間の日数・週数・月数を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 睡眠時間計算</div>
+      <h1>😴 睡眠時間計算</h1>
+      <p class="subtitle">90分の睡眠サイクルに合わせた最適な時間を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>開始日</label>
-        <div class="input-wrap">
-          <input type="date" id="start">
-        </div>
-      </div>
-      <div class="form-group">
-        <label>終了日</label>
-        <div class="input-wrap">
-          <input type="date" id="end">
-        </div>
-      </div>
-      <div class="form-group">
-        <label>計算方法</label>
+        <label>計算モード</label>
         <div class="radio-group">
-          <label><input type="radio" name="mode" value="include" checked> 両端を含む</label>
-          <label><input type="radio" name="mode" value="exclude"> 開始日を除く</label>
+          <label><input type="radio" name="mode" value="wake_to_bed" checked> 起床時間から就寝時間を計算</label>
+          <label><input type="radio" name="mode" value="bed_to_wake"> 就寝時間から起床時間を計算</label>
         </div>
-        <p class="hint">「今日から○日後」は「開始日を除く」を選択してください</p>
       </div>
-      <button class="btn btn-primary" onclick="calcNissuu()">計算する</button>
+      <div class="form-group" id="wake-group">
+        <label>起床したい時間</label>
+        <div class="input-wrap">
+          <input type="time" id="wake-time" value="07:00">
+        </div>
+      </div>
+      <div class="form-group" id="bed-group" style="display:none">
+        <label>就寝する時間</label>
+        <div class="input-wrap">
+          <input type="time" id="bed-time" value="23:00">
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="calcSuimin()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">日数</div>
-          <div class="value" id="res-days">—</div>
+          <div class="label" id="res-label">おすすめの就寝時間</div>
+          <div class="value" id="res-main">—</div>
         </div>
         <div class="result-table">
           <table>
-            <tbody>
-              <tr><td>日数</td><td id="res-days2">—</td></tr>
-              <tr><td>週数</td><td id="res-weeks">—</td></tr>
-              <tr><td>おおよその月数</td><td id="res-months">—</td></tr>
-              <tr><td>開始日の曜日</td><td id="res-start-day">—</td></tr>
-              <tr><td>終了日の曜日</td><td id="res-end-day">—</td></tr>
-            </tbody>
+            <thead><tr><th id="col-header">就寝時間</th><th>睡眠時間</th><th>サイクル数</th></tr></thead>
+            <tbody id="res-tbody"></tbody>
           </table>
+        </div>
+        <div class="info-box">
+          睡眠は約90分のサイクルで繰り返されます。サイクルの切れ目に起きると目覚めがスッキリしやすくなります。寝付くまでの時間（約14分）も考慮しています。
         </div>
       </div>
     </div>
     <div class="ad-area">広告</div>
     <div class="article">
-      <h2>日数計算の使い方</h2>
-      <ul>
-        <li><strong>イベントまでの残り日数</strong>：今日を開始日、イベント当日を終了日に入力</li>
-        <li><strong>期間の確認</strong>：契約期間や保証期間の残り日数を確認</li>
-        <li><strong>記念日の計算</strong>：付き合い始めた日から何日経過したか確認</li>
-      </ul>
-    </div>
-    <div class="article">
       <h2>よくある質問</h2>
       <div class="faq-item">
-        <div class="faq-q">Q. 「両端を含む」とはどういう意味ですか？</div>
-        <div class="faq-a">開始日と終了日の両方を1日として数える計算方法です。例えば1月1日から1月3日の場合、「両端を含む」と3日、「開始日を除く」と2日になります。</div>
+        <div class="faq-q">Q. 理想の睡眠時間は何時間ですか？</div>
+        <div class="faq-a">成人は7〜9時間が理想とされています。ただし個人差があり、6時間で十分な人もいれば9時間必要な人もいます。</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">Q. 営業日（平日）だけの日数を計算できますか？</div>
-        <div class="faq-a">このツールは暦日（カレンダーの日数）を計算します。土日祝日を除いた営業日の計算には対応していません。</div>
+        <div class="faq-q">Q. 睡眠の90分サイクルとは？</div>
+        <div class="faq-a">睡眠はノンレム睡眠とレム睡眠が約90分ごとに繰り返されます。このサイクルの切れ目に起きると目覚めがスッキリしやすいと言われています。</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">Q. うるう年は自動的に計算されますか？</div>
-        <div class="faq-a">はい。2月29日を含む期間も正しく計算されます。</div>
+        <div class="faq-q">Q. 寝付くまでの時間はどのくらい？</div>
+        <div class="faq-a">平均的には横になってから14分程度で眠りに落ちると言われています。この計算ツールでも14分を考慮して就寝時間を算出しています。</div>
       </div>
     </div>
   </div>
@@ -199,38 +163,71 @@
   <div class="footer-logo">📐 はかるん</div>
   <div class="footer-links">
     <a href="../index.html">トップ</a>
-    <a href="nenrei.html">年齢計算</a>
-    <a href="jikan.html">勤務時間計算</a>
-    <a href="../money/tedori.html">手取り計算</a>
+    <a href="bmi.html">BMI計算</a>
+    <a href="taishibo.html">体脂肪率計算</a>
+    <a href="ninshin.html">妊娠週数計算</a>
   </div>
   <div class="footer-links" style="margin-top:12px">
     <a href="../privacy.html">プライバシーポリシー</a>
     <a href="../disclaimer.html">免責事項</a>
     <a href="../contact.html">お問い合わせ</a>
   </div>
-  <p class="copyright">© 2024 はかるん</p>
+  <p class="copyright">※ 計算結果はあくまで目安です。</p>
+  <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
 <script>
-const DAYS = ['日曜日','月曜日','火曜日','水曜日','木曜日','金曜日','土曜日'];
-document.addEventListener('DOMContentLoaded', () => {
-  const today = new Date().toISOString().split('T')[0];
-  document.getElementById('start').value = today;
-  document.getElementById('end').value = today;
+document.querySelectorAll('input[name="mode"]').forEach(function(r) {
+  r.addEventListener('change', function() {
+    var mode = document.querySelector('input[name="mode"]:checked').value;
+    document.getElementById('wake-group').style.display = mode === 'wake_to_bed' ? '' : 'none';
+    document.getElementById('bed-group').style.display = mode === 'bed_to_wake' ? '' : 'none';
+  });
 });
-function calcNissuu() {
-  const s = new Date(document.getElementById('start').value);
-  const e = new Date(document.getElementById('end').value);
-  if (!document.getElementById('start').value || !document.getElementById('end').value) { alert('日付を入力してください'); return; }
-  const mode = document.querySelector('input[name="mode"]:checked').value;
-  const diff = Math.round((e - s) / 86400000);
-  const days = mode === 'include' ? diff + 1 : diff;
-  if (days < 0) { alert('終了日は開始日以降の日付を入力してください'); return; }
-  document.getElementById('res-days').textContent = days + ' 日';
-  document.getElementById('res-days2').textContent = days + ' 日';
-  document.getElementById('res-weeks').textContent = Math.floor(days / 7) + ' 週 ' + (days % 7) + ' 日';
-  document.getElementById('res-months').textContent = (days / 30.4).toFixed(1) + ' ヶ月';
-  document.getElementById('res-start-day').textContent = DAYS[s.getDay()];
-  document.getElementById('res-end-day').textContent = DAYS[e.getDay()];
+function fmtTime(totalMin) {
+  totalMin = ((totalMin % 1440) + 1440) % 1440;
+  var h = Math.floor(totalMin / 60);
+  var m = totalMin % 60;
+  return (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m;
+}
+function calcSuimin() {
+  var mode = document.querySelector('input[name="mode"]:checked').value;
+  var timeVal, baseMin;
+  if (mode === 'wake_to_bed') {
+    timeVal = document.getElementById('wake-time').value;
+  } else {
+    timeVal = document.getElementById('bed-time').value;
+  }
+  if (!timeVal) { alert('時間を入力してください'); return; }
+  var parts = timeVal.split(':');
+  baseMin = parseInt(parts[0]) * 60 + parseInt(parts[1]);
+
+  var tbody = document.getElementById('res-tbody');
+  tbody.innerHTML = '';
+  var bestTime = null;
+  for (var cycles = 6; cycles >= 2; cycles--) {
+    var sleepMin = cycles * 90 + 14;
+    var resultMin;
+    if (mode === 'wake_to_bed') {
+      resultMin = baseMin - sleepMin;
+    } else {
+      resultMin = baseMin + sleepMin;
+    }
+    var timeStr = fmtTime(resultMin);
+    var sleepH = Math.floor(cycles * 90 / 60);
+    var sleepM = (cycles * 90) % 60;
+    var sleepStr = sleepH + '時間' + (sleepM > 0 ? sleepM + '分' : '');
+    var tr = document.createElement('tr');
+    if (cycles === 5 || cycles === 4) tr.style.fontWeight = 'bold';
+    tr.innerHTML = '<td>' + timeStr + '</td><td>' + sleepStr + '</td><td>' + cycles + 'サイクル</td>';
+    tbody.appendChild(tr);
+    if (cycles === 5) bestTime = timeStr;
+  }
+
+  var label = mode === 'wake_to_bed' ? 'おすすめの就寝時間' : 'おすすめの起床時間';
+  var colHeader = mode === 'wake_to_bed' ? '就寝時間' : '起床時間';
+  document.getElementById('res-label').textContent = label;
+  document.getElementById('col-header').textContent = colHeader;
+  document.getElementById('res-main').textContent = bestTime || '—';
   document.getElementById('result').classList.add('show');
 }
 </script>

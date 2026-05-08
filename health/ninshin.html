@@ -3,58 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>年収から月収・時給を計算｜年収を月収・日給・時給に換算する無料ツール｜はかるん</title>
-  <meta name="description" content="年収を入力するだけで月収・週収・日給・時給を自動計算。年収500万・600万・800万の時給もすぐわかります。">
+  <title>妊娠週数計算｜最終月経日から妊娠週数・出産予定日を無料計算｜はかるん</title>
+  <meta name="description" content="最終月経日を入力するだけで、現在の妊娠週数・妊娠月数・出産予定日・出産までの日数を無料計算します。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
-  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-LR8XWPZCN9');
-  </script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "年収と月収の違いは何ですか？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "年収はボーナスを含めた1年間の総支給額、月収は毎月の給与支給額です。ボーナスがある場合は「月収×12＜年収」になります。"
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "時給に換算する計算式は？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "月収÷（1ヶ月の労働日数×1日の労働時間）で計算できます。一般的には月収÷160時間（月20日×8時間）が目安です。"
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "年収600万円の時給はいくらですか？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "年収600万円÷12ヶ月÷160時間（月間労働時間）＝約3,125円が目安です。"
-      }
-    }
-  ]
-}
-</script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+    { "@type": "Question", "name": "妊娠週数の数え方は？", "acceptedAnswer": { "@type": "Answer", "text": "最終月経の初日を0週0日として数えます。受精・着床前の時期から数えるため、妊娠確認時点ですでに4〜6週になっていることが多いです。" } },
+    { "@type": "Question", "name": "出産予定日はどう計算されますか？", "acceptedAnswer": { "@type": "Answer", "text": "最終月経の初日から280日後（40週0日）が出産予定日です。ネーゲレ概算法と呼ばれる国際的な計算方法です。" } },
+    { "@type": "Question", "name": "妊娠月数と妊娠週数の関係は？", "acceptedAnswer": { "@type": "Answer", "text": "妊娠月数は4週を1ヶ月として数えます。1ヶ月目=1〜4週、2ヶ月目=5〜8週、という具合です。妊娠10ヶ月（40週）で出産の時期になります。" } }
+  ] }
+  </script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
         <nav>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../money/tedori.html">💴 手取り計算</a>
@@ -67,7 +36,7 @@
           <a href="../money/warikan.html">👥 割り勘計算</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../health/bmi.html" class="nav-link">健康・生活 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../health/bmi.html">⚖️ BMI計算</a>
@@ -130,78 +99,52 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 年収→月収・時給計算</div>
-      <h1>💹 年収→月収・時給計算</h1>
-      <p class="subtitle">年収から月収・日給・時給をかんたん計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 妊娠週数計算</div>
+      <h1>🤰 妊娠週数計算</h1>
+      <p class="subtitle">最終月経日から妊娠週数・出産予定日を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>年収（税引き前）</label>
+        <label>最終月経の開始日</label>
         <div class="input-wrap">
-          <input type="number" id="nenshu" placeholder="4000000" min="0">
-          <span class="unit">円</span>
+          <input type="date" id="lmp">
         </div>
+        <p class="hint">最後に生理が始まった日を入力してください</p>
       </div>
-      <div class="form-group">
-        <label>1日の所定労働時間</label>
-        <div class="input-wrap">
-          <input type="number" id="hours" placeholder="8" min="1" max="24" value="8">
-          <span class="unit">時間</span>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>1ヶ月の出勤日数</label>
-        <div class="input-wrap">
-          <input type="number" id="days" placeholder="20" min="1" max="31" value="20">
-          <span class="unit">日</span>
-        </div>
-      </div>
-      <button class="btn btn-primary" onclick="calcNenshu()">計算する</button>
+      <button class="btn btn-primary" onclick="calcNinshin()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">月収（概算）</div>
-          <div class="value" id="res-monthly">—</div>
+          <div class="label">現在の妊娠週数</div>
+          <div class="value" id="res-main">—</div>
         </div>
         <div class="result-table">
-          <table>
-            <tbody>
-              <tr><td>年収</td><td id="res-nenshu">—</td></tr>
-              <tr><td>月収</td><td id="res-monthly2">—</td></tr>
-              <tr><td>日給</td><td id="res-daily">—</td></tr>
-              <tr><td>時給</td><td id="res-hourly">—</td></tr>
-              <tr><td>分給</td><td id="res-minute">—</td></tr>
-            </tbody>
-          </table>
+          <table><tbody>
+            <tr><td>妊娠週数</td><td id="res-weeks">—</td></tr>
+            <tr><td>妊娠月数</td><td id="res-months">—</td></tr>
+            <tr><td>出産予定日</td><td id="res-due">—</td></tr>
+            <tr><td>出産まであと</td><td id="res-togo">—</td></tr>
+          </tbody></table>
+        </div>
+        <div class="info-box">
+          ⚠️ この計算は目安です。正確な週数・予定日は産婦人科の超音波検査で確認してください。
         </div>
       </div>
     </div>
     <div class="ad-area">広告</div>
     <div class="article">
-      <h2>年収・月収・時給の換算方法</h2>
-      <p>求人票では「年収」「月給」「時給」など様々な表記があります。比較するときは同じ単位に揃えましょう。</p>
-      <h3>計算式</h3>
-      <ul>
-        <li>月収 = 年収 ÷ 12</li>
-        <li>日給 = 月収 ÷ 月の出勤日数</li>
-        <li>時給 = 日給 ÷ 1日の労働時間</li>
-      </ul>
-      <h3>注意点</h3>
-      <p>ボーナスが含まれている場合、毎月の給与は年収÷12より少なくなります。求人票の「年収」にボーナスが含まれるか確認しましょう。</p>
-    </div>
-    <div class="article">
       <h2>よくある質問</h2>
       <div class="faq-item">
-        <div class="faq-q">Q. 年収と月収の違いは何ですか？</div>
-        <div class="faq-a">年収はボーナスを含めた1年間の総支給額、月収は毎月の給与支給額です。ボーナスがある場合は「月収×12＜年収」になります。</div>
+        <div class="faq-q">Q. 妊娠週数の数え方は？</div>
+        <div class="faq-a">最終月経の初日を0週0日として数えます。受精・着床前の時期から数えるため、妊娠確認時点ですでに4〜6週になっていることが多いです。</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">Q. 時給に換算する計算式は？</div>
-        <div class="faq-a">月収÷（1ヶ月の労働日数×1日の労働時間）で計算できます。一般的には月収÷160時間（月20日×8時間）が目安です。</div>
+        <div class="faq-q">Q. 出産予定日はどう計算されますか？</div>
+        <div class="faq-a">最終月経の初日から280日後（40週0日）が出産予定日です。ネーゲレ概算法と呼ばれる国際的な計算方法です。</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">Q. 年収600万円の時給はいくらですか？</div>
-        <div class="faq-a">年収600万円÷12ヶ月÷160時間（月間労働時間）＝約3,125円が目安です。</div>
+        <div class="faq-q">Q. 妊娠月数と妊娠週数の関係は？</div>
+        <div class="faq-a">妊娠月数は4週を1ヶ月として数えます。1ヶ月目=1〜4週、2ヶ月目=5〜8週、という具合です。妊娠10ヶ月（40週）で出産の時期になります。</div>
       </div>
     </div>
   </div>
@@ -210,35 +153,41 @@
   <div class="footer-logo">📐 はかるん</div>
   <div class="footer-links">
     <a href="../index.html">トップ</a>
-    <a href="tedori.html">手取り計算</a>
-    <a href="zangyo.html">残業代計算</a>
-    <a href="bonus.html">ボーナス手取り</a>
+    <a href="bmi.html">BMI計算</a>
+    <a href="taishibo.html">体脂肪率計算</a>
+    <a href="suimin.html">睡眠時間計算</a>
   </div>
   <div class="footer-links" style="margin-top:12px">
     <a href="../privacy.html">プライバシーポリシー</a>
     <a href="../disclaimer.html">免責事項</a>
     <a href="../contact.html">お問い合わせ</a>
   </div>
-  <p class="copyright">※ 計算結果はあくまで目安です。正確な金額は専門家にご相談ください。</p>
+  <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
 <script>
-function fmt(n) { return Math.round(n).toLocaleString('ja-JP') + ' 円'; }
-function calcNenshu() {
-  const nenshu = parseFloat(document.getElementById('nenshu').value);
-  const hours = parseFloat(document.getElementById('hours').value) || 8;
-  const days = parseFloat(document.getElementById('days').value) || 20;
-  if (!nenshu || nenshu <= 0) { alert('年収を入力してください'); return; }
-  const monthly = nenshu / 12;
-  const daily = monthly / days;
-  const hourly = daily / hours;
-  const minute = hourly / 60;
-  document.getElementById('res-monthly').textContent = fmt(monthly);
-  document.getElementById('res-nenshu').textContent = fmt(nenshu);
-  document.getElementById('res-monthly2').textContent = fmt(monthly);
-  document.getElementById('res-daily').textContent = fmt(daily);
-  document.getElementById('res-hourly').textContent = fmt(hourly);
-  document.getElementById('res-minute').textContent = Math.round(minute).toLocaleString('ja-JP') + ' 円';
+function fmtDate(d) {
+  return d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日';
+}
+function calcNinshin() {
+  var val = document.getElementById('lmp').value;
+  if (!val) { alert('最終月経の開始日を入力してください'); return; }
+  var lmp = new Date(val);
+  var today = new Date();
+  today.setHours(0,0,0,0);
+  var days = Math.floor((today - lmp) / 86400000);
+  if (days < 0) { alert('日付が未来になっています。正しい日付を入力してください'); return; }
+  var weeks = Math.floor(days / 7);
+  var daysMod = days % 7;
+  var dueDate = new Date(lmp);
+  dueDate.setDate(dueDate.getDate() + 280);
+  var daysToGo = Math.floor((dueDate - today) / 86400000);
+  var months = Math.ceil((weeks + 1) / 4);
+  document.getElementById('res-main').textContent = weeks + '週' + daysMod + '日';
+  document.getElementById('res-weeks').textContent = weeks + '週' + daysMod + '日';
+  document.getElementById('res-months').textContent = '妊娠' + months + 'ヶ月';
+  document.getElementById('res-due').textContent = fmtDate(dueDate);
+  document.getElementById('res-togo').textContent = daysToGo > 0 ? daysToGo + '日' : '予定日を過ぎています';
   document.getElementById('result').classList.add('show');
 }
 </script>

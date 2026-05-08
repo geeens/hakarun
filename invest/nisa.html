@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NISA・投資シミュレーション｜積立投資の将来価値を無料計算｜はかるん</title>
+  <meta name="description" content="月々の積立額・年利・期間を入力するだけでNISAの将来価値と節税メリットを無料計算。つみたて投資枠・成長投資枠に対応。">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../style.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "NISAとは何ですか？", "acceptedAnswer": {"@type": "Answer", "text": "少額投資非課税制度（Nippon Individual Savings Account）の略です。通常、投資の利益には約20%の税金がかかりますが、NISA口座内では非課税になります。"}}, {"@type": "Question", "name": "つみたて投資枠と成長投資枠の違いは？", "acceptedAnswer": {"@type": "Answer", "text": "つみたて投資枠は年間120万円まで、長期積立向けの投資信託が対象です。成長投資枠は年間240万円まで、個別株や幅広い投資信託に投資できます。両枠を合わせて生涯1,800万円まで利用できます。"}}, {"@type": "Question", "name": "NISAで投資する際の注意点は？", "acceptedAnswer": {"@type": "Answer", "text": "元本保証ではないため、投資した金額が減るリスクがあります。また、損失が出てもNISA口座では損益通算ができません。長期・分散・積立の原則を守って投資しましょう。"}}]}</script>
+</head>
+<body>
+<header>
+  <div class="container">
+    <a href="../index.html" class="logo">📐 はかるん</a>
+        <nav>
+      <div class="nav-item">
+        <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../money/tedori.html">💴 手取り計算</a>
+          <a href="../money/zangyo.html">⏰ 残業代計算</a>
+          <a href="../money/bonus.html">🎁 ボーナス手取り計算</a>
+          <a href="../money/nenshu.html">📈 年収→月収・時給計算</a>
+          <a href="../money/shakaihoken.html">🏥 社会保険料シミュレーション</a>
+          <a href="../money/taisyokukin.html">👴 退職金手取り計算</a>
+          <a href="../money/shohizei.html">🛒 消費税計算</a>
+          <a href="../money/warikan.html">👥 割り勘計算</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="../health/bmi.html" class="nav-link">健康・生活 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../health/bmi.html">⚖️ BMI計算</a>
+          <a href="../health/metabolism.html">🔥 基礎代謝計算</a>
+          <a href="../health/calorie.html">🍱 消費カロリー計算</a>
+          <a href="../health/idealweight.html">👗 理想体重・モデル体重計算</a>
+          <a href="../health/alcohol.html">🍺 飲酒カロリー計算</a>
+          <a href="../health/steps.html">🚶 歩数→消費カロリー計算</a>
+          <a href="../health/taishibo.html">📊 体脂肪率計算</a>
+          <a href="../health/ninshin.html">🤰 妊娠週数計算</a>
+          <a href="../health/suimin.html">😴 睡眠時間計算</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="../life/loan.html" class="nav-link">生活・節約 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../life/loan.html">🏦 ローン返済シミュレーション</a>
+          <a href="../life/denki.html">💡 電気代計算</a>
+          <a href="../life/gasoline.html">⛽ ガソリン代計算</a>
+          <a href="../life/chochiku.html">💰 積立貯金シミュレーション</a>
+          <a href="../life/suidou.html">🚿 水道代計算</a>
+          <a href="../life/seikatsuhi.html">🏠 生活費配分計算</a>
+          <a href="../life/hikkoshi.html">🚚 引越し費用計算</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="../date/nissuu.html" class="nav-link">日付・時間 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../date/nissuu.html">📅 日数計算</a>
+          <a href="../date/nenrei.html">🎂 年齢計算</a>
+          <a href="../date/jikan.html">⏱️ 勤務時間計算</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="../tax/furusato.html" class="nav-link">節税 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../tax/furusato.html">🎎 ふるさと納税 上限額計算</a>
+          <a href="../tax/setsuzei.html">📊 節税シミュレーション</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="../calc/percent.html" class="nav-link">計算・変換 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../calc/percent.html">🔢 パーセント計算</a>
+          <a href="../calc/unit.html">📐 単位変換</a>
+          <a href="../calc/wariai.html">➗ 比率計算</a>
+          <a href="../calc/speed.html">🚗 速さ・距離・時間</a>
+        </div>
+      </div>
+      <div class="nav-item active">
+        <a href="../invest/fukuri.html" class="nav-link">投資・資産 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../invest/fukuri.html">📈 複利計算</a>
+          <a href="../invest/nisa.html">💹 NISA・投資シミュレーション</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="container">
+    <div class="page-header">
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; NISA・投資シミュレーション</div>
+      <h1>💹 NISA・投資シミュレーション</h1>
+      <p class="subtitle">積立投資の将来価値とNISA節税メリットを計算します</p>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="calc-card">
+      <div class="form-group">
+        <label>月々の積立額</label>
+        <div class="input-wrap"><input type="number" id="monthly" placeholder="30000" min="0"><span class="unit">円</span></div>
+      </div>
+      <div class="form-group">
+        <label>想定年利</label>
+        <div class="input-wrap"><input type="number" id="rate" placeholder="5" min="0" max="30" step="0.1"><span class="unit">%</span></div>
+        <p class="hint">インデックス投資の長期平均の目安：3〜7%</p>
+      </div>
+      <div class="form-group">
+        <label>積立期間</label>
+        <div class="input-wrap"><input type="number" id="years" placeholder="20" min="1" max="40"><span class="unit">年</span></div>
+      </div>
+      <div class="form-group">
+        <label>口座の種類</label>
+        <div class="radio-group">
+          <label><input type="radio" name="nisa" value="tsumitate" checked> つみたて投資枠（NISA）</label>
+          <label><input type="radio" name="nisa" value="seichou"> 成長投資枠（NISA）</label>
+          <label><input type="radio" name="nisa" value="taxable"> 課税口座（一般）</label>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="calcNisa()">計算する</button>
+      <div class="result-area" id="result">
+        <div class="result-main">
+          <div class="label">最終金額（運用後）</div>
+          <div class="value" id="res-main">—</div>
+        </div>
+        <div class="result-table"><table><tbody>
+          <tr><td>元本合計（積立総額）</td><td id="res-principal">—</td></tr>
+          <tr><td>運用益</td><td id="res-profit">—</td></tr>
+          <tr><td>最終金額</td><td id="res-total">—</td></tr>
+          <tr><td>税金（課税口座の場合）</td><td id="res-tax">—</td></tr>
+          <tr><td>NISAによる節税メリット</td><td id="res-saving">—</td></tr>
+        </tbody></table></div>
+        <div class="info-box" id="nisa-info"></div>
+      </div>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="article">
+      <h2>よくある質問</h2>
+      <div class="faq-item"><div class="faq-q">Q. NISAとは何ですか？</div><div class="faq-a">少額投資非課税制度（Nippon Individual Savings Account）の略です。通常、投資の利益には約20%の税金がかかりますが、NISA口座内では非課税になります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. つみたて投資枠と成長投資枠の違いは？</div><div class="faq-a">つみたて投資枠は年間120万円まで、長期積立向けの投資信託が対象です。成長投資枠は年間240万円まで、個別株や幅広い投資信託に投資できます。両枠を合わせて生涯1,800万円まで利用できます。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. NISAで投資する際の注意点は？</div><div class="faq-a">元本保証ではないため、投資した金額が減るリスクがあります。また、損失が出てもNISA口座では損益通算ができません。長期・分散・積立の原則を守って投資しましょう。</div></div>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="footer-logo">📐 はかるん</div>
+  <div class="footer-links">
+    <a href="../index.html">トップ</a>
+    <a href="../invest/fukuri.html">複利計算</a> <a href="../life/chochiku.html">積立貯金計算</a> <a href="../tax/setsuzei.html">節税シミュレーション</a>
+  </div>
+  <div class="footer-links" style="margin-top:12px">
+    <a href="../privacy.html">プライバシーポリシー</a>
+    <a href="../disclaimer.html">免責事項</a>
+    <a href="../contact.html">お問い合わせ</a>
+  </div>
+  <p class="copyright">※ 計算結果はあくまで目安です。</p>
+  <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
+</footer>
+<script>
+function calcNisa() {
+  const monthly = parseFloat(document.getElementById('monthly').value);
+  const rate = parseFloat(document.getElementById('rate').value) / 100 / 12;
+  const years = parseFloat(document.getElementById('years').value);
+  const nisaType = document.querySelector('input[name="nisa"]:checked').value;
+  if (!monthly || !years) { alert('積立額と期間を入力してください'); return; }
+  const n = years * 12;
+  let total;
+  if (rate === 0) { total = monthly * n; }
+  else { total = monthly * (Math.pow(1 + rate, n) - 1) / rate * (1 + rate); }
+  const principal = monthly * n;
+  const profit = total - principal;
+  const taxRate = 0.20315;
+  const tax = profit * taxRate;
+  const isNisa = nisaType !== 'taxable';
+  const fmt = n => Math.round(n).toLocaleString('ja-JP') + ' 円';
+  document.getElementById('res-main').textContent = fmt(isNisa ? total : total - tax);
+  document.getElementById('res-principal').textContent = fmt(principal);
+  document.getElementById('res-profit').textContent = fmt(profit);
+  document.getElementById('res-total').textContent = fmt(isNisa ? total : total - tax);
+  document.getElementById('res-tax').textContent = isNisa ? '非課税（NISA）' : fmt(tax);
+  document.getElementById('res-saving').textContent = isNisa ? fmt(tax) + '（節税効果）' : '—';
+  const info = document.getElementById('nisa-info');
+  if (nisaType === 'tsumitate') {
+    info.innerHTML = '<strong>つみたて投資枠の上限：</strong>年間120万円（月10万円）。長期・積立・分散投資向けの非課税制度です。';
+  } else if (nisaType === 'seichou') {
+    info.innerHTML = '<strong>成長投資枠の上限：</strong>年間240万円。個別株・投資信託など幅広く投資できます。つみたて投資枠との併用可能。';
+  } else {
+    info.innerHTML = '<strong>課税口座では</strong>運用益に約20.315%の税金がかかります。NISAを活用すると上記の税金が非課税になります。';
+  }
+  document.getElementById('result').classList.add('show');
+}
+</script>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
+</body>
+</html>

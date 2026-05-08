@@ -3,52 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>基礎代謝計算｜年齢・性別・体重から1日の基礎代謝量を無料計算｜はかるん</title>
-  <meta name="description" content="年齢・性別・身長・体重を入力するだけで基礎代謝量（kcal）を無料計算。ダイエットや食事管理の基準値として活用できます。">
+  <title>体脂肪率計算｜身長・体重・年齢から体脂肪率を無料推定｜はかるん</title>
+  <meta name="description" content="身長・体重・年齢・性別から体脂肪率を無料推定。BMIをもとにした計算式で肥満度の判定も行います。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
-  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-LR8XWPZCN9');
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+    { "@type": "Question", "name": "体脂肪率の正常値は？", "acceptedAnswer": { "@type": "Answer", "text": "男性は10〜20%、女性は20〜30%が標準とされています。アスリートはさらに低い場合があります。" } },
+    { "@type": "Question", "name": "体脂肪率を下げるには？", "acceptedAnswer": { "@type": "Answer", "text": "有酸素運動（ウォーキング・ジョギング）と筋トレを組み合わせ、食事では糖質・脂質を控えめにすることが効果的です。" } },
+    { "@type": "Question", "name": "BMIと体脂肪率の違いは？", "acceptedAnswer": { "@type": "Answer", "text": "BMIは身長と体重だけで計算される指数で、筋肉量は考慮されません。体脂肪率は実際の脂肪の割合を示すため、より正確な体組成の把握ができます。" } }
+  ] }
   </script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085"
-       crossorigin="anonymous"></script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "基礎代謝とは何ですか？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "安静にしている状態でも生命維持のために消費されるエネルギー量です。呼吸・体温維持・心拍などに使われます。"
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "基礎代謝を上げるには？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "筋肉量を増やすことが最も効果的です。筋肉は脂肪より多くのエネルギーを消費するため、筋トレで基礎代謝を高めることができます。"
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "基礎代謝は年齢で変わりますか？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "はい。一般的に10代後半〜20代前半がピークで、その後は加齢とともに低下します。30代以降は意識的な運動で筋肉量を維持することが重要です。"
-      }
-    }
-  ]
-}
-</script>
 </head>
 <body>
 <header>
@@ -131,23 +99,23 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 基礎代謝計算</div>
-      <h1>🔥 基礎代謝計算</h1>
-      <p class="subtitle">何もしなくても1日に消費するカロリーを計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 体脂肪率計算</div>
+      <h1>📊 体脂肪率計算</h1>
+      <p class="subtitle">身長・体重・年齢から体脂肪率を推定します（BMI法）</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
         <label>性別</label>
         <div class="radio-group">
-          <label><input type="radio" name="gender" value="male" checked> 男性</label>
-          <label><input type="radio" name="gender" value="female"> 女性</label>
+          <label><input type="radio" name="sex" value="male" checked> 男性</label>
+          <label><input type="radio" name="sex" value="female"> 女性</label>
         </div>
       </div>
       <div class="form-group">
         <label>年齢</label>
         <div class="input-wrap">
-          <input type="number" id="age" placeholder="30" min="10" max="100">
+          <input type="number" id="age" placeholder="30" min="1" max="120">
           <span class="unit">歳</span>
         </div>
       </div>
@@ -165,55 +133,39 @@
           <span class="unit">kg</span>
         </div>
       </div>
-      <button class="btn btn-primary" onclick="calcMetabolism()">計算する</button>
+      <button class="btn btn-primary" onclick="calcTaishibo()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">基礎代謝量</div>
-          <div class="value" id="res-bmr">—</div>
-          <div class="sub">1日に最低限消費するカロリー</div>
+          <div class="label">推定体脂肪率</div>
+          <div class="value" id="res-main">—</div>
+          <div class="sub" id="res-judge">判定 —</div>
         </div>
         <div class="result-table">
-          <table>
-            <tbody>
-              <tr><td>基礎代謝量（Harris-Benedict式）</td><td id="res-bmr2">—</td></tr>
-              <tr><td>座りがちな生活での消費カロリー</td><td id="res-sedentary">—</td></tr>
-              <tr><td>軽い運動をしている場合</td><td id="res-light">—</td></tr>
-              <tr><td>週3〜5日運動している場合</td><td id="res-moderate">—</td></tr>
-              <tr><td>毎日ハードに運動している場合</td><td id="res-heavy">—</td></tr>
-            </tbody>
-          </table>
+          <table><tbody>
+            <tr><td>推定体脂肪率</td><td id="res-fat">—</td></tr>
+            <tr><td>判定</td><td id="res-judge2">—</td></tr>
+            <tr><td>BMI</td><td id="res-bmi">—</td></tr>
+          </tbody></table>
         </div>
         <div class="info-box">
-          <strong>基礎代謝とは？</strong><br>
-          寝ているだけ・何もしなくても、呼吸や体温維持のために消費するカロリーのことです。ダイエットの基準になる数値です。
+          ⚠️ この計算はBMIをもとにした推定値です。体組成計による実測値とは異なる場合があります。
         </div>
       </div>
     </div>
     <div class="ad-area">広告</div>
     <div class="article">
-      <h2>基礎代謝とは？わかりやすく解説</h2>
-      <p>基礎代謝（きそたいしゃ）とは、生きているだけで自然と消費されるエネルギーのことです。心臓を動かしたり、体温を保ったりするために使われます。</p>
-      <h3>基礎代謝が高いとどうなる？</h3>
-      <p>基礎代謝が高いほど、何もしなくてもカロリーを消費するため、太りにくい体になります。筋肉量を増やすと基礎代謝が上がります。</p>
-      <h3>計算式（Harris-Benedict式）</h3>
-      <ul>
-        <li>男性：88.362 ＋（13.397 × 体重kg）＋（4.799 × 身長cm）－（5.677 × 年齢）</li>
-        <li>女性：447.593 ＋（9.247 × 体重kg）＋（3.098 × 身長cm）－（4.330 × 年齢）</li>
-      </ul>
-    </div>
-    <div class="article">
       <h2>よくある質問</h2>
       <div class="faq-item">
-        <div class="faq-q">Q. 基礎代謝とは何ですか？</div>
-        <div class="faq-a">安静にしている状態でも生命維持のために消費されるエネルギー量です。呼吸・体温維持・心拍などに使われます。</div>
+        <div class="faq-q">Q. 体脂肪率の正常値は？</div>
+        <div class="faq-a">男性は10〜20%、女性は20〜30%が標準とされています。アスリートはさらに低い場合があります。</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">Q. 基礎代謝を上げるには？</div>
-        <div class="faq-a">筋肉量を増やすことが最も効果的です。筋肉は脂肪より多くのエネルギーを消費するため、筋トレで基礎代謝を高めることができます。</div>
+        <div class="faq-q">Q. 体脂肪率を下げるには？</div>
+        <div class="faq-a">有酸素運動（ウォーキング・ジョギング）と筋トレを組み合わせ、食事では糖質・脂質を控えめにすることが効果的です。</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">Q. 基礎代謝は年齢で変わりますか？</div>
-        <div class="faq-a">はい。一般的に10代後半〜20代前半がピークで、その後は加齢とともに低下します。30代以降は意識的な運動で筋肉量を維持することが重要です。</div>
+        <div class="faq-q">Q. BMIと体脂肪率の違いは？</div>
+        <div class="faq-a">BMIは身長と体重だけで計算される指数で、筋肉量は考慮されません。体脂肪率は実際の脂肪の割合を示すため、より正確な体組成の把握ができます。</div>
       </div>
     </div>
   </div>
@@ -223,39 +175,45 @@
   <div class="footer-links">
     <a href="../index.html">トップ</a>
     <a href="bmi.html">BMI計算</a>
-    <a href="calorie.html">消費カロリー計算</a>
-    <a href="../money/tedori.html">手取り計算</a>
+    <a href="metabolism.html">基礎代謝計算</a>
+    <a href="idealweight.html">理想体重計算</a>
   </div>
   <div class="footer-links" style="margin-top:12px">
     <a href="../privacy.html">プライバシーポリシー</a>
     <a href="../disclaimer.html">免責事項</a>
     <a href="../contact.html">お問い合わせ</a>
   </div>
-  <p class="copyright">※ 計算結果はあくまで目安です。健康に関することは医師にご相談ください。</p>
+  <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
 <script>
-function calcMetabolism() {
-  const gender = document.querySelector('input[name="gender"]:checked').value;
-  const age = parseFloat(document.getElementById('age').value);
-  const h = parseFloat(document.getElementById('height').value);
-  const w = parseFloat(document.getElementById('weight').value);
-  if (!age || !h || !w) { alert('すべての項目を入力してください'); return; }
-
-  let bmr;
-  if (gender === 'male') {
-    bmr = 88.362 + (13.397 * w) + (4.799 * h) - (5.677 * age);
+function calcTaishibo() {
+  var age = parseFloat(document.getElementById('age').value);
+  var height = parseFloat(document.getElementById('height').value);
+  var weight = parseFloat(document.getElementById('weight').value);
+  var sex = document.querySelector('input[name="sex"]:checked').value;
+  if (!age || !height || !weight) { alert('すべての項目を入力してください'); return; }
+  var h = height / 100;
+  var bmi = weight / (h * h);
+  var fatPct = 1.2 * bmi + 0.23 * age - 10.8 * (sex === 'male' ? 1 : 0) - 5.4;
+  fatPct = Math.max(0, fatPct);
+  var judge;
+  if (sex === 'male') {
+    if (fatPct < 10) judge = '低い（低体脂肪）';
+    else if (fatPct < 20) judge = '標準';
+    else if (fatPct < 25) judge = 'やや高め';
+    else judge = '高い（肥満）';
   } else {
-    bmr = 447.593 + (9.247 * w) + (3.098 * h) - (4.330 * age);
+    if (fatPct < 20) judge = '低い（低体脂肪）';
+    else if (fatPct < 30) judge = '標準';
+    else if (fatPct < 35) judge = 'やや高め';
+    else judge = '高い（肥満）';
   }
-
-  const fmt = n => Math.round(n).toLocaleString('ja-JP') + ' kcal';
-  document.getElementById('res-bmr').textContent = Math.round(bmr).toLocaleString('ja-JP') + ' kcal';
-  document.getElementById('res-bmr2').textContent = fmt(bmr);
-  document.getElementById('res-sedentary').textContent = fmt(bmr * 1.2);
-  document.getElementById('res-light').textContent = fmt(bmr * 1.375);
-  document.getElementById('res-moderate').textContent = fmt(bmr * 1.55);
-  document.getElementById('res-heavy').textContent = fmt(bmr * 1.725);
+  document.getElementById('res-main').textContent = fatPct.toFixed(1) + '%';
+  document.getElementById('res-judge').textContent = '判定：' + judge;
+  document.getElementById('res-fat').textContent = fatPct.toFixed(1) + '%';
+  document.getElementById('res-judge2').textContent = judge;
+  document.getElementById('res-bmi').textContent = bmi.toFixed(1);
   document.getElementById('result').classList.add('show');
 }
 </script>

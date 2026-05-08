@@ -7,20 +7,35 @@
   <url><loc>https://hakarun.net/money/nenshu.html</loc><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/money/shakaihoken.html</loc><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/money/taisyokukin.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/money/shohizei.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/money/warikan.html</loc><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/health/bmi.html</loc><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/health/metabolism.html</loc><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/health/calorie.html</loc><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/health/idealweight.html</loc><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/health/alcohol.html</loc><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/health/steps.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/health/taishibo.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/health/ninshin.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/health/suimin.html</loc><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/life/loan.html</loc><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/life/denki.html</loc><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/life/gasoline.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/life/chochiku.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/life/suidou.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/life/seikatsuhi.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/life/hikkoshi.html</loc><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/date/nissuu.html</loc><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/date/nenrei.html</loc><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/date/jikan.html</loc><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/tax/furusato.html</loc><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/tax/setsuzei.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/calc/percent.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/calc/unit.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/calc/wariai.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/calc/speed.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/invest/fukuri.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/invest/nisa.html</loc><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/privacy.html</loc><priority>0.3</priority></url>
   <url><loc>https://hakarun.net/disclaimer.html</loc><priority>0.3</priority></url>
   <url><loc>https://hakarun.net/contact.html</loc><priority>0.3</priority></url>

@@ -3,58 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>年収から月収・時給を計算｜年収を月収・日給・時給に換算する無料ツール｜はかるん</title>
-  <meta name="description" content="年収を入力するだけで月収・週収・日給・時給を自動計算。年収500万・600万・800万の時給もすぐわかります。">
+  <title>引越し費用計算｜距離・荷物量・時期から引越し費用の目安を無料計算｜はかるん</title>
+  <meta name="description" content="世帯タイプ・移動距離・時期を選ぶだけで引越し費用の目安を無料計算。繁忙期と通常期の違いもわかります。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
-  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-LR8XWPZCN9');
-  </script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "年収と月収の違いは何ですか？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "年収はボーナスを含めた1年間の総支給額、月収は毎月の給与支給額です。ボーナスがある場合は「月収×12＜年収」になります。"
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "時給に換算する計算式は？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "月収÷（1ヶ月の労働日数×1日の労働時間）で計算できます。一般的には月収÷160時間（月20日×8時間）が目安です。"
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "年収600万円の時給はいくらですか？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "年収600万円÷12ヶ月÷160時間（月間労働時間）＝約3,125円が目安です。"
-      }
-    }
-  ]
-}
-</script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+    { "@type": "Question", "name": "引越しの繁忙期はいつですか？", "acceptedAnswer": { "@type": "Answer", "text": "3月〜4月が最も混雑する繁忙期です。進学・就職・転勤が集中するため、引越し業者の予約が取りにくく料金も高くなります。この時期を避けると費用を抑えられます。" } },
+    { "@type": "Question", "name": "引越し費用を安くするには？", "acceptedAnswer": { "@type": "Answer", "text": "複数の業者から見積もりを取る（一括見積もりサービスを活用）、平日・午後便を選ぶ、不用品を事前に処分して荷物を減らす、繁忙期を避けるなどが効果的です。" } },
+    { "@type": "Question", "name": "単身引越しの平均費用は？", "acceptedAnswer": { "@type": "Answer", "text": "近距離（同市内など）で3〜8万円、中距離（隣県など）で5〜13万円、長距離（他都道府県）で8〜20万円程度が目安です。荷物の量や時期によって大きく変わります。" } }
+  ] }
+  </script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
         <nav>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../money/tedori.html">💴 手取り計算</a>
@@ -81,7 +50,7 @@
           <a href="../health/suimin.html">😴 睡眠時間計算</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../life/loan.html" class="nav-link">生活・節約 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../life/loan.html">🏦 ローン返済シミュレーション</a>
@@ -130,78 +99,66 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 年収→月収・時給計算</div>
-      <h1>💹 年収→月収・時給計算</h1>
-      <p class="subtitle">年収から月収・日給・時給をかんたん計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 引越し費用計算</div>
+      <h1>🚚 引越し費用計算</h1>
+      <p class="subtitle">世帯タイプ・距離・時期から引越し費用の目安を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>年収（税引き前）</label>
-        <div class="input-wrap">
-          <input type="number" id="nenshu" placeholder="4000000" min="0">
-          <span class="unit">円</span>
+        <label>世帯タイプ</label>
+        <div class="radio-group">
+          <label><input type="radio" name="household" value="single" checked> 単身（1人）</label>
+          <label><input type="radio" name="household" value="couple"> 2人世帯</label>
+          <label><input type="radio" name="household" value="family"> 家族3人以上</label>
         </div>
       </div>
       <div class="form-group">
-        <label>1日の所定労働時間</label>
-        <div class="input-wrap">
-          <input type="number" id="hours" placeholder="8" min="1" max="24" value="8">
-          <span class="unit">時間</span>
+        <label>移動距離</label>
+        <div class="radio-group">
+          <label><input type="radio" name="distance" value="near" checked> 近距離（〜50km）</label>
+          <label><input type="radio" name="distance" value="mid"> 中距離（〜200km）</label>
+          <label><input type="radio" name="distance" value="far"> 長距離（200km超）</label>
         </div>
       </div>
       <div class="form-group">
-        <label>1ヶ月の出勤日数</label>
-        <div class="input-wrap">
-          <input type="number" id="days" placeholder="20" min="1" max="31" value="20">
-          <span class="unit">日</span>
+        <label>引越し時期</label>
+        <div class="radio-group">
+          <label><input type="radio" name="season" value="normal" checked> 通常期（5〜2月）</label>
+          <label><input type="radio" name="season" value="busy"> 繁忙期（3〜4月）</label>
         </div>
       </div>
-      <button class="btn btn-primary" onclick="calcNenshu()">計算する</button>
+      <button class="btn btn-primary" onclick="calcHikkoshi()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">月収（概算）</div>
-          <div class="value" id="res-monthly">—</div>
+          <div class="label">費用の目安</div>
+          <div class="value" id="res-main">—</div>
         </div>
         <div class="result-table">
-          <table>
-            <tbody>
-              <tr><td>年収</td><td id="res-nenshu">—</td></tr>
-              <tr><td>月収</td><td id="res-monthly2">—</td></tr>
-              <tr><td>日給</td><td id="res-daily">—</td></tr>
-              <tr><td>時給</td><td id="res-hourly">—</td></tr>
-              <tr><td>分給</td><td id="res-minute">—</td></tr>
-            </tbody>
-          </table>
+          <table><tbody>
+            <tr><td>最安値の目安</td><td id="res-min">—</td></tr>
+            <tr><td>最高値の目安</td><td id="res-max">—</td></tr>
+          </tbody></table>
+        </div>
+        <div class="info-box">
+          ⚠️ 上記はあくまで目安です。実際の費用は業者・荷物量・作業条件によって大きく異なります。必ず複数社から見積もりを取りましょう。
         </div>
       </div>
     </div>
     <div class="ad-area">広告</div>
     <div class="article">
-      <h2>年収・月収・時給の換算方法</h2>
-      <p>求人票では「年収」「月給」「時給」など様々な表記があります。比較するときは同じ単位に揃えましょう。</p>
-      <h3>計算式</h3>
-      <ul>
-        <li>月収 = 年収 ÷ 12</li>
-        <li>日給 = 月収 ÷ 月の出勤日数</li>
-        <li>時給 = 日給 ÷ 1日の労働時間</li>
-      </ul>
-      <h3>注意点</h3>
-      <p>ボーナスが含まれている場合、毎月の給与は年収÷12より少なくなります。求人票の「年収」にボーナスが含まれるか確認しましょう。</p>
-    </div>
-    <div class="article">
       <h2>よくある質問</h2>
       <div class="faq-item">
-        <div class="faq-q">Q. 年収と月収の違いは何ですか？</div>
-        <div class="faq-a">年収はボーナスを含めた1年間の総支給額、月収は毎月の給与支給額です。ボーナスがある場合は「月収×12＜年収」になります。</div>
+        <div class="faq-q">Q. 引越しの繁忙期はいつですか？</div>
+        <div class="faq-a">3月〜4月が最も混雑する繁忙期です。進学・就職・転勤が集中するため、引越し業者の予約が取りにくく料金も高くなります。この時期を避けると費用を抑えられます。</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">Q. 時給に換算する計算式は？</div>
-        <div class="faq-a">月収÷（1ヶ月の労働日数×1日の労働時間）で計算できます。一般的には月収÷160時間（月20日×8時間）が目安です。</div>
+        <div class="faq-q">Q. 引越し費用を安くするには？</div>
+        <div class="faq-a">複数の業者から見積もりを取る（一括見積もりサービスを活用）、平日・午後便を選ぶ、不用品を事前に処分して荷物を減らす、繁忙期を避けるなどが効果的です。</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">Q. 年収600万円の時給はいくらですか？</div>
-        <div class="faq-a">年収600万円÷12ヶ月÷160時間（月間労働時間）＝約3,125円が目安です。</div>
+        <div class="faq-q">Q. 単身引越しの平均費用は？</div>
+        <div class="faq-a">近距離（同市内など）で3〜8万円、中距離（隣県など）で5〜13万円、長距離（他都道府県）で8〜20万円程度が目安です。荷物の量や時期によって大きく変わります。</div>
       </div>
     </div>
   </div>
@@ -210,35 +167,41 @@
   <div class="footer-logo">📐 はかるん</div>
   <div class="footer-links">
     <a href="../index.html">トップ</a>
-    <a href="tedori.html">手取り計算</a>
-    <a href="zangyo.html">残業代計算</a>
-    <a href="bonus.html">ボーナス手取り</a>
+    <a href="seikatsuhi.html">生活費配分計算</a>
+    <a href="chochiku.html">積立貯金シミュレーション</a>
+    <a href="loan.html">ローン返済計算</a>
   </div>
   <div class="footer-links" style="margin-top:12px">
     <a href="../privacy.html">プライバシーポリシー</a>
     <a href="../disclaimer.html">免責事項</a>
     <a href="../contact.html">お問い合わせ</a>
   </div>
-  <p class="copyright">※ 計算結果はあくまで目安です。正確な金額は専門家にご相談ください。</p>
+  <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
 <script>
-function fmt(n) { return Math.round(n).toLocaleString('ja-JP') + ' 円'; }
-function calcNenshu() {
-  const nenshu = parseFloat(document.getElementById('nenshu').value);
-  const hours = parseFloat(document.getElementById('hours').value) || 8;
-  const days = parseFloat(document.getElementById('days').value) || 20;
-  if (!nenshu || nenshu <= 0) { alert('年収を入力してください'); return; }
-  const monthly = nenshu / 12;
-  const daily = monthly / days;
-  const hourly = daily / hours;
-  const minute = hourly / 60;
-  document.getElementById('res-monthly').textContent = fmt(monthly);
-  document.getElementById('res-nenshu').textContent = fmt(nenshu);
-  document.getElementById('res-monthly2').textContent = fmt(monthly);
-  document.getElementById('res-daily').textContent = fmt(daily);
-  document.getElementById('res-hourly').textContent = fmt(hourly);
-  document.getElementById('res-minute').textContent = Math.round(minute).toLocaleString('ja-JP') + ' 円';
+var table = {
+  single: { near: [30000, 80000], mid: [50000, 130000], far: [80000, 200000] },
+  couple: { near: [60000, 150000], mid: [100000, 250000], far: [150000, 350000] },
+  family: { near: [100000, 250000], mid: [180000, 400000], far: [250000, 600000] }
+};
+function fmtMan(n) {
+  if (n >= 10000) return (n / 10000).toFixed(0) + '万円';
+  return n.toLocaleString('ja-JP') + '円';
+}
+function calcHikkoshi() {
+  var household = document.querySelector('input[name="household"]:checked').value;
+  var distance = document.querySelector('input[name="distance"]:checked').value;
+  var season = document.querySelector('input[name="season"]:checked').value;
+  var range = table[household][distance];
+  var minVal = range[0], maxVal = range[1];
+  if (season === 'busy') {
+    minVal = Math.round(minVal * 1.3);
+    maxVal = Math.round(maxVal * 1.3);
+  }
+  document.getElementById('res-main').textContent = fmtMan(minVal) + ' 〜 ' + fmtMan(maxVal);
+  document.getElementById('res-min').textContent = fmtMan(minVal);
+  document.getElementById('res-max').textContent = fmtMan(maxVal);
   document.getElementById('result').classList.add('show');
 }
 </script>

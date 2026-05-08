@@ -3,58 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>年収から月収・時給を計算｜年収を月収・日給・時給に換算する無料ツール｜はかるん</title>
-  <meta name="description" content="年収を入力するだけで月収・週収・日給・時給を自動計算。年収500万・600万・800万の時給もすぐわかります。">
+  <title>生活費配分計算｜月収から理想的な生活費の内訳を無料計算｜はかるん</title>
+  <meta name="description" content="月の手取り収入を入力するだけで、家賃・食費・光熱費・貯金など理想的な生活費の配分目安を無料計算します。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
-  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-LR8XWPZCN9');
-  </script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "年収と月収の違いは何ですか？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "年収はボーナスを含めた1年間の総支給額、月収は毎月の給与支給額です。ボーナスがある場合は「月収×12＜年収」になります。"
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "時給に換算する計算式は？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "月収÷（1ヶ月の労働日数×1日の労働時間）で計算できます。一般的には月収÷160時間（月20日×8時間）が目安です。"
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "年収600万円の時給はいくらですか？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "年収600万円÷12ヶ月÷160時間（月間労働時間）＝約3,125円が目安です。"
-      }
-    }
-  ]
-}
-</script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+    { "@type": "Question", "name": "理想の生活費配分は？", "acceptedAnswer": { "@type": "Answer", "text": "一般的な目安として、家賃30%・食費15%・光熱費5%・通信費5%・交通費5%・趣味娯楽5%・被服費3%・医療費2%・貯金20%・その他10%が推奨されています。" } },
+    { "@type": "Question", "name": "家賃は収入の何割が目安ですか？", "acceptedAnswer": { "@type": "Answer", "text": "手取り収入の25〜30%が目安です。例えば手取り20万円なら家賃5〜6万円が理想とされています。都市部では難しい場合もありますが、30%を超えると生活が苦しくなりやすいです。" } },
+    { "@type": "Question", "name": "貯金の割合はどのくらいが理想ですか？", "acceptedAnswer": { "@type": "Answer", "text": "収入の20%が理想とされています。難しい場合でも最低10%は貯金に回すことをおすすめします。先取り貯金（給料が入ったらすぐ貯金分を別口座に移す）が効果的です。" } }
+  ] }
+  </script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
         <nav>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../money/tedori.html">💴 手取り計算</a>
@@ -81,7 +50,7 @@
           <a href="../health/suimin.html">😴 睡眠時間計算</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../life/loan.html" class="nav-link">生活・節約 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../life/loan.html">🏦 ローン返済シミュレーション</a>
@@ -130,78 +99,51 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 年収→月収・時給計算</div>
-      <h1>💹 年収→月収・時給計算</h1>
-      <p class="subtitle">年収から月収・日給・時給をかんたん計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 生活費配分計算</div>
+      <h1>🏠 生活費配分計算</h1>
+      <p class="subtitle">月の手取り収入から理想的な生活費の内訳を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>年収（税引き前）</label>
+        <label>月の手取り収入</label>
         <div class="input-wrap">
-          <input type="number" id="nenshu" placeholder="4000000" min="0">
+          <input type="number" id="income" placeholder="250000" min="0">
           <span class="unit">円</span>
         </div>
+        <p class="hint">額面ではなく、実際に口座に振り込まれる手取り金額を入力してください</p>
       </div>
-      <div class="form-group">
-        <label>1日の所定労働時間</label>
-        <div class="input-wrap">
-          <input type="number" id="hours" placeholder="8" min="1" max="24" value="8">
-          <span class="unit">時間</span>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>1ヶ月の出勤日数</label>
-        <div class="input-wrap">
-          <input type="number" id="days" placeholder="20" min="1" max="31" value="20">
-          <span class="unit">日</span>
-        </div>
-      </div>
-      <button class="btn btn-primary" onclick="calcNenshu()">計算する</button>
+      <button class="btn btn-primary" onclick="calcSeikatsuhi()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">月収（概算）</div>
-          <div class="value" id="res-monthly">—</div>
+          <div class="label">月の手取り収入</div>
+          <div class="value" id="res-main">—</div>
         </div>
         <div class="result-table">
           <table>
-            <tbody>
-              <tr><td>年収</td><td id="res-nenshu">—</td></tr>
-              <tr><td>月収</td><td id="res-monthly2">—</td></tr>
-              <tr><td>日給</td><td id="res-daily">—</td></tr>
-              <tr><td>時給</td><td id="res-hourly">—</td></tr>
-              <tr><td>分給</td><td id="res-minute">—</td></tr>
-            </tbody>
+            <thead><tr><th>費目</th><th>目安割合</th><th>金額目安</th></tr></thead>
+            <tbody id="res-tbody"></tbody>
           </table>
+        </div>
+        <div class="info-box">
+          上記はあくまで一般的な目安です。家族構成・住む地域・ライフスタイルに合わせて調整してください。
         </div>
       </div>
     </div>
     <div class="ad-area">広告</div>
     <div class="article">
-      <h2>年収・月収・時給の換算方法</h2>
-      <p>求人票では「年収」「月給」「時給」など様々な表記があります。比較するときは同じ単位に揃えましょう。</p>
-      <h3>計算式</h3>
-      <ul>
-        <li>月収 = 年収 ÷ 12</li>
-        <li>日給 = 月収 ÷ 月の出勤日数</li>
-        <li>時給 = 日給 ÷ 1日の労働時間</li>
-      </ul>
-      <h3>注意点</h3>
-      <p>ボーナスが含まれている場合、毎月の給与は年収÷12より少なくなります。求人票の「年収」にボーナスが含まれるか確認しましょう。</p>
-    </div>
-    <div class="article">
       <h2>よくある質問</h2>
       <div class="faq-item">
-        <div class="faq-q">Q. 年収と月収の違いは何ですか？</div>
-        <div class="faq-a">年収はボーナスを含めた1年間の総支給額、月収は毎月の給与支給額です。ボーナスがある場合は「月収×12＜年収」になります。</div>
+        <div class="faq-q">Q. 理想の生活費配分は？</div>
+        <div class="faq-a">一般的な目安として、家賃30%・食費15%・光熱費5%・通信費5%・交通費5%・趣味娯楽5%・被服費3%・医療費2%・貯金20%・その他10%が推奨されています。</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">Q. 時給に換算する計算式は？</div>
-        <div class="faq-a">月収÷（1ヶ月の労働日数×1日の労働時間）で計算できます。一般的には月収÷160時間（月20日×8時間）が目安です。</div>
+        <div class="faq-q">Q. 家賃は収入の何割が目安ですか？</div>
+        <div class="faq-a">手取り収入の25〜30%が目安です。例えば手取り20万円なら家賃5〜6万円が理想とされています。都市部では難しい場合もありますが、30%を超えると生活が苦しくなりやすいです。</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">Q. 年収600万円の時給はいくらですか？</div>
-        <div class="faq-a">年収600万円÷12ヶ月÷160時間（月間労働時間）＝約3,125円が目安です。</div>
+        <div class="faq-q">Q. 貯金の割合はどのくらいが理想ですか？</div>
+        <div class="faq-a">収入の20%が理想とされています。難しい場合でも最低10%は貯金に回すことをおすすめします。先取り貯金（給料が入ったらすぐ貯金分を別口座に移す）が効果的です。</div>
       </div>
     </div>
   </div>
@@ -210,35 +152,45 @@
   <div class="footer-logo">📐 はかるん</div>
   <div class="footer-links">
     <a href="../index.html">トップ</a>
-    <a href="tedori.html">手取り計算</a>
-    <a href="zangyo.html">残業代計算</a>
-    <a href="bonus.html">ボーナス手取り</a>
+    <a href="chochiku.html">積立貯金シミュレーション</a>
+    <a href="suidou.html">水道代計算</a>
+    <a href="../money/tedori.html">手取り計算</a>
   </div>
   <div class="footer-links" style="margin-top:12px">
     <a href="../privacy.html">プライバシーポリシー</a>
     <a href="../disclaimer.html">免責事項</a>
     <a href="../contact.html">お問い合わせ</a>
   </div>
-  <p class="copyright">※ 計算結果はあくまで目安です。正確な金額は専門家にご相談ください。</p>
+  <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
 <script>
 function fmt(n) { return Math.round(n).toLocaleString('ja-JP') + ' 円'; }
-function calcNenshu() {
-  const nenshu = parseFloat(document.getElementById('nenshu').value);
-  const hours = parseFloat(document.getElementById('hours').value) || 8;
-  const days = parseFloat(document.getElementById('days').value) || 20;
-  if (!nenshu || nenshu <= 0) { alert('年収を入力してください'); return; }
-  const monthly = nenshu / 12;
-  const daily = monthly / days;
-  const hourly = daily / hours;
-  const minute = hourly / 60;
-  document.getElementById('res-monthly').textContent = fmt(monthly);
-  document.getElementById('res-nenshu').textContent = fmt(nenshu);
-  document.getElementById('res-monthly2').textContent = fmt(monthly);
-  document.getElementById('res-daily').textContent = fmt(daily);
-  document.getElementById('res-hourly').textContent = fmt(hourly);
-  document.getElementById('res-minute').textContent = Math.round(minute).toLocaleString('ja-JP') + ' 円';
+var categories = [
+  { name: '家賃・住居費', ratio: 0.30, emoji: '🏠' },
+  { name: '食費', ratio: 0.15, emoji: '🍱' },
+  { name: '光熱費', ratio: 0.05, emoji: '💡' },
+  { name: '通信費', ratio: 0.05, emoji: '📱' },
+  { name: '交通費', ratio: 0.05, emoji: '🚃' },
+  { name: '趣味・娯楽', ratio: 0.05, emoji: '🎮' },
+  { name: '被服費', ratio: 0.03, emoji: '👗' },
+  { name: '医療費', ratio: 0.02, emoji: '🏥' },
+  { name: '貯金', ratio: 0.20, emoji: '💰' },
+  { name: 'その他', ratio: 0.10, emoji: '📦' }
+];
+function calcSeikatsuhi() {
+  var income = parseFloat(document.getElementById('income').value);
+  if (!income || income <= 0) { alert('月の手取り収入を入力してください'); return; }
+  document.getElementById('res-main').textContent = fmt(income);
+  var tbody = document.getElementById('res-tbody');
+  tbody.innerHTML = '';
+  categories.forEach(function(cat) {
+    var amount = income * cat.ratio;
+    var tr = document.createElement('tr');
+    if (cat.name === '貯金') tr.className = 'total';
+    tr.innerHTML = '<td>' + cat.emoji + ' ' + cat.name + '</td><td>' + Math.round(cat.ratio * 100) + '%</td><td>' + fmt(amount) + '</td>';
+    tbody.appendChild(tr);
+  });
   document.getElementById('result').classList.add('show');
 }
 </script>
