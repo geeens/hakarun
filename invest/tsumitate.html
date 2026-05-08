@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NISA・投資シミュレーション｜積立投資の将来価値を無料計算｜はかるん</title>
-  <meta name="description" content="月々の積立額・年利・期間を入力するだけでNISAの将来価値と節税メリットを無料計算。つみたて投資枠・成長投資枠に対応。">
+  <title>初期元本＋積立シミュレーション｜まとまった資金＋毎月積立で将来いくら？無料計算｜はかるん</title>
+  <meta name="description" content="初期元本と月々の積立額・年利・期間を入力するだけで将来の資産額を無料計算。NISAの節税メリットも比較できます。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "NISAとは何ですか？", "acceptedAnswer": {"@type": "Answer", "text": "少額投資非課税制度（Nippon Individual Savings Account）の略です。通常、投資の利益には約20%の税金がかかりますが、NISA口座内では非課税になります。"}}, {"@type": "Question", "name": "つみたて投資枠と成長投資枠の違いは？", "acceptedAnswer": {"@type": "Answer", "text": "つみたて投資枠は年間120万円まで、長期積立向けの投資信託が対象です。成長投資枠は年間240万円まで、個別株や幅広い投資信託に投資できます。両枠を合わせて生涯1,800万円まで利用できます。"}}, {"@type": "Question", "name": "NISAで投資する際の注意点は？", "acceptedAnswer": {"@type": "Answer", "text": "元本保証ではないため、投資した金額が減るリスクがあります。また、損失が出てもNISA口座では損益通算ができません。長期・分散・積立の原則を守って投資しましょう。"}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"初期元本とは何ですか？","acceptedAnswer":{"@type":"Answer","text":"投資を始める時点で一括で投資する金額のことです。貯金や退職金・相続などまとまった資金を最初に入れて、そこから毎月の積立を追加していくパターンに使います。"}},{"@type":"Question","name":"初期元本と毎月積立はどちらが効果的ですか？","acceptedAnswer":{"@type":"Answer","text":"まとまった資金がある場合は初期元本として早めに投資するほど複利効果が大きくなります。一方、月々の積立はドルコスト平均法の効果があり、価格変動リスクを平準化できます。両方を組み合わせるのが理想的です。"}},{"@type":"Question","name":"NISAで初期元本＋積立はできますか？","acceptedAnswer":{"@type":"Answer","text":"できます。NISAの成長投資枠（年240万円）で一括投資し、つみたて投資枠（年120万円）で積立を続ける組み合わせが代表的な活用方法です。ただし生涯投資枠は1,800万円までです。"}}]}</script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
-        <nav>
+    <nav>
       <div class="nav-item">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
@@ -94,24 +94,42 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; NISA・投資シミュレーション</div>
-      <h1>💹 NISA・投資シミュレーション</h1>
-      <p class="subtitle">積立投資の将来価値とNISA節税メリットを計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 初期元本＋積立シミュレーション</div>
+      <h1>💰 初期元本＋積立シミュレーション</h1>
+      <p class="subtitle">まとまった資金＋毎月の積立で将来の資産額を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
+        <label>初期元本（最初に一括で投資する金額）</label>
+        <div class="input-wrap">
+          <input type="number" id="principal" placeholder="1000000" min="0">
+          <span class="unit">円</span>
+        </div>
+        <p class="hint">0円の場合は毎月積立のみのシミュレーションになります</p>
+      </div>
+      <div class="form-group">
         <label>月々の積立額</label>
-        <div class="input-wrap"><input type="number" id="monthly" placeholder="30000" min="0"><span class="unit">円</span></div>
+        <div class="input-wrap">
+          <input type="number" id="monthly" placeholder="30000" min="0">
+          <span class="unit">円</span>
+        </div>
+        <p class="hint">0円の場合は初期元本のみのシミュレーションになります</p>
       </div>
       <div class="form-group">
         <label>想定年利</label>
-        <div class="input-wrap"><input type="number" id="rate" placeholder="5" min="0" max="30" step="0.1"><span class="unit">%</span></div>
+        <div class="input-wrap">
+          <input type="number" id="rate" placeholder="5" min="0" max="30" step="0.1">
+          <span class="unit">%</span>
+        </div>
         <p class="hint">インデックス投資の長期平均の目安：3〜7%</p>
       </div>
       <div class="form-group">
-        <label>積立期間</label>
-        <div class="input-wrap"><input type="number" id="years" placeholder="20" min="1" max="40"><span class="unit">年</span></div>
+        <label>運用期間</label>
+        <div class="input-wrap">
+          <input type="number" id="years" placeholder="20" min="1" max="50">
+          <span class="unit">年</span>
+        </div>
       </div>
       <div class="form-group">
         <label>口座の種類</label>
@@ -120,28 +138,41 @@
           <label><input type="radio" name="nisa" value="taxable"> 課税口座（一般）</label>
         </div>
       </div>
-      <button class="btn btn-primary" onclick="calcNisa()">計算する</button>
+      <button class="btn btn-primary" onclick="calcTsumitate()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">最終金額（運用後）</div>
+          <div class="label">最終資産額</div>
           <div class="value" id="res-main">—</div>
         </div>
-        <div class="result-table"><table><tbody>
-          <tr><td>元本合計（積立総額）</td><td id="res-principal">—</td></tr>
-          <tr><td>運用益</td><td id="res-profit">—</td></tr>
-          <tr><td>最終金額</td><td id="res-total">—</td></tr>
-          <tr><td>税金（課税口座の場合）</td><td id="res-tax">—</td></tr>
-          <tr><td>NISAによる節税メリット</td><td id="res-saving">—</td></tr>
-        </tbody></table></div>
-        <div class="info-box" id="nisa-info"></div>
+        <div class="result-table">
+          <table><tbody>
+            <tr><td>初期元本</td><td id="res-principal">—</td></tr>
+            <tr><td>積立総額</td><td id="res-monthly-total">—</td></tr>
+            <tr><td>元本合計</td><td id="res-ganpon">—</td></tr>
+            <tr><td>運用益</td><td id="res-profit">—</td></tr>
+            <tr><td>税金</td><td id="res-tax">—</td></tr>
+            <tr><td>最終資産額（税引後）</td><td id="res-total">—</td></tr>
+            <tr><td>NISAによる節税メリット</td><td id="res-saving">—</td></tr>
+          </tbody></table>
+        </div>
+        <div class="info-box" id="result-info"></div>
       </div>
     </div>
     <div class="ad-area">広告</div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item"><div class="faq-q">Q. NISAとは何ですか？</div><div class="faq-a">少額投資非課税制度（Nippon Individual Savings Account）の略です。通常、投資の利益には約20%の税金がかかりますが、NISA口座内では非課税になります。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. つみたて投資枠と成長投資枠の違いは？</div><div class="faq-a">つみたて投資枠は年間120万円まで、長期積立向けの投資信託が対象です。成長投資枠は年間240万円まで、個別株や幅広い投資信託に投資できます。両枠を合わせて生涯1,800万円まで利用できます。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. NISAで投資する際の注意点は？</div><div class="faq-a">元本保証ではないため、投資した金額が減るリスクがあります。また、損失が出てもNISA口座では損益通算ができません。長期・分散・積立の原則を守って投資しましょう。</div></div>
+      <div class="faq-item">
+        <div class="faq-q">Q. 初期元本とは何ですか？</div>
+        <div class="faq-a">投資を始める時点で一括で投資する金額のことです。貯金や退職金・相続などまとまった資金を最初に入れて、そこから毎月の積立を追加していくパターンに使います。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q. 初期元本と毎月積立はどちらが効果的ですか？</div>
+        <div class="faq-a">まとまった資金がある場合は初期元本として早めに投資するほど複利効果が大きくなります。一方、月々の積立はドルコスト平均法の効果があり、価格変動リスクを平準化できます。両方を組み合わせるのが理想的です。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q. NISAで初期元本＋積立はできますか？</div>
+        <div class="faq-a">できます。NISAの成長投資枠（年240万円）で一括投資し、つみたて投資枠（年120万円）で積立を続ける組み合わせが代表的な活用方法です。ただし生涯投資枠は1,800万円までです。</div>
+      </div>
     </div>
   </div>
 </main>
@@ -149,45 +180,77 @@
   <div class="footer-logo">📐 はかるん</div>
   <div class="footer-links">
     <a href="../index.html">トップ</a>
-    <a href="../invest/fukuri.html">複利計算</a> <a href="../life/chochiku.html">積立貯金計算</a> <a href="../tax/setsuzei.html">節税シミュレーション</a>
+    <a href="../invest/fukuri.html">複利計算</a>
+    <a href="../invest/nisa.html">NISA・投資シミュレーション</a>
+    <a href="../life/chochiku.html">積立貯金計算</a>
   </div>
   <div class="footer-links" style="margin-top:12px">
     <a href="../privacy.html">プライバシーポリシー</a>
     <a href="../disclaimer.html">免責事項</a>
     <a href="../contact.html">お問い合わせ</a>
   </div>
-  <p class="copyright">※ 計算結果はあくまで目安です。</p>
+  <p class="copyright">※ 計算結果はあくまで目安です。投資にはリスクがあります。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
 <script>
-function calcNisa() {
-  const monthly = parseFloat(document.getElementById('monthly').value);
-  const rate = parseFloat(document.getElementById('rate').value) / 100 / 12;
+function calcTsumitate() {
+  const P = parseFloat(document.getElementById('principal').value) || 0;
+  const monthly = parseFloat(document.getElementById('monthly').value) || 0;
+  const annualRate = parseFloat(document.getElementById('rate').value);
   const years = parseFloat(document.getElementById('years').value);
-  const nisaType = document.querySelector('input[name="nisa"]:checked').value;
-  if (!monthly || !years) { alert('積立額と期間を入力してください'); return; }
+  const isNisa = document.querySelector('input[name="nisa"]:checked').value === 'nisa';
+
+  if (annualRate === undefined || isNaN(annualRate) || !years) {
+    alert('年利と運用期間を入力してください'); return;
+  }
+  if (P === 0 && monthly === 0) {
+    alert('初期元本か月々の積立額を入力してください'); return;
+  }
+
   const n = years * 12;
-  let total;
-  if (rate === 0) { total = monthly * n; }
-  else { total = monthly * (Math.pow(1 + rate, n) - 1) / rate * (1 + rate); }
-  const principal = monthly * n;
-  const profit = total - principal;
-  const taxRate = 0.20315;
-  const tax = profit * taxRate;
-  const isNisa = nisaType === 'nisa';
-  const fmt = n => Math.round(n).toLocaleString('ja-JP') + ' 円';
-  document.getElementById('res-main').textContent = fmt(isNisa ? total : total - tax);
-  document.getElementById('res-principal').textContent = fmt(principal);
+  const r = annualRate / 100 / 12;
+
+  // 初期元本の複利成長
+  let principalFinal;
+  if (r === 0) {
+    principalFinal = P;
+  } else {
+    principalFinal = P * Math.pow(1 + r, n);
+  }
+
+  // 月々積立の将来価値
+  let monthlyFinal;
+  if (r === 0) {
+    monthlyFinal = monthly * n;
+  } else {
+    monthlyFinal = monthly * (Math.pow(1 + r, n) - 1) / r * (1 + r);
+  }
+
+  const total = principalFinal + monthlyFinal;
+  const monthlyTotal = monthly * n;
+  const ganpon = P + monthlyTotal;
+  const profit = total - ganpon;
+  const tax = profit * 0.20315;
+  const finalAmount = isNisa ? total : total - tax;
+
+  const fmt = v => Math.round(v).toLocaleString('ja-JP') + ' 円';
+
+  document.getElementById('res-main').textContent = fmt(finalAmount);
+  document.getElementById('res-principal').textContent = fmt(P);
+  document.getElementById('res-monthly-total').textContent = fmt(monthlyTotal);
+  document.getElementById('res-ganpon').textContent = fmt(ganpon);
   document.getElementById('res-profit').textContent = fmt(profit);
-  document.getElementById('res-total').textContent = fmt(isNisa ? total : total - tax);
   document.getElementById('res-tax').textContent = isNisa ? '非課税（NISA）' : fmt(tax);
+  document.getElementById('res-total').textContent = fmt(finalAmount);
   document.getElementById('res-saving').textContent = isNisa ? fmt(tax) + '（節税効果）' : '—';
-  const info = document.getElementById('nisa-info');
+
+  const info = document.getElementById('result-info');
   if (isNisa) {
-    info.innerHTML = '<strong>NISAの非課税メリット：</strong>運用益に通常かかる約20%の税金がゼロになります。つみたて投資枠は年120万円、成長投資枠は年240万円まで利用できます。';
+    info.innerHTML = '<strong>NISAの非課税メリット：</strong>運用益に通常かかる約20%の税金がゼロになります。長期運用ほど節税効果が大きくなります。';
   } else {
     info.innerHTML = '<strong>課税口座では</strong>運用益に約20.315%の税金がかかります。NISAを活用するとこの税金が非課税になります。';
   }
+
   document.getElementById('result').classList.add('show');
 }
 </script>
