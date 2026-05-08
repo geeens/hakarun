@@ -3,20 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>複利計算｜元本・金利・期間から将来の資産額を無料計算｜はかるん</title>
-  <meta name="description" content="元本・年利・期間を入力するだけで複利計算を無料シミュレーション。資産が何倍になるか・72の法則もわかります。">
+  <title>不動産利回り計算｜表面・実質利回りを無料計算｜はかるん</title>
+  <meta name="description" content="物件価格・月額家賃・諸経費を入力するだけで表面利回り・実質利回りを無料計算。不動産投資判断の参考に。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "複利とは何ですか？", "acceptedAnswer": {"@type": "Answer", "text": "利息にさらに利息がつく仕組みです。単利は元本にしか利息がつきませんが、複利は利息も元本に加えて再投資するため、長期間では大きな差が生まれます。"}}, {"@type": "Question", "name": "72の法則とは？", "acceptedAnswer": {"@type": "Answer", "text": "「72÷年利（%）＝資産が2倍になる年数」という概算式です。例えば年利6%なら72÷6＝12年で資産が約2倍になります。"}}, {"@type": "Question", "name": "単利と複利の違いは？", "acceptedAnswer": {"@type": "Answer", "text": "単利は毎回元本だけに利息がつきます。複利は利息を元本に組み入れて再運用するため、時間が経つほど単利との差が大きくなります。長期投資では複利の効果が絶大です。"}}]}</script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
-        <nav>
+    <nav>
       <div class="nav-item">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
@@ -106,61 +105,58 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 複利計算</div>
-      <h1>📈 複利計算</h1>
-      <p class="subtitle">元本・金利・期間から将来の資産額を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 投資・資産 &rsaquo; 🏠 不動産利回り計算</div>
+      <h1>🏠 不動産利回り計算</h1>
+      <p class="subtitle">物件価格と家賃から不動産投資の利回りを計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>元本</label>
-        <div class="input-wrap"><input type="number" id="principal" placeholder="1000000" min="0"><span class="unit">円</span></div>
+        <label>物件価格</label>
+        <div class="input-wrap"><input type="number" id="price" placeholder="30000000" min="0"><span class="unit">円</span></div>
       </div>
       <div class="form-group">
-        <label>年利</label>
-        <div class="input-wrap"><input type="number" id="rate" placeholder="5" min="0" max="50" step="0.1"><span class="unit">%</span></div>
-        <p class="hint">長期投資の想定利回りの目安：インデックス投資3〜7%</p>
+        <label>月額家賃収入</label>
+        <div class="input-wrap"><input type="number" id="rent" placeholder="100000" min="0"><span class="unit">円/月</span></div>
       </div>
       <div class="form-group">
-        <label>期間</label>
-        <div class="input-wrap"><input type="number" id="years" placeholder="20" min="1" max="50"><span class="unit">年</span></div>
+        <label>年間諸経費（省略可）</label>
+        <div class="input-wrap"><input type="number" id="expense" placeholder="200000" min="0"><span class="unit">円/年</span></div>
+        <p class="hint">管理費・固定資産税・修繕費・火災保険料などの合計</p>
       </div>
       <div class="form-group">
-        <label>複利の頻度</label>
-        <div class="radio-group">
-          <label><input type="radio" name="freq" value="year" checked> 年1回</label>
-          <label><input type="radio" name="freq" value="month"> 月1回</label>
-        </div>
+        <label>購入時の諸費用（省略可）</label>
+        <div class="input-wrap"><input type="number" id="initial" placeholder="1500000" min="0"><span class="unit">円</span></div>
+        <p class="hint">仲介手数料・登記費用・ローン手数料など（物件価格の約5〜8%が目安）</p>
       </div>
-      <button class="btn btn-primary" onclick="calcFukuri()">計算する</button>
+      <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">最終金額</div>
+          <div class="label">実質利回り</div>
           <div class="value" id="res-main">—</div>
         </div>
         <div class="result-table"><table><tbody>
-          <tr><td>元本</td><td id="res-principal">—</td></tr>
-          <tr><td>運用益（利息合計）</td><td id="res-profit">—</td></tr>
-          <tr><td>最終金額</td><td id="res-total">—</td></tr>
-          <tr><td>元本比（何倍になった？）</td><td id="res-ratio">—</td></tr>
-          <tr><td>利益率</td><td id="res-rate">—</td></tr>
+          <tr><td>年間家賃収入</td><td id="res-rent">—</td></tr>
+          <tr><td>表面利回り（グロス）</td><td id="res-gross">—</td></tr>
+          <tr><td>実質利回り（ネット）</td><td id="res-net">—</td></tr>
+          <tr><td>年間手取り収入</td><td id="res-income">—</td></tr>
+          <tr><td>投資回収年数（実質）</td><td id="res-payback">—</td></tr>
         </tbody></table></div>
-        <div class="info-box"><strong>72の法則：</strong>資産が2倍になるまでの年数は「72÷年利」で概算できます。年利6%なら約12年で2倍です。</div>
+        <div class="info-box" id="info-box"></div>
       </div>
     </div>
     <div class="ad-area">広告</div>
-
     <div class="article">
-      <h2>複利の力と長期投資の重要性</h2>
-      <p>複利とは、元本から生じた利息を元本に加えて再投資することで、利息にもさらに利息がつく仕組みです。単利（元本にのみ利息がつく）と比べると、長期になるほど差が大きくなります。アインシュタインが「人類最大の発明」と称したとも言われるほど、複利の効果は絶大です。</p>
-      <p>複利の力を理解するのに便利なのが「72の法則」です。「72÷年利（%）＝資産が2倍になるまでの年数」で計算でき、年利6%なら12年、年利4%なら18年で資産が約2倍になります。少しの利率の差が長期では大きな差を生みます。</p>
-      <p>元本100万円を年利5%で複利運用した場合、10年後は約163万円、20年後は約265万円、30年後は約432万円になります。早く始めるほど複利効果の恩恵を長く受けられます。「今すぐ少額でも始める」ことが資産形成の鉄則です。</p>
+      <h2>🏠 不動産利回り計算について</h2>
+      <p>不動産投資では「利回り」が重要な判断指標の一つです。利回りとは投資した資金に対して年間どれだけの収益が得られるかを示す割合です。表面利回りと実質利回りの2種類があり、それぞれ意味が異なります。</p>
+      <p>表面利回り（グロス利回り）は「年間家賃収入 ÷ 物件価格 × 100」で計算します。計算が簡単な反面、諸経費が考慮されていないため実態より高く見える場合があります。実質利回り（ネット利回り）は管理費・固定資産税・修繕費などを差し引いた実際の手取り収益で計算するため、より正確な投資効率を把握できます。</p>
+      <p>不動産投資は長期的な視点が重要です。利回りだけでなく、物件の立地・築年数・空室リスク・ローンの金利なども総合的に検討する必要があります。このツールで利回りを試算し、投資判断の参考にしてください。ただし実際の投資判断は専門家にも相談することをおすすめします。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item"><div class="faq-q">Q. 複利とは何ですか？</div><div class="faq-a">利息にさらに利息がつく仕組みです。単利は元本にしか利息がつきませんが、複利は利息も元本に加えて再投資するため、長期間では大きな差が生まれます。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 72の法則とは？</div><div class="faq-a">「72÷年利（%）＝資産が2倍になる年数」という概算式です。例えば年利6%なら72÷6＝12年で資産が約2倍になります。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 単利と複利の違いは？</div><div class="faq-a">単利は毎回元本だけに利息がつきます。複利は利息を元本に組み入れて再運用するため、時間が経つほど単利との差が大きくなります。長期投資では複利の効果が絶大です。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 表面利回りと実質利回りの違いは？</div><div class="faq-a">表面利回り（グロス利回り）は年間家賃収入÷物件価格×100%で計算した単純な利回りです。実質利回り（ネット利回り）は管理費・税金・修繕費などの諸経費と購入費用を差し引いた実態に近い利回りです。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 不動産投資の利回りの目安は？</div><div class="faq-a">一般的に表面利回り5〜8%以上、実質利回り3〜5%以上が投資判断の目安とされています。都市部ほど利回りは低く、地方ほど高い傾向があります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 空室リスクはどう考える？</div><div class="faq-a">このシミュレーターは満室状態を想定しています。実際は空室期間があるため、空室率10〜20%を見込んで計算することをおすすめします。</div></div>
     </div>
   </div>
 </main>
@@ -168,7 +164,9 @@
   <div class="footer-logo">📐 はかるん</div>
   <div class="footer-links">
     <a href="../index.html">トップ</a>
-    <a href="../invest/nisa.html">NISA・投資シミュレーション</a> <a href="../life/chochiku.html">積立貯金計算</a>
+    <a href="../money/tedori.html">手取り計算</a>
+    <a href="../invest/nisa.html">NISA計算</a>
+    <a href="../tax/furusato.html">ふるさと納税</a>
   </div>
   <div class="footer-links" style="margin-top:12px">
     <a href="../privacy.html">プライバシーポリシー</a>
@@ -179,30 +177,32 @@
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
 <script>
-function calcFukuri() {
-  const P = parseFloat(document.getElementById('principal').value);
-  const rate = parseFloat(document.getElementById('rate').value);
-  const years = parseFloat(document.getElementById('years').value);
-  const freq = document.querySelector('input[name="freq"]:checked').value;
-  if (!P || rate === undefined || !years) { alert('すべての項目を入力してください'); return; }
-  let A;
-  if (freq === 'year') {
-    A = P * Math.pow(1 + rate / 100, years);
-  } else {
-    const r = rate / 100 / 12;
-    A = P * Math.pow(1 + r, years * 12);
-  }
-  const profit = A - P;
+function calc() {
+  const price = parseFloat(document.getElementById('price').value);
+  const rent = parseFloat(document.getElementById('rent').value);
+  const expense = parseFloat(document.getElementById('expense').value) || 0;
+  const initial = parseFloat(document.getElementById('initial').value) || 0;
+  if (!price || !rent) { alert('物件価格と月額家賃を入力してください'); return; }
+  const annualRent = rent * 12;
+  const gross = annualRent / price * 100;
+  const totalCost = price + initial;
+  const netIncome = annualRent - expense;
+  const net = netIncome / totalCost * 100;
+  const payback = netIncome > 0 ? totalCost / netIncome : 0;
   const fmt = n => Math.round(n).toLocaleString('ja-JP') + ' 円';
-  document.getElementById('res-main').textContent = fmt(A);
-  document.getElementById('res-principal').textContent = fmt(P);
-  document.getElementById('res-profit').textContent = fmt(profit);
-  document.getElementById('res-total').textContent = fmt(A);
-  document.getElementById('res-ratio').textContent = (A / P).toFixed(2) + ' 倍';
-  document.getElementById('res-rate').textContent = (profit / P * 100).toFixed(1) + '%';
+  document.getElementById('res-main').textContent = net.toFixed(2) + ' %';
+  document.getElementById('res-rent').textContent = fmt(annualRent);
+  document.getElementById('res-gross').textContent = gross.toFixed(2) + ' %';
+  document.getElementById('res-net').textContent = net.toFixed(2) + ' %';
+  document.getElementById('res-income').textContent = fmt(netIncome);
+  document.getElementById('res-payback').textContent = payback > 0 ? payback.toFixed(1) + ' 年' : '—';
+  const info = document.getElementById('info-box');
+  if (net >= 5) info.innerHTML = `<strong>実質利回り${net.toFixed(2)}%：</strong>不動産投資として比較的高い利回りです。`;
+  else if (net >= 3) info.innerHTML = `<strong>実質利回り${net.toFixed(2)}%：</strong>標準的な利回りです。立地・築年数・空室リスクも考慮して判断しましょう。`;
+  else info.innerHTML = `<strong>実質利回り${net.toFixed(2)}%：</strong>やや低い利回りです。諸経費の削減や家賃の見直しを検討してみましょう。`;
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

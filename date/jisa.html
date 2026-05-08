@@ -3,26 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>生活費配分計算｜月収から理想的な生活費の内訳を無料計算｜はかるん</title>
-  <meta name="description" content="月の手取り収入を入力するだけで、家賃・食費・光熱費・貯金など理想的な生活費の配分目安を無料計算します。">
+  <title>時差計算｜世界の主要都市との時差を計算｜はかるん</title>
+  <meta name="description" content="日本時間を入力するだけで世界20都市の現地時間を計算。海外出張・旅行・国際電話の時差確認に。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
-  <script type="application/ld+json">
-  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
-    { "@type": "Question", "name": "理想の生活費配分は？", "acceptedAnswer": { "@type": "Answer", "text": "一般的な目安として、家賃30%・食費15%・光熱費5%・通信費5%・交通費5%・趣味娯楽5%・被服費3%・医療費2%・貯金20%・その他10%が推奨されています。" } },
-    { "@type": "Question", "name": "家賃は収入の何割が目安ですか？", "acceptedAnswer": { "@type": "Answer", "text": "手取り収入の25〜30%が目安です。例えば手取り20万円なら家賃5〜6万円が理想とされています。都市部では難しい場合もありますが、30%を超えると生活が苦しくなりやすいです。" } },
-    { "@type": "Question", "name": "貯金の割合はどのくらいが理想ですか？", "acceptedAnswer": { "@type": "Answer", "text": "収入の20%が理想とされています。難しい場合でも最低10%は貯金に回すことをおすすめします。先取り貯金（給料が入ったらすぐ貯金分を別口座に移す）が効果的です。" } }
-  ] }
-  </script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
-        <nav>
+    <nav>
       <div class="nav-item">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
@@ -54,7 +47,7 @@
           <a href="../health/shinpaku.html">🏃 目標心拍数計算</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../life/loan.html" class="nav-link">生活・節約 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../life/loan.html">🏦 ローン返済シミュレーション</a>
@@ -68,7 +61,7 @@
           <a href="../life/coffee.html">☕ コーヒー代節約計算</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../date/nissuu.html" class="nav-link">日付・時間 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../date/nissuu.html">📅 日数計算</a>
@@ -112,59 +105,40 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 生活費配分計算</div>
-      <h1>🏠 生活費配分計算</h1>
-      <p class="subtitle">月の手取り収入から理想的な生活費の内訳を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 日付・時間 &rsaquo; ⏰ 時差計算</div>
+      <h1>⏰ 時差計算</h1>
+      <p class="subtitle">日本時間を入力すると世界各都市の現地時間を表示します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>月の手取り収入</label>
-        <div class="input-wrap">
-          <input type="number" id="income" placeholder="250000" min="0">
-          <span class="unit">円</span>
-        </div>
-        <p class="hint">額面ではなく、実際に口座に振り込まれる手取り金額を入力してください</p>
+        <label>日本時間（JST）</label>
+        <div class="input-wrap"><input type="time" id="jst-time" value="12:00"></div>
       </div>
-      <button class="btn btn-primary" onclick="calcSeikatsuhi()">計算する</button>
+      <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">月の手取り収入</div>
-          <div class="value" id="res-main">—</div>
+          <div class="label">入力した日本時間</div>
+          <div class="value" id="res-jst">—</div>
         </div>
         <div class="result-table">
-          <table>
-            <thead><tr><th>費目</th><th>目安割合</th><th>金額目安</th></tr></thead>
-            <tbody id="res-tbody"></tbody>
-          </table>
-        </div>
-        <div class="info-box">
-          上記はあくまで一般的な目安です。家族構成・住む地域・ライフスタイルに合わせて調整してください。
+          <table id="city-table"><thead><tr><th>都市</th><th>現地時間</th><th>時差</th></tr></thead>
+          <tbody id="city-rows"></tbody></table>
         </div>
       </div>
     </div>
     <div class="ad-area">広告</div>
-
     <div class="article">
-      <h2>月収別・理想の生活費配分の考え方</h2>
-      <p>生活費の配分に「正解」はありませんが、ファイナンシャルプランナーがよく用いる目安として「家賃30%・食費15%・貯金20%」というバランスがあります。収入の20%を貯蓄に回すことで、老後資金や緊急時の備えを着実に積み上げることができます。</p>
-      <p>特に「家賃は収入の30%以内」は重要な目安です。手取り月収25万円なら家賃は7.5万円以内が理想です。家賃が高くなると他の支出を圧迫し、貯蓄ができなくなりやすいです。固定費（家賃・通信費・保険料）を見直すと節約効果が長続きします。</p>
-      <p>このツールで算出される金額はあくまで目安です。家族構成・住む地域・生活スタイルによって最適な配分は変わります。まず自分の実際の支出を記録して現状を把握し、そこから無駄な支出を見つけて改善していくことが家計改善の第一歩です。</p>
+      <h2>⏰ 時差計算について</h2>
+      <p>海外出張・旅行・国際ビジネス・海外の友人との連絡など、時差を把握しなければならない場面は意外と多くあります。世界は24のタイムゾーンに分かれており、日本（JST＝UTC+9）を基準にして各都市との時差を計算します。</p>
+      <p>時差計算で特に注意が必要なのは「日付をまたぐ」ケースです。たとえば日本が午前0時のとき、ロンドンは前日の午後3時、ニューヨークは前日の午前10時になります。海外の相手に連絡する際は、日付の違いにも注意が必要です。</p>
+      <p>また多くの欧米諸国では「サマータイム（夏時間）」を採用しており、春〜秋の期間は時計を1時間進めます。このため時差が季節によって変わることがあります。大切な会議やフライトの際は、必ず現地の正確な時刻を確認するようにしましょう。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item">
-        <div class="faq-q">Q. 理想の生活費配分は？</div>
-        <div class="faq-a">一般的な目安として、家賃30%・食費15%・光熱費5%・通信費5%・交通費5%・趣味娯楽5%・被服費3%・医療費2%・貯金20%・その他10%が推奨されています。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. 家賃は収入の何割が目安ですか？</div>
-        <div class="faq-a">手取り収入の25〜30%が目安です。例えば手取り20万円なら家賃5〜6万円が理想とされています。都市部では難しい場合もありますが、30%を超えると生活が苦しくなりやすいです。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. 貯金の割合はどのくらいが理想ですか？</div>
-        <div class="faq-a">収入の20%が理想とされています。難しい場合でも最低10%は貯金に回すことをおすすめします。先取り貯金（給料が入ったらすぐ貯金分を別口座に移す）が効果的です。</div>
-      </div>
+      <div class="faq-item"><div class="faq-q">Q. サマータイムは考慮されますか？</div><div class="faq-a">このツールはサマータイムを考慮しない固定の時差で計算しています。サマータイム期間中（主に3〜11月）は1時間ずれる場合があります。正確な時刻は現地の情報をご確認ください。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. ニューヨークとの時差は？</div><div class="faq-a">日本との時差は標準時間（冬時間）で14時間、夏時間（サマータイム）では13時間です。日本が正午のとき、ニューヨークは前日の夜22時（冬）または23時（夏）です。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 海外への電話で気をつけることは？</div><div class="faq-a">相手の現地時間を確認し、深夜・早朝を避けることが礼儀です。ビジネス連絡は現地時間の朝9時〜夕方6時の範囲を目安にしましょう。</div></div>
     </div>
   </div>
 </main>
@@ -172,9 +146,9 @@
   <div class="footer-logo">📐 はかるん</div>
   <div class="footer-links">
     <a href="../index.html">トップ</a>
-    <a href="chochiku.html">積立貯金シミュレーション</a>
-    <a href="suidou.html">水道代計算</a>
     <a href="../money/tedori.html">手取り計算</a>
+    <a href="../invest/nisa.html">NISA計算</a>
+    <a href="../tax/furusato.html">ふるさと納税</a>
   </div>
   <div class="footer-links" style="margin-top:12px">
     <a href="../privacy.html">プライバシーポリシー</a>
@@ -185,35 +159,53 @@
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
 <script>
-function fmt(n) { return Math.round(n).toLocaleString('ja-JP') + ' 円'; }
-var categories = [
-  { name: '家賃・住居費', ratio: 0.30, emoji: '🏠' },
-  { name: '食費', ratio: 0.15, emoji: '🍱' },
-  { name: '光熱費', ratio: 0.05, emoji: '💡' },
-  { name: '通信費', ratio: 0.05, emoji: '📱' },
-  { name: '交通費', ratio: 0.05, emoji: '🚃' },
-  { name: '趣味・娯楽', ratio: 0.05, emoji: '🎮' },
-  { name: '被服費', ratio: 0.03, emoji: '👗' },
-  { name: '医療費', ratio: 0.02, emoji: '🏥' },
-  { name: '貯金', ratio: 0.20, emoji: '💰' },
-  { name: 'その他', ratio: 0.10, emoji: '📦' }
+const CITIES = [
+  {name:'ソウル（韓国）', diff:0},
+  {name:'北京・上海（中国）', diff:-1},
+  {name:'香港', diff:-1},
+  {name:'バンコク（タイ）', diff:-2},
+  {name:'シンガポール', diff:-1},
+  {name:'ジャカルタ（インドネシア）', diff:-2},
+  {name:'ムンバイ（インド）', diff:-3.5},
+  {name:'ドバイ（UAE）', diff:-5},
+  {name:'モスクワ（ロシア）', diff:-6},
+  {name:'イスタンブール（トルコ）', diff:-6},
+  {name:'ナイロビ（ケニア）', diff:-6},
+  {name:'フランクフルト（ドイツ）', diff:-8},
+  {name:'パリ（フランス）', diff:-8},
+  {name:'ロンドン（イギリス）', diff:-9},
+  {name:'リスボン（ポルトガル）', diff:-9},
+  {name:'サンパウロ（ブラジル）', diff:-12},
+  {name:'ニューヨーク（アメリカ）', diff:-14},
+  {name:'シカゴ（アメリカ）', diff:-15},
+  {name:'デンバー（アメリカ）', diff:-16},
+  {name:'ロサンゼルス（アメリカ）', diff:-17},
+  {name:'ホノルル（ハワイ）', diff:-19},
+  {name:'シドニー（オーストラリア）', diff:1},
+  {name:'オークランド（NZ）', diff:3},
 ];
-function calcSeikatsuhi() {
-  var income = parseFloat(document.getElementById('income').value);
-  if (!income || income <= 0) { alert('月の手取り収入を入力してください'); return; }
-  document.getElementById('res-main').textContent = fmt(income);
-  var tbody = document.getElementById('res-tbody');
+function calc() {
+  const jst = document.getElementById('jst-time').value;
+  if (!jst) { alert('日本時間を入力してください'); return; }
+  const [h, m] = jst.split(':').map(Number);
+  const pad = n => String(n < 0 ? n + 24 : n >= 24 ? n - 24 : n).padStart(2, '0');
+  document.getElementById('res-jst').textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+  const tbody = document.getElementById('city-rows');
   tbody.innerHTML = '';
-  categories.forEach(function(cat) {
-    var amount = income * cat.ratio;
-    var tr = document.createElement('tr');
-    if (cat.name === '貯金') tr.className = 'total';
-    tr.innerHTML = '<td>' + cat.emoji + ' ' + cat.name + '</td><td>' + Math.round(cat.ratio * 100) + '%</td><td>' + fmt(amount) + '</td>';
+  CITIES.forEach(c => {
+    const totalMin = h * 60 + m + c.diff * 60;
+    let hh = Math.floor(totalMin / 60) % 24;
+    if (hh < 0) hh += 24;
+    const mm = ((totalMin % 60) + 60) % 60;
+    const sign = c.diff >= 0 ? '+' : '';
+    const diffStr = c.diff === 0 ? '同じ' : sign + c.diff + '時間';
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${c.name}</td><td><strong>${String(hh).padStart(2,'0')}:${String(mm).padStart(2,'0')}</strong></td><td>${diffStr}</td>`;
     tbody.appendChild(tr);
   });
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

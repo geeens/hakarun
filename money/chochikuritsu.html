@@ -3,26 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>消費税計算｜税抜き・税込み金額を無料計算｜はかるん</title>
-  <meta name="description" content="税抜き価格・税込み価格の消費税をかんたん無料計算。8%（軽減税率）と10%に対応。消費税額もすぐわかります。">
+  <title>貯蓄率計算｜月収から貯蓄率を無料計算｜はかるん</title>
+  <meta name="description" content="月収と貯蓄額を入力するだけで貯蓄率を無料計算。年間・10年間の貯蓄シミュレーションも確認できます。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
-  <script type="application/ld+json">
-  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
-    { "@type": "Question", "name": "消費税8%と10%の違いは何ですか？", "acceptedAnswer": { "@type": "Answer", "text": "食料品や新聞など生活必需品は8%（軽減税率）、それ以外の一般商品は10%が適用されます。" } },
-    { "@type": "Question", "name": "軽減税率とは何ですか？", "acceptedAnswer": { "@type": "Answer", "text": "特定の商品（食料品・飲料品・新聞など）に対して通常より低い税率（8%）を適用する制度です。2019年10月に導入されました。" } },
-    { "@type": "Question", "name": "消費税の計算式は？", "acceptedAnswer": { "@type": "Answer", "text": "税込み価格 = 税抜き価格 × 1.1（10%の場合）。税抜き価格 = 税込み価格 ÷ 1.1（小数点以下を四捨五入）。" } }
-  ] }
-  </script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
-        <nav>
+    <nav>
       <div class="nav-item active">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
@@ -112,70 +105,46 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 消費税計算</div>
-      <h1>🛒 消費税計算</h1>
-      <p class="subtitle">税抜き・税込み金額と消費税額をかんたんに計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; お金・給与 &rsaquo; 💸 貯蓄率計算</div>
+      <h1>💸 貯蓄率計算</h1>
+      <p class="subtitle">月収と貯蓄額から貯蓄率を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>金額</label>
-        <div class="input-wrap">
-          <input type="number" id="amount" placeholder="1000" min="0">
-          <span class="unit">円</span>
-        </div>
+        <label>月収（手取り）</label>
+        <div class="input-wrap"><input type="number" id="income" placeholder="250000" min="0"><span class="unit">円</span></div>
       </div>
       <div class="form-group">
-        <label>税率</label>
-        <div class="radio-group">
-          <label><input type="radio" name="rate" value="0.10" checked> 10%（一般商品）</label>
-          <label><input type="radio" name="rate" value="0.08"> 8%（軽減税率・食料品など）</label>
-        </div>
+        <label>月々の貯蓄額</label>
+        <div class="input-wrap"><input type="number" id="saving" placeholder="50000" min="0"><span class="unit">円</span></div>
       </div>
-      <div class="form-group">
-        <label>計算の方向</label>
-        <div class="radio-group">
-          <label><input type="radio" name="mode" value="excl" checked> 税抜き → 税込みを計算</label>
-          <label><input type="radio" name="mode" value="incl"> 税込み → 税抜きを計算</label>
-        </div>
-      </div>
-      <button class="btn btn-primary" onclick="calcShohizei()">計算する</button>
+      <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">消費税額</div>
-          <div class="value" id="res-main">—</div>
+          <div class="label">貯蓄率</div>
+          <div class="value" id="res-rate">—</div>
         </div>
-        <div class="result-table">
-          <table><tbody>
-            <tr><td>税抜き金額</td><td id="res-excl">—</td></tr>
-            <tr><td>消費税額</td><td id="res-tax">—</td></tr>
-            <tr class="total"><td>税込み金額</td><td id="res-incl">—</td></tr>
-          </tbody></table>
-        </div>
+        <div class="result-table"><table><tbody>
+          <tr><td>月々の貯蓄額</td><td id="res-monthly">—</td></tr>
+          <tr><td>年間貯蓄額</td><td id="res-yearly">—</td></tr>
+          <tr><td>10年間の貯蓄額</td><td id="res-10y">—</td></tr>
+        </tbody></table></div>
+        <div class="info-box" id="info-box"></div>
       </div>
     </div>
     <div class="ad-area">広告</div>
-
     <div class="article">
-      <h2>消費税の仕組みと計算方法</h2>
-      <p>消費税は商品やサービスの購入時に課される間接税で、現在の税率は原則10%です。ただし食料品・飲料品（酒類・外食を除く）や週2回以上発行される新聞（定期購読）は軽減税率8%が適用されます。レシートに「※」や「軽」の記載がある商品が軽減税率の対象です。</p>
-      <p>税抜き価格（本体価格）から税込み価格を計算するには「税抜き×1.1（10%の場合）」、逆に税込み価格から税抜き価格を求めるには「税込み÷1.1」で計算できます。端数処理は店舗によって切り捨て・切り上げ・四捨五入と異なるため、実際の請求額と若干差が出ることがあります。</p>
-      <p>このツールでは税抜き→税込み、税込み→税抜きの両方向の計算に対応しています。8%・10%の税率を切り替えて計算できます。ネットショッピングや家計管理・見積もり作成など、日常のさまざまな場面でご活用ください。</p>
+      <h2>💸 貯蓄率計算について</h2>
+      <p>貯蓄率とは、収入に対して貯蓄している割合のことです。たとえば月収25万円のうち5万円貯蓄していれば貯蓄率は20%になります。この数字を把握することで、自分の家計の健全度を客観的に知ることができます。</p>
+      <p>一般的に貯蓄率10%以上が「普通」、20%以上が「優秀」とされています。老後の資金準備や住宅購入の頭金など、大きな出費に備えるためには20%を目安に貯蓄習慣をつけることが重要です。若いうちから続けるほど、長期的な資産形成に有利です。</p>
+      <p>貯蓄率を上げる最も効果的な方法は「先取り貯蓄」です。給与が入ったら先に貯蓄分を別口座に移し、残りで生活する方法で、意思の力に頼らず自動的に貯蓄できます。まずは現在の貯蓄率を計算し、目標値との差を把握することから始めましょう。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item">
-        <div class="faq-q">Q. 消費税8%と10%の違いは何ですか？</div>
-        <div class="faq-a">食料品や新聞など生活必需品は8%（軽減税率）、それ以外の一般商品は10%が適用されます。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. 軽減税率とは何ですか？</div>
-        <div class="faq-a">特定の商品（食料品・飲料品・新聞など）に対して通常より低い税率（8%）を適用する制度です。2019年10月に導入されました。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. 消費税の計算式は？</div>
-        <div class="faq-a">税込み価格 = 税抜き価格 × 1.1（10%の場合）。税抜き価格 = 税込み価格 ÷ 1.1（小数点以下を四捨五入）。</div>
-      </div>
+      <div class="faq-item"><div class="faq-q">Q. 貯蓄率の目安は？</div><div class="faq-a">一般的に収入の10〜20%を貯蓄に回すのが理想とされています。20%以上貯蓄できると将来の資産形成に大きく有利です。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 手取り収入とは？</div><div class="faq-a">給与から税金・社会保険料を引いた実際に受け取る金額です。額面（総支給額）ではなく手取り額を入力してください。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 貯蓄率を上げるには？</div><div class="faq-a">固定費（家賃・スマホ代・サブスクリプション）の見直しが効果的です。変動費より固定費を削減すると、自動的に毎月の貯蓄が増えます。</div></div>
     </div>
   </div>
 </main>
@@ -183,9 +152,9 @@
   <div class="footer-logo">📐 はかるん</div>
   <div class="footer-links">
     <a href="../index.html">トップ</a>
-    <a href="tedori.html">手取り計算</a>
-    <a href="warikan.html">割り勘計算</a>
-    <a href="../calc/percent.html">パーセント計算</a>
+    <a href="../money/tedori.html">手取り計算</a>
+    <a href="../invest/nisa.html">NISA計算</a>
+    <a href="../tax/furusato.html">ふるさと納税</a>
   </div>
   <div class="footer-links" style="margin-top:12px">
     <a href="../privacy.html">プライバシーポリシー</a>
@@ -196,29 +165,24 @@
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
 <script>
-function fmt(n) { return Math.round(n).toLocaleString('ja-JP') + ' 円'; }
-function calcShohizei() {
-  var amount = parseFloat(document.getElementById('amount').value);
-  if (!amount || amount < 0) { alert('金額を入力してください'); return; }
-  var rate = parseFloat(document.querySelector('input[name="rate"]:checked').value);
-  var mode = document.querySelector('input[name="mode"]:checked').value;
-  var excl, tax, incl;
-  if (mode === 'excl') {
-    excl = amount;
-    tax = Math.round(excl * rate);
-    incl = excl + tax;
-  } else {
-    excl = Math.round(amount / (1 + rate));
-    tax = amount - excl;
-    incl = amount;
-  }
-  document.getElementById('res-main').textContent = fmt(tax);
-  document.getElementById('res-excl').textContent = fmt(excl);
-  document.getElementById('res-tax').textContent = fmt(tax);
-  document.getElementById('res-incl').textContent = fmt(incl);
+function calc() {
+  const income = parseFloat(document.getElementById('income').value);
+  const saving = parseFloat(document.getElementById('saving').value);
+  if (!income || !saving) { alert('月収と貯蓄額を入力してください'); return; }
+  if (saving > income) { alert('貯蓄額が月収を超えています'); return; }
+  const rate = saving / income * 100;
+  const fmt = n => Math.round(n).toLocaleString('ja-JP') + ' 円';
+  document.getElementById('res-rate').textContent = rate.toFixed(1) + ' %';
+  document.getElementById('res-monthly').textContent = fmt(saving);
+  document.getElementById('res-yearly').textContent = fmt(saving * 12);
+  document.getElementById('res-10y').textContent = fmt(saving * 12 * 10);
+  const info = document.getElementById('info-box');
+  if (rate >= 20) info.innerHTML = '<strong>素晴らしい！</strong>貯蓄率20%以上は家計優秀レベルです。このペースを維持しましょう。';
+  else if (rate >= 10) info.innerHTML = '<strong>良好です。</strong>貯蓄率10〜20%は平均的な水準です。あと少し増やせるとさらに安心です。';
+  else info.innerHTML = '<strong>もう少し貯蓄を増やしましょう。</strong>固定費（スマホ・サブスク）の見直しが効果的です。';
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

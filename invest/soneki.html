@@ -3,20 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>複利計算｜元本・金利・期間から将来の資産額を無料計算｜はかるん</title>
-  <meta name="description" content="元本・年利・期間を入力するだけで複利計算を無料シミュレーション。資産が何倍になるか・72の法則もわかります。">
+  <title>損益計算｜株・投資の損益・損益率を無料計算｜はかるん</title>
+  <meta name="description" content="株の購入価格・株数・売却価格を入力するだけで損益額・損益率を無料計算。投資判断の参考に。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "複利とは何ですか？", "acceptedAnswer": {"@type": "Answer", "text": "利息にさらに利息がつく仕組みです。単利は元本にしか利息がつきませんが、複利は利息も元本に加えて再投資するため、長期間では大きな差が生まれます。"}}, {"@type": "Question", "name": "72の法則とは？", "acceptedAnswer": {"@type": "Answer", "text": "「72÷年利（%）＝資産が2倍になる年数」という概算式です。例えば年利6%なら72÷6＝12年で資産が約2倍になります。"}}, {"@type": "Question", "name": "単利と複利の違いは？", "acceptedAnswer": {"@type": "Answer", "text": "単利は毎回元本だけに利息がつきます。複利は利息を元本に組み入れて再運用するため、時間が経つほど単利との差が大きくなります。長期投資では複利の効果が絶大です。"}}]}</script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
-        <nav>
+    <nav>
       <div class="nav-item">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
@@ -106,61 +105,58 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 複利計算</div>
-      <h1>📈 複利計算</h1>
-      <p class="subtitle">元本・金利・期間から将来の資産額を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 投資・資産 &rsaquo; 📉 損益計算</div>
+      <h1>📉 損益計算</h1>
+      <p class="subtitle">購入価格と売却価格から損益額・損益率を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>元本</label>
-        <div class="input-wrap"><input type="number" id="principal" placeholder="1000000" min="0"><span class="unit">円</span></div>
+        <label>購入価格（1株あたり）</label>
+        <div class="input-wrap"><input type="number" id="buy" placeholder="1000" min="0"><span class="unit">円</span></div>
       </div>
       <div class="form-group">
-        <label>年利</label>
-        <div class="input-wrap"><input type="number" id="rate" placeholder="5" min="0" max="50" step="0.1"><span class="unit">%</span></div>
-        <p class="hint">長期投資の想定利回りの目安：インデックス投資3〜7%</p>
+        <label>購入株数</label>
+        <div class="input-wrap"><input type="number" id="shares" placeholder="100" min="1"><span class="unit">株</span></div>
       </div>
       <div class="form-group">
-        <label>期間</label>
-        <div class="input-wrap"><input type="number" id="years" placeholder="20" min="1" max="50"><span class="unit">年</span></div>
+        <label>売却価格（1株あたり）/ 現在価格</label>
+        <div class="input-wrap"><input type="number" id="sell" placeholder="1200" min="0"><span class="unit">円</span></div>
       </div>
       <div class="form-group">
-        <label>複利の頻度</label>
-        <div class="radio-group">
-          <label><input type="radio" name="freq" value="year" checked> 年1回</label>
-          <label><input type="radio" name="freq" value="month"> 月1回</label>
-        </div>
+        <label>売買手数料（省略可）</label>
+        <div class="input-wrap"><input type="number" id="fee" placeholder="0" min="0"><span class="unit">円</span></div>
+        <p class="hint">購入時と売却時の手数料の合計</p>
       </div>
-      <button class="btn btn-primary" onclick="calcFukuri()">計算する</button>
+      <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">最終金額</div>
+          <div class="label">損益額（税引き前）</div>
           <div class="value" id="res-main">—</div>
         </div>
         <div class="result-table"><table><tbody>
-          <tr><td>元本</td><td id="res-principal">—</td></tr>
-          <tr><td>運用益（利息合計）</td><td id="res-profit">—</td></tr>
-          <tr><td>最終金額</td><td id="res-total">—</td></tr>
-          <tr><td>元本比（何倍になった？）</td><td id="res-ratio">—</td></tr>
-          <tr><td>利益率</td><td id="res-rate">—</td></tr>
+          <tr><td>購入金額（元本）</td><td id="res-cost">—</td></tr>
+          <tr><td>売却金額</td><td id="res-sale">—</td></tr>
+          <tr><td>損益額（税引き前）</td><td id="res-profit">—</td></tr>
+          <tr><td>損益率</td><td id="res-rate">—</td></tr>
+          <tr><td>税金（利益の約20%）</td><td id="res-tax">—</td></tr>
+          <tr><td>税引き後の損益</td><td id="res-after">—</td></tr>
         </tbody></table></div>
-        <div class="info-box"><strong>72の法則：</strong>資産が2倍になるまでの年数は「72÷年利」で概算できます。年利6%なら約12年で2倍です。</div>
+        <div class="info-box" id="info-box"></div>
       </div>
     </div>
     <div class="ad-area">広告</div>
-
     <div class="article">
-      <h2>複利の力と長期投資の重要性</h2>
-      <p>複利とは、元本から生じた利息を元本に加えて再投資することで、利息にもさらに利息がつく仕組みです。単利（元本にのみ利息がつく）と比べると、長期になるほど差が大きくなります。アインシュタインが「人類最大の発明」と称したとも言われるほど、複利の効果は絶大です。</p>
-      <p>複利の力を理解するのに便利なのが「72の法則」です。「72÷年利（%）＝資産が2倍になるまでの年数」で計算でき、年利6%なら12年、年利4%なら18年で資産が約2倍になります。少しの利率の差が長期では大きな差を生みます。</p>
-      <p>元本100万円を年利5%で複利運用した場合、10年後は約163万円、20年後は約265万円、30年後は約432万円になります。早く始めるほど複利効果の恩恵を長く受けられます。「今すぐ少額でも始める」ことが資産形成の鉄則です。</p>
+      <h2>📉 損益計算について</h2>
+      <p>投資で利益を正確に把握するには、購入額と売却額の差だけでなく、売買手数料や税金も考慮する必要があります。単純に「高く売れた」というだけでなく、最終的に手元に残る金額がいくらかを確認することが重要です。</p>
+      <p>株式投資の利益には約20.315%の税金（所得税・住民税・復興特別所得税の合計）がかかります。たとえば10万円の利益が出た場合、約2万円が税金として引かれ、手元に残るのは約8万円になります。NISA口座を利用すると、この税金が非課税になります。</p>
+      <p>損益率は投資効率を測る重要な指標です。絶対的な利益額だけでなく、元本に対して何%の利益（損失）が出たかを把握することで、異なる金額の投資を公平に比較できます。このツールで損益額・損益率・税引き後の実質利益をまとめて確認してください。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item"><div class="faq-q">Q. 複利とは何ですか？</div><div class="faq-a">利息にさらに利息がつく仕組みです。単利は元本にしか利息がつきませんが、複利は利息も元本に加えて再投資するため、長期間では大きな差が生まれます。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 72の法則とは？</div><div class="faq-a">「72÷年利（%）＝資産が2倍になる年数」という概算式です。例えば年利6%なら72÷6＝12年で資産が約2倍になります。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 単利と複利の違いは？</div><div class="faq-a">単利は毎回元本だけに利息がつきます。複利は利息を元本に組み入れて再運用するため、時間が経つほど単利との差が大きくなります。長期投資では複利の効果が絶大です。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 投資の利益にかかる税金は？</div><div class="faq-a">株式投資の利益（譲渡益）には約20.315%の税金（所得税・住民税・復興特別所得税）がかかります。NISA口座内の利益は非課税になります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 損益通算とは何ですか？</div><div class="faq-a">ある銘柄で出た損失を、別の銘柄の利益と相殺することです。特定口座（源泉徴収あり）や確定申告を利用すると税負担を減らせます。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 損切りの目安は？</div><div class="faq-a">一般的に購入価格から10〜15%下落した場合に損切りを検討するとよいとされています。ただし投資方針や銘柄の状況によって異なります。</div></div>
     </div>
   </div>
 </main>
@@ -168,7 +164,9 @@
   <div class="footer-logo">📐 はかるん</div>
   <div class="footer-links">
     <a href="../index.html">トップ</a>
-    <a href="../invest/nisa.html">NISA・投資シミュレーション</a> <a href="../life/chochiku.html">積立貯金計算</a>
+    <a href="../money/tedori.html">手取り計算</a>
+    <a href="../invest/nisa.html">NISA計算</a>
+    <a href="../tax/furusato.html">ふるさと納税</a>
   </div>
   <div class="footer-links" style="margin-top:12px">
     <a href="../privacy.html">プライバシーポリシー</a>
@@ -179,30 +177,36 @@
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
 <script>
-function calcFukuri() {
-  const P = parseFloat(document.getElementById('principal').value);
-  const rate = parseFloat(document.getElementById('rate').value);
-  const years = parseFloat(document.getElementById('years').value);
-  const freq = document.querySelector('input[name="freq"]:checked').value;
-  if (!P || rate === undefined || !years) { alert('すべての項目を入力してください'); return; }
-  let A;
-  if (freq === 'year') {
-    A = P * Math.pow(1 + rate / 100, years);
-  } else {
-    const r = rate / 100 / 12;
-    A = P * Math.pow(1 + r, years * 12);
-  }
-  const profit = A - P;
+function calc() {
+  const buy = parseFloat(document.getElementById('buy').value);
+  const shares = parseFloat(document.getElementById('shares').value);
+  const sell = parseFloat(document.getElementById('sell').value);
+  const fee = parseFloat(document.getElementById('fee').value) || 0;
+  if (!buy || !shares || !sell) { alert('購入価格・株数・売却価格を入力してください'); return; }
+  const cost = buy * shares;
+  const sale = sell * shares;
+  const profit = sale - cost - fee;
+  const rate = profit / cost * 100;
+  const tax = profit > 0 ? profit * 0.20315 : 0;
+  const afterTax = profit - tax;
+  const fmtSign = n => (n >= 0 ? '+' : '') + Math.round(n).toLocaleString('ja-JP') + ' 円';
   const fmt = n => Math.round(n).toLocaleString('ja-JP') + ' 円';
-  document.getElementById('res-main').textContent = fmt(A);
-  document.getElementById('res-principal').textContent = fmt(P);
-  document.getElementById('res-profit').textContent = fmt(profit);
-  document.getElementById('res-total').textContent = fmt(A);
-  document.getElementById('res-ratio').textContent = (A / P).toFixed(2) + ' 倍';
-  document.getElementById('res-rate').textContent = (profit / P * 100).toFixed(1) + '%';
+  const el = document.getElementById('res-main');
+  el.textContent = fmtSign(profit);
+  el.style.color = profit >= 0 ? 'var(--success)' : 'var(--danger)';
+  document.getElementById('res-cost').textContent = fmt(cost);
+  document.getElementById('res-sale').textContent = fmt(sale);
+  document.getElementById('res-profit').textContent = fmtSign(profit);
+  document.getElementById('res-rate').textContent = (rate >= 0 ? '+' : '') + rate.toFixed(2) + ' %';
+  document.getElementById('res-tax').textContent = profit > 0 ? fmt(tax) : '—（損失）';
+  document.getElementById('res-after').textContent = fmtSign(afterTax);
+  const info = document.getElementById('info-box');
+  if (profit > 0) info.innerHTML = `<strong>利益が出ています！</strong>税引き後の実質利益は<strong>${fmtSign(afterTax)}</strong>です。NISA口座なら全額非課税になります。`;
+  else if (profit < 0) info.innerHTML = `<strong>損失が出ています。</strong>損失額：${fmtSign(profit)}。損切りを検討する場合は、投資方針に従って判断してください。`;
+  else info.innerHTML = 'プラスマイナスゼロです。';
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

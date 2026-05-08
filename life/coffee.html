@@ -3,20 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>複利計算｜元本・金利・期間から将来の資産額を無料計算｜はかるん</title>
-  <meta name="description" content="元本・年利・期間を入力するだけで複利計算を無料シミュレーション。資産が何倍になるか・72の法則もわかります。">
+  <title>コーヒー代節約計算｜毎日の飲み物代が年間いくらか計算｜はかるん</title>
+  <meta name="description" content="1杯の値段と1日の杯数を入力するだけで月間・年間のコーヒー代を計算。コンビニ・カフェ・自宅の比較も。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "複利とは何ですか？", "acceptedAnswer": {"@type": "Answer", "text": "利息にさらに利息がつく仕組みです。単利は元本にしか利息がつきませんが、複利は利息も元本に加えて再投資するため、長期間では大きな差が生まれます。"}}, {"@type": "Question", "name": "72の法則とは？", "acceptedAnswer": {"@type": "Answer", "text": "「72÷年利（%）＝資産が2倍になる年数」という概算式です。例えば年利6%なら72÷6＝12年で資産が約2倍になります。"}}, {"@type": "Question", "name": "単利と複利の違いは？", "acceptedAnswer": {"@type": "Answer", "text": "単利は毎回元本だけに利息がつきます。複利は利息を元本に組み入れて再運用するため、時間が経つほど単利との差が大きくなります。長期投資では複利の効果が絶大です。"}}]}</script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
-        <nav>
+    <nav>
       <div class="nav-item">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
@@ -48,7 +47,7 @@
           <a href="../health/shinpaku.html">🏃 目標心拍数計算</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../life/loan.html" class="nav-link">生活・節約 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../life/loan.html">🏦 ローン返済シミュレーション</a>
@@ -90,7 +89,7 @@
           <a href="../calc/gaika.html">💱 外貨換算</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../invest/fukuri.html" class="nav-link">投資・資産 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../invest/fukuri.html">📈 複利計算</a>
@@ -106,61 +105,59 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 複利計算</div>
-      <h1>📈 複利計算</h1>
-      <p class="subtitle">元本・金利・期間から将来の資産額を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 生活・節約 &rsaquo; ☕ コーヒー代節約計算</div>
+      <h1>☕ コーヒー代節約計算</h1>
+      <p class="subtitle">毎日のコーヒー・飲み物代が月間・年間いくらになるか計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>元本</label>
-        <div class="input-wrap"><input type="number" id="principal" placeholder="1000000" min="0"><span class="unit">円</span></div>
+        <label>1杯あたりの値段</label>
+        <div class="input-wrap"><input type="number" id="price" placeholder="500" min="0"><span class="unit">円</span></div>
+        <p class="hint">例：コンビニコーヒー150円、カフェ500円、自宅20円</p>
       </div>
       <div class="form-group">
-        <label>年利</label>
-        <div class="input-wrap"><input type="number" id="rate" placeholder="5" min="0" max="50" step="0.1"><span class="unit">%</span></div>
-        <p class="hint">長期投資の想定利回りの目安：インデックス投資3〜7%</p>
+        <label>1日に飲む杯数</label>
+        <div class="input-wrap"><input type="number" id="cups" placeholder="2" min="0" step="0.5"><span class="unit">杯</span></div>
       </div>
       <div class="form-group">
-        <label>期間</label>
-        <div class="input-wrap"><input type="number" id="years" placeholder="20" min="1" max="50"><span class="unit">年</span></div>
-      </div>
-      <div class="form-group">
-        <label>複利の頻度</label>
-        <div class="radio-group">
-          <label><input type="radio" name="freq" value="year" checked> 年1回</label>
-          <label><input type="radio" name="freq" value="month"> 月1回</label>
+        <label>週に何日飲む？</label>
+        <div class="input-wrap">
+          <select id="days">
+            <option value="7">毎日（7日）</option>
+            <option value="5" selected>平日のみ（5日）</option>
+            <option value="6">ほぼ毎日（6日）</option>
+            <option value="3">週3日</option>
+          </select>
         </div>
       </div>
-      <button class="btn btn-primary" onclick="calcFukuri()">計算する</button>
+      <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">最終金額</div>
-          <div class="value" id="res-main">—</div>
+          <div class="label">年間コスト</div>
+          <div class="value" id="res-yearly">—</div>
         </div>
         <div class="result-table"><table><tbody>
-          <tr><td>元本</td><td id="res-principal">—</td></tr>
-          <tr><td>運用益（利息合計）</td><td id="res-profit">—</td></tr>
-          <tr><td>最終金額</td><td id="res-total">—</td></tr>
-          <tr><td>元本比（何倍になった？）</td><td id="res-ratio">—</td></tr>
-          <tr><td>利益率</td><td id="res-rate">—</td></tr>
+          <tr><td>1日あたり</td><td id="res-daily">—</td></tr>
+          <tr><td>月間コスト（4週）</td><td id="res-monthly">—</td></tr>
+          <tr><td>年間コスト</td><td id="res-y">—</td></tr>
+          <tr><td>自宅コーヒーに変えたら（1杯20円）</td><td id="res-save">—</td></tr>
         </tbody></table></div>
-        <div class="info-box"><strong>72の法則：</strong>資産が2倍になるまでの年数は「72÷年利」で概算できます。年利6%なら約12年で2倍です。</div>
+        <div class="info-box" id="info-box"></div>
       </div>
     </div>
     <div class="ad-area">広告</div>
-
     <div class="article">
-      <h2>複利の力と長期投資の重要性</h2>
-      <p>複利とは、元本から生じた利息を元本に加えて再投資することで、利息にもさらに利息がつく仕組みです。単利（元本にのみ利息がつく）と比べると、長期になるほど差が大きくなります。アインシュタインが「人類最大の発明」と称したとも言われるほど、複利の効果は絶大です。</p>
-      <p>複利の力を理解するのに便利なのが「72の法則」です。「72÷年利（%）＝資産が2倍になるまでの年数」で計算でき、年利6%なら12年、年利4%なら18年で資産が約2倍になります。少しの利率の差が長期では大きな差を生みます。</p>
-      <p>元本100万円を年利5%で複利運用した場合、10年後は約163万円、20年後は約265万円、30年後は約432万円になります。早く始めるほど複利効果の恩恵を長く受けられます。「今すぐ少額でも始める」ことが資産形成の鉄則です。</p>
+      <h2>☕ コーヒー代節約計算について</h2>
+      <p>毎日のちょっとした習慣的な支出は、年間にすると意外と大きな金額になることがあります。コーヒーやジュースなど毎日飲む飲み物も、その一つです。コンビニで毎日コーヒーを買うのは手軽ですが、積み重なると年間で数万円になることも。</p>
+      <p>たとえばコンビニコーヒー（1杯150円）を平日毎日1杯飲んでいると、年間で約3万9,000円かかります。カフェのコーヒー（1杯500円）を毎日2杯なら年間約26万円です。同じコーヒーでも、どこで買うかによって年間の支出は大きく変わります。</p>
+      <p>節約の方法としては、自宅でコーヒーを淹れることが最も効果的です。インスタントコーヒーなら1杯20〜30円程度なので、年間のコストを大幅に削減できます。ただし「毎日のコーヒーが楽しみ」という方は無理に我慢せず、頻度を少し減らしたり、ポイントカードを活用したりするだけでも節約効果があります。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item"><div class="faq-q">Q. 複利とは何ですか？</div><div class="faq-a">利息にさらに利息がつく仕組みです。単利は元本にしか利息がつきませんが、複利は利息も元本に加えて再投資するため、長期間では大きな差が生まれます。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 72の法則とは？</div><div class="faq-a">「72÷年利（%）＝資産が2倍になる年数」という概算式です。例えば年利6%なら72÷6＝12年で資産が約2倍になります。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 単利と複利の違いは？</div><div class="faq-a">単利は毎回元本だけに利息がつきます。複利は利息を元本に組み入れて再運用するため、時間が経つほど単利との差が大きくなります。長期投資では複利の効果が絶大です。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. カフェ通いをやめると年間いくら節約できる？</div><div class="faq-a">カフェで1杯500円×2杯×週5日のケースでは年間約26万円になります。自宅コーヒー（1杯20円）にすると年間約2万5千円になり、約23万5千円の節約が可能です。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. コンビニコーヒーとカフェの違いは？</div><div class="faq-a">コンビニコーヒーは100〜200円程度、カフェのコーヒーは400〜700円程度です。毎日飲む場合は年間で数万円の差になります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 自宅でコーヒーを作る費用は？</div><div class="faq-a">インスタントコーヒーは1杯約20〜30円、ドリップコーヒーは約30〜50円程度です。コーヒーメーカーを使う場合は機器代も考慮しましょう。</div></div>
     </div>
   </div>
 </main>
@@ -168,7 +165,9 @@
   <div class="footer-logo">📐 はかるん</div>
   <div class="footer-links">
     <a href="../index.html">トップ</a>
-    <a href="../invest/nisa.html">NISA・投資シミュレーション</a> <a href="../life/chochiku.html">積立貯金計算</a>
+    <a href="../money/tedori.html">手取り計算</a>
+    <a href="../invest/nisa.html">NISA計算</a>
+    <a href="../tax/furusato.html">ふるさと納税</a>
   </div>
   <div class="footer-links" style="margin-top:12px">
     <a href="../privacy.html">プライバシーポリシー</a>
@@ -179,30 +178,27 @@
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
 <script>
-function calcFukuri() {
-  const P = parseFloat(document.getElementById('principal').value);
-  const rate = parseFloat(document.getElementById('rate').value);
-  const years = parseFloat(document.getElementById('years').value);
-  const freq = document.querySelector('input[name="freq"]:checked').value;
-  if (!P || rate === undefined || !years) { alert('すべての項目を入力してください'); return; }
-  let A;
-  if (freq === 'year') {
-    A = P * Math.pow(1 + rate / 100, years);
-  } else {
-    const r = rate / 100 / 12;
-    A = P * Math.pow(1 + r, years * 12);
-  }
-  const profit = A - P;
+function calc() {
+  const price = parseFloat(document.getElementById('price').value);
+  const cups = parseFloat(document.getElementById('cups').value);
+  const days = parseFloat(document.getElementById('days').value);
+  if (!price || !cups) { alert('値段と杯数を入力してください'); return; }
+  const daily = price * cups;
+  const weekly = daily * days;
+  const monthly = weekly * 4;
+  const yearly = weekly * 52;
+  const homeSave = yearly - (20 * cups * days * 52);
   const fmt = n => Math.round(n).toLocaleString('ja-JP') + ' 円';
-  document.getElementById('res-main').textContent = fmt(A);
-  document.getElementById('res-principal').textContent = fmt(P);
-  document.getElementById('res-profit').textContent = fmt(profit);
-  document.getElementById('res-total').textContent = fmt(A);
-  document.getElementById('res-ratio').textContent = (A / P).toFixed(2) + ' 倍';
-  document.getElementById('res-rate').textContent = (profit / P * 100).toFixed(1) + '%';
+  document.getElementById('res-yearly').textContent = fmt(yearly);
+  document.getElementById('res-daily').textContent = fmt(daily);
+  document.getElementById('res-monthly').textContent = fmt(monthly);
+  document.getElementById('res-y').textContent = fmt(yearly);
+  document.getElementById('res-save').textContent = homeSave > 0 ? fmt(homeSave) + ' 節約可能' : '既に節約中！';
+  const info = document.getElementById('info-box');
+  info.innerHTML = `年間<strong>${fmt(yearly)}</strong>のコーヒー代がかかっています。自宅コーヒーに切り替えると最大<strong>${fmt(Math.max(0, homeSave))}</strong>の節約になります。`;
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

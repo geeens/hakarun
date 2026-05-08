@@ -3,27 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>消費税計算｜税抜き・税込み金額を無料計算｜はかるん</title>
-  <meta name="description" content="税抜き価格・税込み価格の消費税をかんたん無料計算。8%（軽減税率）と10%に対応。消費税額もすぐわかります。">
+  <title>目標心拍数計算｜運動時の適切な心拍数を計算｜はかるん</title>
+  <meta name="description" content="年齢と運動強度を入力するだけで目標心拍数を計算。ウォーキング・ジョギング・高強度トレーニングなど目的別に対応。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
-  <script type="application/ld+json">
-  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
-    { "@type": "Question", "name": "消費税8%と10%の違いは何ですか？", "acceptedAnswer": { "@type": "Answer", "text": "食料品や新聞など生活必需品は8%（軽減税率）、それ以外の一般商品は10%が適用されます。" } },
-    { "@type": "Question", "name": "軽減税率とは何ですか？", "acceptedAnswer": { "@type": "Answer", "text": "特定の商品（食料品・飲料品・新聞など）に対して通常より低い税率（8%）を適用する制度です。2019年10月に導入されました。" } },
-    { "@type": "Question", "name": "消費税の計算式は？", "acceptedAnswer": { "@type": "Answer", "text": "税込み価格 = 税抜き価格 × 1.1（10%の場合）。税抜き価格 = 税込み価格 ÷ 1.1（小数点以下を四捨五入）。" } }
-  ] }
-  </script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
-        <nav>
-      <div class="nav-item active">
+    <nav>
+      <div class="nav-item">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../money/tedori.html">💴 手取り計算</a>
@@ -38,7 +31,7 @@
           <a href="../money/waribiki.html">🏷️ 値引き・割引計算</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../health/bmi.html" class="nav-link">健康・生活 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../health/bmi.html">⚖️ BMI計算</a>
@@ -112,70 +105,48 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 消費税計算</div>
-      <h1>🛒 消費税計算</h1>
-      <p class="subtitle">税抜き・税込み金額と消費税額をかんたんに計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 健康・生活 &rsaquo; 🏃 目標心拍数計算</div>
+      <h1>🏃 目標心拍数計算</h1>
+      <p class="subtitle">年齢から運動時の適切な目標心拍数を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>金額</label>
-        <div class="input-wrap">
-          <input type="number" id="amount" placeholder="1000" min="0">
-          <span class="unit">円</span>
-        </div>
+        <label>年齢</label>
+        <div class="input-wrap"><input type="number" id="age" placeholder="35" min="10" max="90"><span class="unit">歳</span></div>
       </div>
       <div class="form-group">
-        <label>税率</label>
-        <div class="radio-group">
-          <label><input type="radio" name="rate" value="0.10" checked> 10%（一般商品）</label>
-          <label><input type="radio" name="rate" value="0.08"> 8%（軽減税率・食料品など）</label>
-        </div>
+        <label>安静時心拍数（省略可）</label>
+        <div class="input-wrap"><input type="number" id="resting" placeholder="70" min="40" max="120"><span class="unit">拍/分</span></div>
+        <p class="hint">朝起きた直後の心拍数。不明な場合は空欄でOK（標準値70を使用）</p>
       </div>
-      <div class="form-group">
-        <label>計算の方向</label>
-        <div class="radio-group">
-          <label><input type="radio" name="mode" value="excl" checked> 税抜き → 税込みを計算</label>
-          <label><input type="radio" name="mode" value="incl"> 税込み → 税抜きを計算</label>
-        </div>
-      </div>
-      <button class="btn btn-primary" onclick="calcShohizei()">計算する</button>
+      <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">消費税額</div>
-          <div class="value" id="res-main">—</div>
+          <div class="label">最大心拍数（目安）</div>
+          <div class="value" id="res-max">—</div>
         </div>
-        <div class="result-table">
-          <table><tbody>
-            <tr><td>税抜き金額</td><td id="res-excl">—</td></tr>
-            <tr><td>消費税額</td><td id="res-tax">—</td></tr>
-            <tr class="total"><td>税込み金額</td><td id="res-incl">—</td></tr>
-          </tbody></table>
-        </div>
+        <div class="result-table"><table><tbody>
+          <tr><td>🚶 軽い運動（40〜50%）</td><td id="res-light">—</td></tr>
+          <tr><td>🏃 有酸素運動・脂肪燃焼（60〜70%）</td><td id="res-fat">—</td></tr>
+          <tr><td>💪 持久力向上（70〜80%）</td><td id="res-cardio">—</td></tr>
+          <tr><td>🔥 高強度トレーニング（80〜90%）</td><td id="res-hard">—</td></tr>
+        </tbody></table></div>
+        <div class="info-box" id="info-box">心拍数は個人差があります。体調に合わせて無理のない範囲で運動してください。</div>
       </div>
     </div>
     <div class="ad-area">広告</div>
-
     <div class="article">
-      <h2>消費税の仕組みと計算方法</h2>
-      <p>消費税は商品やサービスの購入時に課される間接税で、現在の税率は原則10%です。ただし食料品・飲料品（酒類・外食を除く）や週2回以上発行される新聞（定期購読）は軽減税率8%が適用されます。レシートに「※」や「軽」の記載がある商品が軽減税率の対象です。</p>
-      <p>税抜き価格（本体価格）から税込み価格を計算するには「税抜き×1.1（10%の場合）」、逆に税込み価格から税抜き価格を求めるには「税込み÷1.1」で計算できます。端数処理は店舗によって切り捨て・切り上げ・四捨五入と異なるため、実際の請求額と若干差が出ることがあります。</p>
-      <p>このツールでは税抜き→税込み、税込み→税抜きの両方向の計算に対応しています。8%・10%の税率を切り替えて計算できます。ネットショッピングや家計管理・見積もり作成など、日常のさまざまな場面でご活用ください。</p>
+      <h2>🏃 目標心拍数計算について</h2>
+      <p>目標心拍数とは、運動の目的に応じた適切な心拍数の範囲のことです。心拍数を意識しながら運動することで、脂肪燃焼・持久力向上・心肺機能強化など、目的に合った効果的なトレーニングが可能になります。</p>
+      <p>一般的に使われる計算式は「最大心拍数 = 220 - 年齢」です。この最大心拍数に対して何%で運動するかによって効果が変わります。脂肪を効率よく燃やしたい場合は60〜70%、心肺機能を高めたい場合は70〜80%が目安とされています。ウォーキングなら40〜50%程度が適切です。</p>
+      <p>運動中に心拍数が高すぎる場合は、ペースを落として安全な範囲に調整することが大切です。特に運動習慣のない方や高齢の方は、無理のない強度から始めましょう。このツールを使って自分の目標心拍数を把握し、より効果的な運動習慣を作ってください。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item">
-        <div class="faq-q">Q. 消費税8%と10%の違いは何ですか？</div>
-        <div class="faq-a">食料品や新聞など生活必需品は8%（軽減税率）、それ以外の一般商品は10%が適用されます。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. 軽減税率とは何ですか？</div>
-        <div class="faq-a">特定の商品（食料品・飲料品・新聞など）に対して通常より低い税率（8%）を適用する制度です。2019年10月に導入されました。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. 消費税の計算式は？</div>
-        <div class="faq-a">税込み価格 = 税抜き価格 × 1.1（10%の場合）。税抜き価格 = 税込み価格 ÷ 1.1（小数点以下を四捨五入）。</div>
-      </div>
+      <div class="faq-item"><div class="faq-q">Q. 最大心拍数とは何ですか？</div><div class="faq-a">運動で出せる最大の心拍数（1分間の心拍数）です。「220－年齢」で計算した値が一般的な目安です。実際は個人差があります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 脂肪燃焼に最適な心拍数は？</div><div class="faq-a">最大心拍数の60〜70%の範囲が脂肪燃焼に最も効率的とされています。ハアハアしないくらいの会話できる強度が目安です。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 心拍数を測るには？</div><div class="faq-a">スマートウォッチやスマートフォンのカメラ機能で測定できます。手首の脈を10秒数えて6倍にする方法もあります。</div></div>
     </div>
   </div>
 </main>
@@ -183,9 +154,9 @@
   <div class="footer-logo">📐 はかるん</div>
   <div class="footer-links">
     <a href="../index.html">トップ</a>
-    <a href="tedori.html">手取り計算</a>
-    <a href="warikan.html">割り勘計算</a>
-    <a href="../calc/percent.html">パーセント計算</a>
+    <a href="../money/tedori.html">手取り計算</a>
+    <a href="../invest/nisa.html">NISA計算</a>
+    <a href="../tax/furusato.html">ふるさと納税</a>
   </div>
   <div class="footer-links" style="margin-top:12px">
     <a href="../privacy.html">プライバシーポリシー</a>
@@ -196,29 +167,25 @@
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
 <script>
-function fmt(n) { return Math.round(n).toLocaleString('ja-JP') + ' 円'; }
-function calcShohizei() {
-  var amount = parseFloat(document.getElementById('amount').value);
-  if (!amount || amount < 0) { alert('金額を入力してください'); return; }
-  var rate = parseFloat(document.querySelector('input[name="rate"]:checked').value);
-  var mode = document.querySelector('input[name="mode"]:checked').value;
-  var excl, tax, incl;
-  if (mode === 'excl') {
-    excl = amount;
-    tax = Math.round(excl * rate);
-    incl = excl + tax;
-  } else {
-    excl = Math.round(amount / (1 + rate));
-    tax = amount - excl;
-    incl = amount;
-  }
-  document.getElementById('res-main').textContent = fmt(tax);
-  document.getElementById('res-excl').textContent = fmt(excl);
-  document.getElementById('res-tax').textContent = fmt(tax);
-  document.getElementById('res-incl').textContent = fmt(incl);
+function calc() {
+  const age = parseFloat(document.getElementById('age').value);
+  const resting = parseFloat(document.getElementById('resting').value) || 70;
+  if (!age) { alert('年齢を入力してください'); return; }
+  const maxHR = 220 - age;
+  const hrr = maxHR - resting;
+  const range = (lo, hi) => {
+    const a = Math.round(resting + hrr * lo / 100);
+    const b = Math.round(resting + hrr * hi / 100);
+    return `${a}〜${b} 拍/分`;
+  };
+  document.getElementById('res-max').textContent = maxHR + ' 拍/分';
+  document.getElementById('res-light').textContent = range(40, 50);
+  document.getElementById('res-fat').textContent = range(60, 70);
+  document.getElementById('res-cardio').textContent = range(70, 80);
+  document.getElementById('res-hard').textContent = range(80, 90);
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

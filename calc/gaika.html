@@ -3,20 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>複利計算｜元本・金利・期間から将来の資産額を無料計算｜はかるん</title>
-  <meta name="description" content="元本・年利・期間を入力するだけで複利計算を無料シミュレーション。資産が何倍になるか・72の法則もわかります。">
+  <title>外貨換算計算｜円とドル・ユーロを無料換算｜はかるん</title>
+  <meta name="description" content="金額と為替レートを入力するだけで円・ドル・ユーロなど主要通貨を無料換算。海外旅行・ショッピングに。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "複利とは何ですか？", "acceptedAnswer": {"@type": "Answer", "text": "利息にさらに利息がつく仕組みです。単利は元本にしか利息がつきませんが、複利は利息も元本に加えて再投資するため、長期間では大きな差が生まれます。"}}, {"@type": "Question", "name": "72の法則とは？", "acceptedAnswer": {"@type": "Answer", "text": "「72÷年利（%）＝資産が2倍になる年数」という概算式です。例えば年利6%なら72÷6＝12年で資産が約2倍になります。"}}, {"@type": "Question", "name": "単利と複利の違いは？", "acceptedAnswer": {"@type": "Answer", "text": "単利は毎回元本だけに利息がつきます。複利は利息を元本に組み入れて再運用するため、時間が経つほど単利との差が大きくなります。長期投資では複利の効果が絶大です。"}}]}</script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
-        <nav>
+    <nav>
       <div class="nav-item">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
@@ -79,7 +78,7 @@
           <a href="../tax/setsuzei.html">📊 節税シミュレーション</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../calc/percent.html" class="nav-link">計算・変換 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../calc/percent.html">🔢 パーセント計算</a>
@@ -90,7 +89,7 @@
           <a href="../calc/gaika.html">💱 外貨換算</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../invest/fukuri.html" class="nav-link">投資・資産 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../invest/fukuri.html">📈 複利計算</a>
@@ -106,61 +105,70 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 複利計算</div>
-      <h1>📈 複利計算</h1>
-      <p class="subtitle">元本・金利・期間から将来の資産額を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 計算・変換 &rsaquo; 💱 外貨換算</div>
+      <h1>💱 外貨換算</h1>
+      <p class="subtitle">金額と為替レートを入力して外貨を換算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>元本</label>
-        <div class="input-wrap"><input type="number" id="principal" placeholder="1000000" min="0"><span class="unit">円</span></div>
+        <label>換算する金額</label>
+        <div class="input-wrap"><input type="number" id="amount" placeholder="10000" min="0"></div>
       </div>
       <div class="form-group">
-        <label>年利</label>
-        <div class="input-wrap"><input type="number" id="rate" placeholder="5" min="0" max="50" step="0.1"><span class="unit">%</span></div>
-        <p class="hint">長期投資の想定利回りの目安：インデックス投資3〜7%</p>
-      </div>
-      <div class="form-group">
-        <label>期間</label>
-        <div class="input-wrap"><input type="number" id="years" placeholder="20" min="1" max="50"><span class="unit">年</span></div>
-      </div>
-      <div class="form-group">
-        <label>複利の頻度</label>
+        <label>換算元の通貨</label>
         <div class="radio-group">
-          <label><input type="radio" name="freq" value="year" checked> 年1回</label>
-          <label><input type="radio" name="freq" value="month"> 月1回</label>
+          <label><input type="radio" name="from" value="jpy" checked> 円（JPY）</label>
+          <label><input type="radio" name="from" value="other"> 外貨 → 円</label>
         </div>
       </div>
-      <button class="btn btn-primary" onclick="calcFukuri()">計算する</button>
+      <div class="form-group">
+        <label>外貨の種類</label>
+        <div class="input-wrap">
+          <select id="currency">
+            <option value="usd">米ドル（USD）</option>
+            <option value="eur">ユーロ（EUR）</option>
+            <option value="gbp">英ポンド（GBP）</option>
+            <option value="aud">豪ドル（AUD）</option>
+            <option value="cad">カナダドル（CAD）</option>
+            <option value="krw">韓国ウォン（KRW）</option>
+            <option value="cny">中国元（CNY）</option>
+            <option value="thb">タイバーツ（THB）</option>
+            <option value="sgd">シンガポールドル（SGD）</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>為替レート（1外貨 = ? 円）</label>
+        <div class="input-wrap"><input type="number" id="rate" placeholder="150" min="0" step="0.01"><span class="unit">円</span></div>
+        <p class="hint">現在の為替レートを入力してください。レートはYahoo!ファイナンス等で確認できます。</p>
+      </div>
+      <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">最終金額</div>
+          <div class="label" id="res-label">換算結果</div>
           <div class="value" id="res-main">—</div>
         </div>
         <div class="result-table"><table><tbody>
-          <tr><td>元本</td><td id="res-principal">—</td></tr>
-          <tr><td>運用益（利息合計）</td><td id="res-profit">—</td></tr>
-          <tr><td>最終金額</td><td id="res-total">—</td></tr>
-          <tr><td>元本比（何倍になった？）</td><td id="res-ratio">—</td></tr>
-          <tr><td>利益率</td><td id="res-rate">—</td></tr>
+          <tr><td>換算元</td><td id="res-from">—</td></tr>
+          <tr><td>換算先</td><td id="res-to">—</td></tr>
+          <tr><td>適用レート</td><td id="res-rate">—</td></tr>
         </tbody></table></div>
-        <div class="info-box"><strong>72の法則：</strong>資産が2倍になるまでの年数は「72÷年利」で概算できます。年利6%なら約12年で2倍です。</div>
+        <div class="info-box">為替レートは常に変動しています。実際の換算時は最新のレートをご確認ください。</div>
       </div>
     </div>
     <div class="ad-area">広告</div>
-
     <div class="article">
-      <h2>複利の力と長期投資の重要性</h2>
-      <p>複利とは、元本から生じた利息を元本に加えて再投資することで、利息にもさらに利息がつく仕組みです。単利（元本にのみ利息がつく）と比べると、長期になるほど差が大きくなります。アインシュタインが「人類最大の発明」と称したとも言われるほど、複利の効果は絶大です。</p>
-      <p>複利の力を理解するのに便利なのが「72の法則」です。「72÷年利（%）＝資産が2倍になるまでの年数」で計算でき、年利6%なら12年、年利4%なら18年で資産が約2倍になります。少しの利率の差が長期では大きな差を生みます。</p>
-      <p>元本100万円を年利5%で複利運用した場合、10年後は約163万円、20年後は約265万円、30年後は約432万円になります。早く始めるほど複利効果の恩恵を長く受けられます。「今すぐ少額でも始める」ことが資産形成の鉄則です。</p>
+      <h2>💱 外貨換算について</h2>
+      <p>海外旅行や海外通販、外国への送金など、外貨を日本円に換算する機会は生活の中で意外と多くあります。為替レートは毎日変動するため、旅行の計画や買い物の予算を立てる際に現在のレートで計算することが大切です。</p>
+      <p>為替レートには「仲値（なかね）」と「両替レート」の違いがあります。仲値は銀行間で取引される基準レートですが、銀行や両替所での実際の換算では手数料が上乗せされます。クレジットカードは仲値に近いレートが適用されることが多いため、海外では現金両替よりカード支払いがお得なケースもあります。</p>
+      <p>旅行の予算を計算する際は、両替手数料を考慮して実際に受け取れる金額を確認しましょう。このツールでは任意の為替レートを入力して換算できます。Yahoo!ファイナンスやGoogleで最新レートを確認してから使用してください。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item"><div class="faq-q">Q. 複利とは何ですか？</div><div class="faq-a">利息にさらに利息がつく仕組みです。単利は元本にしか利息がつきませんが、複利は利息も元本に加えて再投資するため、長期間では大きな差が生まれます。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 72の法則とは？</div><div class="faq-a">「72÷年利（%）＝資産が2倍になる年数」という概算式です。例えば年利6%なら72÷6＝12年で資産が約2倍になります。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 単利と複利の違いは？</div><div class="faq-a">単利は毎回元本だけに利息がつきます。複利は利息を元本に組み入れて再運用するため、時間が経つほど単利との差が大きくなります。長期投資では複利の効果が絶大です。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 為替レートはどこで調べられますか？</div><div class="faq-a">Yahoo!ファイナンス、Google（「ドル 円」で検索）、各銀行のウェブサイトで確認できます。銀行での両替レートは仲値より数円高くなるため注意が必要です。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 銀行両替とクレジットカードの違いは？</div><div class="faq-a">銀行・両替所では手数料が上乗せされたレートが適用されます。クレジットカードは国際ブランドのレートが適用されますが、海外使用手数料（約1〜3%）が別途かかります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 海外旅行のお金の準備はどうすればいい？</div><div class="faq-a">少額を現金で持ち、残りはクレジットカードやデビットカードを使うのが一般的です。現地ATMでの引き出しも便利ですが、手数料を確認しましょう。</div></div>
     </div>
   </div>
 </main>
@@ -168,7 +176,9 @@
   <div class="footer-logo">📐 はかるん</div>
   <div class="footer-links">
     <a href="../index.html">トップ</a>
-    <a href="../invest/nisa.html">NISA・投資シミュレーション</a> <a href="../life/chochiku.html">積立貯金計算</a>
+    <a href="../money/tedori.html">手取り計算</a>
+    <a href="../invest/nisa.html">NISA計算</a>
+    <a href="../tax/furusato.html">ふるさと納税</a>
   </div>
   <div class="footer-links" style="margin-top:12px">
     <a href="../privacy.html">プライバシーポリシー</a>
@@ -179,30 +189,34 @@
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
 <script>
-function calcFukuri() {
-  const P = parseFloat(document.getElementById('principal').value);
+const CURRENCY_NAMES = {usd:'米ドル（USD）',eur:'ユーロ（EUR）',gbp:'英ポンド（GBP）',aud:'豪ドル（AUD）',cad:'カナダドル（CAD）',krw:'韓国ウォン（KRW）',cny:'中国元（CNY）',thb:'タイバーツ（THB）',sgd:'シンガポールドル（SGD）'};
+function calc() {
+  const amount = parseFloat(document.getElementById('amount').value);
+  const from = document.querySelector('input[name="from"]:checked').value;
+  const currency = document.getElementById('currency').value;
   const rate = parseFloat(document.getElementById('rate').value);
-  const years = parseFloat(document.getElementById('years').value);
-  const freq = document.querySelector('input[name="freq"]:checked').value;
-  if (!P || rate === undefined || !years) { alert('すべての項目を入力してください'); return; }
-  let A;
-  if (freq === 'year') {
-    A = P * Math.pow(1 + rate / 100, years);
+  const cname = CURRENCY_NAMES[currency];
+  if (!amount || !rate) { alert('金額と為替レートを入力してください'); return; }
+  let result, fromStr, toStr;
+  if (from === 'jpy') {
+    result = amount / rate;
+    fromStr = amount.toLocaleString('ja-JP') + ' 円';
+    toStr = result.toFixed(2) + ' ' + currency.toUpperCase();
+    document.getElementById('res-label').textContent = '円 → ' + cname;
+    document.getElementById('res-main').textContent = result.toFixed(2) + ' ' + currency.toUpperCase();
   } else {
-    const r = rate / 100 / 12;
-    A = P * Math.pow(1 + r, years * 12);
+    result = amount * rate;
+    fromStr = amount.toFixed(2) + ' ' + currency.toUpperCase();
+    toStr = Math.round(result).toLocaleString('ja-JP') + ' 円';
+    document.getElementById('res-label').textContent = cname + ' → 円';
+    document.getElementById('res-main').textContent = Math.round(result).toLocaleString('ja-JP') + ' 円';
   }
-  const profit = A - P;
-  const fmt = n => Math.round(n).toLocaleString('ja-JP') + ' 円';
-  document.getElementById('res-main').textContent = fmt(A);
-  document.getElementById('res-principal').textContent = fmt(P);
-  document.getElementById('res-profit').textContent = fmt(profit);
-  document.getElementById('res-total').textContent = fmt(A);
-  document.getElementById('res-ratio').textContent = (A / P).toFixed(2) + ' 倍';
-  document.getElementById('res-rate').textContent = (profit / P * 100).toFixed(1) + '%';
+  document.getElementById('res-from').textContent = fromStr;
+  document.getElementById('res-to').textContent = toStr;
+  document.getElementById('res-rate').textContent = '1 ' + currency.toUpperCase() + ' = ' + rate + ' 円';
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>
