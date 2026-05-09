@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>車の維持費計算｜年間の車にかかるコストを計算｜はかるん</title>
-  <meta name="description" content="駐車場・保険・税金・ガソリン代を入力するだけで車の年間維持費を計算。車購入・売却の判断に。">
+  <title>計算・変換の計算ツール一覧（11種）｜はかるん</title>
+  <meta name="description" content="計算・変換に関する無料計算ツールを11種まとめています。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
@@ -15,7 +15,7 @@
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
-    <nav>
+        <nav>
       <div class="nav-item">
         <a href="../money/index.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
@@ -44,7 +44,7 @@
           <a href="../health/index.html" class="dropdown-all">▶ すべて見る（19ツール）</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../life/index.html" class="nav-link">暮らし・節約 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../life/loan.html">🏦 ローン返済シミュレーション</a>
@@ -86,7 +86,7 @@
           <a href="../tax/gift.html">🎁 贈与税計算</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../calc/index.html" class="nav-link">計算・変換 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../calc/percent.html">🔢 パーセント計算</a>
@@ -119,81 +119,30 @@
 </header>
 <main>
   <div class="container">
-    <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 生活・節約 &rsaquo; 🚗 車の維持費計算</div>
-      <h1>🚗 車の維持費計算</h1>
-      <p class="subtitle">駐車場代・保険・税金・ガソリン代など車の年間維持費を計算します</p>
-    </div>
-    <div class="ad-area">広告</div>
-    <div class="calc-card">
-      <div class="form-group">
-        <label>月極駐車場代</label>
-        <div class="input-wrap"><input type="number" id="parking" placeholder="15000" min="0"><span class="unit">円/月</span></div>
-      </div>
-      <div class="form-group">
-        <label>自動車保険料（任意保険）</label>
-        <div class="input-wrap"><input type="number" id="insurance" placeholder="60000" min="0"><span class="unit">円/年</span></div>
-      </div>
-      <div class="form-group">
-        <label>自動車税（排気量別）</label>
-        <div class="input-wrap">
-          <select id="tax">
-            <option value="25000">軽自動車（10,800円）</option>
-            <option value="25000">1,000cc以下（25,000円）</option>
-            <option value="30500" selected>1,001〜1,500cc（30,500円）</option>
-            <option value="36000">1,501〜2,000cc（36,000円）</option>
-            <option value="43500">2,001〜2,500cc（43,500円）</option>
-            <option value="50000">2,501〜3,000cc（50,000円）</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>月間ガソリン代</label>
-        <div class="input-wrap"><input type="number" id="gas" placeholder="8000" min="0"><span class="unit">円/月</span></div>
-      </div>
-      <div class="form-group">
-        <label>車検・メンテナンス費用（年間）</label>
-        <div class="input-wrap"><input type="number" id="maint" placeholder="80000" min="0"><span class="unit">円/年</span></div>
-        <p class="hint">車検（2年に1回）・オイル交換・タイヤ交換など。2年に1回の場合は÷2した金額を入力。</p>
-      </div>
-      <button class="btn btn-primary" onclick="calc()">計算する</button>
-      <div class="result-area" id="result">
-        <div class="result-main">
-          <div class="label">年間維持費合計</div>
-          <div class="value" id="res-main">—</div>
-        </div>
-        <div class="result-table"><table><tbody>
-          <tr><td>駐車場代（年間）</td><td id="res-parking">—</td></tr>
-          <tr><td>自動車保険料</td><td id="res-ins">—</td></tr>
-          <tr><td>自動車税</td><td id="res-tax">—</td></tr>
-          <tr><td>ガソリン代（年間）</td><td id="res-gas">—</td></tr>
-          <tr><td>車検・メンテナンス</td><td id="res-maint">—</td></tr>
-          <tr><td>年間維持費合計</td><td id="res-total">—</td></tr>
-          <tr><td>月換算</td><td id="res-monthly">—</td></tr>
-        </tbody></table></div>
-        <div class="info-box" id="info-box"></div>
-      </div>
-    </div>
-    <div class="ad-area">広告</div>
-    <div class="article">
-      <h2>🚗 車の維持費計算について</h2>
-      <p>車を所有するには購入費用だけでなく、毎月・毎年かかる維持費が必要です。駐車場代・自動車保険・自動車税・ガソリン代・車検費用を合わせると、年間50〜100万円以上になることも珍しくありません。</p>
-      <p>特に都市部では駐車場代が月1〜3万円と高額になりやすく、維持費全体を押し上げます。カーシェアリングやレンタカーと維持費を比較することで、車を持つべきかどうかを判断する目安になります。</p>
-      <p>維持費を抑えるコツとして、任意保険は複数社を比較して見積もりを取ること、燃費の良い車を選ぶこと、車検は民間整備工場やガソリンスタンドを活用することなどが挙げられます。このツールで現在の維持費を把握し、節約ポイントを探してみましょう。</p>
-    </div>
-    <div class="article">
-      <h2>よくある質問</h2>
-      <div class="faq-item"><div class="faq-q">Q. 車の年間維持費の平均は？</div><div class="faq-a">国産乗用車（1,500cc程度）の場合、駐車場なし・地方在住で年間40〜60万円、都市部で駐車場込みだと年間70〜120万円程度が目安です。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 軽自動車と普通車の維持費の差は？</div><div class="faq-a">自動車税が普通車の約1/3（年間約1万円）、任意保険も割安なことが多く、年間で10〜20万円程度維持費が安くなるケースが多いです。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. カーシェアとどちがお得？</div><div class="faq-a">月間の走行距離が少ない場合（月200km以下など）はカーシェアの方が安くなることが多いです。維持費を計算して比較してみましょう。</div></div>
+    <nav class="breadcrumb"><a href="../index.html">ホーム</a> &rsaquo; 計算・変換</nav>
+    <h1 style="font-size:1.6rem;font-weight:700;margin:16px 0 8px">🔢 計算・変換</h1>
+    <p style="color:var(--text-sub);margin-bottom:24px">11種類の無料計算ツールを掲載しています。</p>
+    <div class="tools-grid">
+        <a href="../calc/percent.html" class="tool-card"><div class="icon">🔢</div><div class="name">パーセント計算</div><div class="desc">割引・増税・比率をかんたん計算</div></a>
+        <a href="../calc/unit.html" class="tool-card"><div class="icon">📐</div><div class="name">単位変換</div><div class="desc">長さ・重さ・温度・面積を変換</div></a>
+        <a href="../calc/wariai.html" class="tool-card"><div class="icon">➗</div><div class="name">比率計算</div><div class="desc">割合・比率・比例配分をかんたん計算</div></a>
+        <a href="../calc/speed.html" class="tool-card"><div class="icon">🚗</div><div class="name">速さ・距離・時間計算</div><div class="desc">3つの関係をかんたん計算</div></a>
+        <a href="../calc/ondo.html" class="tool-card"><div class="icon">🌡️</div><div class="name">温度変換</div><div class="desc">摂氏・華氏・ケルビンを相互に変換</div></a>
+        <a href="../calc/gaika.html" class="tool-card"><div class="icon">💱</div><div class="name">外貨換算</div><div class="desc">円とドル・ユーロなど主要通貨を換算</div></a>
+        <a href="../calc/menseki.html" class="tool-card"><div class="icon">📐</div><div class="name">面積計算</div><div class="desc">縦×横から面積を計算し㎡・帖・坪に変換</div></a>
+        <a href="../calc/tsubo.html" class="tool-card"><div class="icon">🏠</div><div class="name">坪・平米変換</div><div class="desc">坪数と平方メートルを相互に換算</div></a>
+        <a href="../calc/data.html" class="tool-card"><div class="icon">💾</div><div class="name">データ容量変換</div><div class="desc">MB・GB・TBを一括変換</div></a>
+        <a href="../calc/rieki.html" class="tool-card"><div class="icon">💹</div><div class="name">利益率・原価計算</div><div class="desc">販売価格と原価から利益率・粗利を計算</div></a>
+        <a href="../calc/hensachi.html" class="tool-card"><div class="icon">📊</div><div class="name">偏差値計算</div><div class="desc">点数・平均点・標準偏差から偏差値を計算</div></a>
     </div>
   </div>
 </main>
 <footer>
   <div class="footer-logo">📐 はかるん</div>
   <div class="footer-links">
-    <a href="../index.html">トップ</a>
     <a href="../money/tedori.html">手取り計算</a>
+    <a href="../health/bmi.html">BMI計算</a>
+    <a href="../life/loan.html">ローン返済</a>
     <a href="../invest/nisa.html">NISA計算</a>
     <a href="../tax/furusato.html">ふるさと納税</a>
   </div>
@@ -202,33 +151,9 @@
     <a href="../disclaimer.html">免責事項</a>
     <a href="../contact.html">お問い合わせ</a>
   </div>
-  <p class="copyright">※ 計算結果はあくまで目安です。</p>
+  <p class="copyright">※ 計算結果はあくまで目安です。正確な金額は専門家にご相談ください。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
-<script>
-function calc() {
-  const parking = parseFloat(document.getElementById('parking').value)||0;
-  const insurance = parseFloat(document.getElementById('insurance').value)||0;
-  const tax = parseFloat(document.getElementById('tax').value)||0;
-  const gas = parseFloat(document.getElementById('gas').value)||0;
-  const maint = parseFloat(document.getElementById('maint').value)||0;
-  const parkingY = parking*12;
-  const gasY = gas*12;
-  const total = parkingY+insurance+tax+gasY+maint;
-  const fmt = n=>Math.round(n).toLocaleString('ja-JP')+' 円';
-  document.getElementById('res-main').textContent=fmt(total);
-  document.getElementById('res-parking').textContent=fmt(parkingY);
-  document.getElementById('res-ins').textContent=fmt(insurance);
-  document.getElementById('res-tax').textContent=fmt(tax);
-  document.getElementById('res-gas').textContent=fmt(gasY);
-  document.getElementById('res-maint').textContent=fmt(maint);
-  document.getElementById('res-total').textContent=fmt(total);
-  document.getElementById('res-monthly').textContent=fmt(total/12);
-  const info=document.getElementById('info-box');
-  info.innerHTML=`月換算で<strong>${fmt(total/12)}</strong>の車の維持費がかかっています。年間<strong>${fmt(total)}</strong>を参考に、カーシェアや買い替えの検討にお役立てください。`;
-  document.getElementById('result').classList.add('show');
-}
-</script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

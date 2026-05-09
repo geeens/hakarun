@@ -136,6 +136,16 @@ nav {
   white-space: nowrap;
   transition: background 0.1s;
 }
+.dropdown a.dropdown-all {
+  border-top: 1px solid var(--border);
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: 2px;
+}
+.dropdown a.dropdown-all:hover {
+  background: var(--primary-light);
+}
 .dropdown a:hover {
   background: var(--primary-light);
   color: var(--primary);
