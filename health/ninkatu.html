@@ -3,13 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>不動産利回り計算｜表面・実質利回りを無料計算｜はかるん</title>
-  <meta name="description" content="物件価格・月額家賃・諸経費を入力するだけで表面利回り・実質利回りを無料計算。不動産投資判断の参考に。">
+  <title>妊活タイミング計算｜排卵日・妊活チャンスを無料計算｜はかるん</title>
+  <meta name="description" content="最終月経開始日と生理周期を入力するだけで、排卵予定日・妊活チャンス期間を計算します。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "排卵日はいつ頃？", "acceptedAnswer": { "@type": "Answer", "text": "一般的に排卵は次の月経開始予定日の約14日前に起こります。生理周期が28日の場合、最終月経開始日から約14日後が排卵予定日です。ただし個人差が大きく、毎月変動することもあります。" } },
+    { "@type": "Question", "name": "妊娠しやすい時期はいつ？", "acceptedAnswer": { "@type": "Answer", "text": "排卵日の2〜3日前から排卵日当日が最も妊娠しやすい時期です。精子は体内で2〜3日生存できるため、排卵日前からタイミングを合わせることが大切です。" } },
+    { "@type": "Question", "name": "基礎体温で排卵日はわかる？", "acceptedAnswer": { "@type": "Answer", "text": "基礎体温（BBT）を記録すると、排卵後に体温が上昇する二相性パターンが確認できます。ただし体温が上がった時点では排卵は既に終わっているため、記録を続けて翌月以降のパターンを予測することが重要です。" } }] }
+  </script>
 </head>
 <body>
 <header>
@@ -38,7 +43,7 @@
           <a href="../money/fukugyo.html">💼 副業収入の税金計算</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../health/bmi.html" class="nav-link">健康・生活 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../health/bmi.html">⚖️ BMI計算</a>
@@ -119,7 +124,7 @@
           <a href="../calc/data.html">💾 データ容量変換</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../invest/fukuri.html" class="nav-link">投資・資産 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../invest/fukuri.html">📈 複利計算</a>
@@ -137,59 +142,47 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 投資・資産 &rsaquo; 🏠 不動産利回り計算</div>
-      <h1>🏠 不動産利回り計算</h1>
-      <p class="subtitle">物件価格と家賃から不動産投資の利回りを計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 健康・生活 &rsaquo; 🌸 妊活タイミング計算</div>
+      <h1>🌸 妊活タイミング計算</h1>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
+      <p class="subtitle" style="margin-bottom:16px">最終月経開始日から排卵予定日・妊活チャンス期間を計算します</p>
       <div class="form-group">
-        <label>物件価格</label>
-        <div class="input-wrap"><input type="number" id="price" placeholder="30000000" min="0"><span class="unit">円</span></div>
+        <label>最終月経開始日</label>
+        <div class="input-wrap"><input type="date" id="lastperiod"></div>
       </div>
       <div class="form-group">
-        <label>月額家賃収入</label>
-        <div class="input-wrap"><input type="number" id="rent" placeholder="100000" min="0"><span class="unit">円/月</span></div>
-      </div>
-      <div class="form-group">
-        <label>年間諸経費（省略可）</label>
-        <div class="input-wrap"><input type="number" id="expense" placeholder="200000" min="0"><span class="unit">円/年</span></div>
-        <p class="hint">管理費・固定資産税・修繕費・火災保険料などの合計</p>
-      </div>
-      <div class="form-group">
-        <label>購入時の諸費用（省略可）</label>
-        <div class="input-wrap"><input type="number" id="initial" placeholder="1500000" min="0"><span class="unit">円</span></div>
-        <p class="hint">仲介手数料・登記費用・ローン手数料など（物件価格の約5〜8%が目安）</p>
+        <label>生理周期（平均日数）</label>
+        <div class="input-wrap"><input type="number" id="cycle" placeholder="28" min="21" max="45"><span class="unit">日</span></div>
+        <p class="hint">前回の月経開始日から今回の月経開始日までの日数。平均は28〜30日です。</p>
       </div>
       <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
-        <div class="result-main">
-          <div class="label">実質利回り</div>
-          <div class="value" id="res-main">—</div>
-        </div>
+        <div class="result-main"><div class="label">排卵予定日</div><div class="value" id="res-main">—</div></div>
         <div class="result-table"><table><tbody>
-          <tr><td>年間家賃収入</td><td id="res-rent">—</td></tr>
-          <tr><td>表面利回り（グロス）</td><td id="res-gross">—</td></tr>
-          <tr><td>実質利回り（ネット）</td><td id="res-net">—</td></tr>
-          <tr><td>年間手取り収入</td><td id="res-income">—</td></tr>
-          <tr><td>投資回収年数（実質）</td><td id="res-payback">—</td></tr>
+          <tr><td>最終月経開始日</td><td id="r-last">—</td></tr>
+          <tr><td>次回月経予定日</td><td id="r-next">—</td></tr>
+          <tr><td>排卵予定日</td><td id="r-ovul">—</td></tr>
+          <tr><td>妊活チャンス開始（排卵3日前）</td><td id="r-chance-start">—</td></tr>
+          <tr><td>妊活チャンス終了（排卵翌日）</td><td id="r-chance-end">—</td></tr>
         </tbody></table></div>
-        <div class="info-box" id="info-box"></div>
+        <div class="info-box">排卵日は生理周期から算出した目安です。実際の排卵日は毎月変動します。より正確な排卵日の確認には、基礎体温の記録や市販の排卵検査薬の使用をおすすめします。</div>
       </div>
     </div>
-    <div class="ad-area">広告</div>
     <div class="article">
-      <h2>🏠 不動産利回り計算について</h2>
-      <p>不動産投資では「利回り」が重要な判断指標の一つです。利回りとは投資した資金に対して年間どれだけの収益が得られるかを示す割合です。表面利回りと実質利回りの2種類があり、それぞれ意味が異なります。</p>
-      <p>表面利回り（グロス利回り）は「年間家賃収入 ÷ 物件価格 × 100」で計算します。計算が簡単な反面、諸経費が考慮されていないため実態より高く見える場合があります。実質利回り（ネット利回り）は管理費・固定資産税・修繕費などを差し引いた実際の手取り収益で計算するため、より正確な投資効率を把握できます。</p>
-      <p>不動産投資は長期的な視点が重要です。利回りだけでなく、物件の立地・築年数・空室リスク・ローンの金利なども総合的に検討する必要があります。このツールで利回りを試算し、投資判断の参考にしてください。ただし実際の投資判断は専門家にも相談することをおすすめします。</p>
+      <h2>🌸 妊活タイミングについて</h2>
+      <p>妊娠が成立するには、排卵された卵子と精子が出会う必要があります。卵子が受精できる時間は排卵後約24時間と短いですが、精子は女性の体内で2〜3日（最長5日程度）生存できます。そのため、排卵日の2〜3日前からタイミングを合わせることが妊娠の確率を高めるポイントです。</p>
+      <p>排卵は通常、次の月経開始予定日の約14日前に起こります。ただし生理周期は毎月変動することがあり、特にストレス・体重変化・体調不良の影響を受けやすいです。生理周期が規則的な方は月経開始日を記録することで、ある程度排卵日を予測できます。</p>
+      <p>排卵日をより正確に把握する方法として、①基礎体温の記録（排卵後に体温が上昇）、②排卵検査薬（LHサージを検出）、③婦人科での超音波検査があります。妊活を始めて半年〜1年経過しても妊娠しない場合は、専門医への相談をおすすめします。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item"><div class="faq-q">Q. 表面利回りと実質利回りの違いは？</div><div class="faq-a">表面利回り（グロス利回り）は年間家賃収入÷物件価格×100%で計算した単純な利回りです。実質利回り（ネット利回り）は管理費・税金・修繕費などの諸経費と購入費用を差し引いた実態に近い利回りです。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 不動産投資の利回りの目安は？</div><div class="faq-a">一般的に表面利回り5〜8%以上、実質利回り3〜5%以上が投資判断の目安とされています。都市部ほど利回りは低く、地方ほど高い傾向があります。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 空室リスクはどう考える？</div><div class="faq-a">このシミュレーターは満室状態を想定しています。実際は空室期間があるため、空室率10〜20%を見込んで計算することをおすすめします。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 排卵日はいつ頃？</div><div class="faq-a">一般的に排卵は次の月経開始予定日の約14日前に起こります。生理周期が28日の場合、最終月経開始日から約14日後が排卵予定日です。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 妊娠しやすい時期はいつ？</div><div class="faq-a">排卵日の2〜3日前から排卵日当日が最も妊娠しやすい時期です。精子は体内で2〜3日生存できるため、排卵日前からタイミングを合わせることが大切です。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 基礎体温で排卵日はわかる？</div><div class="faq-a">基礎体温を記録すると排卵後に体温が上昇する二相性パターンが確認できます。記録を続けて翌月以降のパターンを予測することが重要です。</div></div>
     </div>
+    <div class="ad-area">広告</div>
   </div>
 </main>
 <footer>
@@ -208,33 +201,27 @@
   <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 <script>
-function calc() {
-  const price = parseFloat(document.getElementById('price').value);
-  const rent = parseFloat(document.getElementById('rent').value);
-  const expense = parseFloat(document.getElementById('expense').value) || 0;
-  const initial = parseFloat(document.getElementById('initial').value) || 0;
-  if (!price || !rent) { alert('物件価格と月額家賃を入力してください'); return; }
-  const annualRent = rent * 12;
-  const gross = annualRent / price * 100;
-  const totalCost = price + initial;
-  const netIncome = annualRent - expense;
-  const net = netIncome / totalCost * 100;
-  const payback = netIncome > 0 ? totalCost / netIncome : 0;
-  const fmt = n => Math.round(n).toLocaleString('ja-JP') + ' 円';
-  document.getElementById('res-main').textContent = net.toFixed(2) + ' %';
-  document.getElementById('res-rent').textContent = fmt(annualRent);
-  document.getElementById('res-gross').textContent = gross.toFixed(2) + ' %';
-  document.getElementById('res-net').textContent = net.toFixed(2) + ' %';
-  document.getElementById('res-income').textContent = fmt(netIncome);
-  document.getElementById('res-payback').textContent = payback > 0 ? payback.toFixed(1) + ' 年' : '—';
-  const info = document.getElementById('info-box');
-  if (net >= 5) info.innerHTML = `<strong>実質利回り${net.toFixed(2)}%：</strong>不動産投資として比較的高い利回りです。`;
-  else if (net >= 3) info.innerHTML = `<strong>実質利回り${net.toFixed(2)}%：</strong>標準的な利回りです。立地・築年数・空室リスクも考慮して判断しましょう。`;
-  else info.innerHTML = `<strong>実質利回り${net.toFixed(2)}%：</strong>やや低い利回りです。諸経費の削減や家賃の見直しを検討してみましょう。`;
+function addDays(d,n){const r=new Date(d);r.setDate(r.getDate()+n);return r;}
+function fmtD(d){const days=['日','月','火','水','木','金','土'];return d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日（'+days[d.getDay()]+'）';}
+function calc(){
+  const v=document.getElementById('lastperiod').value;
+  const cycle=parseInt(document.getElementById('cycle').value)||28;
+  if(!v){alert('最終月経開始日を入力してください');return;}
+  const last=new Date(v);
+  const next=addDays(last,cycle);
+  const ovul=addDays(next,-14);
+  const cstart=addDays(ovul,-3);
+  const cend=addDays(ovul,1);
+  document.getElementById('r-last').textContent=fmtD(last);
+  document.getElementById('r-next').textContent=fmtD(next);
+  document.getElementById('r-ovul').textContent=fmtD(ovul);
+  document.getElementById('r-chance-start').textContent=fmtD(cstart);
+  document.getElementById('r-chance-end').textContent=fmtD(cend);
+  document.getElementById('res-main').textContent=fmtD(ovul);
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

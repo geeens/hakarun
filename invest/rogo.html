@@ -3,13 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>不動産利回り計算｜表面・実質利回りを無料計算｜はかるん</title>
-  <meta name="description" content="物件価格・月額家賃・諸経費を入力するだけで表面利回り・実質利回りを無料計算。不動産投資判断の参考に。">
+  <title>老後資金計算｜必要な老後資金と毎月の積立額を無料計算｜はかるん</title>
+  <meta name="description" content="現在の年齢・退職年齢・老後の生活費を入力して、必要な老後資金・不足額・月々の積立必要額を計算します。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "老後に必要なお金はいくら？", "acceptedAnswer": { "@type": "Answer", "text": "一般的に「老後2,000万円問題」が話題になりましたが、必要額は生活水準・年金受給額・老後の期間によって大きく異なります。月25万円の生活費で30年間の老後なら年金を差し引いた不足分を準備する必要があります。" } },
+    { "@type": "Question", "name": "年金だけで老後は生活できる？", "acceptedAnswer": { "@type": "Answer", "text": "厚生年金の平均受給額は夫婦2人でおよそ月22万円程度です。月25〜30万円の生活費とすると月3〜8万円の不足が生じ、30年間では1,000〜3,000万円程度の老後資金が必要になります。" } },
+    { "@type": "Question", "name": "老後資金の準備はいつから始めればいい？", "acceptedAnswer": { "@type": "Answer", "text": "早ければ早いほど有利です。30歳から始めると35年間の積立期間があり、月3〜4万円の積立で2,000万円以上を目指せます（年利3%の場合）。40代から始めると月5〜8万円程度が必要になります。" } }] }
+  </script>
 </head>
 <body>
 <header>
@@ -137,59 +142,80 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 投資・資産 &rsaquo; 🏠 不動産利回り計算</div>
-      <h1>🏠 不動産利回り計算</h1>
-      <p class="subtitle">物件価格と家賃から不動産投資の利回りを計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 投資・資産 &rsaquo; 👴 老後資金計算</div>
+      <h1>👴 老後資金計算</h1>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
+      <p class="subtitle" style="margin-bottom:16px">老後に必要な資金と毎月の積立額を計算します</p>
       <div class="form-group">
-        <label>物件価格</label>
-        <div class="input-wrap"><input type="number" id="price" placeholder="30000000" min="0"><span class="unit">円</span></div>
+        <label>現在の年齢</label>
+        <div class="input-wrap"><input type="number" id="age" placeholder="35" min="20" max="70"><span class="unit">歳</span></div>
       </div>
       <div class="form-group">
-        <label>月額家賃収入</label>
-        <div class="input-wrap"><input type="number" id="rent" placeholder="100000" min="0"><span class="unit">円/月</span></div>
+        <label>退職予定年齢</label>
+        <div class="input-wrap"><input type="number" id="retire" placeholder="65" min="50" max="80"><span class="unit">歳</span></div>
       </div>
       <div class="form-group">
-        <label>年間諸経費（省略可）</label>
-        <div class="input-wrap"><input type="number" id="expense" placeholder="200000" min="0"><span class="unit">円/年</span></div>
-        <p class="hint">管理費・固定資産税・修繕費・火災保険料などの合計</p>
+        <label>老後の月間生活費</label>
+        <div class="input-wrap"><input type="number" id="living" placeholder="250000" min="0"><span class="unit">円</span></div>
+        <p class="hint">現在の生活費を参考に入力してください。</p>
       </div>
       <div class="form-group">
-        <label>購入時の諸費用（省略可）</label>
-        <div class="input-wrap"><input type="number" id="initial" placeholder="1500000" min="0"><span class="unit">円</span></div>
-        <p class="hint">仲介手数料・登記費用・ローン手数料など（物件価格の約5〜8%が目安）</p>
+        <label>年金の月間受給額（見込み）</label>
+        <div class="input-wrap"><input type="number" id="nenkin" placeholder="150000" min="0"><span class="unit">円</span></div>
+        <p class="hint">会社員の厚生年金は夫婦2人合計で月15〜22万円程度が目安です。</p>
+      </div>
+      <div class="form-group">
+        <label>老後の期間</label>
+        <div class="input-wrap"><select id="period">
+          <option value="20">20年（85歳まで）</option>
+          <option value="25">25年（90歳まで）</option>
+          <option value="30" selected>30年（95歳まで）</option>
+          <option value="35">35年（100歳まで）</option>
+        </select></div>
+      </div>
+      <div class="form-group">
+        <label>現在の老後用貯蓄</label>
+        <div class="input-wrap"><input type="number" id="savings" placeholder="0" min="0"><span class="unit">円</span></div>
+      </div>
+      <div class="form-group">
+        <label>積立の想定利回り</label>
+        <div class="input-wrap"><select id="rate">
+          <option value="0">0%（現金・預金のみ）</option>
+          <option value="1">1%（定期預金・債券）</option>
+          <option value="3" selected>3%（インデックス投資・目安）</option>
+          <option value="5">5%（積極運用）</option>
+        </select></div>
       </div>
       <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
-        <div class="result-main">
-          <div class="label">実質利回り</div>
-          <div class="value" id="res-main">—</div>
-        </div>
+        <div class="result-main"><div class="label">毎月の必要積立額</div><div class="value" id="res-main">—</div></div>
         <div class="result-table"><table><tbody>
-          <tr><td>年間家賃収入</td><td id="res-rent">—</td></tr>
-          <tr><td>表面利回り（グロス）</td><td id="res-gross">—</td></tr>
-          <tr><td>実質利回り（ネット）</td><td id="res-net">—</td></tr>
-          <tr><td>年間手取り収入</td><td id="res-income">—</td></tr>
-          <tr><td>投資回収年数（実質）</td><td id="res-payback">—</td></tr>
+          <tr><td>積立期間</td><td id="r-period">—</td></tr>
+          <tr><td>老後の必要資金合計</td><td id="r-need">—</td></tr>
+          <tr><td>年金受取合計</td><td id="r-nenkin">—</td></tr>
+          <tr><td>不足額（準備すべき金額）</td><td id="r-fusoku">—</td></tr>
+          <tr><td>現在の貯蓄（将来価値）</td><td id="r-savings">—</td></tr>
+          <tr><td>積立で準備すべき額</td><td id="r-target">—</td></tr>
+          <tr><td>毎月の積立必要額</td><td id="r-monthly">—</td></tr>
         </tbody></table></div>
-        <div class="info-box" id="info-box"></div>
+        <div class="info-box">この計算はインフレ・運用リスクを考慮しない概算です。老後の生活費は現在の物価水準で計算しています。実際の必要額はライフスタイルや健康状態によって変わります。</div>
       </div>
     </div>
-    <div class="ad-area">広告</div>
     <div class="article">
-      <h2>🏠 不動産利回り計算について</h2>
-      <p>不動産投資では「利回り」が重要な判断指標の一つです。利回りとは投資した資金に対して年間どれだけの収益が得られるかを示す割合です。表面利回りと実質利回りの2種類があり、それぞれ意味が異なります。</p>
-      <p>表面利回り（グロス利回り）は「年間家賃収入 ÷ 物件価格 × 100」で計算します。計算が簡単な反面、諸経費が考慮されていないため実態より高く見える場合があります。実質利回り（ネット利回り）は管理費・固定資産税・修繕費などを差し引いた実際の手取り収益で計算するため、より正確な投資効率を把握できます。</p>
-      <p>不動産投資は長期的な視点が重要です。利回りだけでなく、物件の立地・築年数・空室リスク・ローンの金利なども総合的に検討する必要があります。このツールで利回りを試算し、投資判断の参考にしてください。ただし実際の投資判断は専門家にも相談することをおすすめします。</p>
+      <h2>👴 老後資金の準備をわかりやすく解説</h2>
+      <p>2019年に金融庁が発表した報告書で「老後に2,000万円が必要」という試算が話題になりました。これは夫婦2人（夫65歳・妻60歳）で月々5.5万円の赤字が続くと仮定した場合、30年間で約2,000万円が不足するという試算です。実際には個人の年金額・生活費・資産状況によって大きく異なります。</p>
+      <p>老後資金を準備する主な方法として、①iDeCo（個人型確定拠出年金）：掛金が全額所得控除になり節税しながら積立できる、②NISA・つみたてNISA：運用益が非課税、③財形貯蓄：勤労者向けの積立制度、④不動産投資：家賃収入を老後の収入にする、などがあります。</p>
+      <p>老後資金の準備は早く始めるほど有利です。30歳から月3万円を年利3%で35年間積立すると約2,100万円になりますが、45歳から始めると月7万円以上が必要になります。複利の効果を最大限活かすため、少額でも早い時期から始めることが重要です。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item"><div class="faq-q">Q. 表面利回りと実質利回りの違いは？</div><div class="faq-a">表面利回り（グロス利回り）は年間家賃収入÷物件価格×100%で計算した単純な利回りです。実質利回り（ネット利回り）は管理費・税金・修繕費などの諸経費と購入費用を差し引いた実態に近い利回りです。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 不動産投資の利回りの目安は？</div><div class="faq-a">一般的に表面利回り5〜8%以上、実質利回り3〜5%以上が投資判断の目安とされています。都市部ほど利回りは低く、地方ほど高い傾向があります。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 空室リスクはどう考える？</div><div class="faq-a">このシミュレーターは満室状態を想定しています。実際は空室期間があるため、空室率10〜20%を見込んで計算することをおすすめします。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 老後に必要なお金はいくら？</div><div class="faq-a">月25万円の生活費で年金が月15万円なら月10万円×30年＝3,600万円の不足が生じます。ただし生活水準・年金額・老後の期間によって大きく異なります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 年金だけで老後は生活できる？</div><div class="faq-a">厚生年金の平均受給額は夫婦2人で月22万円程度です。月25〜30万円の生活費なら月3〜8万円の不足が生じ、30年で1,000〜3,000万円程度の老後資金が必要になります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 老後資金の準備はいつから始めればいい？</div><div class="faq-a">早ければ早いほど有利です。30歳から月3〜4万円の積立（年利3%）で2,000万円以上を目指せますが、40代から始めると月5〜8万円程度が必要になります。</div></div>
     </div>
+    <div class="ad-area">広告</div>
   </div>
 </main>
 <footer>
@@ -208,33 +234,41 @@
   <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 <script>
-function calc() {
-  const price = parseFloat(document.getElementById('price').value);
-  const rent = parseFloat(document.getElementById('rent').value);
-  const expense = parseFloat(document.getElementById('expense').value) || 0;
-  const initial = parseFloat(document.getElementById('initial').value) || 0;
-  if (!price || !rent) { alert('物件価格と月額家賃を入力してください'); return; }
-  const annualRent = rent * 12;
-  const gross = annualRent / price * 100;
-  const totalCost = price + initial;
-  const netIncome = annualRent - expense;
-  const net = netIncome / totalCost * 100;
-  const payback = netIncome > 0 ? totalCost / netIncome : 0;
-  const fmt = n => Math.round(n).toLocaleString('ja-JP') + ' 円';
-  document.getElementById('res-main').textContent = net.toFixed(2) + ' %';
-  document.getElementById('res-rent').textContent = fmt(annualRent);
-  document.getElementById('res-gross').textContent = gross.toFixed(2) + ' %';
-  document.getElementById('res-net').textContent = net.toFixed(2) + ' %';
-  document.getElementById('res-income').textContent = fmt(netIncome);
-  document.getElementById('res-payback').textContent = payback > 0 ? payback.toFixed(1) + ' 年' : '—';
-  const info = document.getElementById('info-box');
-  if (net >= 5) info.innerHTML = `<strong>実質利回り${net.toFixed(2)}%：</strong>不動産投資として比較的高い利回りです。`;
-  else if (net >= 3) info.innerHTML = `<strong>実質利回り${net.toFixed(2)}%：</strong>標準的な利回りです。立地・築年数・空室リスクも考慮して判断しましょう。`;
-  else info.innerHTML = `<strong>実質利回り${net.toFixed(2)}%：</strong>やや低い利回りです。諸経費の削減や家賃の見直しを検討してみましょう。`;
+function calc(){
+  const age=parseInt(document.getElementById('age').value)||0;
+  const retire=parseInt(document.getElementById('retire').value)||65;
+  const living=parseFloat(document.getElementById('living').value)||0;
+  const nenkin=parseFloat(document.getElementById('nenkin').value)||0;
+  const period=parseInt(document.getElementById('period').value);
+  const savings=parseFloat(document.getElementById('savings').value)||0;
+  const rate=parseFloat(document.getElementById('rate').value)/100;
+  if(!age||!living){alert('年齢と老後の生活費を入力してください');return;}
+  const years=Math.max(0,retire-age);
+  const need=(living-nenkin)*12*period;
+  const nenkinTotal=nenkin*12*period;
+  const fusoku=Math.max(0,(living-nenkin)*12*period);
+  // 現在の貯蓄の将来価値
+  const savFV=savings*Math.pow(1+rate,years);
+  const target=Math.max(0,fusoku-savFV);
+  // 毎月積立額（積立年金現価）
+  let monthly=0;
+  if(years>0&&target>0){
+    if(rate===0){monthly=target/(years*12);}
+    else{const r=rate/12;const n=years*12;monthly=target*r/(Math.pow(1+r,n)-1);}
+  }
+  const fmt=n=>Math.round(n).toLocaleString('ja-JP')+' 円';
+  document.getElementById('r-period').textContent=years+'年間';
+  document.getElementById('r-need').textContent=fmt((living)*12*period);
+  document.getElementById('r-nenkin').textContent=fmt(nenkinTotal);
+  document.getElementById('r-fusoku').textContent=fmt(fusoku);
+  document.getElementById('r-savings').textContent=fmt(Math.round(savFV));
+  document.getElementById('r-target').textContent=fmt(Math.round(target));
+  document.getElementById('r-monthly').textContent=fmt(Math.round(monthly));
+  document.getElementById('res-main').textContent=fmt(Math.round(monthly));
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

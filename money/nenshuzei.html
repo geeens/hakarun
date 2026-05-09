@@ -3,20 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>不動産利回り計算｜表面・実質利回りを無料計算｜はかるん</title>
-  <meta name="description" content="物件価格・月額家賃・諸経費を入力するだけで表面利回り・実質利回りを無料計算。不動産投資判断の参考に。">
+  <title>年収別税金シミュレーション｜手取り・所得税・住民税を一覧計算｜はかるん</title>
+  <meta name="description" content="年収を入力するだけで手取り・所得税・住民税・社会保険料を一覧表示。年収アップ時の税負担変化もわかります。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "年収500万円の税金はいくら？", "acceptedAnswer": { "@type": "Answer", "text": "年収500万円（独身・会社員）の場合、所得税約15万円、住民税約27万円、社会保険料約72万円、合計約114万円が差し引かれ、手取りはおよそ386万円（月約32万円）が目安です。" } },
+    { "@type": "Question", "name": "年収が上がると税金はどれくらい増える？", "acceptedAnswer": { "@type": "Answer", "text": "日本の所得税は超過累進税率なので、年収が上がるほど増加分に対する税率が高くなります。ただし増えた収入すべてに高い税率がかかるわけではなく、超えた部分だけに高い税率が適用されます。" } },
+    { "@type": "Question", "name": "社会保険料は年収の何パーセント？", "acceptedAnswer": { "@type": "Answer", "text": "会社員の社会保険料（健康保険・厚生年金・雇用保険）の本人負担分は概ね年収の14〜15%程度です。ただし標準報酬月額の上限があるため、高年収になるほど実質的な率は下がります。" } }] }
+  </script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
     <nav>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../money/tedori.html">💴 手取り計算</a>
@@ -119,7 +124,7 @@
           <a href="../calc/data.html">💾 データ容量変換</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../invest/fukuri.html" class="nav-link">投資・資産 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../invest/fukuri.html">📈 複利計算</a>
@@ -137,59 +142,53 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 投資・資産 &rsaquo; 🏠 不動産利回り計算</div>
-      <h1>🏠 不動産利回り計算</h1>
-      <p class="subtitle">物件価格と家賃から不動産投資の利回りを計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; お金・給与 &rsaquo; 📋 年収別税金シミュレーション</div>
+      <h1>📋 年収別税金シミュレーション</h1>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
+      <p class="subtitle" style="margin-bottom:16px">年収から手取り・税金・社会保険料の内訳を計算します（給与所得者・独身の場合）</p>
       <div class="form-group">
-        <label>物件価格</label>
-        <div class="input-wrap"><input type="number" id="price" placeholder="30000000" min="0"><span class="unit">円</span></div>
+        <label>年収（額面）</label>
+        <div class="input-wrap"><input type="number" id="income" placeholder="5000000" min="0"><span class="unit">円</span></div>
       </div>
       <div class="form-group">
-        <label>月額家賃収入</label>
-        <div class="input-wrap"><input type="number" id="rent" placeholder="100000" min="0"><span class="unit">円/月</span></div>
-      </div>
-      <div class="form-group">
-        <label>年間諸経費（省略可）</label>
-        <div class="input-wrap"><input type="number" id="expense" placeholder="200000" min="0"><span class="unit">円/年</span></div>
-        <p class="hint">管理費・固定資産税・修繕費・火災保険料などの合計</p>
-      </div>
-      <div class="form-group">
-        <label>購入時の諸費用（省略可）</label>
-        <div class="input-wrap"><input type="number" id="initial" placeholder="1500000" min="0"><span class="unit">円</span></div>
-        <p class="hint">仲介手数料・登記費用・ローン手数料など（物件価格の約5〜8%が目安）</p>
+        <label>扶養親族の人数</label>
+        <div class="input-wrap"><select id="fuyou">
+          <option value="0">0人（独身）</option><option value="1">1人</option>
+          <option value="2">2人</option><option value="3">3人以上</option>
+        </select></div>
       </div>
       <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
-        <div class="result-main">
-          <div class="label">実質利回り</div>
-          <div class="value" id="res-main">—</div>
-        </div>
+        <div class="result-main"><div class="label">年間手取り額</div><div class="value" id="res-main">—</div></div>
         <div class="result-table"><table><tbody>
-          <tr><td>年間家賃収入</td><td id="res-rent">—</td></tr>
-          <tr><td>表面利回り（グロス）</td><td id="res-gross">—</td></tr>
-          <tr><td>実質利回り（ネット）</td><td id="res-net">—</td></tr>
-          <tr><td>年間手取り収入</td><td id="res-income">—</td></tr>
-          <tr><td>投資回収年数（実質）</td><td id="res-payback">—</td></tr>
+          <tr><td>年収（額面）</td><td id="r-income">—</td></tr>
+          <tr><td>給与所得控除後</td><td id="r-kyuyo">—</td></tr>
+          <tr><td>社会保険料（概算）</td><td id="r-shakai">—</td></tr>
+          <tr><td>所得税</td><td id="r-shotoku">—</td></tr>
+          <tr><td>住民税</td><td id="r-jumin">—</td></tr>
+          <tr><td>税・保険料 合計</td><td id="r-total-tax">—</td></tr>
+          <tr><td>実質負担率</td><td id="r-rate">—</td></tr>
+          <tr><td>年間手取り</td><td id="r-tedori">—</td></tr>
+          <tr><td>月間手取り（÷12）</td><td id="r-month">—</td></tr>
         </tbody></table></div>
-        <div class="info-box" id="info-box"></div>
+        <div class="info-box">この計算は給与所得者を対象とした概算です。社会保険料控除・基礎控除のみ考慮しています。各種控除（医療費・ふるさと納税等）により実際の税額は異なります。</div>
       </div>
     </div>
-    <div class="ad-area">広告</div>
     <div class="article">
-      <h2>🏠 不動産利回り計算について</h2>
-      <p>不動産投資では「利回り」が重要な判断指標の一つです。利回りとは投資した資金に対して年間どれだけの収益が得られるかを示す割合です。表面利回りと実質利回りの2種類があり、それぞれ意味が異なります。</p>
-      <p>表面利回り（グロス利回り）は「年間家賃収入 ÷ 物件価格 × 100」で計算します。計算が簡単な反面、諸経費が考慮されていないため実態より高く見える場合があります。実質利回り（ネット利回り）は管理費・固定資産税・修繕費などを差し引いた実際の手取り収益で計算するため、より正確な投資効率を把握できます。</p>
-      <p>不動産投資は長期的な視点が重要です。利回りだけでなく、物件の立地・築年数・空室リスク・ローンの金利なども総合的に検討する必要があります。このツールで利回りを試算し、投資判断の参考にしてください。ただし実際の投資判断は専門家にも相談することをおすすめします。</p>
+      <h2>📋 年収と税金・手取りの関係</h2>
+      <p>日本の税制では、年収が増えるほど税負担率が高くなる「累進課税」が採用されています。所得税の税率は5%〜45%の7段階で、年収が高い部分ほど高い税率が適用されます。ただし増えた収入全体に高い税率がかかるわけではなく、一定額を超えた部分にのみ高い税率がかかります。</p>
+      <p>年収300万円台では手取り比率が約80〜82%、年収500万円台では約78〜80%、年収800万円超では75%程度まで下がります。社会保険料（健康保険・厚生年金・雇用保険）は年収の約15%で、所得税・住民税と合わせると高年収ほど実質的な負担が増えます。</p>
+      <p>手取りを増やす方法として、iDeCo（小規模企業共済等掛金控除）・ふるさと納税・医療費控除などの活用が有効です。これらを使うことで課税所得を減らし、所得税・住民税の両方を節税できます。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item"><div class="faq-q">Q. 表面利回りと実質利回りの違いは？</div><div class="faq-a">表面利回り（グロス利回り）は年間家賃収入÷物件価格×100%で計算した単純な利回りです。実質利回り（ネット利回り）は管理費・税金・修繕費などの諸経費と購入費用を差し引いた実態に近い利回りです。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 不動産投資の利回りの目安は？</div><div class="faq-a">一般的に表面利回り5〜8%以上、実質利回り3〜5%以上が投資判断の目安とされています。都市部ほど利回りは低く、地方ほど高い傾向があります。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 空室リスクはどう考える？</div><div class="faq-a">このシミュレーターは満室状態を想定しています。実際は空室期間があるため、空室率10〜20%を見込んで計算することをおすすめします。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 年収500万円の税金はいくら？</div><div class="faq-a">年収500万円（独身・会社員）の場合、所得税約15万円、住民税約27万円、社会保険料約72万円、合計約114万円が差し引かれ、手取りはおよそ386万円が目安です。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 年収が上がると税金はどれくらい増える？</div><div class="faq-a">超過累進税率なので、増えた収入の超えた部分にだけ高い税率が適用されます。年収400万→500万円への昇給では、増加分100万円のうち税・保険料が約25〜30万円増えるイメージです。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 社会保険料は年収の何パーセント？</div><div class="faq-a">会社員の社会保険料の本人負担分は概ね年収の14〜15%程度です。ただし標準報酬月額の上限があるため、高年収になるほど実質的な率は下がります。</div></div>
     </div>
+    <div class="ad-area">広告</div>
   </div>
 </main>
 <footer>
@@ -208,33 +207,45 @@
   <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 <script>
-function calc() {
-  const price = parseFloat(document.getElementById('price').value);
-  const rent = parseFloat(document.getElementById('rent').value);
-  const expense = parseFloat(document.getElementById('expense').value) || 0;
-  const initial = parseFloat(document.getElementById('initial').value) || 0;
-  if (!price || !rent) { alert('物件価格と月額家賃を入力してください'); return; }
-  const annualRent = rent * 12;
-  const gross = annualRent / price * 100;
-  const totalCost = price + initial;
-  const netIncome = annualRent - expense;
-  const net = netIncome / totalCost * 100;
-  const payback = netIncome > 0 ? totalCost / netIncome : 0;
-  const fmt = n => Math.round(n).toLocaleString('ja-JP') + ' 円';
-  document.getElementById('res-main').textContent = net.toFixed(2) + ' %';
-  document.getElementById('res-rent').textContent = fmt(annualRent);
-  document.getElementById('res-gross').textContent = gross.toFixed(2) + ' %';
-  document.getElementById('res-net').textContent = net.toFixed(2) + ' %';
-  document.getElementById('res-income').textContent = fmt(netIncome);
-  document.getElementById('res-payback').textContent = payback > 0 ? payback.toFixed(1) + ' 年' : '—';
-  const info = document.getElementById('info-box');
-  if (net >= 5) info.innerHTML = `<strong>実質利回り${net.toFixed(2)}%：</strong>不動産投資として比較的高い利回りです。`;
-  else if (net >= 3) info.innerHTML = `<strong>実質利回り${net.toFixed(2)}%：</strong>標準的な利回りです。立地・築年数・空室リスクも考慮して判断しましょう。`;
-  else info.innerHTML = `<strong>実質利回り${net.toFixed(2)}%：</strong>やや低い利回りです。諸経費の削減や家賃の見直しを検討してみましょう。`;
+function calc(){
+  const income=parseFloat(document.getElementById('income').value);
+  const fuyou=parseInt(document.getElementById('fuyou').value);
+  if(!income){alert('年収を入力してください');return;}
+  let kj;
+  if(income<=1625000)kj=550000;
+  else if(income<=3600000)kj=income*0.3+180000;
+  else if(income<=6600000)kj=income*0.2+540000;
+  else if(income<=8500000)kj=income*0.1+1200000;
+  else kj=1950000;
+  const kyuyo=Math.max(0,income-kj);
+  const shakai=Math.round(income*0.15);
+  const kiso=480000;
+  const fkj=fuyou*330000;
+  const kazei=Math.max(0,Math.floor((kyuyo-shakai-kiso-fkj)/1000)*1000);
+  const brackets=[[1950000,0.05,0],[3300000,0.10,97500],[6950000,0.20,427500],[9000000,0.23,636000],[18000000,0.33,1536000],[40000000,0.40,2796000],[Infinity,0.45,4796000]];
+  let shotoku=0;
+  for(const[lim,r,d]of brackets){if(kazei<=lim){shotoku=Math.round(kazei*r-d)*1.021;break;}}
+  shotoku=Math.round(shotoku);
+  const jkazei=Math.max(0,Math.floor((kyuyo-shakai-430000-fkj)/1000)*1000);
+  const jumin=Math.round(jkazei*0.1)+5000;
+  const totalTax=shakai+shotoku+jumin;
+  const tedori=income-totalTax;
+  const rate=(totalTax/income*100).toFixed(1);
+  const fmt=n=>Math.round(n).toLocaleString('ja-JP')+' 円';
+  document.getElementById('r-income').textContent=fmt(income);
+  document.getElementById('r-kyuyo').textContent=fmt(kyuyo);
+  document.getElementById('r-shakai').textContent=fmt(shakai);
+  document.getElementById('r-shotoku').textContent=fmt(shotoku);
+  document.getElementById('r-jumin').textContent=fmt(jumin);
+  document.getElementById('r-total-tax').textContent=fmt(totalTax);
+  document.getElementById('r-rate').textContent=rate+'%';
+  document.getElementById('r-tedori').textContent=fmt(tedori);
+  document.getElementById('r-month').textContent=fmt(Math.round(tedori/12));
+  document.getElementById('res-main').textContent=fmt(tedori);
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

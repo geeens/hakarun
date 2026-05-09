@@ -3,13 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>不動産利回り計算｜表面・実質利回りを無料計算｜はかるん</title>
-  <meta name="description" content="物件価格・月額家賃・諸経費を入力するだけで表面利回り・実質利回りを無料計算。不動産投資判断の参考に。">
+  <title>食費節約シミュレーション｜年間節約額を無料計算｜はかるん</title>
+  <meta name="description" content="現在の食費と節約方法を入力するだけで、月間・年間の節約額をシミュレーション。自炊・まとめ買い・冷凍活用など節約効果を計算。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "食費の目安はいくら？", "acceptedAnswer": { "@type": "Answer", "text": "総務省の家計調査によると、単身世帯の月間食費平均は約4万円、2人世帯は約6〜7万円です。手取り収入の15%以内が理想とされています。" } },
+    { "@type": "Question", "name": "食費を節約する一番効果的な方法は？", "acceptedAnswer": { "@type": "Answer", "text": "外食・中食を減らして自炊を増やすことが最も効果的です。外食1回1,000〜2,000円のところを自炊で200〜400円にできれば、週3回で月1〜2万円の節約になります。" } },
+    { "@type": "Question", "name": "食費の節約で栄養は偏らない？", "acceptedAnswer": { "@type": "Answer", "text": "工夫次第で節約しながら栄養バランスを保てます。卵・豆腐・鶏むね肉・もやし・冷凍野菜などはコスパが高く栄養価も優秀です。まとめ買いと冷凍保存を活用しましょう。" } }] }
+  </script>
 </head>
 <body>
 <header>
@@ -60,7 +65,7 @@
           <a href="../health/ninkatu.html">🌸 妊活タイミング計算</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../life/loan.html" class="nav-link">生活・節約 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../life/loan.html">🏦 ローン返済シミュレーション</a>
@@ -119,7 +124,7 @@
           <a href="../calc/data.html">💾 データ容量変換</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../invest/fukuri.html" class="nav-link">投資・資産 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../invest/fukuri.html">📈 複利計算</a>
@@ -137,59 +142,49 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 投資・資産 &rsaquo; 🏠 不動産利回り計算</div>
-      <h1>🏠 不動産利回り計算</h1>
-      <p class="subtitle">物件価格と家賃から不動産投資の利回りを計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 生活・節約 &rsaquo; 🛒 食費節約シミュレーション</div>
+      <h1>🛒 食費節約シミュレーション</h1>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
+      <p class="subtitle" style="margin-bottom:16px">節約方法を選ぶだけで月間・年間の節約額を計算します</p>
       <div class="form-group">
-        <label>物件価格</label>
-        <div class="input-wrap"><input type="number" id="price" placeholder="30000000" min="0"><span class="unit">円</span></div>
+        <label>現在の月間食費</label>
+        <div class="input-wrap"><input type="number" id="shokuhi" placeholder="60000" min="0"><span class="unit">円</span></div>
       </div>
-      <div class="form-group">
-        <label>月額家賃収入</label>
-        <div class="input-wrap"><input type="number" id="rent" placeholder="100000" min="0"><span class="unit">円/月</span></div>
-      </div>
-      <div class="form-group">
-        <label>年間諸経費（省略可）</label>
-        <div class="input-wrap"><input type="number" id="expense" placeholder="200000" min="0"><span class="unit">円/年</span></div>
-        <p class="hint">管理費・固定資産税・修繕費・火災保険料などの合計</p>
-      </div>
-      <div class="form-group">
-        <label>購入時の諸費用（省略可）</label>
-        <div class="input-wrap"><input type="number" id="initial" placeholder="1500000" min="0"><span class="unit">円</span></div>
-        <p class="hint">仲介手数料・登記費用・ローン手数料など（物件価格の約5〜8%が目安）</p>
-      </div>
-      <button class="btn btn-primary" onclick="calc()">計算する</button>
+      <p style="font-weight:bold;margin:16px 0 8px;">実践する節約方法を選んでください</p>
+      <div class="form-group"><label><input type="checkbox" id="jisui"> 外食を月4回自炊に切り替え → 約15%節約</label></div>
+      <div class="form-group"><label><input type="checkbox" id="matome"> 週1まとめ買い・特売を活用 → 約10%節約</label></div>
+      <div class="form-group"><label><input type="checkbox" id="reito"> 食材の冷凍保存で食品ロスを減らす → 約5%節約</label></div>
+      <div class="form-group"><label><input type="checkbox" id="bento"> 昼食を弁当に切り替え（週5日） → 約8%節約</label></div>
+      <div class="form-group"><label><input type="checkbox" id="drink"> 飲み物を自宅で用意（コンビニ飲料を削減） → 約3%節約</label></div>
+      <div class="form-group"><label><input type="checkbox" id="menu"> 献立を決めてから買い物（無駄買い防止） → 約5%節約</label></div>
+      <button class="btn btn-primary" onclick="calc()">節約額を計算する</button>
       <div class="result-area" id="result">
-        <div class="result-main">
-          <div class="label">実質利回り</div>
-          <div class="value" id="res-main">—</div>
-        </div>
+        <div class="result-main"><div class="label">年間節約見込み額</div><div class="value" id="res-main">—</div></div>
         <div class="result-table"><table><tbody>
-          <tr><td>年間家賃収入</td><td id="res-rent">—</td></tr>
-          <tr><td>表面利回り（グロス）</td><td id="res-gross">—</td></tr>
-          <tr><td>実質利回り（ネット）</td><td id="res-net">—</td></tr>
-          <tr><td>年間手取り収入</td><td id="res-income">—</td></tr>
-          <tr><td>投資回収年数（実質）</td><td id="res-payback">—</td></tr>
+          <tr><td>現在の月間食費</td><td id="r-now">—</td></tr>
+          <tr><td>節約率合計</td><td id="r-rate">—</td></tr>
+          <tr><td>節約後の月間食費</td><td id="r-after">—</td></tr>
+          <tr><td>月間節約額</td><td id="r-month">—</td></tr>
+          <tr><td>年間節約額</td><td id="r-year">—</td></tr>
         </tbody></table></div>
-        <div class="info-box" id="info-box"></div>
+        <div class="info-box">節約率は一般的な効果を参考にした目安です。生活スタイルや家族構成によって実際の効果は異なります。</div>
       </div>
     </div>
-    <div class="ad-area">広告</div>
     <div class="article">
-      <h2>🏠 不動産利回り計算について</h2>
-      <p>不動産投資では「利回り」が重要な判断指標の一つです。利回りとは投資した資金に対して年間どれだけの収益が得られるかを示す割合です。表面利回りと実質利回りの2種類があり、それぞれ意味が異なります。</p>
-      <p>表面利回り（グロス利回り）は「年間家賃収入 ÷ 物件価格 × 100」で計算します。計算が簡単な反面、諸経費が考慮されていないため実態より高く見える場合があります。実質利回り（ネット利回り）は管理費・固定資産税・修繕費などを差し引いた実際の手取り収益で計算するため、より正確な投資効率を把握できます。</p>
-      <p>不動産投資は長期的な視点が重要です。利回りだけでなく、物件の立地・築年数・空室リスク・ローンの金利なども総合的に検討する必要があります。このツールで利回りを試算し、投資判断の参考にしてください。ただし実際の投資判断は専門家にも相談することをおすすめします。</p>
+      <h2>🛒 食費を賢く節約する方法</h2>
+      <p>食費の節約で最も効果が高いのは外食・中食の削減です。外食は1食あたり1,000〜2,000円かかることが多い一方、自炊なら1食200〜500円で済むことも多く、1日3食すべて自炊にすると月3〜5万円の節約になることもあります。</p>
+      <p>まとめ買いと食材の冷凍保存も効果的な節約法です。週1回のまとめ買いにすることで、特売品を活用しやすくなり衝動買いも減ります。肉・魚は買ったその日に小分けして冷凍することで食品ロスを防ぎ、食費の無駄を減らせます。</p>
+      <p>ポイ活（ポイントカード・スマホ決済）も侮れません。スーパーのポイントカードや電子マネーを活用することで、食費の2〜5%をポイントとして還元してもらえます。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item"><div class="faq-q">Q. 表面利回りと実質利回りの違いは？</div><div class="faq-a">表面利回り（グロス利回り）は年間家賃収入÷物件価格×100%で計算した単純な利回りです。実質利回り（ネット利回り）は管理費・税金・修繕費などの諸経費と購入費用を差し引いた実態に近い利回りです。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 不動産投資の利回りの目安は？</div><div class="faq-a">一般的に表面利回り5〜8%以上、実質利回り3〜5%以上が投資判断の目安とされています。都市部ほど利回りは低く、地方ほど高い傾向があります。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 空室リスクはどう考える？</div><div class="faq-a">このシミュレーターは満室状態を想定しています。実際は空室期間があるため、空室率10〜20%を見込んで計算することをおすすめします。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 食費の目安はいくら？</div><div class="faq-a">単身世帯の月間食費平均は約4万円、2人世帯は約6〜7万円です。手取り収入の15%以内が理想とされています。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 食費を節約する一番効果的な方法は？</div><div class="faq-a">外食・中食を減らして自炊を増やすことが最も効果的です。外食1回1,000〜2,000円のところを自炊で200〜400円にできれば、週3回で月1〜2万円の節約になります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 食費の節約で栄養は偏らない？</div><div class="faq-a">工夫次第で節約しながら栄養バランスを保てます。卵・豆腐・鶏むね肉・冷凍野菜などはコスパが高く栄養価も優秀です。</div></div>
     </div>
+    <div class="ad-area">広告</div>
   </div>
 </main>
 <footer>
@@ -208,33 +203,31 @@
   <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 <script>
-function calc() {
-  const price = parseFloat(document.getElementById('price').value);
-  const rent = parseFloat(document.getElementById('rent').value);
-  const expense = parseFloat(document.getElementById('expense').value) || 0;
-  const initial = parseFloat(document.getElementById('initial').value) || 0;
-  if (!price || !rent) { alert('物件価格と月額家賃を入力してください'); return; }
-  const annualRent = rent * 12;
-  const gross = annualRent / price * 100;
-  const totalCost = price + initial;
-  const netIncome = annualRent - expense;
-  const net = netIncome / totalCost * 100;
-  const payback = netIncome > 0 ? totalCost / netIncome : 0;
-  const fmt = n => Math.round(n).toLocaleString('ja-JP') + ' 円';
-  document.getElementById('res-main').textContent = net.toFixed(2) + ' %';
-  document.getElementById('res-rent').textContent = fmt(annualRent);
-  document.getElementById('res-gross').textContent = gross.toFixed(2) + ' %';
-  document.getElementById('res-net').textContent = net.toFixed(2) + ' %';
-  document.getElementById('res-income').textContent = fmt(netIncome);
-  document.getElementById('res-payback').textContent = payback > 0 ? payback.toFixed(1) + ' 年' : '—';
-  const info = document.getElementById('info-box');
-  if (net >= 5) info.innerHTML = `<strong>実質利回り${net.toFixed(2)}%：</strong>不動産投資として比較的高い利回りです。`;
-  else if (net >= 3) info.innerHTML = `<strong>実質利回り${net.toFixed(2)}%：</strong>標準的な利回りです。立地・築年数・空室リスクも考慮して判断しましょう。`;
-  else info.innerHTML = `<strong>実質利回り${net.toFixed(2)}%：</strong>やや低い利回りです。諸経費の削減や家賃の見直しを検討してみましょう。`;
+function calc(){
+  const v=parseFloat(document.getElementById('shokuhi').value);
+  if(!v){alert('現在の月間食費を入力してください');return;}
+  let r=0;
+  if(document.getElementById('jisui').checked)r+=0.15;
+  if(document.getElementById('matome').checked)r+=0.10;
+  if(document.getElementById('reito').checked)r+=0.05;
+  if(document.getElementById('bento').checked)r+=0.08;
+  if(document.getElementById('drink').checked)r+=0.03;
+  if(document.getElementById('menu').checked)r+=0.05;
+  r=Math.min(r,0.50);
+  const after=Math.round(v*(1-r));
+  const ms=v-after;
+  const ys=ms*12;
+  const fmt=n=>n.toLocaleString('ja-JP')+' 円';
+  document.getElementById('r-now').textContent=fmt(v);
+  document.getElementById('r-rate').textContent=(r*100).toFixed(0)+'%';
+  document.getElementById('r-after').textContent=fmt(after);
+  document.getElementById('r-month').textContent=fmt(ms);
+  document.getElementById('r-year').textContent=fmt(ys);
+  document.getElementById('res-main').textContent=fmt(ys);
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>
