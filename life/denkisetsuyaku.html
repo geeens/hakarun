@@ -3,13 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>車の維持費計算｜年間の車にかかるコストを計算｜はかるん</title>
-  <meta name="description" content="駐車場・保険・税金・ガソリン代を入力するだけで車の年間維持費を計算。車購入・売却の判断に。">
+  <title>電気代節約シミュレーション｜節約額を無料計算｜はかるん</title>
+  <meta name="description" content="現在の電気代と節約方法を選ぶだけで、年間節約額をシミュレーション。エアコン・照明・待機電力の節約効果を計算。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "電気代を一番節約できる方法は？", "acceptedAnswer": { "@type": "Answer", "text": "家庭の電力消費の約25〜30%を占めるエアコンの使い方を見直すことが最も効果的です。設定温度を1℃変えるだけで約10%の節電になります。" } },
+    { "@type": "Question", "name": "待機電力はどのくらいかかる？", "acceptedAnswer": { "@type": "Answer", "text": "待機電力は家庭の電力消費の約5〜6%を占めます。使っていない家電のコンセントを抜いたり、電源タップのスイッチを切ることで削減できます。" } },
+    { "@type": "Question", "name": "LED照明に変えると電気代はどのくらい安くなる？", "acceptedAnswer": { "@type": "Answer", "text": "白熱電球からLEDに変えると、同じ明るさで消費電力が約85%削減されます。1個の電球で年間約1,000〜2,000円程度の節約になる場合があります。" } }] }
+  </script>
 </head>
 <body>
 <header>
@@ -127,72 +132,64 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 生活・節約 &rsaquo; 🚗 車の維持費計算</div>
-      <h1>🚗 車の維持費計算</h1>
-      <p class="subtitle">駐車場代・保険・税金・ガソリン代など車の年間維持費を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 生活・節約 &rsaquo; 💡 電気代節約シミュレーション</div>
+      <h1>💡 電気代節約シミュレーション</h1>
+      <p class="subtitle">節約方法を選ぶだけで年間節約額をシミュレーションします</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>月極駐車場代</label>
-        <div class="input-wrap"><input type="number" id="parking" placeholder="15000" min="0"><span class="unit">円/月</span></div>
+        <label>現在の月間電気代</label>
+        <div class="input-wrap"><input type="number" id="denki" placeholder="12000" min="0"><span class="unit">円</span></div>
+      </div>
+      <p style="font-weight:bold;margin:16px 0 8px;">実践する節約方法を選んでください</p>
+      <div class="form-group">
+        <label><input type="checkbox" id="aircon"> エアコンの設定温度を1℃調整（夏は+1℃、冬は-1℃）→ 約10%節電</label>
       </div>
       <div class="form-group">
-        <label>自動車保険料（任意保険）</label>
-        <div class="input-wrap"><input type="number" id="insurance" placeholder="60000" min="0"><span class="unit">円/年</span></div>
+        <label><input type="checkbox" id="led"> 白熱電球をLEDに交換 → 照明費用を約85%削減</label>
       </div>
       <div class="form-group">
-        <label>自動車税（排気量別）</label>
-        <div class="input-wrap">
-          <select id="tax">
-            <option value="25000">軽自動車（10,800円）</option>
-            <option value="25000">1,000cc以下（25,000円）</option>
-            <option value="30500" selected>1,001〜1,500cc（30,500円）</option>
-            <option value="36000">1,501〜2,000cc（36,000円）</option>
-            <option value="43500">2,001〜2,500cc（43,500円）</option>
-            <option value="50000">2,501〜3,000cc（50,000円）</option>
-          </select>
-        </div>
+        <label><input type="checkbox" id="taiki"> 待機電力をカット（未使用家電のコンセントを抜く） → 約5%節電</label>
       </div>
       <div class="form-group">
-        <label>月間ガソリン代</label>
-        <div class="input-wrap"><input type="number" id="gas" placeholder="8000" min="0"><span class="unit">円/月</span></div>
+        <label><input type="checkbox" id="reizo"> 冷蔵庫の節電（設定を「中」に、壁から5cm離す） → 約2%節電</label>
       </div>
       <div class="form-group">
-        <label>車検・メンテナンス費用（年間）</label>
-        <div class="input-wrap"><input type="number" id="maint" placeholder="80000" min="0"><span class="unit">円/年</span></div>
-        <p class="hint">車検（2年に1回）・オイル交換・タイヤ交換など。2年に1回の場合は÷2した金額を入力。</p>
+        <label><input type="checkbox" id="sentaku"> 洗濯機をまとめ洗い・エコモード使用 → 約3%節電</label>
       </div>
-      <button class="btn btn-primary" onclick="calc()">計算する</button>
+      <div class="form-group">
+        <label><input type="checkbox" id="heater"> 電気ヒーターをこたつや湯たんぽに切り替え → 約5%節電</label>
+      </div>
+      <button class="btn btn-primary" onclick="calc()">節約額を計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">年間維持費合計</div>
+          <div class="label">年間節約見込み額</div>
           <div class="value" id="res-main">—</div>
         </div>
         <div class="result-table"><table><tbody>
-          <tr><td>駐車場代（年間）</td><td id="res-parking">—</td></tr>
-          <tr><td>自動車保険料</td><td id="res-ins">—</td></tr>
-          <tr><td>自動車税</td><td id="res-tax">—</td></tr>
-          <tr><td>ガソリン代（年間）</td><td id="res-gas">—</td></tr>
-          <tr><td>車検・メンテナンス</td><td id="res-maint">—</td></tr>
-          <tr><td>年間維持費合計</td><td id="res-total">—</td></tr>
-          <tr><td>月換算</td><td id="res-monthly">—</td></tr>
+          <tr><td>現在の月間電気代</td><td id="res-now">—</td></tr>
+          <tr><td>節電率合計</td><td id="res-rate">—</td></tr>
+          <tr><td>節約後の月間電気代</td><td id="res-after">—</td></tr>
+          <tr><td>月間節約額</td><td id="res-month">—</td></tr>
+          <tr><td>年間節約額</td><td id="res-year">—</td></tr>
         </tbody></table></div>
-        <div class="info-box" id="info-box"></div>
+        <div class="info-box">節電率は各方法の一般的な効果を参考にした概算値です。実際の節約額は住宅環境・家族構成・使用状況によって異なります。</div>
       </div>
     </div>
     <div class="ad-area">広告</div>
     <div class="article">
-      <h2>🚗 車の維持費計算について</h2>
-      <p>車を所有するには購入費用だけでなく、毎月・毎年かかる維持費が必要です。駐車場代・自動車保険・自動車税・ガソリン代・車検費用を合わせると、年間50〜100万円以上になることも珍しくありません。</p>
-      <p>特に都市部では駐車場代が月1〜3万円と高額になりやすく、維持費全体を押し上げます。カーシェアリングやレンタカーと維持費を比較することで、車を持つべきかどうかを判断する目安になります。</p>
-      <p>維持費を抑えるコツとして、任意保険は複数社を比較して見積もりを取ること、燃費の良い車を選ぶこと、車検は民間整備工場やガソリンスタンドを活用することなどが挙げられます。このツールで現在の維持費を把握し、節約ポイントを探してみましょう。</p>
+      <h2>💡 電気代を効率よく節約する方法</h2>
+      <p>家庭の電気代を節約するには、消費電力の大きい家電から手をつけるのが効率的です。家庭の電力消費の内訳は、エアコンが約25〜30%、冷蔵庫が約15%、照明が約10%、テレビが約9%、その他（洗濯機・電子レンジ・温水洗浄便座など）が約40%程度を占めています。</p>
+      <p>エアコンは消費電力が大きいため、設定温度を1℃変えるだけで10%前後の節電効果があります。フィルターを月1回掃除するだけでも約4%の節電になります。夏のクーラーは28℃設定、冬のヒーターは20℃設定が推奨されています。</p>
+      <p>LED照明への切り替えは初期コストがかかりますが、白熱電球に比べて消費電力が約85%、蛍光灯に比べても約50%削減できます。寿命も白熱電球の約40倍あるため、長期的に見るとコストパフォーマンスが高い投資です。</p>
+      <p>電力会社・料金プランの見直しも大きな節約効果があります。電力自由化により、生活スタイルに合ったプランを選ぶことで年間数千〜数万円の節約になる場合があります。深夜に洗濯機や食洗機を使う場合は、深夜電力が安いプランを選ぶと節約効果が高まります。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item"><div class="faq-q">Q. 車の年間維持費の平均は？</div><div class="faq-a">国産乗用車（1,500cc程度）の場合、駐車場なし・地方在住で年間40〜60万円、都市部で駐車場込みだと年間70〜120万円程度が目安です。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 軽自動車と普通車の維持費の差は？</div><div class="faq-a">自動車税が普通車の約1/3（年間約1万円）、任意保険も割安なことが多く、年間で10〜20万円程度維持費が安くなるケースが多いです。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. カーシェアとどちがお得？</div><div class="faq-a">月間の走行距離が少ない場合（月200km以下など）はカーシェアの方が安くなることが多いです。維持費を計算して比較してみましょう。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 電気代を一番節約できる方法は？</div><div class="faq-a">家庭の電力消費の約25〜30%を占めるエアコンの使い方を見直すことが最も効果的です。設定温度を1℃変えるだけで約10%の節電になります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 待機電力はどのくらいかかる？</div><div class="faq-a">待機電力は家庭の電力消費の約5〜6%を占めます。使っていない家電のコンセントを抜いたり、電源タップのスイッチを切ることで削減できます。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. LED照明に変えると電気代はどのくらい安くなる？</div><div class="faq-a">白熱電球からLEDに変えると、同じ明るさで消費電力が約85%削減されます。1個の電球で年間約1,000〜2,000円程度の節約になる場合があります。</div></div>
     </div>
   </div>
 </main>
@@ -212,30 +209,31 @@
   <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
-<script>
-function calc() {
-  const parking = parseFloat(document.getElementById('parking').value)||0;
-  const insurance = parseFloat(document.getElementById('insurance').value)||0;
-  const tax = parseFloat(document.getElementById('tax').value)||0;
-  const gas = parseFloat(document.getElementById('gas').value)||0;
-  const maint = parseFloat(document.getElementById('maint').value)||0;
-  const parkingY = parking*12;
-  const gasY = gas*12;
-  const total = parkingY+insurance+tax+gasY+maint;
-  const fmt = n=>Math.round(n).toLocaleString('ja-JP')+' 円';
-  document.getElementById('res-main').textContent=fmt(total);
-  document.getElementById('res-parking').textContent=fmt(parkingY);
-  document.getElementById('res-ins').textContent=fmt(insurance);
-  document.getElementById('res-tax').textContent=fmt(tax);
-  document.getElementById('res-gas').textContent=fmt(gasY);
-  document.getElementById('res-maint').textContent=fmt(maint);
-  document.getElementById('res-total').textContent=fmt(total);
-  document.getElementById('res-monthly').textContent=fmt(total/12);
-  const info=document.getElementById('info-box');
-  info.innerHTML=`月換算で<strong>${fmt(total/12)}</strong>の車の維持費がかかっています。年間<strong>${fmt(total)}</strong>を参考に、カーシェアや買い替えの検討にお役立てください。`;
-  document.getElementById('result').classList.add('show');
-}
-</script>
 <script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>
+<script>
+function calc() {
+  const denki = parseFloat(document.getElementById('denki').value);
+  if (!denki || denki < 0) { alert('現在の月間電気代を入力してください'); return; }
+  let rate = 0;
+  if (document.getElementById('aircon').checked) rate += 0.10;
+  if (document.getElementById('led').checked) rate += 0.05;
+  if (document.getElementById('taiki').checked) rate += 0.05;
+  if (document.getElementById('reizo').checked) rate += 0.02;
+  if (document.getElementById('sentaku').checked) rate += 0.03;
+  if (document.getElementById('heater').checked) rate += 0.05;
+  rate = Math.min(rate, 0.40);
+  const after = Math.round(denki * (1 - rate));
+  const monthSave = denki - after;
+  const yearSave = monthSave * 12;
+  const fmt = n => Math.round(n).toLocaleString('ja-JP') + ' 円';
+  document.getElementById('res-now').textContent = fmt(denki);
+  document.getElementById('res-rate').textContent = (rate * 100).toFixed(0) + '%';
+  document.getElementById('res-after').textContent = fmt(after);
+  document.getElementById('res-month').textContent = fmt(monthSave);
+  document.getElementById('res-year').textContent = fmt(yearSave);
+  document.getElementById('res-main').textContent = fmt(yearSave);
+  document.getElementById('result').classList.add('show');
+}
+</script>

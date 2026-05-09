@@ -3,13 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>車の維持費計算｜年間の車にかかるコストを計算｜はかるん</title>
-  <meta name="description" content="駐車場・保険・税金・ガソリン代を入力するだけで車の年間維持費を計算。車購入・売却の判断に。">
+  <title>確定申告 還付金計算｜所得税の還付額を無料計算｜はかるん</title>
+  <meta name="description" content="年収・源泉徴収税額・各種控除を入力して所得税の還付見込み額を無料計算。確定申告前の事前確認に。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "確定申告の還付金とは？", "acceptedAnswer": { "@type": "Answer", "text": "会社員は毎月給与から所得税が天引きされます。年末調整や確定申告で正確な税額を計算した結果、払いすぎた税金が戻ってくる金額が還付金です。" } },
+    { "@type": "Question", "name": "還付金はいつ振り込まれる？", "acceptedAnswer": { "@type": "Answer", "text": "確定申告書の提出後、おおむね1〜2ヶ月以内に指定口座に振り込まれます。e-Taxで電子申告した場合は3週間程度と早めです。" } },
+    { "@type": "Question", "name": "還付申告はいつまでできる？", "acceptedAnswer": { "@type": "Answer", "text": "還付のための確定申告（還付申告）は、確定申告期間（2月16日〜3月15日）外でも申告できます。過去5年分まで遡って申告可能です。" } }] }
+  </script>
 </head>
 <body>
 <header>
@@ -56,7 +61,7 @@
           <a href="../health/tekisei.html">😴 適正睡眠時間チェック</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../life/loan.html" class="nav-link">生活・節約 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../life/loan.html">🏦 ローン返済シミュレーション</a>
@@ -87,7 +92,7 @@
           <a href="../date/sankyuu.html">🍼 産休・育休期間計算</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../tax/furusato.html" class="nav-link">節税 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../tax/furusato.html">🎎 ふるさと納税 上限額計算</a>
@@ -127,72 +132,64 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 生活・節約 &rsaquo; 🚗 車の維持費計算</div>
-      <h1>🚗 車の維持費計算</h1>
-      <p class="subtitle">駐車場代・保険・税金・ガソリン代など車の年間維持費を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 節税 &rsaquo; 💰 確定申告 還付金計算</div>
+      <h1>💰 確定申告 還付金計算</h1>
+      <p class="subtitle">源泉徴収税額と各種控除から所得税の還付見込み額を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>月極駐車場代</label>
-        <div class="input-wrap"><input type="number" id="parking" placeholder="15000" min="0"><span class="unit">円/月</span></div>
+        <label>年収（額面）</label>
+        <div class="input-wrap"><input type="number" id="income" placeholder="5000000" min="0"><span class="unit">円</span></div>
       </div>
       <div class="form-group">
-        <label>自動車保険料（任意保険）</label>
-        <div class="input-wrap"><input type="number" id="insurance" placeholder="60000" min="0"><span class="unit">円/年</span></div>
+        <label>源泉徴収税額（年間）</label>
+        <div class="input-wrap"><input type="number" id="gensen" placeholder="120000" min="0"><span class="unit">円</span></div>
+        <p class="hint">源泉徴収票の「源泉徴収税額」欄の金額を入力してください。</p>
       </div>
       <div class="form-group">
-        <label>自動車税（排気量別）</label>
-        <div class="input-wrap">
-          <select id="tax">
-            <option value="25000">軽自動車（10,800円）</option>
-            <option value="25000">1,000cc以下（25,000円）</option>
-            <option value="30500" selected>1,001〜1,500cc（30,500円）</option>
-            <option value="36000">1,501〜2,000cc（36,000円）</option>
-            <option value="43500">2,001〜2,500cc（43,500円）</option>
-            <option value="50000">2,501〜3,000cc（50,000円）</option>
-          </select>
-        </div>
+        <label>医療費控除（年間10万円超の医療費）</label>
+        <div class="input-wrap"><input type="number" id="iryou" placeholder="0" min="0"><span class="unit">円</span></div>
+        <p class="hint">年間の医療費合計から10万円を引いた金額を入力（例：医療費15万円なら5万円）</p>
       </div>
       <div class="form-group">
-        <label>月間ガソリン代</label>
-        <div class="input-wrap"><input type="number" id="gas" placeholder="8000" min="0"><span class="unit">円/月</span></div>
+        <label>ふるさと納税（寄付金控除）</label>
+        <div class="input-wrap"><input type="number" id="furusato" placeholder="0" min="0"><span class="unit">円</span></div>
+        <p class="hint">寄付総額から2,000円を引いた金額（ワンストップ特例非利用の場合）</p>
       </div>
       <div class="form-group">
-        <label>車検・メンテナンス費用（年間）</label>
-        <div class="input-wrap"><input type="number" id="maint" placeholder="80000" min="0"><span class="unit">円/年</span></div>
-        <p class="hint">車検（2年に1回）・オイル交換・タイヤ交換など。2年に1回の場合は÷2した金額を入力。</p>
+        <label>その他控除（iDeCo・生命保険料など）</label>
+        <div class="input-wrap"><input type="number" id="other" placeholder="0" min="0"><span class="unit">円</span></div>
       </div>
       <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">年間維持費合計</div>
+          <div class="label">還付見込み額</div>
           <div class="value" id="res-main">—</div>
         </div>
         <div class="result-table"><table><tbody>
-          <tr><td>駐車場代（年間）</td><td id="res-parking">—</td></tr>
-          <tr><td>自動車保険料</td><td id="res-ins">—</td></tr>
-          <tr><td>自動車税</td><td id="res-tax">—</td></tr>
-          <tr><td>ガソリン代（年間）</td><td id="res-gas">—</td></tr>
-          <tr><td>車検・メンテナンス</td><td id="res-maint">—</td></tr>
-          <tr><td>年間維持費合計</td><td id="res-total">—</td></tr>
-          <tr><td>月換算</td><td id="res-monthly">—</td></tr>
+          <tr><td>給与所得</td><td id="res-kyuyo">—</td></tr>
+          <tr><td>追加控除合計</td><td id="res-kojo">—</td></tr>
+          <tr><td>本来の所得税額（概算）</td><td id="res-hontai">—</td></tr>
+          <tr><td>源泉徴収税額（納付済み）</td><td id="res-gensen">—</td></tr>
+          <tr><td>還付見込み額</td><td id="res-kanpu">—</td></tr>
         </tbody></table></div>
-        <div class="info-box" id="info-box"></div>
+        <div class="info-box">この計算は目安です。実際の還付額は年末調整の内容・社会保険料・配偶者控除などによって変わります。正確な額は税務署または税理士にご確認ください。</div>
       </div>
     </div>
     <div class="ad-area">広告</div>
     <div class="article">
-      <h2>🚗 車の維持費計算について</h2>
-      <p>車を所有するには購入費用だけでなく、毎月・毎年かかる維持費が必要です。駐車場代・自動車保険・自動車税・ガソリン代・車検費用を合わせると、年間50〜100万円以上になることも珍しくありません。</p>
-      <p>特に都市部では駐車場代が月1〜3万円と高額になりやすく、維持費全体を押し上げます。カーシェアリングやレンタカーと維持費を比較することで、車を持つべきかどうかを判断する目安になります。</p>
-      <p>維持費を抑えるコツとして、任意保険は複数社を比較して見積もりを取ること、燃費の良い車を選ぶこと、車検は民間整備工場やガソリンスタンドを活用することなどが挙げられます。このツールで現在の維持費を把握し、節約ポイントを探してみましょう。</p>
+      <h2>💰 確定申告で還付金を受け取るには</h2>
+      <p>確定申告とは、1年間の所得と税額を自分で計算して税務署に申告する手続きです。会社員は通常、勤務先が年末調整をしてくれますが、医療費控除・ふるさと納税（ワンストップ特例なし）・住宅ローン控除（初年度）などは自分で確定申告をする必要があります。</p>
+      <p>払いすぎた所得税は「還付金」として返金されます。たとえば源泉徴収で15万円天引きされていても、医療費控除やふるさと納税の控除を申告すると、正確な税額が12万円だとわかれば3万円が還付されます。</p>
+      <p>還付申告は確定申告期間（2月16日〜3月15日）以外でも、1月1日から5年間申告できます。医療費が多くかかった年や、ふるさと納税をした年は積極的に申告することをおすすめします。</p>
+      <p>申告方法はe-Tax（オンライン申告）が最も簡単です。マイナンバーカードとスマートフォンがあれば自宅から申告でき、還付金の振込も早くなります。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item"><div class="faq-q">Q. 車の年間維持費の平均は？</div><div class="faq-a">国産乗用車（1,500cc程度）の場合、駐車場なし・地方在住で年間40〜60万円、都市部で駐車場込みだと年間70〜120万円程度が目安です。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 軽自動車と普通車の維持費の差は？</div><div class="faq-a">自動車税が普通車の約1/3（年間約1万円）、任意保険も割安なことが多く、年間で10〜20万円程度維持費が安くなるケースが多いです。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. カーシェアとどちがお得？</div><div class="faq-a">月間の走行距離が少ない場合（月200km以下など）はカーシェアの方が安くなることが多いです。維持費を計算して比較してみましょう。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 確定申告の還付金とは？</div><div class="faq-a">会社員は毎月給与から所得税が天引きされます。確定申告で正確な税額を計算した結果、払いすぎた税金が戻ってくる金額が還付金です。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 還付金はいつ振り込まれる？</div><div class="faq-a">確定申告書の提出後、おおむね1〜2ヶ月以内に指定口座に振り込まれます。e-Taxで電子申告した場合は3週間程度と早めです。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 還付申告はいつまでできる？</div><div class="faq-a">還付のための確定申告は確定申告期間外でも申告できます。過去5年分まで遡って申告可能です。</div></div>
     </div>
   </div>
 </main>
@@ -212,30 +209,44 @@
   <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
-<script>
-function calc() {
-  const parking = parseFloat(document.getElementById('parking').value)||0;
-  const insurance = parseFloat(document.getElementById('insurance').value)||0;
-  const tax = parseFloat(document.getElementById('tax').value)||0;
-  const gas = parseFloat(document.getElementById('gas').value)||0;
-  const maint = parseFloat(document.getElementById('maint').value)||0;
-  const parkingY = parking*12;
-  const gasY = gas*12;
-  const total = parkingY+insurance+tax+gasY+maint;
-  const fmt = n=>Math.round(n).toLocaleString('ja-JP')+' 円';
-  document.getElementById('res-main').textContent=fmt(total);
-  document.getElementById('res-parking').textContent=fmt(parkingY);
-  document.getElementById('res-ins').textContent=fmt(insurance);
-  document.getElementById('res-tax').textContent=fmt(tax);
-  document.getElementById('res-gas').textContent=fmt(gasY);
-  document.getElementById('res-maint').textContent=fmt(maint);
-  document.getElementById('res-total').textContent=fmt(total);
-  document.getElementById('res-monthly').textContent=fmt(total/12);
-  const info=document.getElementById('info-box');
-  info.innerHTML=`月換算で<strong>${fmt(total/12)}</strong>の車の維持費がかかっています。年間<strong>${fmt(total)}</strong>を参考に、カーシェアや買い替えの検討にお役立てください。`;
-  document.getElementById('result').classList.add('show');
-}
-</script>
 <script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>
+<script>
+function calc() {
+  const income = parseFloat(document.getElementById('income').value) || 0;
+  const gensen = parseFloat(document.getElementById('gensen').value) || 0;
+  const iryou = parseFloat(document.getElementById('iryou').value) || 0;
+  const furusato = parseFloat(document.getElementById('furusato').value) || 0;
+  const other = parseFloat(document.getElementById('other').value) || 0;
+  if (!income) { alert('年収を入力してください'); return; }
+  // 給与所得控除
+  let kyuyoKojo;
+  if (income <= 1625000) kyuyoKojo = 550000;
+  else if (income <= 3600000) kyuyoKojo = income * 0.3 + 180000;
+  else if (income <= 6600000) kyuyoKojo = income * 0.2 + 540000;
+  else if (income <= 8500000) kyuyoKojo = income * 0.1 + 1200000;
+  else kyuyoKojo = 1950000;
+  const kyuyo = Math.max(0, income - kyuyoKojo);
+  const shakai = Math.round(income * 0.15);
+  const kiso = 480000; // 基礎控除48万（2020年以降）
+  const addKojo = iryou + furusato + other;
+  const kazei = Math.max(0, kyuyo - shakai - kiso - addKojo);
+  // 所得税率（超過累進）
+  let tax = 0;
+  const brackets = [[1950000,0.05,0],[3300000,0.10,97500],[6950000,0.20,427500],[9000000,0.23,636000],[18000000,0.33,1536000],[40000000,0.40,2796000],[Infinity,0.45,4796000]];
+  for (const [limit,rate,deduct] of brackets) {
+    if (kazei <= limit) { tax = Math.round(kazei * rate - deduct); break; }
+  }
+  tax = Math.round(tax * 1.021); // 復興特別所得税
+  const kanpu = Math.max(0, gensen - tax);
+  const fmt = n => Math.round(n).toLocaleString('ja-JP') + ' 円';
+  document.getElementById('res-kyuyo').textContent = fmt(kyuyo);
+  document.getElementById('res-kojo').textContent = fmt(addKojo);
+  document.getElementById('res-hontai').textContent = fmt(tax);
+  document.getElementById('res-gensen').textContent = fmt(gensen);
+  document.getElementById('res-kanpu').textContent = fmt(kanpu);
+  document.getElementById('res-main').textContent = kanpu > 0 ? fmt(kanpu) + ' 還付見込み' : '追加納税の可能性あり';
+  document.getElementById('result').classList.add('show');
+}
+</script>

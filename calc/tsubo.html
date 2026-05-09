@@ -3,13 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>車の維持費計算｜年間の車にかかるコストを計算｜はかるん</title>
-  <meta name="description" content="駐車場・保険・税金・ガソリン代を入力するだけで車の年間維持費を計算。車購入・売却の判断に。">
+  <title>坪・平米変換｜坪数と平方メートルを無料換算｜はかるん</title>
+  <meta name="description" content="坪数または平方メートルを入力するだけで相互変換。不動産・土地・部屋の広さ確認に便利な無料ツール。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "1坪は何平方メートル？", "acceptedAnswer": { "@type": "Answer", "text": "1坪は約3.30579平方メートル（m²）です。正確には400/121平方メートルで、畳2枚分（約1.82m×1.82m）の広さに相当します。" } },
+    { "@type": "Question", "name": "30坪の家は何平米？", "acceptedAnswer": { "@type": "Answer", "text": "30坪は約99.17平方メートルです。一般的な4人家族の戸建て住宅の目安となる広さです。" } },
+    { "@type": "Question", "name": "1平米は何坪？", "acceptedAnswer": { "@type": "Answer", "text": "1平方メートルは約0.3025坪です。賃貸物件の間取り図に記載されているm²（専有面積）を0.3025倍すると坪数が求められます。" } }] }
+  </script>
 </head>
 <body>
 <header>
@@ -56,7 +61,7 @@
           <a href="../health/tekisei.html">😴 適正睡眠時間チェック</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../life/loan.html" class="nav-link">生活・節約 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../life/loan.html">🏦 ローン返済シミュレーション</a>
@@ -97,7 +102,7 @@
           <a href="../tax/kanpu.html">💰 確定申告 還付金計算</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../calc/percent.html" class="nav-link">計算・変換 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../calc/percent.html">🔢 パーセント計算</a>
@@ -127,72 +132,52 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 生活・節約 &rsaquo; 🚗 車の維持費計算</div>
-      <h1>🚗 車の維持費計算</h1>
-      <p class="subtitle">駐車場代・保険・税金・ガソリン代など車の年間維持費を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 計算・変換 &rsaquo; 🏠 坪・平米変換</div>
+      <h1>🏠 坪・平米変換</h1>
+      <p class="subtitle">坪数と平方メートル（m²）を相互に換算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>月極駐車場代</label>
-        <div class="input-wrap"><input type="number" id="parking" placeholder="15000" min="0"><span class="unit">円/月</span></div>
+        <label>坪数 → 平米（m²）に変換</label>
+        <div class="input-wrap"><input type="number" id="tsubo" placeholder="30" min="0" step="0.01"><span class="unit">坪</span></div>
+        <button class="btn btn-primary" onclick="tsuboToHei()" style="margin-top:8px">坪 → m² に変換</button>
+        <div id="res-tsubo" style="margin-top:12px;font-size:1.1rem;font-weight:bold;color:#1a56db;min-height:28px"></div>
       </div>
+      <hr style="border:none;border-top:1px solid #e5e7eb;margin:20px 0">
       <div class="form-group">
-        <label>自動車保険料（任意保険）</label>
-        <div class="input-wrap"><input type="number" id="insurance" placeholder="60000" min="0"><span class="unit">円/年</span></div>
+        <label>平米（m²） → 坪数に変換</label>
+        <div class="input-wrap"><input type="number" id="hei" placeholder="100" min="0" step="0.01"><span class="unit">m²</span></div>
+        <button class="btn btn-primary" onclick="heiToTsubo()" style="margin-top:8px">m² → 坪 に変換</button>
+        <div id="res-hei" style="margin-top:12px;font-size:1.1rem;font-weight:bold;color:#1a56db;min-height:28px"></div>
       </div>
-      <div class="form-group">
-        <label>自動車税（排気量別）</label>
-        <div class="input-wrap">
-          <select id="tax">
-            <option value="25000">軽自動車（10,800円）</option>
-            <option value="25000">1,000cc以下（25,000円）</option>
-            <option value="30500" selected>1,001〜1,500cc（30,500円）</option>
-            <option value="36000">1,501〜2,000cc（36,000円）</option>
-            <option value="43500">2,001〜2,500cc（43,500円）</option>
-            <option value="50000">2,501〜3,000cc（50,000円）</option>
-          </select>
+      <div class="result-area show" id="ref-table" style="margin-top:24px">
+        <div class="result-table">
+          <table><thead><tr><th>坪数</th><th>平米（m²）</th><th>目安</th></tr></thead>
+          <tbody>
+            <tr><td>10坪</td><td>33.06 m²</td><td>1K〜1LDK</td></tr>
+            <tr><td>20坪</td><td>66.12 m²</td><td>2LDK〜3LDK</td></tr>
+            <tr><td>30坪</td><td>99.17 m²</td><td>4LDK（4人家族の戸建て目安）</td></tr>
+            <tr><td>40坪</td><td>132.23 m²</td><td>ゆとりある戸建て</td></tr>
+            <tr><td>50坪</td><td>165.29 m²</td><td>大型住宅</td></tr>
+          </tbody></table>
         </div>
-      </div>
-      <div class="form-group">
-        <label>月間ガソリン代</label>
-        <div class="input-wrap"><input type="number" id="gas" placeholder="8000" min="0"><span class="unit">円/月</span></div>
-      </div>
-      <div class="form-group">
-        <label>車検・メンテナンス費用（年間）</label>
-        <div class="input-wrap"><input type="number" id="maint" placeholder="80000" min="0"><span class="unit">円/年</span></div>
-        <p class="hint">車検（2年に1回）・オイル交換・タイヤ交換など。2年に1回の場合は÷2した金額を入力。</p>
-      </div>
-      <button class="btn btn-primary" onclick="calc()">計算する</button>
-      <div class="result-area" id="result">
-        <div class="result-main">
-          <div class="label">年間維持費合計</div>
-          <div class="value" id="res-main">—</div>
-        </div>
-        <div class="result-table"><table><tbody>
-          <tr><td>駐車場代（年間）</td><td id="res-parking">—</td></tr>
-          <tr><td>自動車保険料</td><td id="res-ins">—</td></tr>
-          <tr><td>自動車税</td><td id="res-tax">—</td></tr>
-          <tr><td>ガソリン代（年間）</td><td id="res-gas">—</td></tr>
-          <tr><td>車検・メンテナンス</td><td id="res-maint">—</td></tr>
-          <tr><td>年間維持費合計</td><td id="res-total">—</td></tr>
-          <tr><td>月換算</td><td id="res-monthly">—</td></tr>
-        </tbody></table></div>
-        <div class="info-box" id="info-box"></div>
       </div>
     </div>
     <div class="ad-area">広告</div>
     <div class="article">
-      <h2>🚗 車の維持費計算について</h2>
-      <p>車を所有するには購入費用だけでなく、毎月・毎年かかる維持費が必要です。駐車場代・自動車保険・自動車税・ガソリン代・車検費用を合わせると、年間50〜100万円以上になることも珍しくありません。</p>
-      <p>特に都市部では駐車場代が月1〜3万円と高額になりやすく、維持費全体を押し上げます。カーシェアリングやレンタカーと維持費を比較することで、車を持つべきかどうかを判断する目安になります。</p>
-      <p>維持費を抑えるコツとして、任意保険は複数社を比較して見積もりを取ること、燃費の良い車を選ぶこと、車検は民間整備工場やガソリンスタンドを活用することなどが挙げられます。このツールで現在の維持費を把握し、節約ポイントを探してみましょう。</p>
+      <h2>🏠 坪と平米の違いをわかりやすく解説</h2>
+      <p>坪（つぼ）は日本の伝統的な面積の単位で、不動産業界では今でも広く使われています。1坪は約3.3058平方メートルで、畳2枚分の広さに相当します。もともと江戸時代に使われていた単位で、現在も土地・建物の広さを表す際に使われています。</p>
+      <p>平方メートル（m²）は国際的な面積の単位で、法律では「登記面積」はm²で表記されます。マンションの間取り図に記載されている「専有面積○○m²」もm²で表されています。</p>
+      <p>不動産を見るとき、「坪単価」という言葉をよく聞きます。これは土地1坪あたりの価格のことです。東京の人気エリアでは坪単価が300万円を超えることもあります。土地の総額を把握したいときは「坪単価×坪数」で計算できます。</p>
+      <p>賃貸物件では間取り図にm²が記載されていることが多いですが、「何坪ぐらいの広さ？」と感覚的に理解したいときは、m²÷3.3で坪数に換算するとイメージしやすくなります。</p>
+      <p>また「畳（じょう）」という単位も使われます。1畳は地域によって異なりますが、一般的に約1.62〜1.91m²です（江戸間・京間・団地サイズで異なる）。「6畳の部屋は何m²？」は約9.7〜11.5m²が目安です。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item"><div class="faq-q">Q. 車の年間維持費の平均は？</div><div class="faq-a">国産乗用車（1,500cc程度）の場合、駐車場なし・地方在住で年間40〜60万円、都市部で駐車場込みだと年間70〜120万円程度が目安です。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 軽自動車と普通車の維持費の差は？</div><div class="faq-a">自動車税が普通車の約1/3（年間約1万円）、任意保険も割安なことが多く、年間で10〜20万円程度維持費が安くなるケースが多いです。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. カーシェアとどちがお得？</div><div class="faq-a">月間の走行距離が少ない場合（月200km以下など）はカーシェアの方が安くなることが多いです。維持費を計算して比較してみましょう。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 1坪は何平方メートル？</div><div class="faq-a">1坪は約3.30579平方メートル（m²）です。畳2枚分（約1.82m×1.82m）の広さに相当します。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 30坪の家は何平米？</div><div class="faq-a">30坪は約99.17平方メートルです。一般的な4人家族の戸建て住宅の目安となる広さです。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 1平米は何坪？</div><div class="faq-a">1平方メートルは約0.3025坪です。賃貸物件のm²（専有面積）を0.3025倍すると坪数が求められます。</div></div>
     </div>
   </div>
 </main>
@@ -212,30 +197,21 @@
   <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
-<script>
-function calc() {
-  const parking = parseFloat(document.getElementById('parking').value)||0;
-  const insurance = parseFloat(document.getElementById('insurance').value)||0;
-  const tax = parseFloat(document.getElementById('tax').value)||0;
-  const gas = parseFloat(document.getElementById('gas').value)||0;
-  const maint = parseFloat(document.getElementById('maint').value)||0;
-  const parkingY = parking*12;
-  const gasY = gas*12;
-  const total = parkingY+insurance+tax+gasY+maint;
-  const fmt = n=>Math.round(n).toLocaleString('ja-JP')+' 円';
-  document.getElementById('res-main').textContent=fmt(total);
-  document.getElementById('res-parking').textContent=fmt(parkingY);
-  document.getElementById('res-ins').textContent=fmt(insurance);
-  document.getElementById('res-tax').textContent=fmt(tax);
-  document.getElementById('res-gas').textContent=fmt(gasY);
-  document.getElementById('res-maint').textContent=fmt(maint);
-  document.getElementById('res-total').textContent=fmt(total);
-  document.getElementById('res-monthly').textContent=fmt(total/12);
-  const info=document.getElementById('info-box');
-  info.innerHTML=`月換算で<strong>${fmt(total/12)}</strong>の車の維持費がかかっています。年間<strong>${fmt(total)}</strong>を参考に、カーシェアや買い替えの検討にお役立てください。`;
-  document.getElementById('result').classList.add('show');
-}
-</script>
 <script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>
+<script>
+const TSUBO = 400/121; // 1坪 = 400/121 m²
+function tsuboToHei() {
+  const t = parseFloat(document.getElementById('tsubo').value);
+  if (isNaN(t) || t < 0) { document.getElementById('res-tsubo').textContent = '値を入力してください'; return; }
+  const m = t * TSUBO;
+  document.getElementById('res-tsubo').textContent = t + ' 坪 ＝ ' + m.toFixed(2) + ' m²';
+}
+function heiToTsubo() {
+  const m = parseFloat(document.getElementById('hei').value);
+  if (isNaN(m) || m < 0) { document.getElementById('res-hei').textContent = '値を入力してください'; return; }
+  const t = m / TSUBO;
+  document.getElementById('res-hei').textContent = m + ' m² ＝ ' + t.toFixed(2) + ' 坪';
+}
+</script>

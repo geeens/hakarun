@@ -3,13 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>車の維持費計算｜年間の車にかかるコストを計算｜はかるん</title>
-  <meta name="description" content="駐車場・保険・税金・ガソリン代を入力するだけで車の年間維持費を計算。車購入・売却の判断に。">
+  <title>適正睡眠時間チェック｜年齢別の推奨睡眠時間を無料診断｜はかるん</title>
+  <meta name="description" content="年齢と現在の睡眠時間を入力するだけで、推奨睡眠時間と睡眠負債をチェック。睡眠の質を改善するヒントも。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "大人に必要な睡眠時間は何時間？", "acceptedAnswer": { "@type": "Answer", "text": "18〜64歳の成人は7〜9時間が推奨されています（米国国立睡眠財団）。ただし個人差があり、6時間で十分な人もいれば9時間必要な人もいます。" } },
+    { "@type": "Question", "name": "睡眠不足が続くとどうなる？", "acceptedAnswer": { "@type": "Answer", "text": "集中力・記憶力の低下、免疫機能の低下、肥満・糖尿病リスクの上昇などが起こります。慢性的な睡眠不足（睡眠負債）は週末に寝だめしても完全には解消されません。" } },
+    { "@type": "Question", "name": "短眠者（ショートスリーパー）は本当にいるの？", "acceptedAnswer": { "@type": "Answer", "text": "遺伝的に6時間以下でも問題なく機能できるショートスリーパーは実在しますが、全人口の3〜5%程度と非常に稀です。「短時間睡眠でも大丈夫」と感じる多くの人は睡眠不足に慣れているだけで、実際にはパフォーマンスが低下しています。" } }] }
+  </script>
 </head>
 <body>
 <header>
@@ -36,7 +41,7 @@
           <a href="../money/gyaku.html">🔄 手取りから額面逆算</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../health/bmi.html" class="nav-link">健康・生活 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../health/bmi.html">⚖️ BMI計算</a>
@@ -56,7 +61,7 @@
           <a href="../health/tekisei.html">😴 適正睡眠時間チェック</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../life/loan.html" class="nav-link">生活・節約 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../life/loan.html">🏦 ローン返済シミュレーション</a>
@@ -127,72 +132,51 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 生活・節約 &rsaquo; 🚗 車の維持費計算</div>
-      <h1>🚗 車の維持費計算</h1>
-      <p class="subtitle">駐車場代・保険・税金・ガソリン代など車の年間維持費を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 健康・生活 &rsaquo; 😴 適正睡眠時間チェック</div>
+      <h1>😴 適正睡眠時間チェック</h1>
+      <p class="subtitle">年齢と現在の睡眠時間から、推奨睡眠時間と睡眠負債を診断します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>月極駐車場代</label>
-        <div class="input-wrap"><input type="number" id="parking" placeholder="15000" min="0"><span class="unit">円/月</span></div>
+        <label>年齢</label>
+        <div class="input-wrap"><input type="number" id="age" placeholder="35" min="1" max="100"><span class="unit">歳</span></div>
       </div>
       <div class="form-group">
-        <label>自動車保険料（任意保険）</label>
-        <div class="input-wrap"><input type="number" id="insurance" placeholder="60000" min="0"><span class="unit">円/年</span></div>
-      </div>
-      <div class="form-group">
-        <label>自動車税（排気量別）</label>
+        <label>平均睡眠時間（1日あたり）</label>
         <div class="input-wrap">
-          <select id="tax">
-            <option value="25000">軽自動車（10,800円）</option>
-            <option value="25000">1,000cc以下（25,000円）</option>
-            <option value="30500" selected>1,001〜1,500cc（30,500円）</option>
-            <option value="36000">1,501〜2,000cc（36,000円）</option>
-            <option value="43500">2,001〜2,500cc（43,500円）</option>
-            <option value="50000">2,501〜3,000cc（50,000円）</option>
-          </select>
+          <input type="number" id="sleep" placeholder="6" min="0" max="24" step="0.5"><span class="unit">時間</span>
         </div>
+        <p class="hint">平日・休日を合わせた平均的な睡眠時間を入力してください。</p>
       </div>
-      <div class="form-group">
-        <label>月間ガソリン代</label>
-        <div class="input-wrap"><input type="number" id="gas" placeholder="8000" min="0"><span class="unit">円/月</span></div>
-      </div>
-      <div class="form-group">
-        <label>車検・メンテナンス費用（年間）</label>
-        <div class="input-wrap"><input type="number" id="maint" placeholder="80000" min="0"><span class="unit">円/年</span></div>
-        <p class="hint">車検（2年に1回）・オイル交換・タイヤ交換など。2年に1回の場合は÷2した金額を入力。</p>
-      </div>
-      <button class="btn btn-primary" onclick="calc()">計算する</button>
+      <button class="btn btn-primary" onclick="calc()">チェックする</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">年間維持費合計</div>
+          <div class="label">睡眠状態</div>
           <div class="value" id="res-main">—</div>
         </div>
         <div class="result-table"><table><tbody>
-          <tr><td>駐車場代（年間）</td><td id="res-parking">—</td></tr>
-          <tr><td>自動車保険料</td><td id="res-ins">—</td></tr>
-          <tr><td>自動車税</td><td id="res-tax">—</td></tr>
-          <tr><td>ガソリン代（年間）</td><td id="res-gas">—</td></tr>
-          <tr><td>車検・メンテナンス</td><td id="res-maint">—</td></tr>
-          <tr><td>年間維持費合計</td><td id="res-total">—</td></tr>
-          <tr><td>月換算</td><td id="res-monthly">—</td></tr>
+          <tr><td>あなたの年齢層</td><td id="res-age">—</td></tr>
+          <tr><td>推奨睡眠時間</td><td id="res-suisho">—</td></tr>
+          <tr><td>現在の睡眠時間</td><td id="res-now">—</td></tr>
+          <tr><td>差（睡眠負債/余裕）</td><td id="res-diff">—</td></tr>
+          <tr><td>週間睡眠負債</td><td id="res-week">—</td></tr>
         </tbody></table></div>
-        <div class="info-box" id="info-box"></div>
+        <div class="info-box" id="res-advice"></div>
       </div>
     </div>
     <div class="ad-area">広告</div>
     <div class="article">
-      <h2>🚗 車の維持費計算について</h2>
-      <p>車を所有するには購入費用だけでなく、毎月・毎年かかる維持費が必要です。駐車場代・自動車保険・自動車税・ガソリン代・車検費用を合わせると、年間50〜100万円以上になることも珍しくありません。</p>
-      <p>特に都市部では駐車場代が月1〜3万円と高額になりやすく、維持費全体を押し上げます。カーシェアリングやレンタカーと維持費を比較することで、車を持つべきかどうかを判断する目安になります。</p>
-      <p>維持費を抑えるコツとして、任意保険は複数社を比較して見積もりを取ること、燃費の良い車を選ぶこと、車検は民間整備工場やガソリンスタンドを活用することなどが挙げられます。このツールで現在の維持費を把握し、節約ポイントを探してみましょう。</p>
+      <h2>😴 年齢別の推奨睡眠時間</h2>
+      <p>必要な睡眠時間は年齢によって大きく変わります。米国国立睡眠財団（NSF）の推奨値は以下の通りです。新生児（0〜3ヶ月）14〜17時間、乳幼児（4〜11ヶ月）12〜15時間、幼児（1〜2歳）11〜14時間、未就学児（3〜5歳）10〜13時間、学童（6〜13歳）9〜11時間、10代（14〜17歳）8〜10時間、若い成人（18〜25歳）7〜9時間、成人（26〜64歳）7〜9時間、高齢者（65歳以上）7〜8時間です。</p>
+      <p>睡眠は量だけでなく質も重要です。同じ7時間でも、深い睡眠（ノンレム睡眠）の割合が高いほど疲労回復効果が大きくなります。睡眠の質を高めるには、就寝・起床時間を一定にすること、就寝1〜2時間前のスマートフォン使用を控えること、寝室の温度を18〜22℃程度に保つことなどが効果的です。</p>
+      <p>慢性的な睡眠不足が続くと「睡眠負債」が積み重なります。睡眠負債とは、必要な睡眠時間と実際の睡眠時間の差が累積したものです。週5日で1日1時間の睡眠不足が続くと、週に5時間の睡眠負債が生じます。これを解消するには週末に長時間寝るだけでは不十分で、毎日の睡眠時間を少しずつ増やすことが重要です。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item"><div class="faq-q">Q. 車の年間維持費の平均は？</div><div class="faq-a">国産乗用車（1,500cc程度）の場合、駐車場なし・地方在住で年間40〜60万円、都市部で駐車場込みだと年間70〜120万円程度が目安です。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 軽自動車と普通車の維持費の差は？</div><div class="faq-a">自動車税が普通車の約1/3（年間約1万円）、任意保険も割安なことが多く、年間で10〜20万円程度維持費が安くなるケースが多いです。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. カーシェアとどちがお得？</div><div class="faq-a">月間の走行距離が少ない場合（月200km以下など）はカーシェアの方が安くなることが多いです。維持費を計算して比較してみましょう。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 大人に必要な睡眠時間は何時間？</div><div class="faq-a">18〜64歳の成人は7〜9時間が推奨されています（米国国立睡眠財団）。ただし個人差があり、6時間で十分な人もいれば9時間必要な人もいます。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 睡眠不足が続くとどうなる？</div><div class="faq-a">集中力・記憶力の低下、免疫機能の低下、肥満・糖尿病リスクの上昇などが起こります。慢性的な睡眠不足（睡眠負債）は週末に寝だめしても完全には解消されません。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 短眠者（ショートスリーパー）は本当にいるの？</div><div class="faq-a">遺伝的に6時間以下でも問題なく機能できるショートスリーパーは実在しますが、全人口の3〜5%程度と非常に稀です。「短時間でも大丈夫」と感じる多くの人は睡眠不足に慣れているだけです。</div></div>
     </div>
   </div>
 </main>
@@ -212,30 +196,41 @@
   <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
-<script>
-function calc() {
-  const parking = parseFloat(document.getElementById('parking').value)||0;
-  const insurance = parseFloat(document.getElementById('insurance').value)||0;
-  const tax = parseFloat(document.getElementById('tax').value)||0;
-  const gas = parseFloat(document.getElementById('gas').value)||0;
-  const maint = parseFloat(document.getElementById('maint').value)||0;
-  const parkingY = parking*12;
-  const gasY = gas*12;
-  const total = parkingY+insurance+tax+gasY+maint;
-  const fmt = n=>Math.round(n).toLocaleString('ja-JP')+' 円';
-  document.getElementById('res-main').textContent=fmt(total);
-  document.getElementById('res-parking').textContent=fmt(parkingY);
-  document.getElementById('res-ins').textContent=fmt(insurance);
-  document.getElementById('res-tax').textContent=fmt(tax);
-  document.getElementById('res-gas').textContent=fmt(gasY);
-  document.getElementById('res-maint').textContent=fmt(maint);
-  document.getElementById('res-total').textContent=fmt(total);
-  document.getElementById('res-monthly').textContent=fmt(total/12);
-  const info=document.getElementById('info-box');
-  info.innerHTML=`月換算で<strong>${fmt(total/12)}</strong>の車の維持費がかかっています。年間<strong>${fmt(total)}</strong>を参考に、カーシェアや買い替えの検討にお役立てください。`;
-  document.getElementById('result').classList.add('show');
-}
-</script>
 <script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>
+<script>
+function calc() {
+  const age = parseInt(document.getElementById('age').value);
+  const sleep = parseFloat(document.getElementById('sleep').value);
+  if (!age || isNaN(sleep)) { alert('年齢と睡眠時間を入力してください'); return; }
+  let ageLabel, minH, maxH;
+  if (age <= 13) { ageLabel = '学童期（〜13歳）'; minH = 9; maxH = 11; }
+  else if (age <= 17) { ageLabel = '10代（14〜17歳）'; minH = 8; maxH = 10; }
+  else if (age <= 25) { ageLabel = '若い成人（18〜25歳）'; minH = 7; maxH = 9; }
+  else if (age <= 64) { ageLabel = '成人（26〜64歳）'; minH = 7; maxH = 9; }
+  else { ageLabel = '高齢者（65歳以上）'; minH = 7; maxH = 8; }
+  const midH = (minH + maxH) / 2;
+  const diff = sleep - midH;
+  const weekDebt = Math.abs(diff) * 7;
+  let status, advice;
+  if (sleep >= minH && sleep <= maxH) {
+    status = '✅ 適正範囲内';
+    advice = `推奨睡眠時間（${minH}〜${maxH}時間）を確保できています。引き続きこの睡眠習慣を維持しましょう。就寝・起床時間を一定にすることで、さらに睡眠の質が上がります。`;
+  } else if (sleep < minH) {
+    status = `⚠️ 睡眠不足（推奨より${(midH-sleep).toFixed(1)}時間少ない）`;
+    advice = `推奨睡眠時間（${minH}〜${maxH}時間）より少ない状態です。週間で約${weekDebt.toFixed(1)}時間の睡眠負債が積み重なっています。就寝時間を15〜30分ずつ早めることから始めてみてください。`;
+  } else {
+    status = `💤 十分な睡眠（推奨より${(sleep-midH).toFixed(1)}時間多い）`;
+    advice = `推奨睡眠時間（${minH}〜${maxH}時間）より多く眠れています。ただし10時間以上の長時間睡眠が習慣的な場合は、逆に体調不良のサインのこともあります。`;
+  }
+  document.getElementById('res-age').textContent = ageLabel;
+  document.getElementById('res-suisho').textContent = minH + '〜' + maxH + ' 時間（推奨中央値 ' + midH + ' 時間）';
+  document.getElementById('res-now').textContent = sleep + ' 時間';
+  document.getElementById('res-diff').textContent = (diff >= 0 ? '+' : '') + diff.toFixed(1) + ' 時間';
+  document.getElementById('res-week').textContent = weekDebt.toFixed(1) + ' 時間/週';
+  document.getElementById('res-main').textContent = status;
+  document.getElementById('res-advice').textContent = advice;
+  document.getElementById('result').classList.add('show');
+}
+</script>

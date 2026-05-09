@@ -67,4 +67,11 @@
   <url><loc>https://hakarun.net/privacy.html</loc><priority>0.3</priority></url>
   <url><loc>https://hakarun.net/disclaimer.html</loc><priority>0.3</priority></url>
   <url><loc>https://hakarun.net/contact.html</loc><priority>0.3</priority></url>
+  <url><loc>https://hakarun.net/money/juuminzei.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/money/gyaku.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/health/tekisei.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/tax/kanpu.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/life/denkisetsuyaku.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/date/sankyuu.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/calc/tsubo.html</loc><priority>0.8</priority></url>
 </urlset>

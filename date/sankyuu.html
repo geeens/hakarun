@@ -3,13 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>車の維持費計算｜年間の車にかかるコストを計算｜はかるん</title>
-  <meta name="description" content="駐車場・保険・税金・ガソリン代を入力するだけで車の年間維持費を計算。車購入・売却の判断に。">
+  <title>産休・育休期間計算｜出産予定日から産休育休の日程を無料計算｜はかるん</title>
+  <meta name="description" content="出産予定日を入力するだけで、産前休業・産後休業・育休の開始日と終了日を自動計算します。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "産休はいつから取れる？", "acceptedAnswer": { "@type": "Answer", "text": "産前休業は出産予定日の6週間前（多胎妊娠の場合は14週間前）から取得できます。ただし産前休業は本人が請求した場合のみで、強制ではありません。産後休業は出産翌日から8週間が義務となっています。" } },
+    { "@type": "Question", "name": "育休はいつまで取れる？", "acceptedAnswer": { "@type": "Answer", "text": "原則として子どもが1歳になるまで取得できます。保育所に入れないなどの事情がある場合は1歳6ヶ月まで、さらに延長で最長2歳まで取得可能です。" } },
+    { "@type": "Question", "name": "産休・育休中にお金はもらえる？", "acceptedAnswer": { "@type": "Answer", "text": "産休中は出産手当金（標準報酬日額×2/3×休業日数）が健康保険から支給されます。育休中は育児休業給付金（休業開始時賃金日額×67%、6ヶ月経過後は50%）が雇用保険から支給されます。" } }] }
+  </script>
 </head>
 <body>
 <header>
@@ -56,7 +61,7 @@
           <a href="../health/tekisei.html">😴 適正睡眠時間チェック</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../life/loan.html" class="nav-link">生活・節約 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../life/loan.html">🏦 ローン返済シミュレーション</a>
@@ -74,7 +79,7 @@
           <a href="../life/denkisetsuyaku.html">💡 電気代節約シミュレーション</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../date/nissuu.html" class="nav-link">日付・時間 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../date/nissuu.html">📅 日数計算</a>
@@ -127,72 +132,55 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 生活・節約 &rsaquo; 🚗 車の維持費計算</div>
-      <h1>🚗 車の維持費計算</h1>
-      <p class="subtitle">駐車場代・保険・税金・ガソリン代など車の年間維持費を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 日付・時間 &rsaquo; 🍼 産休・育休期間計算</div>
+      <h1>🍼 産休・育休期間計算</h1>
+      <p class="subtitle">出産予定日から産前・産後休業と育休の日程を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>月極駐車場代</label>
-        <div class="input-wrap"><input type="number" id="parking" placeholder="15000" min="0"><span class="unit">円/月</span></div>
+        <label>出産予定日</label>
+        <div class="input-wrap"><input type="date" id="duedate"></div>
       </div>
       <div class="form-group">
-        <label>自動車保険料（任意保険）</label>
-        <div class="input-wrap"><input type="number" id="insurance" placeholder="60000" min="0"><span class="unit">円/年</span></div>
-      </div>
-      <div class="form-group">
-        <label>自動車税（排気量別）</label>
+        <label>妊娠の種類</label>
         <div class="input-wrap">
-          <select id="tax">
-            <option value="25000">軽自動車（10,800円）</option>
-            <option value="25000">1,000cc以下（25,000円）</option>
-            <option value="30500" selected>1,001〜1,500cc（30,500円）</option>
-            <option value="36000">1,501〜2,000cc（36,000円）</option>
-            <option value="43500">2,001〜2,500cc（43,500円）</option>
-            <option value="50000">2,501〜3,000cc（50,000円）</option>
+          <select id="taitai">
+            <option value="6">単胎（1人）</option>
+            <option value="14">多胎（双子以上）</option>
           </select>
         </div>
       </div>
-      <div class="form-group">
-        <label>月間ガソリン代</label>
-        <div class="input-wrap"><input type="number" id="gas" placeholder="8000" min="0"><span class="unit">円/月</span></div>
-      </div>
-      <div class="form-group">
-        <label>車検・メンテナンス費用（年間）</label>
-        <div class="input-wrap"><input type="number" id="maint" placeholder="80000" min="0"><span class="unit">円/年</span></div>
-        <p class="hint">車検（2年に1回）・オイル交換・タイヤ交換など。2年に1回の場合は÷2した金額を入力。</p>
-      </div>
       <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
-        <div class="result-main">
-          <div class="label">年間維持費合計</div>
-          <div class="value" id="res-main">—</div>
-        </div>
         <div class="result-table"><table><tbody>
-          <tr><td>駐車場代（年間）</td><td id="res-parking">—</td></tr>
-          <tr><td>自動車保険料</td><td id="res-ins">—</td></tr>
-          <tr><td>自動車税</td><td id="res-tax">—</td></tr>
-          <tr><td>ガソリン代（年間）</td><td id="res-gas">—</td></tr>
-          <tr><td>車検・メンテナンス</td><td id="res-maint">—</td></tr>
-          <tr><td>年間維持費合計</td><td id="res-total">—</td></tr>
-          <tr><td>月換算</td><td id="res-monthly">—</td></tr>
+          <tr><th colspan="2" style="background:#f0f4ff;text-align:center">産前休業</th></tr>
+          <tr><td>産前休業 開始日</td><td id="res-sanzen-start">—</td></tr>
+          <tr><td>産前休業 終了日（出産前日）</td><td id="res-sanzen-end">—</td></tr>
+          <tr><th colspan="2" style="background:#f0f4ff;text-align:center">産後休業</th></tr>
+          <tr><td>産後休業 開始日（出産当日）</td><td id="res-sango-start">—</td></tr>
+          <tr><td>産後休業 終了日</td><td id="res-sango-end">—</td></tr>
+          <tr><th colspan="2" style="background:#f0f4ff;text-align:center">育児休業</th></tr>
+          <tr><td>育休 開始日</td><td id="res-ikukyu-start">—</td></tr>
+          <tr><td>育休 終了日（子が1歳）</td><td id="res-ikukyu-end">—</td></tr>
+          <tr><td>育休 最長延長（子が2歳）</td><td id="res-ikukyu-max">—</td></tr>
         </tbody></table></div>
-        <div class="info-box" id="info-box"></div>
+        <div class="info-box">出産日が予定日と異なる場合は実際の出産日を基準に日程が変わります。産後休業は必ず取得が必要（就業不可）です。育休の取得には勤務先への事前申請が必要です。</div>
       </div>
     </div>
     <div class="ad-area">広告</div>
     <div class="article">
-      <h2>🚗 車の維持費計算について</h2>
-      <p>車を所有するには購入費用だけでなく、毎月・毎年かかる維持費が必要です。駐車場代・自動車保険・自動車税・ガソリン代・車検費用を合わせると、年間50〜100万円以上になることも珍しくありません。</p>
-      <p>特に都市部では駐車場代が月1〜3万円と高額になりやすく、維持費全体を押し上げます。カーシェアリングやレンタカーと維持費を比較することで、車を持つべきかどうかを判断する目安になります。</p>
-      <p>維持費を抑えるコツとして、任意保険は複数社を比較して見積もりを取ること、燃費の良い車を選ぶこと、車検は民間整備工場やガソリンスタンドを活用することなどが挙げられます。このツールで現在の維持費を把握し、節約ポイントを探してみましょう。</p>
+      <h2>🍼 産休・育休の制度をわかりやすく解説</h2>
+      <p>産休（産前産後休業）と育休（育児休業）は、働く女性・男性が子どもを産み育てるために法律で認められた休業制度です。それぞれ取得できる期間や受け取れる給付金が異なります。</p>
+      <p>産前休業は出産予定日の6週間前（42日前）から取得できます。本人が望む場合に取得できる権利であり、強制ではありません。多胎妊娠（双子以上）の場合は14週間前（98日前）から取得できます。産後休業は出産翌日から8週間（56日間）が義務となっており、会社は産後8週間以内の女性を就業させてはいけません（産後6〜8週の間は医師が認めた場合のみ就業可能）。</p>
+      <p>育休（育児休業）は産後休業が終わった翌日から、子どもが1歳になる誕生日の前日まで取得できます。保育所に入所できないなどの事情がある場合は1歳6ヶ月まで、さらに延長で最長2歳まで取得可能です。2022年10月からは「産後パパ育休（出生時育児休業）」制度が始まり、父親も出生後8週間以内に最大4週間の育休を取得できるようになりました。</p>
+      <p>産休・育休中の給付金として、産前産後休業中は「出産手当金」（標準報酬日額の約3分の2）が健康保険から、育休中は「育児休業給付金」（休業開始時賃金の最初の6ヶ月間は67%、以降は50%）が雇用保険から支給されます。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item"><div class="faq-q">Q. 車の年間維持費の平均は？</div><div class="faq-a">国産乗用車（1,500cc程度）の場合、駐車場なし・地方在住で年間40〜60万円、都市部で駐車場込みだと年間70〜120万円程度が目安です。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 軽自動車と普通車の維持費の差は？</div><div class="faq-a">自動車税が普通車の約1/3（年間約1万円）、任意保険も割安なことが多く、年間で10〜20万円程度維持費が安くなるケースが多いです。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. カーシェアとどちがお得？</div><div class="faq-a">月間の走行距離が少ない場合（月200km以下など）はカーシェアの方が安くなることが多いです。維持費を計算して比較してみましょう。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 産休はいつから取れる？</div><div class="faq-a">産前休業は出産予定日の6週間前（多胎の場合は14週間前）から取得できます。産後休業は出産翌日から8週間が義務となっています。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 育休はいつまで取れる？</div><div class="faq-a">原則として子どもが1歳になるまで取得できます。保育所に入れないなどの事情がある場合は1歳6ヶ月まで、さらに延長で最長2歳まで取得可能です。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 産休・育休中にお金はもらえる？</div><div class="faq-a">産休中は出産手当金（標準報酬日額の約2/3）が健康保険から、育休中は育児休業給付金（賃金の67%〜50%）が雇用保険から支給されます。</div></div>
     </div>
   </div>
 </main>
@@ -212,30 +200,47 @@
   <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
-<script>
-function calc() {
-  const parking = parseFloat(document.getElementById('parking').value)||0;
-  const insurance = parseFloat(document.getElementById('insurance').value)||0;
-  const tax = parseFloat(document.getElementById('tax').value)||0;
-  const gas = parseFloat(document.getElementById('gas').value)||0;
-  const maint = parseFloat(document.getElementById('maint').value)||0;
-  const parkingY = parking*12;
-  const gasY = gas*12;
-  const total = parkingY+insurance+tax+gasY+maint;
-  const fmt = n=>Math.round(n).toLocaleString('ja-JP')+' 円';
-  document.getElementById('res-main').textContent=fmt(total);
-  document.getElementById('res-parking').textContent=fmt(parkingY);
-  document.getElementById('res-ins').textContent=fmt(insurance);
-  document.getElementById('res-tax').textContent=fmt(tax);
-  document.getElementById('res-gas').textContent=fmt(gasY);
-  document.getElementById('res-maint').textContent=fmt(maint);
-  document.getElementById('res-total').textContent=fmt(total);
-  document.getElementById('res-monthly').textContent=fmt(total/12);
-  const info=document.getElementById('info-box');
-  info.innerHTML=`月換算で<strong>${fmt(total/12)}</strong>の車の維持費がかかっています。年間<strong>${fmt(total)}</strong>を参考に、カーシェアや買い替えの検討にお役立てください。`;
-  document.getElementById('result').classList.add('show');
-}
-</script>
 <script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>
+<script>
+function addDays(date, days) {
+  const d = new Date(date);
+  d.setDate(d.getDate() + days);
+  return d;
+}
+function addMonths(date, months) {
+  const d = new Date(date);
+  d.setMonth(d.getMonth() + months);
+  return d;
+}
+function addYears(date, years) {
+  const d = new Date(date);
+  d.setFullYear(d.getFullYear() + years);
+  return d;
+}
+function fmt(d) {
+  return d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日（' + ['日','月','火','水','木','金','土'][d.getDay()] + '）';
+}
+function calc() {
+  const val = document.getElementById('duedate').value;
+  if (!val) { alert('出産予定日を入力してください'); return; }
+  const due = new Date(val);
+  const weeks = parseInt(document.getElementById('taitai').value);
+  const sanzenStart = addDays(due, -(weeks * 7));
+  const sanzenEnd = addDays(due, -1);
+  const sangoStart = new Date(due);
+  const sangoEnd = addDays(due, 55); // 56日 = 出産当日+55
+  const ikyuStart = addDays(due, 56);
+  const ikyuEnd = addDays(addYears(due, 1), -1);
+  const ikyuMax = addDays(addYears(due, 2), -1);
+  document.getElementById('res-sanzen-start').textContent = fmt(sanzenStart);
+  document.getElementById('res-sanzen-end').textContent = fmt(sanzenEnd);
+  document.getElementById('res-sango-start').textContent = fmt(sangoStart);
+  document.getElementById('res-sango-end').textContent = fmt(sangoEnd);
+  document.getElementById('res-ikukyu-start').textContent = fmt(ikyuStart);
+  document.getElementById('res-ikukyu-end').textContent = fmt(ikyuEnd);
+  document.getElementById('res-ikukyu-max').textContent = fmt(ikyuMax);
+  document.getElementById('result').classList.add('show');
+}
+</script>

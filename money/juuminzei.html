@@ -3,20 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>車の維持費計算｜年間の車にかかるコストを計算｜はかるん</title>
-  <meta name="description" content="駐車場・保険・税金・ガソリン代を入力するだけで車の年間維持費を計算。車購入・売却の判断に。">
+  <title>住民税計算｜年収から住民税を無料計算｜はかるん</title>
+  <meta name="description" content="年収を入力するだけで住民税の目安額を無料計算。所得割・均等割の内訳もわかります。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "住民税はいつ払うの？", "acceptedAnswer": { "@type": "Answer", "text": "住民税は前年の所得をもとに計算され、翌年6月から翌々年5月にかけて1年分を支払います。会社員は給与から天引き（特別徴収）、自営業者は自分で納付（普通徴収）します。" } },
+    { "@type": "Question", "name": "住民税の税率は何パーセント？", "acceptedAnswer": { "@type": "Answer", "text": "所得割の税率は一律10%（道府県民税4%＋市区町村民税6%）です。これに均等割（年約5,000円）が加算されます。" } },
+    { "@type": "Question", "name": "住民税が0円になる年収はいくら？", "acceptedAnswer": { "@type": "Answer", "text": "単身者の場合、年収約100万円以下では住民税がかかりません（所得割は年収約100〜125万円未満で非課税、均等割は自治体により異なります）。" } }] }
+  </script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
     <nav>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../money/tedori.html">💴 手取り計算</a>
@@ -56,7 +61,7 @@
           <a href="../health/tekisei.html">😴 適正睡眠時間チェック</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../life/loan.html" class="nav-link">生活・節約 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../life/loan.html">🏦 ローン返済シミュレーション</a>
@@ -127,72 +132,63 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 生活・節約 &rsaquo; 🚗 車の維持費計算</div>
-      <h1>🚗 車の維持費計算</h1>
-      <p class="subtitle">駐車場代・保険・税金・ガソリン代など車の年間維持費を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; お金・給与 &rsaquo; 🏙️ 住民税計算</div>
+      <h1>🏙️ 住民税計算</h1>
+      <p class="subtitle">年収から住民税の目安額を計算します（給与所得者向け）</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>月極駐車場代</label>
-        <div class="input-wrap"><input type="number" id="parking" placeholder="15000" min="0"><span class="unit">円/月</span></div>
+        <label>年収（額面）</label>
+        <div class="input-wrap"><input type="number" id="income" placeholder="4000000" min="0"><span class="unit">円</span></div>
+        <p class="hint">源泉徴収票の「支払金額」を入力してください。</p>
       </div>
       <div class="form-group">
-        <label>自動車保険料（任意保険）</label>
-        <div class="input-wrap"><input type="number" id="insurance" placeholder="60000" min="0"><span class="unit">円/年</span></div>
-      </div>
-      <div class="form-group">
-        <label>自動車税（排気量別）</label>
+        <label>扶養親族の人数</label>
         <div class="input-wrap">
-          <select id="tax">
-            <option value="25000">軽自動車（10,800円）</option>
-            <option value="25000">1,000cc以下（25,000円）</option>
-            <option value="30500" selected>1,001〜1,500cc（30,500円）</option>
-            <option value="36000">1,501〜2,000cc（36,000円）</option>
-            <option value="43500">2,001〜2,500cc（43,500円）</option>
-            <option value="50000">2,501〜3,000cc（50,000円）</option>
+          <select id="fuyou">
+            <option value="0">0人（独身）</option>
+            <option value="1">1人</option>
+            <option value="2">2人</option>
+            <option value="3">3人</option>
+            <option value="4">4人以上</option>
           </select>
         </div>
-      </div>
-      <div class="form-group">
-        <label>月間ガソリン代</label>
-        <div class="input-wrap"><input type="number" id="gas" placeholder="8000" min="0"><span class="unit">円/月</span></div>
-      </div>
-      <div class="form-group">
-        <label>車検・メンテナンス費用（年間）</label>
-        <div class="input-wrap"><input type="number" id="maint" placeholder="80000" min="0"><span class="unit">円/年</span></div>
-        <p class="hint">車検（2年に1回）・オイル交換・タイヤ交換など。2年に1回の場合は÷2した金額を入力。</p>
       </div>
       <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">年間維持費合計</div>
+          <div class="label">年間住民税（目安）</div>
           <div class="value" id="res-main">—</div>
         </div>
         <div class="result-table"><table><tbody>
-          <tr><td>駐車場代（年間）</td><td id="res-parking">—</td></tr>
-          <tr><td>自動車保険料</td><td id="res-ins">—</td></tr>
-          <tr><td>自動車税</td><td id="res-tax">—</td></tr>
-          <tr><td>ガソリン代（年間）</td><td id="res-gas">—</td></tr>
-          <tr><td>車検・メンテナンス</td><td id="res-maint">—</td></tr>
-          <tr><td>年間維持費合計</td><td id="res-total">—</td></tr>
-          <tr><td>月換算</td><td id="res-monthly">—</td></tr>
+          <tr><td>給与所得</td><td id="res-kyuyo">—</td></tr>
+          <tr><td>所得控除合計（概算）</td><td id="res-kojo">—</td></tr>
+          <tr><td>課税所得</td><td id="res-kazei">—</td></tr>
+          <tr><td>所得割（×10%）</td><td id="res-shotoku">—</td></tr>
+          <tr><td>均等割</td><td id="res-kinto">5,000 円</td></tr>
+          <tr><td>年間住民税合計</td><td id="res-total">—</td></tr>
+          <tr><td>月額（÷12）</td><td id="res-month">—</td></tr>
         </tbody></table></div>
-        <div class="info-box" id="info-box"></div>
+        <div class="info-box">この計算は給与所得者を対象とした概算です。社会保険料控除・基礎控除（43万円）のみ考慮しています。医療費控除・ふるさと納税など他の控除がある場合は実際の税額は低くなります。</div>
       </div>
     </div>
     <div class="ad-area">広告</div>
     <div class="article">
-      <h2>🚗 車の維持費計算について</h2>
-      <p>車を所有するには購入費用だけでなく、毎月・毎年かかる維持費が必要です。駐車場代・自動車保険・自動車税・ガソリン代・車検費用を合わせると、年間50〜100万円以上になることも珍しくありません。</p>
-      <p>特に都市部では駐車場代が月1〜3万円と高額になりやすく、維持費全体を押し上げます。カーシェアリングやレンタカーと維持費を比較することで、車を持つべきかどうかを判断する目安になります。</p>
-      <p>維持費を抑えるコツとして、任意保険は複数社を比較して見積もりを取ること、燃費の良い車を選ぶこと、車検は民間整備工場やガソリンスタンドを活用することなどが挙げられます。このツールで現在の維持費を把握し、節約ポイントを探してみましょう。</p>
+      <h2>🏙️ 住民税とは？計算方法をわかりやすく解説</h2>
+      <p>住民税とは、都道府県や市区町村に納める地方税のことです。学校・道路・公園など地域の公共サービスを支えるために使われます。毎年1月1日時点で住んでいた都道府県と市区町村に対して翌年に納めます。</p>
+      <p>住民税は大きく「所得割」と「均等割」の2つに分かれています。所得割は課税所得の10%（一律）、均等割は所得にかかわらず年約5,000円（自治体により若干異なる）がかかります。</p>
+      <h3>住民税の計算ステップ</h3>
+      <p>①給与所得＝年収－給与所得控除　②課税所得＝給与所得－所得控除（社会保険料控除＋基礎控除43万円＋扶養控除など）　③所得割＝課税所得×10%　④住民税＝所得割＋均等割（約5,000円）</p>
+      <p>給与所得控除は年収によって異なります。年収162.5万円以下は55万円、年収360万円以下は「年収×30%＋18万円」、年収660万円以下は「年収×20%＋54万円」、年収850万円以下は「年収×10%＋120万円」、年収850万円超は195万円（上限）となっています。</p>
+      <p>会社員の場合、住民税は毎年6月に前年分が確定し、6月から翌年5月にかけて毎月給与から天引きされます。そのため、転職や退職をした年は住民税の支払い方が変わることがあります。退職した場合は自分で納付書を使って支払う「普通徴収」に切り替わります。</p>
+      <p>住民税を減らす方法としては、ふるさと納税（寄付した分が住民税から控除）、医療費控除（年間10万円超の医療費）、iDeCo（掛金が全額所得控除）などが有効です。これらを活用することで住民税の負担を合法的に減らすことができます。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item"><div class="faq-q">Q. 車の年間維持費の平均は？</div><div class="faq-a">国産乗用車（1,500cc程度）の場合、駐車場なし・地方在住で年間40〜60万円、都市部で駐車場込みだと年間70〜120万円程度が目安です。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 軽自動車と普通車の維持費の差は？</div><div class="faq-a">自動車税が普通車の約1/3（年間約1万円）、任意保険も割安なことが多く、年間で10〜20万円程度維持費が安くなるケースが多いです。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. カーシェアとどちがお得？</div><div class="faq-a">月間の走行距離が少ない場合（月200km以下など）はカーシェアの方が安くなることが多いです。維持費を計算して比較してみましょう。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 住民税はいつ払うの？</div><div class="faq-a">住民税は前年の所得をもとに計算され、翌年6月から翌々年5月にかけて1年分を支払います。会社員は給与から天引き（特別徴収）、自営業者は自分で納付（普通徴収）します。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 住民税の税率は何パーセント？</div><div class="faq-a">所得割の税率は一律10%（道府県民税4%＋市区町村民税6%）です。これに均等割（年約5,000円）が加算されます。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 住民税が0円になる年収はいくら？</div><div class="faq-a">単身者の場合、年収約100万円以下では住民税がかかりません。所得割は年収約100〜125万円未満で非課税、均等割は自治体により異なります。</div></div>
     </div>
   </div>
 </main>
@@ -212,30 +208,43 @@
   <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
-<script>
-function calc() {
-  const parking = parseFloat(document.getElementById('parking').value)||0;
-  const insurance = parseFloat(document.getElementById('insurance').value)||0;
-  const tax = parseFloat(document.getElementById('tax').value)||0;
-  const gas = parseFloat(document.getElementById('gas').value)||0;
-  const maint = parseFloat(document.getElementById('maint').value)||0;
-  const parkingY = parking*12;
-  const gasY = gas*12;
-  const total = parkingY+insurance+tax+gasY+maint;
-  const fmt = n=>Math.round(n).toLocaleString('ja-JP')+' 円';
-  document.getElementById('res-main').textContent=fmt(total);
-  document.getElementById('res-parking').textContent=fmt(parkingY);
-  document.getElementById('res-ins').textContent=fmt(insurance);
-  document.getElementById('res-tax').textContent=fmt(tax);
-  document.getElementById('res-gas').textContent=fmt(gasY);
-  document.getElementById('res-maint').textContent=fmt(maint);
-  document.getElementById('res-total').textContent=fmt(total);
-  document.getElementById('res-monthly').textContent=fmt(total/12);
-  const info=document.getElementById('info-box');
-  info.innerHTML=`月換算で<strong>${fmt(total/12)}</strong>の車の維持費がかかっています。年間<strong>${fmt(total)}</strong>を参考に、カーシェアや買い替えの検討にお役立てください。`;
-  document.getElementById('result').classList.add('show');
-}
-</script>
 <script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>
+<script>
+function calc() {
+  const income = parseFloat(document.getElementById('income').value);
+  const fuyou = parseInt(document.getElementById('fuyou').value);
+  if (!income || income < 0) { alert('年収を入力してください'); return; }
+  // 給与所得控除
+  let kyuyoKojo;
+  if (income <= 1625000) kyuyoKojo = 550000;
+  else if (income <= 3600000) kyuyoKojo = income * 0.3 + 180000;
+  else if (income <= 6600000) kyuyoKojo = income * 0.2 + 540000;
+  else if (income <= 8500000) kyuyoKojo = income * 0.1 + 1200000;
+  else kyuyoKojo = 1950000;
+  const kyuyo = Math.max(0, income - kyuyoKojo);
+  // 社会保険料概算（年収の約15%）
+  const shakai = Math.round(income * 0.15);
+  // 基礎控除43万、扶養控除33万×人数
+  const kiso = 430000;
+  const fuyouKojo = fuyou * 330000;
+  const totalKojo = shakai + kiso + fuyouKojo;
+  const kazei = Math.max(0, kyuyo - totalKojo);
+  // 1000円未満切り捨て
+  const kazeiFloor = Math.floor(kazei / 1000) * 1000;
+  const shotoku = Math.round(kazeiFloor * 0.1);
+  const kinto = 5000;
+  const total = shotoku + kinto;
+  const month = Math.round(total / 12);
+  const fmt = n => n.toLocaleString('ja-JP') + ' 円';
+  document.getElementById('res-kyuyo').textContent = fmt(Math.round(kyuyo));
+  document.getElementById('res-kojo').textContent = fmt(totalKojo);
+  document.getElementById('res-kazei').textContent = fmt(kazeiFloor);
+  document.getElementById('res-shotoku').textContent = fmt(shotoku);
+  document.getElementById('res-total').textContent = fmt(total);
+  document.getElementById('res-main').textContent = fmt(total);
+  document.getElementById('res-month').textContent = fmt(month);
+  document.getElementById('result').classList.add('show');
+}
+</script>
