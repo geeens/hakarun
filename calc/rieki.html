@@ -3,13 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>目標心拍数計算｜運動時の適切な心拍数を計算｜はかるん</title>
-  <meta name="description" content="年齢と運動強度を入力するだけで目標心拍数を計算。ウォーキング・ジョギング・高強度トレーニングなど目的別に対応。">
+  <title>利益率・原価計算｜販売価格から利益率・粗利を無料計算｜はかるん</title>
+  <meta name="description" content="販売価格と原価を入力するだけで利益率・粗利・原価率を計算。逆算（目標利益率から販売価格を計算）も可能です。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "利益率と原価率の違いは？", "acceptedAnswer": { "@type": "Answer", "text": "利益率は「利益÷販売価格×100」、原価率は「原価÷販売価格×100」です。利益率＋原価率＝100%になります。飲食店の目安は原価率30〜35%（利益率65〜70%）です。" } },
+    { "@type": "Question", "name": "粗利（粗利益）とは何ですか？", "acceptedAnswer": { "@type": "Answer", "text": "粗利（粗利益）とは売上から商品の原価（仕入れ費用）を差し引いた利益です。人件費・家賃・光熱費などの費用を引く前の段階の利益です。" } },
+    { "@type": "Question", "name": "目標利益率から販売価格を計算するには？", "acceptedAnswer": { "@type": "Answer", "text": "目標利益率30%にしたい場合、販売価格＝原価÷(1−0.30)で計算します。原価1,000円なら販売価格は約1,429円になります。" } }] }
+  </script>
 </head>
 <body>
 <header>
@@ -40,7 +45,7 @@
           <a href="../money/shobyo.html">🏥 傷病手当金計算</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../health/bmi.html" class="nav-link">健康・生活 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../health/bmi.html">⚖️ BMI計算</a>
@@ -113,7 +118,7 @@
           <a href="../tax/ideco.html">💎 iDeCo節税計算</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../calc/percent.html" class="nav-link">計算・変換 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../calc/percent.html">🔢 パーセント計算</a>
@@ -147,49 +152,60 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 健康・生活 &rsaquo; 🏃 目標心拍数計算</div>
-      <h1>🏃 目標心拍数計算</h1>
-      <p class="subtitle">年齢から運動時の適切な目標心拍数を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 計算・変換 &rsaquo; 💹 利益率・原価計算</div>
+      <h1>💹 利益率・原価計算</h1>
+      <p class="subtitle">販売価格と原価から利益率・粗利を計算。目標利益率からの逆算も可能です</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
+      <p style="font-weight:bold;margin-bottom:12px">① 販売価格・原価から利益率を計算</p>
       <div class="form-group">
-        <label>年齢</label>
-        <div class="input-wrap"><input type="number" id="age" placeholder="35" min="10" max="90"><span class="unit">歳</span></div>
+        <label>販売価格</label>
+        <div class="input-wrap"><input type="number" id="price" placeholder="1500" min="0"><span class="unit">円</span></div>
       </div>
       <div class="form-group">
-        <label>安静時心拍数（省略可）</label>
-        <div class="input-wrap"><input type="number" id="resting" placeholder="70" min="40" max="120"><span class="unit">拍/分</span></div>
-        <p class="hint">朝起きた直後の心拍数。不明な場合は空欄でOK（標準値70を使用）</p>
+        <label>原価（仕入れ価格・製造コスト）</label>
+        <div class="input-wrap"><input type="number" id="cost" placeholder="500" min="0"><span class="unit">円</span></div>
       </div>
-      <button class="btn btn-primary" onclick="calc()">計算する</button>
-      <div class="result-area" id="result">
-        <div class="result-main">
-          <div class="label">最大心拍数（目安）</div>
-          <div class="value" id="res-max">—</div>
-        </div>
+      <button class="btn btn-primary" onclick="calcProfit()">計算する</button>
+      <div class="result-area" id="result1">
         <div class="result-table"><table><tbody>
-          <tr><td>🚶 軽い運動（40〜50%）</td><td id="res-light">—</td></tr>
-          <tr><td>🏃 有酸素運動・脂肪燃焼（60〜70%）</td><td id="res-fat">—</td></tr>
-          <tr><td>💪 持久力向上（70〜80%）</td><td id="res-cardio">—</td></tr>
-          <tr><td>🔥 高強度トレーニング（80〜90%）</td><td id="res-hard">—</td></tr>
+          <tr><td>粗利（利益額）</td><td id="r-profit">—</td></tr>
+          <tr><td>利益率（粗利率）</td><td id="r-prate">—</td></tr>
+          <tr><td>原価率</td><td id="r-crate">—</td></tr>
         </tbody></table></div>
-        <div class="info-box" id="info-box">心拍数は個人差があります。体調に合わせて無理のない範囲で運動してください。</div>
+      </div>
+      <hr style="border:none;border-top:1px solid #e5e7eb;margin:20px 0">
+      <p style="font-weight:bold;margin-bottom:12px">② 目標利益率から販売価格を逆算</p>
+      <div class="form-group">
+        <label>原価</label>
+        <div class="input-wrap"><input type="number" id="cost2" placeholder="500" min="0"><span class="unit">円</span></div>
+      </div>
+      <div class="form-group">
+        <label>目標利益率</label>
+        <div class="input-wrap"><input type="number" id="target" placeholder="60" min="0" max="99" step="0.1"><span class="unit">%</span></div>
+      </div>
+      <button class="btn btn-primary" onclick="calcReverse()">販売価格を計算</button>
+      <div class="result-area" id="result2">
+        <div class="result-table"><table><tbody>
+          <tr><td>必要な販売価格</td><td id="r-price2">—</td></tr>
+          <tr><td>粗利額</td><td id="r-profit2">—</td></tr>
+        </tbody></table></div>
       </div>
     </div>
-    <div class="ad-area">広告</div>
     <div class="article">
-      <h2>🏃 目標心拍数計算について</h2>
-      <p>目標心拍数とは、運動の目的に応じた適切な心拍数の範囲のことです。心拍数を意識しながら運動することで、脂肪燃焼・持久力向上・心肺機能強化など、目的に合った効果的なトレーニングが可能になります。</p>
-      <p>一般的に使われる計算式は「最大心拍数 = 220 - 年齢」です。この最大心拍数に対して何%で運動するかによって効果が変わります。脂肪を効率よく燃やしたい場合は60〜70%、心肺機能を高めたい場合は70〜80%が目安とされています。ウォーキングなら40〜50%程度が適切です。</p>
-      <p>運動中に心拍数が高すぎる場合は、ペースを落として安全な範囲に調整することが大切です。特に運動習慣のない方や高齢の方は、無理のない強度から始めましょう。このツールを使って自分の目標心拍数を把握し、より効果的な運動習慣を作ってください。</p>
+      <h2>💹 利益率・原価率の基礎知識</h2>
+      <p>ビジネスで価格設定をする際に欠かせない「利益率」と「原価率」について解説します。利益率（粗利率）は「（販売価格−原価）÷販売価格×100」で計算します。原価率は「原価÷販売価格×100」で、利益率＋原価率＝100%になります。</p>
+      <p>業種別の目安として、飲食業は原価率30〜35%（利益率65〜70%）、小売業は原価率50〜70%（利益率30〜50%）、製造業は原価率50〜60%（利益率40〜50%）程度が一般的です。ただし粗利から人件費・家賃・光熱費など諸経費を差し引いた純利益は更に低くなります。</p>
+      <p>価格設定の基本は「原価＋適正利益＝販売価格」です。競合他社の価格や市場相場も考慮しながら、必要な利益率を確保できる価格を設定することが重要です。「値引き」を安易に行うと利益率が大幅に低下するため注意が必要です（例：利益率30%の商品を10%値引きすると、利益率は20%→利益が33%減少）。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item"><div class="faq-q">Q. 最大心拍数とは何ですか？</div><div class="faq-a">運動で出せる最大の心拍数（1分間の心拍数）です。「220－年齢」で計算した値が一般的な目安です。実際は個人差があります。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 脂肪燃焼に最適な心拍数は？</div><div class="faq-a">最大心拍数の60〜70%の範囲が脂肪燃焼に最も効率的とされています。ハアハアしないくらいの会話できる強度が目安です。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 心拍数を測るには？</div><div class="faq-a">スマートウォッチやスマートフォンのカメラ機能で測定できます。手首の脈を10秒数えて6倍にする方法もあります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 利益率と原価率の違いは？</div><div class="faq-a">利益率は「利益÷販売価格×100」、原価率は「原価÷販売価格×100」です。利益率＋原価率＝100%になります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 粗利とは何ですか？</div><div class="faq-a">粗利（粗利益）とは売上から商品の原価を差し引いた利益です。人件費・家賃・光熱費などを引く前の段階の利益です。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 目標利益率から販売価格を計算するには？</div><div class="faq-a">販売価格＝原価÷(1−目標利益率)で計算します。原価1,000円で利益率30%にしたい場合、販売価格は約1,429円です。</div></div>
     </div>
+    <div class="ad-area">広告</div>
   </div>
 </main>
 <footer>
@@ -208,26 +224,32 @@
   <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 <script>
-function calc() {
-  const age = parseFloat(document.getElementById('age').value);
-  const resting = parseFloat(document.getElementById('resting').value) || 70;
-  if (!age) { alert('年齢を入力してください'); return; }
-  const maxHR = 220 - age;
-  const hrr = maxHR - resting;
-  const range = (lo, hi) => {
-    const a = Math.round(resting + hrr * lo / 100);
-    const b = Math.round(resting + hrr * hi / 100);
-    return `${a}〜${b} 拍/分`;
-  };
-  document.getElementById('res-max').textContent = maxHR + ' 拍/分';
-  document.getElementById('res-light').textContent = range(40, 50);
-  document.getElementById('res-fat').textContent = range(60, 70);
-  document.getElementById('res-cardio').textContent = range(70, 80);
-  document.getElementById('res-hard').textContent = range(80, 90);
-  document.getElementById('result').classList.add('show');
+function calcProfit(){
+  const p=parseFloat(document.getElementById('price').value);
+  const c=parseFloat(document.getElementById('cost').value);
+  if(!p||c===undefined){alert('販売価格と原価を入力してください');return;}
+  const profit=p-c;
+  const prate=(profit/p*100).toFixed(1);
+  const crate=(c/p*100).toFixed(1);
+  const fmt=n=>Math.round(n).toLocaleString('ja-JP')+' 円';
+  document.getElementById('r-profit').textContent=fmt(profit);
+  document.getElementById('r-prate').textContent=prate+'%';
+  document.getElementById('r-crate').textContent=crate+'%';
+  document.getElementById('result1').classList.add('show');
+}
+function calcReverse(){
+  const c=parseFloat(document.getElementById('cost2').value);
+  const t=parseFloat(document.getElementById('target').value);
+  if(!c||!t||t>=100){alert('原価と目標利益率（0〜99%）を入力してください');return;}
+  const price=c/(1-t/100);
+  const profit=price-c;
+  const fmt=n=>Math.round(n).toLocaleString('ja-JP')+' 円';
+  document.getElementById('r-price2').textContent=fmt(price);
+  document.getElementById('r-profit2').textContent=fmt(profit);
+  document.getElementById('result2').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

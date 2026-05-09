@@ -3,20 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>目標心拍数計算｜運動時の適切な心拍数を計算｜はかるん</title>
-  <meta name="description" content="年齢と運動強度を入力するだけで目標心拍数を計算。ウォーキング・ジョギング・高強度トレーニングなど目的別に対応。">
+  <title>傷病手当金計算｜病気・ケガで休んだときの給付金を無料計算｜はかるん</title>
+  <meta name="description" content="月収を入力するだけで、病気やケガで仕事を休んだときに受け取れる傷病手当金の金額を計算します。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "傷病手当金はいくらもらえる？", "acceptedAnswer": { "@type": "Answer", "text": "傷病手当金は1日あたり「標準報酬日額の3分の2」が支給されます。標準報酬日額は過去12ヶ月の平均月収÷30で計算します。" } },
+    { "@type": "Question", "name": "傷病手当金はいつからもらえる？", "acceptedAnswer": { "@type": "Answer", "text": "連続して3日間休んだ（待期期間）後、4日目から支給されます。最長1年6ヶ月間受け取れます。" } },
+    { "@type": "Question", "name": "傷病手当金をもらうには何が必要？", "acceptedAnswer": { "@type": "Answer", "text": "勤務先経由で健康保険に申請します。医師の意見書（就労不能の証明）が必要です。申請書は勤務先または加入している健康保険組合から入手できます。" } }] }
+  </script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
     <nav>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../money/tedori.html">💴 手取り計算</a>
@@ -40,7 +45,7 @@
           <a href="../money/shobyo.html">🏥 傷病手当金計算</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../health/bmi.html" class="nav-link">健康・生活 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../health/bmi.html">⚖️ BMI計算</a>
@@ -147,49 +152,49 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 健康・生活 &rsaquo; 🏃 目標心拍数計算</div>
-      <h1>🏃 目標心拍数計算</h1>
-      <p class="subtitle">年齢から運動時の適切な目標心拍数を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; お金・給与 &rsaquo; 🏥 傷病手当金計算</div>
+      <h1>🏥 傷病手当金計算</h1>
+      <p class="subtitle">病気・ケガで仕事を休んだときの傷病手当金の支給額を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>年齢</label>
-        <div class="input-wrap"><input type="number" id="age" placeholder="35" min="10" max="90"><span class="unit">歳</span></div>
+        <label>月収（過去12ヶ月の平均額面月収）</label>
+        <div class="input-wrap"><input type="number" id="salary" placeholder="300000" min="0"><span class="unit">円</span></div>
       </div>
       <div class="form-group">
-        <label>安静時心拍数（省略可）</label>
-        <div class="input-wrap"><input type="number" id="resting" placeholder="70" min="40" max="120"><span class="unit">拍/分</span></div>
-        <p class="hint">朝起きた直後の心拍数。不明な場合は空欄でOK（標準値70を使用）</p>
+        <label>休業予定日数</label>
+        <div class="input-wrap"><input type="number" id="days" placeholder="30" min="1" max="540"><span class="unit">日</span></div>
+        <p class="hint">最長540日（1年6ヶ月）まで受給できます。最初の3日間（待期期間）は支給されません。</p>
       </div>
       <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
-        <div class="result-main">
-          <div class="label">最大心拍数（目安）</div>
-          <div class="value" id="res-max">—</div>
-        </div>
+        <div class="result-main"><div class="label">傷病手当金の合計支給額</div><div class="value" id="res-main">—</div></div>
         <div class="result-table"><table><tbody>
-          <tr><td>🚶 軽い運動（40〜50%）</td><td id="res-light">—</td></tr>
-          <tr><td>🏃 有酸素運動・脂肪燃焼（60〜70%）</td><td id="res-fat">—</td></tr>
-          <tr><td>💪 持久力向上（70〜80%）</td><td id="res-cardio">—</td></tr>
-          <tr><td>🔥 高強度トレーニング（80〜90%）</td><td id="res-hard">—</td></tr>
+          <tr><td>標準報酬日額（月収÷30）</td><td id="r-daily">—</td></tr>
+          <tr><td>1日あたりの支給額（×2/3）</td><td id="r-per-day">—</td></tr>
+          <tr><td>待期期間（3日間）</td><td id="r-wait">支給なし</td></tr>
+          <tr><td>支給対象日数</td><td id="r-days">—</td></tr>
+          <tr><td>合計支給額</td><td id="r-total">—</td></tr>
+          <tr><td>月換算支給額</td><td id="r-month">—</td></tr>
         </tbody></table></div>
-        <div class="info-box" id="info-box">心拍数は個人差があります。体調に合わせて無理のない範囲で運動してください。</div>
+        <div class="info-box">傷病手当金は非課税のため確定申告は不要です。ただし会社から給与が一部支払われている場合は、給与額が傷病手当金より多い日については支給されません。</div>
       </div>
     </div>
-    <div class="ad-area">広告</div>
     <div class="article">
-      <h2>🏃 目標心拍数計算について</h2>
-      <p>目標心拍数とは、運動の目的に応じた適切な心拍数の範囲のことです。心拍数を意識しながら運動することで、脂肪燃焼・持久力向上・心肺機能強化など、目的に合った効果的なトレーニングが可能になります。</p>
-      <p>一般的に使われる計算式は「最大心拍数 = 220 - 年齢」です。この最大心拍数に対して何%で運動するかによって効果が変わります。脂肪を効率よく燃やしたい場合は60〜70%、心肺機能を高めたい場合は70〜80%が目安とされています。ウォーキングなら40〜50%程度が適切です。</p>
-      <p>運動中に心拍数が高すぎる場合は、ペースを落として安全な範囲に調整することが大切です。特に運動習慣のない方や高齢の方は、無理のない強度から始めましょう。このツールを使って自分の目標心拍数を把握し、より効果的な運動習慣を作ってください。</p>
+      <h2>🏥 傷病手当金とは</h2>
+      <p>傷病手当金は、健康保険の被保険者（会社員・公務員）が病気やケガで仕事を休み、給与を受けられない場合に支給される給付金です。自営業者や国民健康保険加入者は対象外です。</p>
+      <p>支給額は「標準報酬日額（過去12ヶ月の平均月収÷30）の3分の2」が1日あたりの支給額です。休業して最初の3日間（待期期間）は支給されませんが、4日目から最長1年6ヶ月（540日）受給できます。</p>
+      <p>傷病手当金は非課税のため、所得税・住民税はかかりません。また、休職中も健康保険・厚生年金の本人負担分は引き続き支払う必要があります（育休と異なり免除されません）。そのため実際の手取りは支給額より少なくなる点に注意が必要です。</p>
+      <p>申請は勤務先を経由して加入している健康保険組合または协会けんぽに提出します。医師による就労不能の証明が必要です。1〜2ヶ月ごとにまとめて申請するのが一般的です。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item"><div class="faq-q">Q. 最大心拍数とは何ですか？</div><div class="faq-a">運動で出せる最大の心拍数（1分間の心拍数）です。「220－年齢」で計算した値が一般的な目安です。実際は個人差があります。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 脂肪燃焼に最適な心拍数は？</div><div class="faq-a">最大心拍数の60〜70%の範囲が脂肪燃焼に最も効率的とされています。ハアハアしないくらいの会話できる強度が目安です。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 心拍数を測るには？</div><div class="faq-a">スマートウォッチやスマートフォンのカメラ機能で測定できます。手首の脈を10秒数えて6倍にする方法もあります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 傷病手当金はいくらもらえる？</div><div class="faq-a">1日あたり「標準報酬日額（過去12ヶ月の平均月収÷30）の3分の2」が支給されます。月収30万円の場合、1日あたり約6,667円です。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 傷病手当金はいつからもらえる？</div><div class="faq-a">連続して3日間休んだ（待期期間）後、4日目から支給されます。最長1年6ヶ月間受け取れます。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 傷病手当金をもらうには何が必要？</div><div class="faq-a">勤務先経由で健康保険に申請します。医師の意見書（就労不能の証明）が必要です。</div></div>
     </div>
+    <div class="ad-area">広告</div>
   </div>
 </main>
 <footer>
@@ -208,26 +213,26 @@
   <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 <script>
-function calc() {
-  const age = parseFloat(document.getElementById('age').value);
-  const resting = parseFloat(document.getElementById('resting').value) || 70;
-  if (!age) { alert('年齢を入力してください'); return; }
-  const maxHR = 220 - age;
-  const hrr = maxHR - resting;
-  const range = (lo, hi) => {
-    const a = Math.round(resting + hrr * lo / 100);
-    const b = Math.round(resting + hrr * hi / 100);
-    return `${a}〜${b} 拍/分`;
-  };
-  document.getElementById('res-max').textContent = maxHR + ' 拍/分';
-  document.getElementById('res-light').textContent = range(40, 50);
-  document.getElementById('res-fat').textContent = range(60, 70);
-  document.getElementById('res-cardio').textContent = range(70, 80);
-  document.getElementById('res-hard').textContent = range(80, 90);
+function calc(){
+  const sal=parseFloat(document.getElementById('salary').value);
+  const days=parseInt(document.getElementById('days').value);
+  if(!sal||!days){alert('月収と休業日数を入力してください');return;}
+  const daily=sal/30;
+  const perDay=daily*(2/3);
+  const payDays=Math.max(0,Math.min(days,540)-3);
+  const total=perDay*payDays;
+  const monthRate=perDay*30;
+  const fmt=n=>Math.round(n).toLocaleString('ja-JP')+' 円';
+  document.getElementById('r-daily').textContent=fmt(daily);
+  document.getElementById('r-per-day').textContent=fmt(perDay);
+  document.getElementById('r-days').textContent=payDays+' 日';
+  document.getElementById('r-total').textContent=fmt(total);
+  document.getElementById('r-month').textContent=fmt(monthRate)+'／月';
+  document.getElementById('res-main').textContent=fmt(total);
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

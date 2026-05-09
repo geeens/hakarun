@@ -3,13 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>目標心拍数計算｜運動時の適切な心拍数を計算｜はかるん</title>
-  <meta name="description" content="年齢と運動強度を入力するだけで目標心拍数を計算。ウォーキング・ジョギング・高強度トレーニングなど目的別に対応。">
+  <title>iDeCo節税計算｜毎月の掛金でいくら節税できるか無料計算｜はかるん</title>
+  <meta name="description" content="iDeCoの毎月の掛金と年収を入力するだけで、所得税・住民税の節税額と実質的な負担コストを計算します。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "iDeCoで年間いくら節税できる？", "acceptedAnswer": { "@type": "Answer", "text": "年収500万円で毎月2万円のiDeCoに加入した場合、年間約48,000円の節税（所得税＋住民税）になります。年収・掛金・税率によって異なります。" } },
+    { "@type": "Question", "name": "iDeCoの掛金上限はいくら？", "acceptedAnswer": { "@type": "Answer", "text": "会社員（企業年金なし）は月23,000円、会社員（企業年金あり）は月12,000〜20,000円、自営業者は月68,000円が上限です。" } },
+    { "@type": "Question", "name": "iDeCoのデメリットは何？", "acceptedAnswer": { "@type": "Answer", "text": "原則として60歳まで引き出せないこと、手数料がかかること、運用次第では元本割れのリスクがあることなどがデメリットです。老後資金として長期的に積み立てる前提で活用するのが適しています。" } }] }
+  </script>
 </head>
 <body>
 <header>
@@ -40,7 +45,7 @@
           <a href="../money/shobyo.html">🏥 傷病手当金計算</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../health/bmi.html" class="nav-link">健康・生活 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../health/bmi.html">⚖️ BMI計算</a>
@@ -101,7 +106,7 @@
           <a href="../date/kinzoku.html">📅 勤続年数計算</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../tax/furusato.html" class="nav-link">節税 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../tax/furusato.html">🎎 ふるさと納税 上限額計算</a>
@@ -147,49 +152,49 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 健康・生活 &rsaquo; 🏃 目標心拍数計算</div>
-      <h1>🏃 目標心拍数計算</h1>
-      <p class="subtitle">年齢から運動時の適切な目標心拍数を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 節税 &rsaquo; 💎 iDeCo節税計算</div>
+      <h1>💎 iDeCo節税計算</h1>
+      <p class="subtitle">iDeCoの掛金から年間の節税額と実質コストを計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>年齢</label>
-        <div class="input-wrap"><input type="number" id="age" placeholder="35" min="10" max="90"><span class="unit">歳</span></div>
+        <label>毎月の掛金</label>
+        <div class="input-wrap"><input type="number" id="kakkin" placeholder="20000" min="5000" max="68000" step="1000"><span class="unit">円</span></div>
+        <p class="hint">会社員（企業年金なし）：上限23,000円　自営業者：上限68,000円</p>
       </div>
       <div class="form-group">
-        <label>安静時心拍数（省略可）</label>
-        <div class="input-wrap"><input type="number" id="resting" placeholder="70" min="40" max="120"><span class="unit">拍/分</span></div>
-        <p class="hint">朝起きた直後の心拍数。不明な場合は空欄でOK（標準値70を使用）</p>
+        <label>年収（額面）</label>
+        <div class="input-wrap"><input type="number" id="income" placeholder="5000000" min="0"><span class="unit">円</span></div>
       </div>
-      <button class="btn btn-primary" onclick="calc()">計算する</button>
+      <button class="btn btn-primary" onclick="calc()">節税額を計算する</button>
       <div class="result-area" id="result">
-        <div class="result-main">
-          <div class="label">最大心拍数（目安）</div>
-          <div class="value" id="res-max">—</div>
-        </div>
+        <div class="result-main"><div class="label">年間節税額</div><div class="value" id="res-main">—</div></div>
         <div class="result-table"><table><tbody>
-          <tr><td>🚶 軽い運動（40〜50%）</td><td id="res-light">—</td></tr>
-          <tr><td>🏃 有酸素運動・脂肪燃焼（60〜70%）</td><td id="res-fat">—</td></tr>
-          <tr><td>💪 持久力向上（70〜80%）</td><td id="res-cardio">—</td></tr>
-          <tr><td>🔥 高強度トレーニング（80〜90%）</td><td id="res-hard">—</td></tr>
+          <tr><td>年間掛金</td><td id="r-total">—</td></tr>
+          <tr><td>所得税の節税額</td><td id="r-shotoku">—</td></tr>
+          <tr><td>住民税の節税額</td><td id="r-jumin">—</td></tr>
+          <tr><td>年間節税額合計</td><td id="r-setsuzei">—</td></tr>
+          <tr><td>実質の掛金負担</td><td id="r-jissitu">—</td></tr>
+          <tr><td>節税率</td><td id="r-rate">—</td></tr>
+          <tr><td>30年間の節税総額（目安）</td><td id="r-30y">—</td></tr>
         </tbody></table></div>
-        <div class="info-box" id="info-box">心拍数は個人差があります。体調に合わせて無理のない範囲で運動してください。</div>
+        <div class="info-box">iDeCoの掛金は全額所得控除になります。節税効果は課税所得の税率によって変わります。運用益も非課税で、受取時も退職所得控除または公的年金等控除が使えます。</div>
       </div>
     </div>
-    <div class="ad-area">広告</div>
     <div class="article">
-      <h2>🏃 目標心拍数計算について</h2>
-      <p>目標心拍数とは、運動の目的に応じた適切な心拍数の範囲のことです。心拍数を意識しながら運動することで、脂肪燃焼・持久力向上・心肺機能強化など、目的に合った効果的なトレーニングが可能になります。</p>
-      <p>一般的に使われる計算式は「最大心拍数 = 220 - 年齢」です。この最大心拍数に対して何%で運動するかによって効果が変わります。脂肪を効率よく燃やしたい場合は60〜70%、心肺機能を高めたい場合は70〜80%が目安とされています。ウォーキングなら40〜50%程度が適切です。</p>
-      <p>運動中に心拍数が高すぎる場合は、ペースを落として安全な範囲に調整することが大切です。特に運動習慣のない方や高齢の方は、無理のない強度から始めましょう。このツールを使って自分の目標心拍数を把握し、より効果的な運動習慣を作ってください。</p>
+      <h2>💎 iDeCoの節税効果をわかりやすく解説</h2>
+      <p>iDeCo（個人型確定拠出年金）は、毎月一定の掛金を積み立てて老後資金を準備する制度です。最大のメリットは税制優遇で、①掛金が全額所得控除→所得税・住民税が軽減、②運用益が非課税、③受取時も退職所得控除または公的年金等控除が使える、という三重の税制優遇があります。</p>
+      <p>掛金の上限は加入区分によって異なります。会社員（企業年金なし）は月23,000円（年27.6万円）、会社員（企業年金あり）は月12,000〜20,000円、公務員は月12,000円、自営業者は月68,000円（国民年金基金と合算）が上限です。</p>
+      <p>デメリットは、原則60歳まで引き出せないこと（流動性がない）、口座管理手数料がかかること、投資信託で運用する場合は元本割れのリスクがあることです。生活費の緊急予備資金は別に確保した上で活用するのが重要です。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item"><div class="faq-q">Q. 最大心拍数とは何ですか？</div><div class="faq-a">運動で出せる最大の心拍数（1分間の心拍数）です。「220－年齢」で計算した値が一般的な目安です。実際は個人差があります。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 脂肪燃焼に最適な心拍数は？</div><div class="faq-a">最大心拍数の60〜70%の範囲が脂肪燃焼に最も効率的とされています。ハアハアしないくらいの会話できる強度が目安です。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 心拍数を測るには？</div><div class="faq-a">スマートウォッチやスマートフォンのカメラ機能で測定できます。手首の脈を10秒数えて6倍にする方法もあります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. iDeCoで年間いくら節税できる？</div><div class="faq-a">年収500万円で毎月2万円のiDeCoに加入した場合、年間約48,000円の節税（所得税＋住民税）になります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. iDeCoの掛金上限はいくら？</div><div class="faq-a">会社員（企業年金なし）は月23,000円、自営業者は月68,000円が上限です。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. iDeCoのデメリットは何？</div><div class="faq-a">原則60歳まで引き出せないこと、手数料がかかること、運用次第では元本割れのリスクがあることなどがデメリットです。</div></div>
     </div>
+    <div class="ad-area">広告</div>
   </div>
 </main>
 <footer>
@@ -208,26 +213,38 @@
   <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 <script>
-function calc() {
-  const age = parseFloat(document.getElementById('age').value);
-  const resting = parseFloat(document.getElementById('resting').value) || 70;
-  if (!age) { alert('年齢を入力してください'); return; }
-  const maxHR = 220 - age;
-  const hrr = maxHR - resting;
-  const range = (lo, hi) => {
-    const a = Math.round(resting + hrr * lo / 100);
-    const b = Math.round(resting + hrr * hi / 100);
-    return `${a}〜${b} 拍/分`;
-  };
-  document.getElementById('res-max').textContent = maxHR + ' 拍/分';
-  document.getElementById('res-light').textContent = range(40, 50);
-  document.getElementById('res-fat').textContent = range(60, 70);
-  document.getElementById('res-cardio').textContent = range(70, 80);
-  document.getElementById('res-hard').textContent = range(80, 90);
+function calc(){
+  const kakkin=parseFloat(document.getElementById('kakkin').value)||0;
+  const income=parseFloat(document.getElementById('income').value)||0;
+  if(!kakkin||!income){alert('掛金と年収を入力してください');return;}
+  const yearKakkin=kakkin*12;
+  // 限界税率を概算
+  let kj;
+  if(income<=1625000)kj=550000;else if(income<=3600000)kj=income*0.3+180000;
+  else if(income<=6600000)kj=income*0.2+540000;else if(income<=8500000)kj=income*0.1+1200000;else kj=1950000;
+  const kazei=Math.max(0,income-kj-income*0.15-480000);
+  const brackets=[[1950000,0.05],[3300000,0.10],[6950000,0.20],[9000000,0.23],[18000000,0.33],[40000000,0.40],[Infinity,0.45]];
+  let marginal=0.05;
+  for(const[lim,r]of brackets){if(kazei<=lim){marginal=r;break;}}
+  const shotokuSave=Math.round(yearKakkin*marginal*1.021);
+  const juminSave=Math.round(yearKakkin*0.10);
+  const total=shotokuSave+juminSave;
+  const jissitu=yearKakkin-total;
+  const rate=(total/yearKakkin*100).toFixed(1);
+  const y30=total*30;
+  const fmt=n=>n.toLocaleString('ja-JP')+' 円';
+  document.getElementById('r-total').textContent=fmt(yearKakkin);
+  document.getElementById('r-shotoku').textContent=fmt(shotokuSave);
+  document.getElementById('r-jumin').textContent=fmt(juminSave);
+  document.getElementById('r-setsuzei').textContent=fmt(total);
+  document.getElementById('r-jissitu').textContent=fmt(jissitu);
+  document.getElementById('r-rate').textContent=rate+'%';
+  document.getElementById('r-30y').textContent=fmt(y30);
+  document.getElementById('res-main').textContent=fmt(total);
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

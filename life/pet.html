@@ -3,13 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>目標心拍数計算｜運動時の適切な心拍数を計算｜はかるん</title>
-  <meta name="description" content="年齢と運動強度を入力するだけで目標心拍数を計算。ウォーキング・ジョギング・高強度トレーニングなど目的別に対応。">
+  <title>ペット飼育費計算｜犬・猫の年間費用を無料計算｜はかるん</title>
+  <meta name="description" content="ペットの種類・サイズを選ぶだけで、犬・猫の年間および生涯飼育費の目安を計算します。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "犬を飼うと年間いくらかかる？", "acceptedAnswer": { "@type": "Answer", "text": "小型犬の場合、年間の飼育費用はおよそ30〜50万円が目安です。フード代・医療費・トリミング・ペット保険・おもちゃ・トイレ用品などが主な費用です。" } },
+    { "@type": "Question", "name": "猫の飼育費用はいくらかかる？", "acceptedAnswer": { "@type": "Answer", "text": "猫の年間飼育費はおよそ15〜30万円が目安です。完全室内飼いなら医療費は比較的少ないですが、ペット保険への加入を検討するとよいでしょう。" } },
+    { "@type": "Question", "name": "ペット保険は必要？", "acceptedAnswer": { "@type": "Answer", "text": "ペット保険は動物病院の費用が高額になるリスクに備えるものです。手術が必要になった場合は数十万円かかることもあります。月2,000〜5,000円程度の保険料で、いざというときの備えになります。" } }] }
+  </script>
 </head>
 <body>
 <header>
@@ -40,7 +45,7 @@
           <a href="../money/shobyo.html">🏥 傷病手当金計算</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../health/bmi.html" class="nav-link">健康・生活 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../health/bmi.html">⚖️ BMI計算</a>
@@ -64,7 +69,7 @@
           <a href="../health/shiryoku.html">👁️ 視力・度数変換</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../life/loan.html" class="nav-link">生活・節約 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../life/loan.html">🏦 ローン返済シミュレーション</a>
@@ -147,49 +152,64 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 健康・生活 &rsaquo; 🏃 目標心拍数計算</div>
-      <h1>🏃 目標心拍数計算</h1>
-      <p class="subtitle">年齢から運動時の適切な目標心拍数を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 生活・節約 &rsaquo; 🐾 ペット飼育費計算</div>
+      <h1>🐾 ペット飼育費計算</h1>
+      <p class="subtitle">犬・猫の年間・生涯飼育費の目安を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>年齢</label>
-        <div class="input-wrap"><input type="number" id="age" placeholder="35" min="10" max="90"><span class="unit">歳</span></div>
+        <label>ペットの種類</label>
+        <div class="input-wrap"><select id="type" onchange="updateSize()">
+          <option value="dog">犬</option>
+          <option value="cat">猫</option>
+        </select></div>
+      </div>
+      <div class="form-group" id="size-group">
+        <label>サイズ</label>
+        <div class="input-wrap"><select id="size">
+          <option value="small">小型（〜10kg）</option>
+          <option value="medium">中型（10〜25kg）</option>
+          <option value="large">大型（25kg〜）</option>
+        </select></div>
       </div>
       <div class="form-group">
-        <label>安静時心拍数（省略可）</label>
-        <div class="input-wrap"><input type="number" id="resting" placeholder="70" min="40" max="120"><span class="unit">拍/分</span></div>
-        <p class="hint">朝起きた直後の心拍数。不明な場合は空欄でOK（標準値70を使用）</p>
+        <label>ペット保険</label>
+        <div class="input-wrap"><select id="insurance">
+          <option value="0">加入しない</option>
+          <option value="30000">加入する（月2,500円）</option>
+          <option value="60000">加入する（月5,000円）</option>
+        </select></div>
       </div>
       <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
-        <div class="result-main">
-          <div class="label">最大心拍数（目安）</div>
-          <div class="value" id="res-max">—</div>
-        </div>
+        <div class="result-main"><div class="label">年間飼育費（目安）</div><div class="value" id="res-main">—</div></div>
         <div class="result-table"><table><tbody>
-          <tr><td>🚶 軽い運動（40〜50%）</td><td id="res-light">—</td></tr>
-          <tr><td>🏃 有酸素運動・脂肪燃焼（60〜70%）</td><td id="res-fat">—</td></tr>
-          <tr><td>💪 持久力向上（70〜80%）</td><td id="res-cardio">—</td></tr>
-          <tr><td>🔥 高強度トレーニング（80〜90%）</td><td id="res-hard">—</td></tr>
+          <tr><td>フード代</td><td id="r-food">—</td></tr>
+          <tr><td>医療費（健康診断・ワクチン等）</td><td id="r-med">—</td></tr>
+          <tr><td>トリミング・シャンプー</td><td id="r-groom">—</td></tr>
+          <tr><td>ペット保険</td><td id="r-ins">—</td></tr>
+          <tr><td>消耗品（トイレ・おもちゃ等）</td><td id="r-misc">—</td></tr>
+          <tr><td>年間合計</td><td id="r-year">—</td></tr>
+          <tr><td>生涯費用（平均寿命まで）</td><td id="r-life">—</td></tr>
         </tbody></table></div>
-        <div class="info-box" id="info-box">心拍数は個人差があります。体調に合わせて無理のない範囲で運動してください。</div>
+        <div class="info-box">この計算はあくまで目安です。病気や手術が必要になった場合は追加費用が発生します。初期費用（購入費・ケージ・ワクチン等）は含まれていません。</div>
       </div>
     </div>
-    <div class="ad-area">広告</div>
     <div class="article">
-      <h2>🏃 目標心拍数計算について</h2>
-      <p>目標心拍数とは、運動の目的に応じた適切な心拍数の範囲のことです。心拍数を意識しながら運動することで、脂肪燃焼・持久力向上・心肺機能強化など、目的に合った効果的なトレーニングが可能になります。</p>
-      <p>一般的に使われる計算式は「最大心拍数 = 220 - 年齢」です。この最大心拍数に対して何%で運動するかによって効果が変わります。脂肪を効率よく燃やしたい場合は60〜70%、心肺機能を高めたい場合は70〜80%が目安とされています。ウォーキングなら40〜50%程度が適切です。</p>
-      <p>運動中に心拍数が高すぎる場合は、ペースを落として安全な範囲に調整することが大切です。特に運動習慣のない方や高齢の方は、無理のない強度から始めましょう。このツールを使って自分の目標心拍数を把握し、より効果的な運動習慣を作ってください。</p>
+      <h2>🐾 ペット飼育費用の内訳</h2>
+      <p>ペットを飼う際には、日々のフード代だけでなく、医療費・トリミング・ペット用品など様々な費用がかかります。計画的に準備することが大切です。</p>
+      <p>犬の場合、サイズによってフード代や医療費が大きく変わります。小型犬（チワワ・トイプードル等）は年間30〜50万円、大型犬（ゴールデンレトリバー・ラブラドール等）は年間50〜80万円程度が目安です。トリミングが必要な犬種（プードル・シュナウザー等）は追加費用がかかります。</p>
+      <p>猫の場合は犬より費用が低めで、年間15〜30万円程度が目安です。完全室内飼いなら感染症リスクが低くなりますが、定期的なワクチン接種と定期健診は必要です。</p>
+      <p>ペット保険は動物病院の費用が高額になるリスクに備えるものです。手術が必要になった場合は数十万円かかることもあるため、加入を検討する価値があります。月2,000〜5,000円程度で、補償内容は保険会社によって異なります。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item"><div class="faq-q">Q. 最大心拍数とは何ですか？</div><div class="faq-a">運動で出せる最大の心拍数（1分間の心拍数）です。「220－年齢」で計算した値が一般的な目安です。実際は個人差があります。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 脂肪燃焼に最適な心拍数は？</div><div class="faq-a">最大心拍数の60〜70%の範囲が脂肪燃焼に最も効率的とされています。ハアハアしないくらいの会話できる強度が目安です。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 心拍数を測るには？</div><div class="faq-a">スマートウォッチやスマートフォンのカメラ機能で測定できます。手首の脈を10秒数えて6倍にする方法もあります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 犬を飼うと年間いくらかかる？</div><div class="faq-a">小型犬の場合、年間の飼育費用はおよそ30〜50万円が目安です。フード代・医療費・トリミング・ペット保険などが主な費用です。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 猫の飼育費用はいくらかかる？</div><div class="faq-a">猫の年間飼育費はおよそ15〜30万円が目安です。完全室内飼いなら医療費は比較的少なくなります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. ペット保険は必要？</div><div class="faq-a">手術が必要になった場合は数十万円かかることもあります。月2,000〜5,000円程度の保険料で、いざというときの備えになります。</div></div>
     </div>
+    <div class="ad-area">広告</div>
   </div>
 </main>
 <footer>
@@ -208,26 +228,37 @@
   <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 <script>
-function calc() {
-  const age = parseFloat(document.getElementById('age').value);
-  const resting = parseFloat(document.getElementById('resting').value) || 70;
-  if (!age) { alert('年齢を入力してください'); return; }
-  const maxHR = 220 - age;
-  const hrr = maxHR - resting;
-  const range = (lo, hi) => {
-    const a = Math.round(resting + hrr * lo / 100);
-    const b = Math.round(resting + hrr * hi / 100);
-    return `${a}〜${b} 拍/分`;
-  };
-  document.getElementById('res-max').textContent = maxHR + ' 拍/分';
-  document.getElementById('res-light').textContent = range(40, 50);
-  document.getElementById('res-fat').textContent = range(60, 70);
-  document.getElementById('res-cardio').textContent = range(70, 80);
-  document.getElementById('res-hard').textContent = range(80, 90);
+function updateSize(){
+  document.getElementById('size-group').style.display=document.getElementById('type').value==='dog'?'':'none';
+}
+function calc(){
+  const type=document.getElementById('type').value;
+  const size=document.getElementById('size').value;
+  const ins=parseInt(document.getElementById('insurance').value);
+  let food,med,groom,misc,life;
+  if(type==='dog'){
+    if(size==='small'){food=60000;med=50000;groom=60000;misc=30000;life=14;}
+    else if(size==='medium'){food=90000;med=60000;groom=40000;misc=35000;life=13;}
+    else{food=130000;med=80000;groom=30000;misc=40000;life=11;}
+  } else {
+    food=40000;med=40000;groom=10000;misc=25000;life=15;
+    document.getElementById('size-group').style.display='none';
+  }
+  const year=food+med+groom+ins+misc;
+  const lifeTotal=year*life;
+  const fmt=n=>n.toLocaleString('ja-JP')+' 円';
+  document.getElementById('r-food').textContent=fmt(food);
+  document.getElementById('r-med').textContent=fmt(med);
+  document.getElementById('r-groom').textContent=fmt(groom);
+  document.getElementById('r-ins').textContent=ins>0?fmt(ins):'加入なし';
+  document.getElementById('r-misc').textContent=fmt(misc);
+  document.getElementById('r-year').textContent=fmt(year);
+  document.getElementById('r-life').textContent=fmt(lifeTotal)+'（平均寿命'+life+'年）';
+  document.getElementById('res-main').textContent=fmt(year);
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

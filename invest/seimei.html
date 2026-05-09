@@ -3,13 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>目標心拍数計算｜運動時の適切な心拍数を計算｜はかるん</title>
-  <meta name="description" content="年齢と運動強度を入力するだけで目標心拍数を計算。ウォーキング・ジョギング・高強度トレーニングなど目的別に対応。">
+  <title>生命保険必要額計算｜必要な保障額を無料計算｜はかるん</title>
+  <meta name="description" content="家族構成・年収・住宅ローンを入力して、万が一のときに必要な生命保険の保障額を計算します。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "生命保険の必要保障額はいくら？", "acceptedAnswer": { "@type": "Answer", "text": "必要保障額は「遺族が必要とする生活費の総額」から「遺族が受け取れる収入（遺族年金・配偶者収入等）の総額」を差し引いた金額です。子どもがいる家庭では2,000〜5,000万円程度が一般的な目安です。" } },
+    { "@type": "Question", "name": "生命保険は独身でも必要？", "acceptedAnswer": { "@type": "Answer", "text": "扶養家族がいない独身者は、死亡保障の必要性は低いです。ただし就業不能に備えた収入補償保険や医療保険は独身でも検討する価値があります。" } },
+    { "@type": "Question", "name": "遺族年金はいくらもらえる？", "acceptedAnswer": { "@type": "Answer", "text": "会社員が死亡した場合の遺族厚生年金は、死亡した人の年金加入期間・収入によりますが、月8〜15万円程度が目安です。配偶者が18歳未満の子を養育している場合は遺族基礎年金も加算されます。" } }] }
+  </script>
 </head>
 <body>
 <header>
@@ -40,7 +45,7 @@
           <a href="../money/shobyo.html">🏥 傷病手当金計算</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../health/bmi.html" class="nav-link">健康・生活 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../health/bmi.html">⚖️ BMI計算</a>
@@ -128,7 +133,7 @@
           <a href="../calc/rieki.html">💹 利益率・原価計算</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../invest/fukuri.html" class="nav-link">投資・資産 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../invest/fukuri.html">📈 複利計算</a>
@@ -147,49 +152,65 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 健康・生活 &rsaquo; 🏃 目標心拍数計算</div>
-      <h1>🏃 目標心拍数計算</h1>
-      <p class="subtitle">年齢から運動時の適切な目標心拍数を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 投資・資産 &rsaquo; 🛡️ 生命保険必要額計算</div>
+      <h1>🛡️ 生命保険必要額計算</h1>
+      <p class="subtitle">万が一のときに家族が必要とする生命保険の保障額を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>年齢</label>
-        <div class="input-wrap"><input type="number" id="age" placeholder="35" min="10" max="90"><span class="unit">歳</span></div>
+        <label>現在の年収（額面）</label>
+        <div class="input-wrap"><input type="number" id="income" placeholder="5000000" min="0"><span class="unit">円</span></div>
       </div>
       <div class="form-group">
-        <label>安静時心拍数（省略可）</label>
-        <div class="input-wrap"><input type="number" id="resting" placeholder="70" min="40" max="120"><span class="unit">拍/分</span></div>
-        <p class="hint">朝起きた直後の心拍数。不明な場合は空欄でOK（標準値70を使用）</p>
+        <label>末子の年齢（末っ子・一人っ子）</label>
+        <div class="input-wrap"><input type="number" id="childage" placeholder="3" min="0" max="22"><span class="unit">歳</span></div>
+        <p class="hint">子どもがいない場合は空欄のままでOK</p>
+      </div>
+      <div class="form-group">
+        <label>配偶者の月収</label>
+        <div class="input-wrap"><input type="number" id="spouseincome" placeholder="150000" min="0"><span class="unit">円</span></div>
+        <p class="hint">配偶者がいない・専業主婦(夫)の場合は0</p>
+      </div>
+      <div class="form-group">
+        <label>住宅ローン残高</label>
+        <div class="input-wrap"><input type="number" id="loan" placeholder="30000000" min="0"><span class="unit">円</span></div>
+        <p class="hint">団体信用生命保険（団信）加入済みなら0でOK</p>
+      </div>
+      <div class="form-group">
+        <label>現在の貯蓄・資産</label>
+        <div class="input-wrap"><input type="number" id="savings" placeholder="5000000" min="0"><span class="unit">円</span></div>
       </div>
       <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
-        <div class="result-main">
-          <div class="label">最大心拍数（目安）</div>
-          <div class="value" id="res-max">—</div>
-        </div>
+        <div class="result-main"><div class="label">必要保障額（目安）</div><div class="value" id="res-main">—</div></div>
         <div class="result-table"><table><tbody>
-          <tr><td>🚶 軽い運動（40〜50%）</td><td id="res-light">—</td></tr>
-          <tr><td>🏃 有酸素運動・脂肪燃焼（60〜70%）</td><td id="res-fat">—</td></tr>
-          <tr><td>💪 持久力向上（70〜80%）</td><td id="res-cardio">—</td></tr>
-          <tr><td>🔥 高強度トレーニング（80〜90%）</td><td id="res-hard">—</td></tr>
+          <tr><td>遺族の生活費（子ども独立まで）</td><td id="r-life">—</td></tr>
+          <tr><td>遺族の生活費（子ども独立後）</td><td id="r-life2">—</td></tr>
+          <tr><td>住宅ローン残高</td><td id="r-loan">—</td></tr>
+          <tr><td>必要資金の合計</td><td id="r-need">—</td></tr>
+          <tr><td>遺族年金（概算・20年分）</td><td id="r-nenkin">—</td></tr>
+          <tr><td>配偶者収入（概算）</td><td id="r-spouse">—</td></tr>
+          <tr><td>現在の貯蓄・資産</td><td id="r-savings">—</td></tr>
+          <tr><td>必要保障額</td><td id="r-hitsuyou">—</td></tr>
         </tbody></table></div>
-        <div class="info-box" id="info-box">心拍数は個人差があります。体調に合わせて無理のない範囲で運動してください。</div>
+        <div class="info-box">この計算は目安です。実際の必要保障額はライフスタイル・会社の福利厚生・既加入保険などによって変わります。保険の見直しは生命保険の専門家（FP等）にご相談ください。</div>
       </div>
     </div>
-    <div class="ad-area">広告</div>
     <div class="article">
-      <h2>🏃 目標心拍数計算について</h2>
-      <p>目標心拍数とは、運動の目的に応じた適切な心拍数の範囲のことです。心拍数を意識しながら運動することで、脂肪燃焼・持久力向上・心肺機能強化など、目的に合った効果的なトレーニングが可能になります。</p>
-      <p>一般的に使われる計算式は「最大心拍数 = 220 - 年齢」です。この最大心拍数に対して何%で運動するかによって効果が変わります。脂肪を効率よく燃やしたい場合は60〜70%、心肺機能を高めたい場合は70〜80%が目安とされています。ウォーキングなら40〜50%程度が適切です。</p>
-      <p>運動中に心拍数が高すぎる場合は、ペースを落として安全な範囲に調整することが大切です。特に運動習慣のない方や高齢の方は、無理のない強度から始めましょう。このツールを使って自分の目標心拍数を把握し、より効果的な運動習慣を作ってください。</p>
+      <h2>🛡️ 生命保険の必要保障額を考える</h2>
+      <p>生命保険の必要保障額は「遺族が必要とする金額の合計」から「遺族が受け取れる収入や資産の合計」を差し引いた金額です。過不足なく備えることで、無駄な保険料を払わずに済みます。</p>
+      <p>遺族が必要とする資金の主な項目は、①子どもが独立するまでの生活費、②子ども独立後の配偶者の生活費、③住宅ローン残高（団信未加入の場合）、④子どもの教育費、などです。</p>
+      <p>一方、遺族が受け取れる収入・資産として、①遺族年金（会社員なら遺族厚生年金＋遺族基礎年金）、②配偶者の収入、③現在の貯蓄・資産、④会社の死亡退職金などがあります。これらを差し引いた不足分が生命保険で準備すべき金額です。</p>
+      <p>一般的に小さい子どもがいる30代〜40代では必要保障額が最も大きく、2,000〜5,000万円程度になることが多いです。子どもの成長・ローンの残高減少・貯蓄の増加に伴い、保障額を見直していくことが重要です。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item"><div class="faq-q">Q. 最大心拍数とは何ですか？</div><div class="faq-a">運動で出せる最大の心拍数（1分間の心拍数）です。「220－年齢」で計算した値が一般的な目安です。実際は個人差があります。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 脂肪燃焼に最適な心拍数は？</div><div class="faq-a">最大心拍数の60〜70%の範囲が脂肪燃焼に最も効率的とされています。ハアハアしないくらいの会話できる強度が目安です。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 心拍数を測るには？</div><div class="faq-a">スマートウォッチやスマートフォンのカメラ機能で測定できます。手首の脈を10秒数えて6倍にする方法もあります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 生命保険の必要保障額はいくら？</div><div class="faq-a">遺族が必要とする生活費の総額から遺族が受け取れる収入・資産を差し引いた金額です。子どもがいる家庭では2,000〜5,000万円程度が目安です。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 生命保険は独身でも必要？</div><div class="faq-a">扶養家族がいない独身者は死亡保障の必要性は低いです。ただし就業不能に備えた収入補償保険や医療保険は検討する価値があります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 遺族年金はいくらもらえる？</div><div class="faq-a">会社員が死亡した場合の遺族厚生年金は月8〜15万円程度が目安です。配偶者が18歳未満の子を養育している場合は遺族基礎年金も加算されます。</div></div>
     </div>
+    <div class="ad-area">広告</div>
   </div>
 </main>
 <footer>
@@ -208,26 +229,36 @@
   <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 <script>
-function calc() {
-  const age = parseFloat(document.getElementById('age').value);
-  const resting = parseFloat(document.getElementById('resting').value) || 70;
-  if (!age) { alert('年齢を入力してください'); return; }
-  const maxHR = 220 - age;
-  const hrr = maxHR - resting;
-  const range = (lo, hi) => {
-    const a = Math.round(resting + hrr * lo / 100);
-    const b = Math.round(resting + hrr * hi / 100);
-    return `${a}〜${b} 拍/分`;
-  };
-  document.getElementById('res-max').textContent = maxHR + ' 拍/分';
-  document.getElementById('res-light').textContent = range(40, 50);
-  document.getElementById('res-fat').textContent = range(60, 70);
-  document.getElementById('res-cardio').textContent = range(70, 80);
-  document.getElementById('res-hard').textContent = range(80, 90);
+function calc(){
+  const income=parseFloat(document.getElementById('income').value)||0;
+  const childage=parseFloat(document.getElementById('childage').value);
+  const spouse=parseFloat(document.getElementById('spouseincome').value)||0;
+  const loan=parseFloat(document.getElementById('loan').value)||0;
+  const savings=parseFloat(document.getElementById('savings').value)||0;
+  if(!income){alert('年収を入力してください');return;}
+  const hasChild=!isNaN(childage)&&childage>=0;
+  const childYears=hasChild?Math.max(0,22-childage):0;
+  const monthlyNeed=Math.round(income*0.7/12); // 現収入70%が目安
+  const life1=monthlyNeed*12*childYears;
+  const life2=monthlyNeed*0.7*12*20; // 子独立後20年
+  const needTotal=life1+life2+loan;
+  const nenkin=Math.round(income*0.015*20*12); // 遺族年金概算
+  const spouseTotal=spouse*12*30;
+  const diff=Math.max(0,needTotal-nenkin-spouseTotal-savings);
+  const fmt=n=>Math.round(n).toLocaleString('ja-JP')+' 円';
+  document.getElementById('r-life').textContent=hasChild?fmt(life1)+'（'+childYears+'年間）':'—';
+  document.getElementById('r-life2').textContent=fmt(life2)+'（20年間）';
+  document.getElementById('r-loan').textContent=fmt(loan);
+  document.getElementById('r-need').textContent=fmt(needTotal);
+  document.getElementById('r-nenkin').textContent=fmt(nenkin);
+  document.getElementById('r-spouse').textContent=fmt(spouseTotal)+'（30年分）';
+  document.getElementById('r-savings').textContent=fmt(savings);
+  document.getElementById('r-hitsuyou').textContent=fmt(diff);
+  document.getElementById('res-main').textContent=fmt(diff);
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

@@ -3,13 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>目標心拍数計算｜運動時の適切な心拍数を計算｜はかるん</title>
-  <meta name="description" content="年齢と運動強度を入力するだけで目標心拍数を計算。ウォーキング・ジョギング・高強度トレーニングなど目的別に対応。">
+  <title>熱中症リスク計算｜気温・湿度から危険度を無料判定｜はかるん</title>
+  <meta name="description" content="気温と湿度を入力するだけで熱中症の危険度（WBGT値）を計算。運動・作業の可否判定も表示します。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "何度から熱中症になりやすい？", "acceptedAnswer": { "@type": "Answer", "text": "気温28℃以上・湿度60%以上になると熱中症リスクが高まります。気温31℃・湿度80%のような高温多湿では危険度が急上昇します。気温より湿度の影響が大きいことが特徴です。" } },
+    { "@type": "Question", "name": "WBGTとは何ですか？", "acceptedAnswer": { "@type": "Answer", "text": "WBGT（湿球黒球温度）は熱中症リスクを表す指数で、気温・湿度・輻射熱を考慮した総合的な暑さ指数です。28℃以上で「厳重警戒」、31℃以上で「危険」とされています。" } },
+    { "@type": "Question", "name": "熱中症を防ぐには？", "acceptedAnswer": { "@type": "Answer", "text": "①こまめな水分・塩分補給、②エアコンや扇風機の活用、③直射日光を避ける、④通気性の良い服装、⑤無理な運動を避ける、などが有効です。高齢者・子ども・持病のある方は特に注意が必要です。" } }] }
+  </script>
 </head>
 <body>
 <header>
@@ -147,49 +152,54 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 健康・生活 &rsaquo; 🏃 目標心拍数計算</div>
-      <h1>🏃 目標心拍数計算</h1>
-      <p class="subtitle">年齢から運動時の適切な目標心拍数を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 健康・生活 &rsaquo; 🌡️ 熱中症リスク計算</div>
+      <h1>🌡️ 熱中症リスク計算</h1>
+      <p class="subtitle">気温・湿度から熱中症の危険度（WBGT値）を判定します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>年齢</label>
-        <div class="input-wrap"><input type="number" id="age" placeholder="35" min="10" max="90"><span class="unit">歳</span></div>
+        <label>気温</label>
+        <div class="input-wrap"><input type="number" id="temp" placeholder="35" min="-10" max="50" step="0.1"><span class="unit">℃</span></div>
       </div>
       <div class="form-group">
-        <label>安静時心拍数（省略可）</label>
-        <div class="input-wrap"><input type="number" id="resting" placeholder="70" min="40" max="120"><span class="unit">拍/分</span></div>
-        <p class="hint">朝起きた直後の心拍数。不明な場合は空欄でOK（標準値70を使用）</p>
+        <label>湿度</label>
+        <div class="input-wrap"><input type="number" id="humid" placeholder="70" min="0" max="100"><span class="unit">%</span></div>
       </div>
-      <button class="btn btn-primary" onclick="calc()">計算する</button>
+      <div class="form-group">
+        <label>日差し</label>
+        <div class="input-wrap"><select id="sun">
+          <option value="0">屋内・曇り</option>
+          <option value="2">日なた（晴れ）</option>
+          <option value="4">強い直射日光</option>
+        </select></div>
+      </div>
+      <button class="btn btn-primary" onclick="calc()">判定する</button>
       <div class="result-area" id="result">
-        <div class="result-main">
-          <div class="label">最大心拍数（目安）</div>
-          <div class="value" id="res-max">—</div>
-        </div>
+        <div class="result-main"><div class="label">危険レベル</div><div class="value" id="res-main">—</div></div>
         <div class="result-table"><table><tbody>
-          <tr><td>🚶 軽い運動（40〜50%）</td><td id="res-light">—</td></tr>
-          <tr><td>🏃 有酸素運動・脂肪燃焼（60〜70%）</td><td id="res-fat">—</td></tr>
-          <tr><td>💪 持久力向上（70〜80%）</td><td id="res-cardio">—</td></tr>
-          <tr><td>🔥 高強度トレーニング（80〜90%）</td><td id="res-hard">—</td></tr>
+          <tr><td>気温</td><td id="r-temp">—</td></tr>
+          <tr><td>湿度</td><td id="r-humid">—</td></tr>
+          <tr><td>WBGT値（推定）</td><td id="r-wbgt">—</td></tr>
+          <tr><td>危険レベル</td><td id="r-level">—</td></tr>
+          <tr><td>運動・作業の目安</td><td id="r-act">—</td></tr>
+          <tr><td>対処法</td><td id="r-advice">—</td></tr>
         </tbody></table></div>
-        <div class="info-box" id="info-box">心拍数は個人差があります。体調に合わせて無理のない範囲で運動してください。</div>
       </div>
     </div>
-    <div class="ad-area">広告</div>
     <div class="article">
-      <h2>🏃 目標心拍数計算について</h2>
-      <p>目標心拍数とは、運動の目的に応じた適切な心拍数の範囲のことです。心拍数を意識しながら運動することで、脂肪燃焼・持久力向上・心肺機能強化など、目的に合った効果的なトレーニングが可能になります。</p>
-      <p>一般的に使われる計算式は「最大心拍数 = 220 - 年齢」です。この最大心拍数に対して何%で運動するかによって効果が変わります。脂肪を効率よく燃やしたい場合は60〜70%、心肺機能を高めたい場合は70〜80%が目安とされています。ウォーキングなら40〜50%程度が適切です。</p>
-      <p>運動中に心拍数が高すぎる場合は、ペースを落として安全な範囲に調整することが大切です。特に運動習慣のない方や高齢の方は、無理のない強度から始めましょう。このツールを使って自分の目標心拍数を把握し、より効果的な運動習慣を作ってください。</p>
+      <h2>🌡️ 熱中症リスクと予防方法</h2>
+      <p>熱中症は気温が高いだけでなく、湿度が高いと汗が蒸発しにくくなり体温調節が難しくなるため、より危険になります。WBGT（湿球黒球温度）は気温・湿度・輻射熱を組み合わせた暑さの指標で、熱中症リスクを評価するのに使われます。</p>
+      <p>環境省の熱中症警戒アラートはWBGT値28℃以上で「警戒」、31℃以上で「危険」となります。特に注意が必要なのは、気温が低くても湿度が高い日（梅雨明け直後など）や、急に暑くなった日（体が暑さに慣れていない）、無風の状態などです。</p>
+      <p>熱中症の予防には、こまめな水分補給（1日1.5〜2リットル）と塩分補給が基本です。エアコンの活用・帽子・日傘・通気性のよい服装も有効です。高齢者・子ども・持病のある方は特にリスクが高いため注意が必要です。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item"><div class="faq-q">Q. 最大心拍数とは何ですか？</div><div class="faq-a">運動で出せる最大の心拍数（1分間の心拍数）です。「220－年齢」で計算した値が一般的な目安です。実際は個人差があります。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 脂肪燃焼に最適な心拍数は？</div><div class="faq-a">最大心拍数の60〜70%の範囲が脂肪燃焼に最も効率的とされています。ハアハアしないくらいの会話できる強度が目安です。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 心拍数を測るには？</div><div class="faq-a">スマートウォッチやスマートフォンのカメラ機能で測定できます。手首の脈を10秒数えて6倍にする方法もあります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 何度から熱中症になりやすい？</div><div class="faq-a">気温28℃以上・湿度60%以上になるとリスクが高まります。気温より湿度の影響が大きく、気温が30℃でも湿度90%なら非常に危険です。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. WBGTとは何ですか？</div><div class="faq-a">WBGT（湿球黒球温度）は熱中症リスクを表す指数で、気温・湿度・輻射熱を考慮した総合的な暑さ指数です。28℃以上で「厳重警戒」、31℃以上で「危険」とされています。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 熱中症を防ぐには？</div><div class="faq-a">こまめな水分・塩分補給、エアコン活用、直射日光を避ける、通気性の良い服装、無理な運動を避けることが有効です。</div></div>
     </div>
+    <div class="ad-area">広告</div>
   </div>
 </main>
 <footer>
@@ -208,26 +218,32 @@
   <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 <script>
-function calc() {
-  const age = parseFloat(document.getElementById('age').value);
-  const resting = parseFloat(document.getElementById('resting').value) || 70;
-  if (!age) { alert('年齢を入力してください'); return; }
-  const maxHR = 220 - age;
-  const hrr = maxHR - resting;
-  const range = (lo, hi) => {
-    const a = Math.round(resting + hrr * lo / 100);
-    const b = Math.round(resting + hrr * hi / 100);
-    return `${a}〜${b} 拍/分`;
-  };
-  document.getElementById('res-max').textContent = maxHR + ' 拍/分';
-  document.getElementById('res-light').textContent = range(40, 50);
-  document.getElementById('res-fat').textContent = range(60, 70);
-  document.getElementById('res-cardio').textContent = range(70, 80);
-  document.getElementById('res-hard').textContent = range(80, 90);
+function calc(){
+  const t=parseFloat(document.getElementById('temp').value);
+  const h=parseFloat(document.getElementById('humid').value);
+  const sun=parseFloat(document.getElementById('sun').value);
+  if(isNaN(t)||isNaN(h)){alert('気温と湿度を入力してください');return;}
+  // WBGT簡易計算（屋外）: WBGT ≈ 0.7*Tw + 0.2*Tg + 0.1*Ta
+  // 簡易式: WBGT ≈ 0.567*T + 0.393*(h/100)*6.105*Math.exp(17.27*T/(T+237.3)) + sun - 3.94
+  const vp=6.105*Math.exp(17.27*t/(t+237.3))*(h/100);
+  const wbgt=Math.round((0.567*t+0.393*vp+sun-3.94)*10)/10;
+  let level,act,advice;
+  if(wbgt<21){level='ほぼ安全';act='通常通り活動可';advice='水分補給を忘れずに。';}
+  else if(wbgt<25){level='⚠️ 注意';act='積極的に水分補給';advice='激しい運動では30分に1回水分補給を。';}
+  else if(wbgt<28){level='⚠️ 警戒';act='積極的に休憩を取る';advice='30分おきに休憩。塩分・水分をこまめに補給。';}
+  else if(wbgt<31){level='🔶 厳重警戒';act='激しい運動は中止';advice='体を冷やしながら水分補給。高齢者・子どもは屋内へ。';}
+  else{level='🚨 危険';act='運動は原則中止';advice='外出を避けエアコンのある場所へ。すでに暑い場所にいる場合は涼しい場所へ移動し水分補給を。';}
+  document.getElementById('r-temp').textContent=t+' ℃';
+  document.getElementById('r-humid').textContent=h+' %';
+  document.getElementById('r-wbgt').textContent=wbgt+' ℃';
+  document.getElementById('r-level').textContent=level;
+  document.getElementById('r-act').textContent=act;
+  document.getElementById('r-advice').textContent=advice;
+  document.getElementById('res-main').textContent=level;
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

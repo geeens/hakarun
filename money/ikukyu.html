@@ -3,20 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>目標心拍数計算｜運動時の適切な心拍数を計算｜はかるん</title>
-  <meta name="description" content="年齢と運動強度を入力するだけで目標心拍数を計算。ウォーキング・ジョギング・高強度トレーニングなど目的別に対応。">
+  <title>育児休業給付金計算｜育休中にもらえる金額を無料計算｜はかるん</title>
+  <meta name="description" content="育休前の月収を入力するだけで、育児休業給付金（育休手当）の支給額を計算。6ヶ月前後の変化も一目でわかります。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "育児休業給付金はいくらもらえる？", "acceptedAnswer": { "@type": "Answer", "text": "育休開始から6ヶ月間は休業前賃金の67%、6ヶ月経過後は50%が支給されます。上限額があり、2024年現在、6ヶ月以内は月額約31万円、6ヶ月超は約23万円が上限です。" } },
+    { "@type": "Question", "name": "育休中は社会保険料はかかる？", "acceptedAnswer": { "@type": "Answer", "text": "育休中は健康保険料・厚生年金保険料が免除されます（申請が必要）。そのため手取りベースでは給付金以上の恩恵があります。" } },
+    { "@type": "Question", "name": "育児休業給付金はいつ振り込まれる？", "acceptedAnswer": { "@type": "Answer", "text": "原則2ヶ月ごとにまとめて支給されます。申請は勤務先を通じてハローワークに行います。育休開始から約2〜3ヶ月後に初回が振り込まれることが多いです。" } }] }
+  </script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
     <nav>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../money/tedori.html">💴 手取り計算</a>
@@ -40,7 +45,7 @@
           <a href="../money/shobyo.html">🏥 傷病手当金計算</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../health/bmi.html" class="nav-link">健康・生活 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../health/bmi.html">⚖️ BMI計算</a>
@@ -147,49 +152,53 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 健康・生活 &rsaquo; 🏃 目標心拍数計算</div>
-      <h1>🏃 目標心拍数計算</h1>
-      <p class="subtitle">年齢から運動時の適切な目標心拍数を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; お金・給与 &rsaquo; 👶 育児休業給付金計算</div>
+      <h1>👶 育児休業給付金計算</h1>
+      <p class="subtitle">育休前の月収から育児休業給付金（育休手当）の支給額を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>年齢</label>
-        <div class="input-wrap"><input type="number" id="age" placeholder="35" min="10" max="90"><span class="unit">歳</span></div>
+        <label>育休前の月収（額面）</label>
+        <div class="input-wrap"><input type="number" id="salary" placeholder="300000" min="0"><span class="unit">円</span></div>
+        <p class="hint">育休開始前6ヶ月間の平均月収を入力してください。</p>
       </div>
       <div class="form-group">
-        <label>安静時心拍数（省略可）</label>
-        <div class="input-wrap"><input type="number" id="resting" placeholder="70" min="40" max="120"><span class="unit">拍/分</span></div>
-        <p class="hint">朝起きた直後の心拍数。不明な場合は空欄でOK（標準値70を使用）</p>
+        <label>育休取得期間</label>
+        <div class="input-wrap"><select id="period">
+          <option value="6">6ヶ月</option>
+          <option value="12" selected>12ヶ月（1歳まで）</option>
+          <option value="18">18ヶ月（1歳6ヶ月まで）</option>
+        </select></div>
       </div>
       <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
-        <div class="result-main">
-          <div class="label">最大心拍数（目安）</div>
-          <div class="value" id="res-max">—</div>
-        </div>
+        <div class="result-main"><div class="label">育休期間中の給付金合計</div><div class="value" id="res-main">—</div></div>
         <div class="result-table"><table><tbody>
-          <tr><td>🚶 軽い運動（40〜50%）</td><td id="res-light">—</td></tr>
-          <tr><td>🏃 有酸素運動・脂肪燃焼（60〜70%）</td><td id="res-fat">—</td></tr>
-          <tr><td>💪 持久力向上（70〜80%）</td><td id="res-cardio">—</td></tr>
-          <tr><td>🔥 高強度トレーニング（80〜90%）</td><td id="res-hard">—</td></tr>
+          <tr><td>育休前の月収（額面）</td><td id="r-sal">—</td></tr>
+          <tr><td>前半6ヶ月（月額）67%</td><td id="r-first">—</td></tr>
+          <tr><td>後半（月額）50%</td><td id="r-second">—</td></tr>
+          <tr><td>前半6ヶ月の給付金合計</td><td id="r-first-total">—</td></tr>
+          <tr><td>後半の給付金合計</td><td id="r-second-total">—</td></tr>
+          <tr><td>給付金合計</td><td id="r-total">—</td></tr>
         </tbody></table></div>
-        <div class="info-box" id="info-box">心拍数は個人差があります。体調に合わせて無理のない範囲で運動してください。</div>
+        <div class="info-box">上限額：前半（67%）は月約310,143円、後半（50%）は月約231,450円（2024年度）。社会保険料が免除されるため、実質的な手取りは給付金額より高くなります。</div>
       </div>
     </div>
-    <div class="ad-area">広告</div>
     <div class="article">
-      <h2>🏃 目標心拍数計算について</h2>
-      <p>目標心拍数とは、運動の目的に応じた適切な心拍数の範囲のことです。心拍数を意識しながら運動することで、脂肪燃焼・持久力向上・心肺機能強化など、目的に合った効果的なトレーニングが可能になります。</p>
-      <p>一般的に使われる計算式は「最大心拍数 = 220 - 年齢」です。この最大心拍数に対して何%で運動するかによって効果が変わります。脂肪を効率よく燃やしたい場合は60〜70%、心肺機能を高めたい場合は70〜80%が目安とされています。ウォーキングなら40〜50%程度が適切です。</p>
-      <p>運動中に心拍数が高すぎる場合は、ペースを落として安全な範囲に調整することが大切です。特に運動習慣のない方や高齢の方は、無理のない強度から始めましょう。このツールを使って自分の目標心拍数を把握し、より効果的な運動習慣を作ってください。</p>
+      <h2>👶 育児休業給付金とは</h2>
+      <p>育児休業給付金は、育児休業を取得した労働者に対して雇用保険から支給される給付金です。育休開始から6ヶ月間は休業前賃金（正確には「休業開始時賃金日額×30日」）の67%、6ヶ月経過後は50%が支給されます。</p>
+      <p>育休中は、申請することで健康保険料・厚生年金保険料が免除されます。たとえば月収30万円の人が育休を取った場合、給付金として約20万円（67%）が支給されるうえ、社会保険料の本人負担分（約4.5万円）も免除されるため、実質的な収入減を大幅に抑えられます。</p>
+      <p>2022年10月からは「産後パパ育休」制度が創設され、出生後8週間以内に最大4週間、給付率80%（社保免除を合わせると実質ほぼ手取り同額）の給付が受けられるようになりました。男性の育休取得を促進する制度です。</p>
+      <p>給付金の申請は勤務先を通じて行います。育休開始後、勤務先がハローワークに申請し、2ヶ月ごとにまとめて支給されます。育休を取得する前に勤務先の人事担当者に確認しましょう。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item"><div class="faq-q">Q. 最大心拍数とは何ですか？</div><div class="faq-a">運動で出せる最大の心拍数（1分間の心拍数）です。「220－年齢」で計算した値が一般的な目安です。実際は個人差があります。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 脂肪燃焼に最適な心拍数は？</div><div class="faq-a">最大心拍数の60〜70%の範囲が脂肪燃焼に最も効率的とされています。ハアハアしないくらいの会話できる強度が目安です。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 心拍数を測るには？</div><div class="faq-a">スマートウォッチやスマートフォンのカメラ機能で測定できます。手首の脈を10秒数えて6倍にする方法もあります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 育児休業給付金はいくらもらえる？</div><div class="faq-a">育休開始から6ヶ月間は休業前賃金の67%、6ヶ月経過後は50%が支給されます。上限額があり、前半は月約31万円、後半は月約23万円が上限です。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 育休中は社会保険料はかかる？</div><div class="faq-a">育休中は健康保険料・厚生年金保険料が免除されます（申請が必要）。そのため手取りベースでは給付金以上の恩恵があります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 育児休業給付金はいつ振り込まれる？</div><div class="faq-a">原則2ヶ月ごとにまとめて支給されます。育休開始から約2〜3ヶ月後に初回が振り込まれることが多いです。</div></div>
     </div>
+    <div class="ad-area">広告</div>
   </div>
 </main>
 <footer>
@@ -208,26 +217,30 @@
   <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 <script>
-function calc() {
-  const age = parseFloat(document.getElementById('age').value);
-  const resting = parseFloat(document.getElementById('resting').value) || 70;
-  if (!age) { alert('年齢を入力してください'); return; }
-  const maxHR = 220 - age;
-  const hrr = maxHR - resting;
-  const range = (lo, hi) => {
-    const a = Math.round(resting + hrr * lo / 100);
-    const b = Math.round(resting + hrr * hi / 100);
-    return `${a}〜${b} 拍/分`;
-  };
-  document.getElementById('res-max').textContent = maxHR + ' 拍/分';
-  document.getElementById('res-light').textContent = range(40, 50);
-  document.getElementById('res-fat').textContent = range(60, 70);
-  document.getElementById('res-cardio').textContent = range(70, 80);
-  document.getElementById('res-hard').textContent = range(80, 90);
+const CAP_HIGH=310143, CAP_LOW=231450;
+function calc(){
+  const sal=parseFloat(document.getElementById('salary').value);
+  const period=parseInt(document.getElementById('period').value);
+  if(!sal){alert('月収を入力してください');return;}
+  const high=Math.min(Math.round(sal*0.67),CAP_HIGH);
+  const low=Math.min(Math.round(sal*0.50),CAP_LOW);
+  const firstMonths=Math.min(period,6);
+  const restMonths=Math.max(0,period-6);
+  const firstTotal=high*firstMonths;
+  const restTotal=low*restMonths;
+  const total=firstTotal+restTotal;
+  const fmt=n=>n.toLocaleString('ja-JP')+' 円';
+  document.getElementById('r-sal').textContent=fmt(sal);
+  document.getElementById('r-first').textContent=fmt(high);
+  document.getElementById('r-second').textContent=fmt(low);
+  document.getElementById('r-first-total').textContent=fmt(firstTotal)+'（'+firstMonths+'ヶ月分）';
+  document.getElementById('r-second-total').textContent=restMonths>0?fmt(restTotal)+'（'+restMonths+'ヶ月分）':'—';
+  document.getElementById('r-total').textContent=fmt(total);
+  document.getElementById('res-main').textContent=fmt(total);
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

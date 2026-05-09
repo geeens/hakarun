@@ -3,13 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>目標心拍数計算｜運動時の適切な心拍数を計算｜はかるん</title>
-  <meta name="description" content="年齢と運動強度を入力するだけで目標心拍数を計算。ウォーキング・ジョギング・高強度トレーニングなど目的別に対応。">
+  <title>賃貸vs購入比較｜持ち家と賃貸どちらがお得か無料計算｜はかるん</title>
+  <meta name="description" content="毎月の家賃・住宅ローンを入力して、賃貸と購入の総コストを比較。何年住むとどちらが得かも計算できます。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "賃貸と持ち家どちらが得？", "acceptedAnswer": { "@type": "Answer", "text": "一般的に短期（10年以下）なら賃貸が有利、長期（20〜30年以上）なら購入が有利になることが多いですが、立地・物件価格・家賃水準・維持費などによって大きく異なります。" } },
+    { "@type": "Question", "name": "持ち家の隠れコストは何がある？", "acceptedAnswer": { "@type": "Answer", "text": "固定資産税（年20〜30万円程度）、修繕費（築年数に応じて積立必要）、火災保険・地震保険、マンションなら管理費・修繕積立金などがあります。購入時には仲介手数料・登記費用などの諸費用（物件価格の5〜8%程度）もかかります。" } },
+    { "@type": "Question", "name": "何年住めば購入が得になる？", "acceptedAnswer": { "@type": "Answer", "text": "物件価格・家賃水準・金利などによりますが、一般的に同程度の物件なら10〜15年以上住む場合に購入が有利になることが多いとされています。" } }] }
+  </script>
 </head>
 <body>
 <header>
@@ -40,7 +45,7 @@
           <a href="../money/shobyo.html">🏥 傷病手当金計算</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../health/bmi.html" class="nav-link">健康・生活 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../health/bmi.html">⚖️ BMI計算</a>
@@ -64,7 +69,7 @@
           <a href="../health/shiryoku.html">👁️ 視力・度数変換</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../life/loan.html" class="nav-link">生活・節約 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../life/loan.html">🏦 ローン返済シミュレーション</a>
@@ -147,49 +152,79 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 健康・生活 &rsaquo; 🏃 目標心拍数計算</div>
-      <h1>🏃 目標心拍数計算</h1>
-      <p class="subtitle">年齢から運動時の適切な目標心拍数を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 生活・節約 &rsaquo; 🏠 賃貸vs購入比較</div>
+      <h1>🏠 賃貸vs購入比較</h1>
+      <p class="subtitle">賃貸と持ち家の総コストを比較して、どちらが得かシミュレーションします</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
+      <p style="font-weight:bold;margin:0 0 12px;color:#1a56db">🏠 購入の場合</p>
       <div class="form-group">
-        <label>年齢</label>
-        <div class="input-wrap"><input type="number" id="age" placeholder="35" min="10" max="90"><span class="unit">歳</span></div>
+        <label>物件価格</label>
+        <div class="input-wrap"><input type="number" id="price" placeholder="40000000" min="0"><span class="unit">円</span></div>
       </div>
       <div class="form-group">
-        <label>安静時心拍数（省略可）</label>
-        <div class="input-wrap"><input type="number" id="resting" placeholder="70" min="40" max="120"><span class="unit">拍/分</span></div>
-        <p class="hint">朝起きた直後の心拍数。不明な場合は空欄でOK（標準値70を使用）</p>
+        <label>頭金</label>
+        <div class="input-wrap"><input type="number" id="down" placeholder="5000000" min="0"><span class="unit">円</span></div>
       </div>
-      <button class="btn btn-primary" onclick="calc()">計算する</button>
+      <div class="form-group">
+        <label>ローン金利（年利）</label>
+        <div class="input-wrap"><input type="number" id="rate" placeholder="1.5" min="0" max="10" step="0.1"><span class="unit">%</span></div>
+      </div>
+      <div class="form-group">
+        <label>ローン期間</label>
+        <div class="input-wrap"><select id="loanperiod">
+          <option value="20">20年</option><option value="25">25年</option>
+          <option value="30" selected>30年</option><option value="35">35年</option>
+        </select></div>
+      </div>
+      <div class="form-group">
+        <label>月間維持費（管理費・修繕積立金・固定資産税÷12等）</label>
+        <div class="input-wrap"><input type="number" id="maint" placeholder="30000" min="0"><span class="unit">円</span></div>
+        <p class="hint">マンションは管理費＋修繕積立金で月2〜4万円、固定資産税÷12で月1〜2万円が目安です。</p>
+      </div>
+      <hr style="border:none;border-top:1px solid #e5e7eb;margin:16px 0">
+      <p style="font-weight:bold;margin:0 0 12px;color:#059669">🏢 賃貸の場合</p>
+      <div class="form-group">
+        <label>月額家賃（管理費含む）</label>
+        <div class="input-wrap"><input type="number" id="rent" placeholder="120000" min="0"><span class="unit">円</span></div>
+      </div>
+      <div class="form-group">
+        <label>比較期間</label>
+        <div class="input-wrap"><select id="years">
+          <option value="10">10年</option><option value="20">20年</option>
+          <option value="30" selected>30年</option><option value="40">40年</option>
+        </select></div>
+      </div>
+      <button class="btn btn-primary" onclick="calc()">比較する</button>
       <div class="result-area" id="result">
-        <div class="result-main">
-          <div class="label">最大心拍数（目安）</div>
-          <div class="value" id="res-max">—</div>
-        </div>
+        <div class="result-main"><div class="label">お得な選択</div><div class="value" id="res-main">—</div></div>
         <div class="result-table"><table><tbody>
-          <tr><td>🚶 軽い運動（40〜50%）</td><td id="res-light">—</td></tr>
-          <tr><td>🏃 有酸素運動・脂肪燃焼（60〜70%）</td><td id="res-fat">—</td></tr>
-          <tr><td>💪 持久力向上（70〜80%）</td><td id="res-cardio">—</td></tr>
-          <tr><td>🔥 高強度トレーニング（80〜90%）</td><td id="res-hard">—</td></tr>
+          <tr><th colspan="3" style="background:#f0f4ff;text-align:center">購入の総コスト</th></tr>
+          <tr><td>頭金＋諸費用</td><td id="r-down">—</td><td></td></tr>
+          <tr><td>ローン総支払額</td><td id="r-loan">—</td><td></td></tr>
+          <tr><td>維持費合計</td><td id="r-maint">—</td><td></td></tr>
+          <tr><td colspan="2" style="font-weight:bold">購入総コスト</td><td id="r-buy-total" style="font-weight:bold">—</td></tr>
+          <tr><th colspan="3" style="background:#f0ffe4;text-align:center">賃貸の総コスト</th></tr>
+          <tr><td colspan="2" style="font-weight:bold">賃貸総コスト</td><td id="r-rent-total" style="font-weight:bold">—</td></tr>
+          <tr><td colspan="2">差額</td><td id="r-diff">—</td></tr>
         </tbody></table></div>
-        <div class="info-box" id="info-box">心拍数は個人差があります。体調に合わせて無理のない範囲で運動してください。</div>
+        <div class="info-box">購入の場合は売却時の資産価値（残余価値）がありますが、この計算には含まれていません。住宅ローン控除も考慮していません。あくまで目安としてご活用ください。</div>
       </div>
     </div>
-    <div class="ad-area">広告</div>
     <div class="article">
-      <h2>🏃 目標心拍数計算について</h2>
-      <p>目標心拍数とは、運動の目的に応じた適切な心拍数の範囲のことです。心拍数を意識しながら運動することで、脂肪燃焼・持久力向上・心肺機能強化など、目的に合った効果的なトレーニングが可能になります。</p>
-      <p>一般的に使われる計算式は「最大心拍数 = 220 - 年齢」です。この最大心拍数に対して何%で運動するかによって効果が変わります。脂肪を効率よく燃やしたい場合は60〜70%、心肺機能を高めたい場合は70〜80%が目安とされています。ウォーキングなら40〜50%程度が適切です。</p>
-      <p>運動中に心拍数が高すぎる場合は、ペースを落として安全な範囲に調整することが大切です。特に運動習慣のない方や高齢の方は、無理のない強度から始めましょう。このツールを使って自分の目標心拍数を把握し、より効果的な運動習慣を作ってください。</p>
+      <h2>🏠 賃貸と購入どちらが得か</h2>
+      <p>賃貸と購入の比較は「いくら払うか」だけでなく、ライフスタイル・転勤の可能性・家族構成の変化・資産形成の観点から総合的に判断する必要があります。</p>
+      <p>購入の主なメリットは、①ローン完済後は住居費がほぼゼロになる、②資産として残る（売却・相続が可能）、③自由にリフォームできる、などです。デメリットは、①転勤・転居がしにくい、②修繕費・固定資産税などのランニングコストがかかる、③ローン金利の変動リスクがある、などです。</p>
+      <p>賃貸のメリットは、①引越しが自由、②修繕費は基本的に大家負担、③収入が減ったときにグレードダウンできる柔軟性がある、などです。デメリットは、①払い続けても資産にならない、②老後も家賃負担が続く、③ペット不可・改装不可の制約があることが多い、などです。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item"><div class="faq-q">Q. 最大心拍数とは何ですか？</div><div class="faq-a">運動で出せる最大の心拍数（1分間の心拍数）です。「220－年齢」で計算した値が一般的な目安です。実際は個人差があります。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 脂肪燃焼に最適な心拍数は？</div><div class="faq-a">最大心拍数の60〜70%の範囲が脂肪燃焼に最も効率的とされています。ハアハアしないくらいの会話できる強度が目安です。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 心拍数を測るには？</div><div class="faq-a">スマートウォッチやスマートフォンのカメラ機能で測定できます。手首の脈を10秒数えて6倍にする方法もあります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 賃貸と持ち家どちらが得？</div><div class="faq-a">短期（10年以下）なら賃貸が有利、長期（20〜30年以上）なら購入が有利になることが多いですが、立地・物件価格・家賃水準などによって大きく異なります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 持ち家の隠れコストは何がある？</div><div class="faq-a">固定資産税・修繕費・火災保険・マンションなら管理費・修繕積立金などがあります。購入時の諸費用（物件価格の5〜8%程度）もかかります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 何年住めば購入が得になる？</div><div class="faq-a">一般的に同程度の物件なら10〜15年以上住む場合に購入が有利になることが多いとされています。</div></div>
     </div>
+    <div class="ad-area">広告</div>
   </div>
 </main>
 <footer>
@@ -208,26 +243,37 @@
   <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 <script>
-function calc() {
-  const age = parseFloat(document.getElementById('age').value);
-  const resting = parseFloat(document.getElementById('resting').value) || 70;
-  if (!age) { alert('年齢を入力してください'); return; }
-  const maxHR = 220 - age;
-  const hrr = maxHR - resting;
-  const range = (lo, hi) => {
-    const a = Math.round(resting + hrr * lo / 100);
-    const b = Math.round(resting + hrr * hi / 100);
-    return `${a}〜${b} 拍/分`;
-  };
-  document.getElementById('res-max').textContent = maxHR + ' 拍/分';
-  document.getElementById('res-light').textContent = range(40, 50);
-  document.getElementById('res-fat').textContent = range(60, 70);
-  document.getElementById('res-cardio').textContent = range(70, 80);
-  document.getElementById('res-hard').textContent = range(80, 90);
+function calc(){
+  const price=parseFloat(document.getElementById('price').value)||0;
+  const down=parseFloat(document.getElementById('down').value)||0;
+  const rate=parseFloat(document.getElementById('rate').value)/100/12;
+  const lp=parseInt(document.getElementById('loanperiod').value)*12;
+  const maint=parseFloat(document.getElementById('maint').value)||0;
+  const rent=parseFloat(document.getElementById('rent').value)||0;
+  const years=parseInt(document.getElementById('years').value);
+  if(!price||!rent){alert('物件価格と家賃を入力してください');return;}
+  const principal=price-down;
+  const諸費用=Math.round(price*0.06);
+  let monthlyLoan;
+  if(rate===0)monthlyLoan=principal/lp;
+  else monthlyLoan=principal*rate*Math.pow(1+rate,lp)/(Math.pow(1+rate,lp)-1);
+  const loanTotal=Math.round(monthlyLoan*lp);
+  const maintTotal=maint*12*years;
+  const buyTotal=down+諸費用+loanTotal+maintTotal;
+  const rentTotal=rent*12*years;
+  const diff=buyTotal-rentTotal;
+  const fmt=n=>Math.round(n).toLocaleString('ja-JP')+' 円';
+  document.getElementById('r-down').textContent=fmt(down+諸費用)+'（頭金＋諸費用'+fmt(諸費用)+'）';
+  document.getElementById('r-loan').textContent=fmt(loanTotal)+'（月'+fmt(Math.round(monthlyLoan))+'×'+lp+'回）';
+  document.getElementById('r-maint').textContent=fmt(maintTotal);
+  document.getElementById('r-buy-total').textContent=fmt(buyTotal);
+  document.getElementById('r-rent-total').textContent=fmt(rentTotal);
+  document.getElementById('r-diff').textContent=(diff>0?'購入が'+fmt(diff)+'多い':'賃貸が'+fmt(-diff)+'多い');
+  document.getElementById('res-main').textContent=diff>0?'賃貸が有利（'+years+'年間）':'購入が有利（'+years+'年間）';
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>
