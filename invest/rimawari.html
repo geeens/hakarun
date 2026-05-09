@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>不動産利回り計算｜表面・実質利回りを無料計算｜はかるん</title>
-  <meta name="description" content="物件価格・月額家賃・諸経費を入力するだけで表面利回り・実質利回りを無料計算。不動産投資判断の参考に。">
+  <title>不動産利回り計算｜表面・実質利回り・空室率を無料計算｜はかるん</title>
+  <meta name="description" content="物件価格・月額家賃・諸経費・空室率・購入諸費用を入力するだけで表面利回り・実質利回りを無料計算。不動産投資判断の参考に。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
@@ -147,7 +147,6 @@
           <a href="../invest/teiki.html">🏦 定期預金計算</a>
           <a href="../invest/rogo.html">👴 老後資金計算</a>
           <a href="../invest/seimei.html">🛡️ 生命保険必要額計算</a>
-          <a href="../invest/fudosan.html">🏢 不動産投資利回り計算</a>
         </div>
       </div>
     </nav>
@@ -158,12 +157,12 @@
     <div class="page-header">
       <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 投資・資産 &rsaquo; 🏠 不動産利回り計算</div>
       <h1>🏠 不動産利回り計算</h1>
-      <p class="subtitle">物件価格と家賃から不動産投資の利回りを計算します</p>
+      <p class="subtitle">物件価格・家賃・経費・空室率から表面利回りと実質利回りを計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>物件価格</label>
+        <label>物件購入価格</label>
         <div class="input-wrap"><input type="number" id="price" placeholder="30000000" min="0"><span class="unit">円</span></div>
       </div>
       <div class="form-group">
@@ -180,6 +179,16 @@
         <div class="input-wrap"><input type="number" id="initial" placeholder="1500000" min="0"><span class="unit">円</span></div>
         <p class="hint">仲介手数料・登記費用・ローン手数料など（物件価格の約5〜8%が目安）</p>
       </div>
+      <div class="form-group">
+        <label>想定空室率</label>
+        <div class="input-wrap"><select id="vacancy">
+          <option value="0">0%（満室想定）</option>
+          <option value="5" selected>5%（年間約18日空室）</option>
+          <option value="10">10%（年間約36日空室）</option>
+          <option value="15">15%</option>
+          <option value="20">20%</option>
+        </select></div>
+      </div>
       <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
@@ -187,10 +196,13 @@
           <div class="value" id="res-main">—</div>
         </div>
         <div class="result-table"><table><tbody>
-          <tr><td>年間家賃収入</td><td id="res-rent">—</td></tr>
+          <tr><td>年間家賃収入（満室時）</td><td id="res-rent">—</td></tr>
+          <tr><td>空室考慮後の年間収入</td><td id="res-vacancy-rent">—</td></tr>
+          <tr><td>年間諸経費</td><td id="res-expense">—</td></tr>
+          <tr><td>純収益（NOI）</td><td id="res-noi">—</td></tr>
+          <tr><td>購入コスト合計</td><td id="res-totalcost">—</td></tr>
           <tr><td>表面利回り（グロス）</td><td id="res-gross">—</td></tr>
           <tr><td>実質利回り（ネット）</td><td id="res-net">—</td></tr>
-          <tr><td>年間手取り収入</td><td id="res-income">—</td></tr>
           <tr><td>投資回収年数（実質）</td><td id="res-payback">—</td></tr>
         </tbody></table></div>
         <div class="info-box" id="info-box"></div>
@@ -207,7 +219,7 @@
       <h2>よくある質問</h2>
       <div class="faq-item"><div class="faq-q">Q. 表面利回りと実質利回りの違いは？</div><div class="faq-a">表面利回り（グロス利回り）は年間家賃収入÷物件価格×100%で計算した単純な利回りです。実質利回り（ネット利回り）は管理費・税金・修繕費などの諸経費と購入費用を差し引いた実態に近い利回りです。</div></div>
       <div class="faq-item"><div class="faq-q">Q. 不動産投資の利回りの目安は？</div><div class="faq-a">一般的に表面利回り5〜8%以上、実質利回り3〜5%以上が投資判断の目安とされています。都市部ほど利回りは低く、地方ほど高い傾向があります。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 空室リスクはどう考える？</div><div class="faq-a">このシミュレーターは満室状態を想定しています。実際は空室期間があるため、空室率10〜20%を見込んで計算することをおすすめします。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 空室率はどのくらいで設定すればいい？</div><div class="faq-a">一般的に都市部では5〜10%、地方では10〜20%を見込むのが目安です。このツールの「想定空室率」で設定すると、より実態に近い利回りを計算できます。</div></div>
     </div>
   </div>
 </main>
@@ -233,19 +245,24 @@ function calc() {
   const rent = parseFloat(document.getElementById('rent').value);
   const expense = parseFloat(document.getElementById('expense').value) || 0;
   const initial = parseFloat(document.getElementById('initial').value) || 0;
+  const vacancy = parseFloat(document.getElementById('vacancy').value) / 100;
   if (!price || !rent) { alert('物件価格と月額家賃を入力してください'); return; }
   const annualRent = rent * 12;
-  const gross = annualRent / price * 100;
+  const vacancyRent = annualRent * (1 - vacancy);
+  const noi = vacancyRent - expense;
   const totalCost = price + initial;
-  const netIncome = annualRent - expense;
-  const net = netIncome / totalCost * 100;
-  const payback = netIncome > 0 ? totalCost / netIncome : 0;
+  const gross = annualRent / price * 100;
+  const net = noi / totalCost * 100;
+  const payback = noi > 0 ? totalCost / noi : 0;
   const fmt = n => Math.round(n).toLocaleString('ja-JP') + ' 円';
   document.getElementById('res-main').textContent = net.toFixed(2) + ' %';
   document.getElementById('res-rent').textContent = fmt(annualRent);
+  document.getElementById('res-vacancy-rent').textContent = fmt(vacancyRent);
+  document.getElementById('res-expense').textContent = fmt(expense);
+  document.getElementById('res-noi').textContent = fmt(noi);
+  document.getElementById('res-totalcost').textContent = fmt(totalCost);
   document.getElementById('res-gross').textContent = gross.toFixed(2) + ' %';
   document.getElementById('res-net').textContent = net.toFixed(2) + ' %';
-  document.getElementById('res-income').textContent = fmt(netIncome);
   document.getElementById('res-payback').textContent = payback > 0 ? payback.toFixed(1) + ' 年' : '—';
   const info = document.getElementById('info-box');
   if (net >= 5) info.innerHTML = `<strong>実質利回り${net.toFixed(2)}%：</strong>不動産投資として比較的高い利回りです。`;
