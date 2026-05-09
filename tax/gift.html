@@ -3,26 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>妊娠週数計算｜最終月経日から妊娠週数・出産予定日を無料計算｜はかるん</title>
-  <meta name="description" content="最終月経日を入力するだけで、現在の妊娠週数・妊娠月数・出産予定日・出産までの日数を無料計算します。">
+  <title>贈与税計算｜贈与額から贈与税を無料計算｜はかるん</title>
+  <meta name="description" content="贈与金額・贈与者との関係・受贈者の年齢を入力するだけで、暦年課税の贈与税額を計算します。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
   <script type="application/ld+json">
-  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
-    { "@type": "Question", "name": "妊娠週数の数え方は？", "acceptedAnswer": { "@type": "Answer", "text": "最終月経の初日を0週0日として数えます。受精・着床前の時期から数えるため、妊娠確認時点ですでに4〜6週になっていることが多いです。" } },
-    { "@type": "Question", "name": "出産予定日はどう計算されますか？", "acceptedAnswer": { "@type": "Answer", "text": "最終月経の初日から280日後（40週0日）が出産予定日です。ネーゲレ概算法と呼ばれる国際的な計算方法です。" } },
-    { "@type": "Question", "name": "妊娠月数と妊娠週数の関係は？", "acceptedAnswer": { "@type": "Answer", "text": "妊娠月数は4週を1ヶ月として数えます。1ヶ月目=1〜4週、2ヶ月目=5〜8週、という具合です。妊娠10ヶ月（40週）で出産の時期になります。" } }
-  ] }
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "贈与税の基礎控除はいくら？", "acceptedAnswer": { "@type": "Answer", "text": "贈与税には年間110万円の基礎控除があります。1年間に受け取った贈与の合計が110万円以下であれば贈与税はかかりません。" } },
+    { "@type": "Question", "name": "親から子への贈与は税率が低い？", "acceptedAnswer": { "@type": "Answer", "text": "はい。直系尊属（父母・祖父母など）から18歳以上の子・孫への贈与は「特例贈与」として一般贈与より低い税率が適用されます。" } },
+    { "@type": "Question", "name": "贈与税を非課税にする方法は？", "acceptedAnswer": { "@type": "Answer", "text": "年間110万円以内に抑える方法のほか、住宅取得資金の非課税特例（最大1,000万円）、教育資金の一括贈与の非課税特例（最大1,500万円）などがあります。詳細は税理士にご相談ください。" } }] }
   </script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
-        <nav>
+    <nav>
       <div class="nav-item">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
@@ -49,7 +47,7 @@
           <a href="../money/nenkin.html">🏛️ 年金受給額シミュレーション</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../health/bmi.html" class="nav-link">健康・生活 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../health/bmi.html">⚖️ BMI計算</a>
@@ -114,7 +112,7 @@
           <a href="../date/eigyobi.html">📊 営業日数計算</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../tax/furusato.html" class="nav-link">節税 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../tax/furusato.html">🎎 ふるさと納税 上限額計算</a>
@@ -163,70 +161,56 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 妊娠週数計算</div>
-      <h1>🤰 妊娠週数計算</h1>
-      <p class="subtitle">最終月経日から妊娠週数・出産予定日を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 節税 &rsaquo; 🎁 贈与税計算</div>
+      <h1>🎁 贈与税計算</h1>
+      <p class="subtitle">贈与金額・関係・年齢から暦年課税の贈与税額を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>最終月経の開始日</label>
-        <div class="input-wrap">
-          <input type="date" id="lmp">
-        </div>
-        <p class="hint">最後に生理が始まった日を入力してください</p>
+        <label>1年間の贈与金額（合計）</label>
+        <div class="input-wrap"><input type="number" id="amount" placeholder="3000000" min="0"><span class="unit">円</span></div>
       </div>
-      <button class="btn btn-primary" onclick="calcNinshin()">計算する</button>
+      <div class="form-group">
+        <label>贈与者（あげる人）との関係</label>
+        <div class="input-wrap"><select id="relation">
+          <option value="special">直系尊属（父母・祖父母など）</option>
+          <option value="general">その他（兄弟・他人・配偶者の親など）</option>
+        </select></div>
+      </div>
+      <div class="form-group">
+        <label>受贈者（もらう人）の年齢</label>
+        <div class="input-wrap"><select id="age">
+          <option value="adult">18歳以上</option>
+          <option value="minor">18歳未満</option>
+        </select></div>
+      </div>
+      <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
-        <div class="result-main">
-          <div class="label">現在の妊娠週数</div>
-          <div class="value" id="res-main">—</div>
-        </div>
-        <div class="result-table">
-          <table><tbody>
-            <tr><td>妊娠週数</td><td id="res-weeks">—</td></tr>
-            <tr><td>妊娠月数</td><td id="res-months">—</td></tr>
-            <tr><td>出産予定日</td><td id="res-due">—</td></tr>
-            <tr><td>出産まであと</td><td id="res-togo">—</td></tr>
-          </tbody></table>
-        </div>
-        <div class="info-box">
-          ⚠️ この計算は目安です。正確な週数・予定日は産婦人科の超音波検査で確認してください。
-        </div>
+        <div class="result-main"><div class="label">贈与税額</div><div class="value" id="res-main">—</div></div>
+        <div class="result-table"><table><tbody>
+          <tr><td>贈与金額</td><td id="r-amount">—</td></tr>
+          <tr><td>基礎控除</td><td id="r-kojo">▲1,100,000円</td></tr>
+          <tr><td>課税価格</td><td id="r-kazei">—</td></tr>
+          <tr><td>税率区分</td><td id="r-type">—</td></tr>
+          <tr><td>税率</td><td id="r-rate">—</td></tr>
+          <tr><td>控除額</td><td id="r-ctrl">—</td></tr>
+          <tr><td>贈与税額</td><td id="r-tax">—</td></tr>
+          <tr><td>実効税率</td><td id="r-effective">—</td></tr>
+        </tbody></table></div>
+        <div class="info-box">2024年現在の税率で計算しています。相続時精算課税制度を選択している場合は計算方法が異なります。正確な申告は税理士にご相談ください。</div>
       </div>
     </div>
     <div class="ad-area">広告</div>
-
-    <div class="article">
-      <h2>妊娠週数の数え方と出産予定日の計算</h2>
-      <p>妊娠週数は最終月経の初日を「0週0日」として数えます。受精は排卵日（最終月経から約2週間後）に起こるため、妊娠2週0日が実際の受精時期の目安です。出産予定日は最終月経の初日から280日後（40週0日）として計算します。この計算方法は世界的に標準として使われています。</p>
-      <p>妊娠は一般的に40週を1サイクルとして考えます。妊娠初期（〜13週）は基礎的な体の形成が進む重要な時期で、つわりが起きやすい時期でもあります。中期（14〜27週）は胎動が感じられ安定する時期、後期（28週〜）は赤ちゃんが急成長する時期です。</p>
-      <p>月数は「妊娠週数÷4」で概算できます（例：16週＝妊娠5ヶ月目の始め）。ただし正確な出産予定日は超音波検査の結果をもとに産婦人科医が決定します。このツールの計算結果はあくまで目安ですので、必ず医療機関での確認をお願いします。</p>
-    </div>
-    <div class="article">
-      <h2>よくある質問</h2>
-      <div class="faq-item">
-        <div class="faq-q">Q. 妊娠週数の数え方は？</div>
-        <div class="faq-a">最終月経の初日を0週0日として数えます。受精・着床前の時期から数えるため、妊娠確認時点ですでに4〜6週になっていることが多いです。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. 出産予定日はどう計算されますか？</div>
-        <div class="faq-a">最終月経の初日から280日後（40週0日）が出産予定日です。ネーゲレ概算法と呼ばれる国際的な計算方法です。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. 妊娠月数と妊娠週数の関係は？</div>
-        <div class="faq-a">妊娠月数は4週を1ヶ月として数えます。1ヶ月目=1〜4週、2ヶ月目=5〜8週、という具合です。妊娠10ヶ月（40週）で出産の時期になります。</div>
-      </div>
-    </div>
   </div>
 </main>
 <footer>
   <div class="footer-logo">📐 はかるん</div>
   <div class="footer-links">
     <a href="../index.html">トップ</a>
-    <a href="bmi.html">BMI計算</a>
-    <a href="taishibo.html">体脂肪率計算</a>
-    <a href="suimin.html">睡眠時間計算</a>
+    <a href="../money/tedori.html">手取り計算</a>
+    <a href="../invest/nisa.html">NISA計算</a>
+    <a href="../tax/furusato.html">ふるさと納税</a>
   </div>
   <div class="footer-links" style="margin-top:12px">
     <a href="../privacy.html">プライバシーポリシー</a>
@@ -236,32 +220,49 @@
   <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 <script>
-function fmtDate(d) {
-  return d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日';
-}
-function calcNinshin() {
-  var val = document.getElementById('lmp').value;
-  if (!val) { alert('最終月経の開始日を入力してください'); return; }
-  var lmp = new Date(val);
-  var today = new Date();
-  today.setHours(0,0,0,0);
-  var days = Math.floor((today - lmp) / 86400000);
-  if (days < 0) { alert('日付が未来になっています。正しい日付を入力してください'); return; }
-  var weeks = Math.floor(days / 7);
-  var daysMod = days % 7;
-  var dueDate = new Date(lmp);
-  dueDate.setDate(dueDate.getDate() + 280);
-  var daysToGo = Math.floor((dueDate - today) / 86400000);
-  var months = Math.ceil((weeks + 1) / 4);
-  document.getElementById('res-main').textContent = weeks + '週' + daysMod + '日';
-  document.getElementById('res-weeks').textContent = weeks + '週' + daysMod + '日';
-  document.getElementById('res-months').textContent = '妊娠' + months + 'ヶ月';
-  document.getElementById('res-due').textContent = fmtDate(dueDate);
-  document.getElementById('res-togo').textContent = daysToGo > 0 ? daysToGo + '日' : '予定日を過ぎています';
+function fmt(n){return Math.round(n).toLocaleString()+'円';}
+function calc(){
+  var amount=parseFloat(document.getElementById('amount').value)||0;
+  var relation=document.getElementById('relation').value;
+  var age=document.getElementById('age').value;
+  if(amount<=0){alert('贈与金額を入力してください');return;}
+  var kojo=1100000;
+  var kazei=Math.max(0,amount-kojo);
+  if(kazei===0){
+    document.getElementById('r-amount').textContent=fmt(amount);
+    document.getElementById('r-kazei').textContent=fmt(0);
+    document.getElementById('r-type').textContent='基礎控除内';
+    document.getElementById('r-rate').textContent='0%';
+    document.getElementById('r-ctrl').textContent='0円';
+    document.getElementById('r-tax').textContent='0円';
+    document.getElementById('r-effective').textContent='0%';
+    document.getElementById('res-main').textContent='0円（非課税）';
+    document.getElementById('result').classList.add('show');
+    return;
+  }
+  var isSpecial=relation==='special'&&age==='adult';
+  var tax=0,rate=0,ctrl=0;
+  if(isSpecial){
+    var sp=[[2000000,0.10,0],[4000000,0.15,100000],[6000000,0.20,300000],[10000000,0.30,900000],[15000000,0.40,1900000],[30000000,0.45,2650000],[Infinity,0.55,4150000]];
+    for(var i=0;i<sp.length;i++){if(kazei<=sp[i][0]){rate=sp[i][1];ctrl=sp[i][2];break;}}
+  } else {
+    var gn=[[2000000,0.10,0],[3000000,0.15,100000],[4000000,0.20,250000],[6000000,0.30,650000],[10000000,0.40,1250000],[15000000,0.45,1750000],[30000000,0.50,2500000],[Infinity,0.55,4000000]];
+    for(var i=0;i<gn.length;i++){if(kazei<=gn[i][0]){rate=gn[i][1];ctrl=gn[i][2];break;}}
+  }
+  tax=Math.floor(kazei*rate-ctrl);
+  var effective=amount>0?(tax/amount*100).toFixed(1):0;
+  document.getElementById('r-amount').textContent=fmt(amount);
+  document.getElementById('r-kazei').textContent=fmt(kazei);
+  document.getElementById('r-type').textContent=isSpecial?'特例贈与（直系尊属→18歳以上）':'一般贈与';
+  document.getElementById('r-rate').textContent=(rate*100)+'%';
+  document.getElementById('r-ctrl').textContent=fmt(ctrl);
+  document.getElementById('r-tax').textContent=fmt(tax);
+  document.getElementById('r-effective').textContent=effective+'%';
+  document.getElementById('res-main').textContent=fmt(tax);
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

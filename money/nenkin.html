@@ -3,27 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>妊娠週数計算｜最終月経日から妊娠週数・出産予定日を無料計算｜はかるん</title>
-  <meta name="description" content="最終月経日を入力するだけで、現在の妊娠週数・妊娠月数・出産予定日・出産までの日数を無料計算します。">
+  <title>年金受給額シミュレーション｜老後の年金額を無料計算｜はかるん</title>
+  <meta name="description" content="現在年齢・加入年数・平均年収を入力するだけで、老齢基礎年金と老齢厚生年金の受給見込み額を計算します。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
   <script type="application/ld+json">
-  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
-    { "@type": "Question", "name": "妊娠週数の数え方は？", "acceptedAnswer": { "@type": "Answer", "text": "最終月経の初日を0週0日として数えます。受精・着床前の時期から数えるため、妊娠確認時点ですでに4〜6週になっていることが多いです。" } },
-    { "@type": "Question", "name": "出産予定日はどう計算されますか？", "acceptedAnswer": { "@type": "Answer", "text": "最終月経の初日から280日後（40週0日）が出産予定日です。ネーゲレ概算法と呼ばれる国際的な計算方法です。" } },
-    { "@type": "Question", "name": "妊娠月数と妊娠週数の関係は？", "acceptedAnswer": { "@type": "Answer", "text": "妊娠月数は4週を1ヶ月として数えます。1ヶ月目=1〜4週、2ヶ月目=5〜8週、という具合です。妊娠10ヶ月（40週）で出産の時期になります。" } }
-  ] }
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "年金はいくらもらえる？", "acceptedAnswer": { "@type": "Answer", "text": "老齢基礎年金の満額は年816,000円（月68,000円）です。40年間国民年金に加入した場合の金額です。厚生年金加入者はこれに加えて報酬比例部分が上乗せされます。" } },
+    { "@type": "Question", "name": "厚生年金はいくらもらえる？", "acceptedAnswer": { "@type": "Answer", "text": "老齢厚生年金は「平均標準報酬月額×5.481÷1000×加入月数」で概算できます。平均月収30万円で30年加入した場合、月約5.9万円が目安です。" } },
+    { "@type": "Question", "name": "年金の受給開始年齢は？", "acceptedAnswer": { "@type": "Answer", "text": "原則65歳から受給開始です。繰り上げ受給（60〜64歳）は毎月0.4%減額、繰り下げ受給（66〜75歳）は毎月0.7%増額されます。" } }] }
   </script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
-        <nav>
-      <div class="nav-item">
+    <nav>
+      <div class="nav-item active">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../money/tedori.html">💴 手取り計算</a>
@@ -49,7 +47,7 @@
           <a href="../money/nenkin.html">🏛️ 年金受給額シミュレーション</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../health/bmi.html" class="nav-link">健康・生活 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../health/bmi.html">⚖️ BMI計算</a>
@@ -163,70 +161,65 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 妊娠週数計算</div>
-      <h1>🤰 妊娠週数計算</h1>
-      <p class="subtitle">最終月経日から妊娠週数・出産予定日を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; お金・給与 &rsaquo; 🏛️ 年金受給額シミュレーション</div>
+      <h1>🏛️ 年金受給額シミュレーション</h1>
+      <p class="subtitle">現在年齢・加入期間・平均年収から老後の年金受給額を推計します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>最終月経の開始日</label>
-        <div class="input-wrap">
-          <input type="date" id="lmp">
-        </div>
-        <p class="hint">最後に生理が始まった日を入力してください</p>
+        <label>現在の年齢</label>
+        <div class="input-wrap"><input type="number" id="age" placeholder="40" min="20" max="64"><span class="unit">歳</span></div>
       </div>
-      <button class="btn btn-primary" onclick="calcNinshin()">計算する</button>
+      <div class="form-group">
+        <label>国民年金（基礎年金）加入済み年数</label>
+        <div class="input-wrap"><input type="number" id="kiso" placeholder="20" min="0" max="40"><span class="unit">年</span></div>
+        <p class="hint">会社員・公務員の厚生年金加入期間も含みます（自動的に国民年金にも加入）</p>
+      </div>
+      <div class="form-group">
+        <label>65歳まで引き続き加入予定</label>
+        <div class="input-wrap"><select id="future">
+          <option value="yes" selected>はい（会社員・公務員継続）</option>
+          <option value="no">いいえ（現在の加入年数のみ）</option>
+        </select></div>
+      </div>
+      <div class="form-group">
+        <label>厚生年金加入の有無</label>
+        <div class="input-wrap"><select id="kousei">
+          <option value="yes" selected>あり（会社員・公務員）</option>
+          <option value="no">なし（自営業・フリーランス等）</option>
+        </select></div>
+      </div>
+      <div class="form-group" id="salaryArea">
+        <label>厚生年金加入期間の平均月収（額面）</label>
+        <div class="input-wrap"><input type="number" id="avgSal" placeholder="300000" min="0"><span class="unit">円</span></div>
+      </div>
+      <div class="form-group" id="kouseiyearsArea">
+        <label>厚生年金加入済み年数</label>
+        <div class="input-wrap"><input type="number" id="kouseiyears" placeholder="20" min="0" max="45"><span class="unit">年</span></div>
+      </div>
+      <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
-        <div class="result-main">
-          <div class="label">現在の妊娠週数</div>
-          <div class="value" id="res-main">—</div>
-        </div>
-        <div class="result-table">
-          <table><tbody>
-            <tr><td>妊娠週数</td><td id="res-weeks">—</td></tr>
-            <tr><td>妊娠月数</td><td id="res-months">—</td></tr>
-            <tr><td>出産予定日</td><td id="res-due">—</td></tr>
-            <tr><td>出産まであと</td><td id="res-togo">—</td></tr>
-          </tbody></table>
-        </div>
-        <div class="info-box">
-          ⚠️ この計算は目安です。正確な週数・予定日は産婦人科の超音波検査で確認してください。
-        </div>
+        <div class="result-main"><div class="label">月額年金受給見込み額（65歳時）</div><div class="value" id="res-main">—</div></div>
+        <div class="result-table"><table><tbody>
+          <tr><td>老齢基礎年金（月額）</td><td id="r-kiso">—</td></tr>
+          <tr><td>老齢厚生年金（月額）</td><td id="r-kousei">—</td></tr>
+          <tr><td>合計月額</td><td id="r-total">—</td></tr>
+          <tr><td>合計年額</td><td id="r-year">—</td></tr>
+        </tbody></table></div>
+        <div class="info-box">※ あくまで目安の計算です。実際の受給額は日本年金機構の「ねんきんネット」でご確認ください。2024年度の基準で計算しています。</div>
       </div>
     </div>
     <div class="ad-area">広告</div>
-
-    <div class="article">
-      <h2>妊娠週数の数え方と出産予定日の計算</h2>
-      <p>妊娠週数は最終月経の初日を「0週0日」として数えます。受精は排卵日（最終月経から約2週間後）に起こるため、妊娠2週0日が実際の受精時期の目安です。出産予定日は最終月経の初日から280日後（40週0日）として計算します。この計算方法は世界的に標準として使われています。</p>
-      <p>妊娠は一般的に40週を1サイクルとして考えます。妊娠初期（〜13週）は基礎的な体の形成が進む重要な時期で、つわりが起きやすい時期でもあります。中期（14〜27週）は胎動が感じられ安定する時期、後期（28週〜）は赤ちゃんが急成長する時期です。</p>
-      <p>月数は「妊娠週数÷4」で概算できます（例：16週＝妊娠5ヶ月目の始め）。ただし正確な出産予定日は超音波検査の結果をもとに産婦人科医が決定します。このツールの計算結果はあくまで目安ですので、必ず医療機関での確認をお願いします。</p>
-    </div>
-    <div class="article">
-      <h2>よくある質問</h2>
-      <div class="faq-item">
-        <div class="faq-q">Q. 妊娠週数の数え方は？</div>
-        <div class="faq-a">最終月経の初日を0週0日として数えます。受精・着床前の時期から数えるため、妊娠確認時点ですでに4〜6週になっていることが多いです。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. 出産予定日はどう計算されますか？</div>
-        <div class="faq-a">最終月経の初日から280日後（40週0日）が出産予定日です。ネーゲレ概算法と呼ばれる国際的な計算方法です。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. 妊娠月数と妊娠週数の関係は？</div>
-        <div class="faq-a">妊娠月数は4週を1ヶ月として数えます。1ヶ月目=1〜4週、2ヶ月目=5〜8週、という具合です。妊娠10ヶ月（40週）で出産の時期になります。</div>
-      </div>
-    </div>
   </div>
 </main>
 <footer>
   <div class="footer-logo">📐 はかるん</div>
   <div class="footer-links">
     <a href="../index.html">トップ</a>
-    <a href="bmi.html">BMI計算</a>
-    <a href="taishibo.html">体脂肪率計算</a>
-    <a href="suimin.html">睡眠時間計算</a>
+    <a href="../money/tedori.html">手取り計算</a>
+    <a href="../invest/nisa.html">NISA計算</a>
+    <a href="../tax/furusato.html">ふるさと納税</a>
   </div>
   <div class="footer-links" style="margin-top:12px">
     <a href="../privacy.html">プライバシーポリシー</a>
@@ -236,32 +229,40 @@
   <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 <script>
-function fmtDate(d) {
-  return d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日';
-}
-function calcNinshin() {
-  var val = document.getElementById('lmp').value;
-  if (!val) { alert('最終月経の開始日を入力してください'); return; }
-  var lmp = new Date(val);
-  var today = new Date();
-  today.setHours(0,0,0,0);
-  var days = Math.floor((today - lmp) / 86400000);
-  if (days < 0) { alert('日付が未来になっています。正しい日付を入力してください'); return; }
-  var weeks = Math.floor(days / 7);
-  var daysMod = days % 7;
-  var dueDate = new Date(lmp);
-  dueDate.setDate(dueDate.getDate() + 280);
-  var daysToGo = Math.floor((dueDate - today) / 86400000);
-  var months = Math.ceil((weeks + 1) / 4);
-  document.getElementById('res-main').textContent = weeks + '週' + daysMod + '日';
-  document.getElementById('res-weeks').textContent = weeks + '週' + daysMod + '日';
-  document.getElementById('res-months').textContent = '妊娠' + months + 'ヶ月';
-  document.getElementById('res-due').textContent = fmtDate(dueDate);
-  document.getElementById('res-togo').textContent = daysToGo > 0 ? daysToGo + '日' : '予定日を過ぎています';
+document.getElementById('kousei').addEventListener('change',function(){
+  var v=this.value==='yes';
+  document.getElementById('salaryArea').style.display=v?'':'none';
+  document.getElementById('kouseiyearsArea').style.display=v?'':'none';
+});
+function fmt(n){return Math.round(n).toLocaleString()+'円';}
+function calc(){
+  var age=parseFloat(document.getElementById('age').value)||0;
+  var kiso=parseFloat(document.getElementById('kiso').value)||0;
+  var future=document.getElementById('future').value;
+  var kousei=document.getElementById('kousei').value;
+  var avgSal=parseFloat(document.getElementById('avgSal').value)||0;
+  var kouseiyears=parseFloat(document.getElementById('kouseiyears').value)||0;
+  if(age<=0||age>=65){alert('現在の年齢を20〜64歳の範囲で入力してください');return;}
+  var totalKiso=kiso;
+  if(future==='yes') totalKiso=Math.min(40,kiso+(65-age));
+  totalKiso=Math.min(40,totalKiso);
+  var kisoMonth=816000*totalKiso/40/12;
+  var kouseiMonth=0;
+  if(kousei==='yes'){
+    var totalKouseiMonths=kouseiyears*12;
+    if(future==='yes') totalKouseiMonths=Math.min(45*12,(kouseiyears+(65-age))*12);
+    kouseiMonth=avgSal*5.481/1000*totalKouseiMonths/12;
+  }
+  var total=kisoMonth+kouseiMonth;
+  document.getElementById('r-kiso').textContent=fmt(kisoMonth)+'/月';
+  document.getElementById('r-kousei').textContent=fmt(kouseiMonth)+'/月';
+  document.getElementById('r-total').textContent=fmt(total)+'/月';
+  document.getElementById('r-year').textContent=fmt(total*12)+'/年';
+  document.getElementById('res-main').textContent=fmt(total)+'/月';
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

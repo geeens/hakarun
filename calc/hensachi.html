@@ -3,26 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>妊娠週数計算｜最終月経日から妊娠週数・出産予定日を無料計算｜はかるん</title>
-  <meta name="description" content="最終月経日を入力するだけで、現在の妊娠週数・妊娠月数・出産予定日・出産までの日数を無料計算します。">
+  <title>偏差値計算｜点数・平均点・標準偏差から偏差値を無料計算｜はかるん</title>
+  <meta name="description" content="点数・平均点・標準偏差を入力するだけで偏差値を計算。テストの点数リストから自動計算もできます。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
   <script type="application/ld+json">
-  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
-    { "@type": "Question", "name": "妊娠週数の数え方は？", "acceptedAnswer": { "@type": "Answer", "text": "最終月経の初日を0週0日として数えます。受精・着床前の時期から数えるため、妊娠確認時点ですでに4〜6週になっていることが多いです。" } },
-    { "@type": "Question", "name": "出産予定日はどう計算されますか？", "acceptedAnswer": { "@type": "Answer", "text": "最終月経の初日から280日後（40週0日）が出産予定日です。ネーゲレ概算法と呼ばれる国際的な計算方法です。" } },
-    { "@type": "Question", "name": "妊娠月数と妊娠週数の関係は？", "acceptedAnswer": { "@type": "Answer", "text": "妊娠月数は4週を1ヶ月として数えます。1ヶ月目=1〜4週、2ヶ月目=5〜8週、という具合です。妊娠10ヶ月（40週）で出産の時期になります。" } }
-  ] }
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "偏差値の計算方法は？", "acceptedAnswer": { "@type": "Answer", "text": "偏差値 = (自分の点数 − 平均点) ÷ 標準偏差 × 10 + 50 で計算します。平均点と同じなら偏差値は50、標準偏差1個分上なら60になります。" } },
+    { "@type": "Question", "name": "偏差値50はどのくらいのレベル？", "acceptedAnswer": { "@type": "Answer", "text": "偏差値50はちょうど平均のレベルです。偏差値60以上は上位約16%、偏差値70以上は上位約2%に相当します。" } },
+    { "@type": "Question", "name": "標準偏差とは何ですか？", "acceptedAnswer": { "@type": "Answer", "text": "標準偏差とは、点数のばらつき（散らばり）の大きさを表す数値です。全員が同じ点数なら0、点数のばらつきが大きいほど数値が大きくなります。" } }] }
   </script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
-        <nav>
+    <nav>
       <div class="nav-item">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
@@ -49,7 +47,7 @@
           <a href="../money/nenkin.html">🏛️ 年金受給額シミュレーション</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../health/bmi.html" class="nav-link">健康・生活 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../health/bmi.html">⚖️ BMI計算</a>
@@ -127,7 +125,7 @@
           <a href="../tax/gift.html">🎁 贈与税計算</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../calc/percent.html" class="nav-link">計算・変換 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../calc/percent.html">🔢 パーセント計算</a>
@@ -163,70 +161,67 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 妊娠週数計算</div>
-      <h1>🤰 妊娠週数計算</h1>
-      <p class="subtitle">最終月経日から妊娠週数・出産予定日を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 計算・変換 &rsaquo; 📊 偏差値計算</div>
+      <h1>📊 偏差値計算</h1>
+      <p class="subtitle">点数・平均点・標準偏差から偏差値を計算します。点数リスト入力にも対応</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>最終月経の開始日</label>
-        <div class="input-wrap">
-          <input type="date" id="lmp">
-        </div>
-        <p class="hint">最後に生理が始まった日を入力してください</p>
+        <label>計算モード</label>
+        <div class="input-wrap"><select id="mode" onchange="switchMode()">
+          <option value="simple">かんたん入力（平均・標準偏差がわかる場合）</option>
+          <option value="list">点数リスト入力（自動で平均・標準偏差を計算）</option>
+        </select></div>
       </div>
-      <button class="btn btn-primary" onclick="calcNinshin()">計算する</button>
+      <div id="simpleMode">
+        <div class="form-group">
+          <label>自分の点数</label>
+          <div class="input-wrap"><input type="number" id="myScore" placeholder="75"><span class="unit">点</span></div>
+        </div>
+        <div class="form-group">
+          <label>平均点</label>
+          <div class="input-wrap"><input type="number" id="avg" placeholder="60"><span class="unit">点</span></div>
+        </div>
+        <div class="form-group">
+          <label>標準偏差</label>
+          <div class="input-wrap"><input type="number" id="sd" placeholder="15"><span class="unit"></span></div>
+          <p class="hint">模試の成績表や先生から教えてもらった値を入力してください</p>
+        </div>
+      </div>
+      <div id="listMode" style="display:none">
+        <div class="form-group">
+          <label>自分の点数</label>
+          <div class="input-wrap"><input type="number" id="myScore2" placeholder="75"><span class="unit">点</span></div>
+        </div>
+        <div class="form-group">
+          <label>全員の点数（カンマまたは改行区切り）</label>
+          <textarea id="scoreList" rows="5" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:1rem;" placeholder="75, 60, 85, 45, 70, 55, 90, 65, 80, 50"></textarea>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="calc()">偏差値を計算する</button>
       <div class="result-area" id="result">
-        <div class="result-main">
-          <div class="label">現在の妊娠週数</div>
-          <div class="value" id="res-main">—</div>
-        </div>
-        <div class="result-table">
-          <table><tbody>
-            <tr><td>妊娠週数</td><td id="res-weeks">—</td></tr>
-            <tr><td>妊娠月数</td><td id="res-months">—</td></tr>
-            <tr><td>出産予定日</td><td id="res-due">—</td></tr>
-            <tr><td>出産まであと</td><td id="res-togo">—</td></tr>
-          </tbody></table>
-        </div>
-        <div class="info-box">
-          ⚠️ この計算は目安です。正確な週数・予定日は産婦人科の超音波検査で確認してください。
-        </div>
+        <div class="result-main"><div class="label">偏差値</div><div class="value" id="res-main">—</div></div>
+        <div class="result-table"><table><tbody>
+          <tr><td>自分の点数</td><td id="r-my">—</td></tr>
+          <tr><td>平均点</td><td id="r-avg">—</td></tr>
+          <tr><td>標準偏差</td><td id="r-sd">—</td></tr>
+          <tr><td>偏差値</td><td id="r-hensachi">—</td></tr>
+          <tr><td>上位何%？</td><td id="r-rank">—</td></tr>
+        </tbody></table></div>
+        <div class="info-box" id="r-comment">—</div>
       </div>
     </div>
     <div class="ad-area">広告</div>
-
-    <div class="article">
-      <h2>妊娠週数の数え方と出産予定日の計算</h2>
-      <p>妊娠週数は最終月経の初日を「0週0日」として数えます。受精は排卵日（最終月経から約2週間後）に起こるため、妊娠2週0日が実際の受精時期の目安です。出産予定日は最終月経の初日から280日後（40週0日）として計算します。この計算方法は世界的に標準として使われています。</p>
-      <p>妊娠は一般的に40週を1サイクルとして考えます。妊娠初期（〜13週）は基礎的な体の形成が進む重要な時期で、つわりが起きやすい時期でもあります。中期（14〜27週）は胎動が感じられ安定する時期、後期（28週〜）は赤ちゃんが急成長する時期です。</p>
-      <p>月数は「妊娠週数÷4」で概算できます（例：16週＝妊娠5ヶ月目の始め）。ただし正確な出産予定日は超音波検査の結果をもとに産婦人科医が決定します。このツールの計算結果はあくまで目安ですので、必ず医療機関での確認をお願いします。</p>
-    </div>
-    <div class="article">
-      <h2>よくある質問</h2>
-      <div class="faq-item">
-        <div class="faq-q">Q. 妊娠週数の数え方は？</div>
-        <div class="faq-a">最終月経の初日を0週0日として数えます。受精・着床前の時期から数えるため、妊娠確認時点ですでに4〜6週になっていることが多いです。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. 出産予定日はどう計算されますか？</div>
-        <div class="faq-a">最終月経の初日から280日後（40週0日）が出産予定日です。ネーゲレ概算法と呼ばれる国際的な計算方法です。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. 妊娠月数と妊娠週数の関係は？</div>
-        <div class="faq-a">妊娠月数は4週を1ヶ月として数えます。1ヶ月目=1〜4週、2ヶ月目=5〜8週、という具合です。妊娠10ヶ月（40週）で出産の時期になります。</div>
-      </div>
-    </div>
   </div>
 </main>
 <footer>
   <div class="footer-logo">📐 はかるん</div>
   <div class="footer-links">
     <a href="../index.html">トップ</a>
-    <a href="bmi.html">BMI計算</a>
-    <a href="taishibo.html">体脂肪率計算</a>
-    <a href="suimin.html">睡眠時間計算</a>
+    <a href="../money/tedori.html">手取り計算</a>
+    <a href="../invest/nisa.html">NISA計算</a>
+    <a href="../tax/furusato.html">ふるさと納税</a>
   </div>
   <div class="footer-links" style="margin-top:12px">
     <a href="../privacy.html">プライバシーポリシー</a>
@@ -236,32 +231,56 @@
   <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 <script>
-function fmtDate(d) {
-  return d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日';
+function switchMode(){
+  var m=document.getElementById('mode').value;
+  document.getElementById('simpleMode').style.display=m==='simple'?'':'none';
+  document.getElementById('listMode').style.display=m==='list'?'':'none';
 }
-function calcNinshin() {
-  var val = document.getElementById('lmp').value;
-  if (!val) { alert('最終月経の開始日を入力してください'); return; }
-  var lmp = new Date(val);
-  var today = new Date();
-  today.setHours(0,0,0,0);
-  var days = Math.floor((today - lmp) / 86400000);
-  if (days < 0) { alert('日付が未来になっています。正しい日付を入力してください'); return; }
-  var weeks = Math.floor(days / 7);
-  var daysMod = days % 7;
-  var dueDate = new Date(lmp);
-  dueDate.setDate(dueDate.getDate() + 280);
-  var daysToGo = Math.floor((dueDate - today) / 86400000);
-  var months = Math.ceil((weeks + 1) / 4);
-  document.getElementById('res-main').textContent = weeks + '週' + daysMod + '日';
-  document.getElementById('res-weeks').textContent = weeks + '週' + daysMod + '日';
-  document.getElementById('res-months').textContent = '妊娠' + months + 'ヶ月';
-  document.getElementById('res-due').textContent = fmtDate(dueDate);
-  document.getElementById('res-togo').textContent = daysToGo > 0 ? daysToGo + '日' : '予定日を過ぎています';
+function normalCDF(z){
+  var t=1/(1+0.2316419*Math.abs(z));
+  var d=0.3989423*Math.exp(-z*z/2);
+  var p=d*t*(0.3193815+t*(-0.3565638+t*(1.7814779+t*(-1.8212560+t*1.3302744))));
+  return z>0?1-p:p;
+}
+function calc(){
+  var mode=document.getElementById('mode').value;
+  var my,avg,sd;
+  if(mode==='simple'){
+    my=parseFloat(document.getElementById('myScore').value);
+    avg=parseFloat(document.getElementById('avg').value);
+    sd=parseFloat(document.getElementById('sd').value);
+    if(isNaN(my)||isNaN(avg)||isNaN(sd)||sd<=0){alert('すべての値を正しく入力してください（標準偏差は0より大きい値）');return;}
+  } else {
+    my=parseFloat(document.getElementById('myScore2').value);
+    var raw=document.getElementById('scoreList').value.split(/[,\n\s]+/).map(Number).filter(function(n){return !isNaN(n)&&n!==null;});
+    if(isNaN(my)||raw.length<2){alert('自分の点数と2つ以上の点数リストを入力してください');return;}
+    avg=raw.reduce(function(a,b){return a+b;})/raw.length;
+    var variance=raw.reduce(function(s,x){return s+(x-avg)*(x-avg);},0)/raw.length;
+    sd=Math.sqrt(variance);
+    if(sd===0){alert('点数がすべて同じため標準偏差が0です。異なる点数を入力してください');return;}
+  }
+  var hensachi=(my-avg)/sd*10+50;
+  var z=(my-avg)/sd;
+  var upper=(1-normalCDF(z))*100;
+  var comment;
+  if(hensachi>=70) comment='偏差値70以上！上位約2%の優秀なスコアです。';
+  else if(hensachi>=65) comment='偏差値65以上。上位約7%で、難関校も射程圏内です。';
+  else if(hensachi>=60) comment='偏差値60以上。上位約16%で、平均より大きく上回っています。';
+  else if(hensachi>=55) comment='偏差値55以上。平均よりやや上のスコアです。';
+  else if(hensachi>=45) comment='偏差値45〜55。平均的なスコアです。';
+  else if(hensachi>=40) comment='偏差値40〜45。平均よりやや下です。得意分野を伸ばしましょう。';
+  else comment='偏差値40未満。まず基礎をしっかり固めることをおすすめします。';
+  document.getElementById('r-my').textContent=my+'点';
+  document.getElementById('r-avg').textContent=avg.toFixed(1)+'点';
+  document.getElementById('r-sd').textContent=sd.toFixed(2);
+  document.getElementById('r-hensachi').textContent=hensachi.toFixed(1);
+  document.getElementById('r-rank').textContent='上位 '+upper.toFixed(1)+'%';
+  document.getElementById('r-comment').textContent=comment;
+  document.getElementById('res-main').textContent=hensachi.toFixed(1);
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

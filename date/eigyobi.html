@@ -3,26 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>妊娠週数計算｜最終月経日から妊娠週数・出産予定日を無料計算｜はかるん</title>
-  <meta name="description" content="最終月経日を入力するだけで、現在の妊娠週数・妊娠月数・出産予定日・出産までの日数を無料計算します。">
+  <title>営業日数計算｜期間内の土日を除いた稼働日数を無料計算｜はかるん</title>
+  <meta name="description" content="開始日と終了日を入力するだけで、土日を除いた営業日数（稼働日数）と総日数を計算します。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
   <script type="application/ld+json">
-  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
-    { "@type": "Question", "name": "妊娠週数の数え方は？", "acceptedAnswer": { "@type": "Answer", "text": "最終月経の初日を0週0日として数えます。受精・着床前の時期から数えるため、妊娠確認時点ですでに4〜6週になっていることが多いです。" } },
-    { "@type": "Question", "name": "出産予定日はどう計算されますか？", "acceptedAnswer": { "@type": "Answer", "text": "最終月経の初日から280日後（40週0日）が出産予定日です。ネーゲレ概算法と呼ばれる国際的な計算方法です。" } },
-    { "@type": "Question", "name": "妊娠月数と妊娠週数の関係は？", "acceptedAnswer": { "@type": "Answer", "text": "妊娠月数は4週を1ヶ月として数えます。1ヶ月目=1〜4週、2ヶ月目=5〜8週、という具合です。妊娠10ヶ月（40週）で出産の時期になります。" } }
-  ] }
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "営業日数の数え方は？", "acceptedAnswer": { "@type": "Answer", "text": "一般的に営業日とは土曜・日曜・祝日を除いた日数を指します。このツールでは土日を除いた日数を計算します（祝日は手動でご確認ください）。" } },
+    { "@type": "Question", "name": "翌営業日はいつ？", "acceptedAnswer": { "@type": "Answer", "text": "翌営業日とは、土日祝日を除いた次の平日のことです。金曜日の翌営業日は月曜日になります（祝日がない場合）。" } },
+    { "@type": "Question", "name": "締め日と支払日の営業日計算の例は？", "acceptedAnswer": { "@type": "Answer", "text": "例えば月末締め・翌月25日払いの場合、月末から25日までの営業日数をこのツールで計算できます。土日に当たる場合は前後の営業日に変更されるかご確認ください。" } }] }
   </script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
-        <nav>
+    <nav>
       <div class="nav-item">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
@@ -49,7 +47,7 @@
           <a href="../money/nenkin.html">🏛️ 年金受給額シミュレーション</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../health/bmi.html" class="nav-link">健康・生活 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../health/bmi.html">⚖️ BMI計算</a>
@@ -97,7 +95,7 @@
           <a href="../life/baby.html">👶 出産・育児費用計算</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../date/nissuu.html" class="nav-link">日付・時間 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../date/nissuu.html">📅 日数計算</a>
@@ -163,70 +161,51 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 妊娠週数計算</div>
-      <h1>🤰 妊娠週数計算</h1>
-      <p class="subtitle">最終月経日から妊娠週数・出産予定日を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 日付・時間 &rsaquo; 📊 営業日数計算</div>
+      <h1>📊 営業日数計算</h1>
+      <p class="subtitle">開始日〜終了日間の土日を除いた営業日数（稼働日数）を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>最終月経の開始日</label>
-        <div class="input-wrap">
-          <input type="date" id="lmp">
-        </div>
-        <p class="hint">最後に生理が始まった日を入力してください</p>
+        <label>開始日</label>
+        <div class="input-wrap"><input type="date" id="startDate"></div>
       </div>
-      <button class="btn btn-primary" onclick="calcNinshin()">計算する</button>
+      <div class="form-group">
+        <label>終了日</label>
+        <div class="input-wrap"><input type="date" id="endDate"></div>
+      </div>
+      <div class="form-group">
+        <label>開始日・終了日の扱い</label>
+        <div class="input-wrap"><select id="include">
+          <option value="both" selected>開始日・終了日ともに含む</option>
+          <option value="end">開始日を含まず終了日を含む</option>
+          <option value="start">開始日を含み終了日を含まない</option>
+          <option value="none">開始日・終了日ともに含まない</option>
+        </select></div>
+      </div>
+      <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
-        <div class="result-main">
-          <div class="label">現在の妊娠週数</div>
-          <div class="value" id="res-main">—</div>
-        </div>
-        <div class="result-table">
-          <table><tbody>
-            <tr><td>妊娠週数</td><td id="res-weeks">—</td></tr>
-            <tr><td>妊娠月数</td><td id="res-months">—</td></tr>
-            <tr><td>出産予定日</td><td id="res-due">—</td></tr>
-            <tr><td>出産まであと</td><td id="res-togo">—</td></tr>
-          </tbody></table>
-        </div>
-        <div class="info-box">
-          ⚠️ この計算は目安です。正確な週数・予定日は産婦人科の超音波検査で確認してください。
-        </div>
+        <div class="result-main"><div class="label">営業日数（土日除く）</div><div class="value" id="res-main">—</div></div>
+        <div class="result-table"><table><tbody>
+          <tr><td>期間（開始〜終了）</td><td id="r-period">—</td></tr>
+          <tr><td>総日数</td><td id="r-total">—</td></tr>
+          <tr><td>土日の日数</td><td id="r-holiday">—</td></tr>
+          <tr><td>営業日数（土日除く）</td><td id="r-biz">—</td></tr>
+        </tbody></table></div>
+        <div class="info-box">※ 祝日は計算に含まれていません。祝日がある場合は営業日数からさらに差し引いてください。</div>
       </div>
     </div>
     <div class="ad-area">広告</div>
-
-    <div class="article">
-      <h2>妊娠週数の数え方と出産予定日の計算</h2>
-      <p>妊娠週数は最終月経の初日を「0週0日」として数えます。受精は排卵日（最終月経から約2週間後）に起こるため、妊娠2週0日が実際の受精時期の目安です。出産予定日は最終月経の初日から280日後（40週0日）として計算します。この計算方法は世界的に標準として使われています。</p>
-      <p>妊娠は一般的に40週を1サイクルとして考えます。妊娠初期（〜13週）は基礎的な体の形成が進む重要な時期で、つわりが起きやすい時期でもあります。中期（14〜27週）は胎動が感じられ安定する時期、後期（28週〜）は赤ちゃんが急成長する時期です。</p>
-      <p>月数は「妊娠週数÷4」で概算できます（例：16週＝妊娠5ヶ月目の始め）。ただし正確な出産予定日は超音波検査の結果をもとに産婦人科医が決定します。このツールの計算結果はあくまで目安ですので、必ず医療機関での確認をお願いします。</p>
-    </div>
-    <div class="article">
-      <h2>よくある質問</h2>
-      <div class="faq-item">
-        <div class="faq-q">Q. 妊娠週数の数え方は？</div>
-        <div class="faq-a">最終月経の初日を0週0日として数えます。受精・着床前の時期から数えるため、妊娠確認時点ですでに4〜6週になっていることが多いです。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. 出産予定日はどう計算されますか？</div>
-        <div class="faq-a">最終月経の初日から280日後（40週0日）が出産予定日です。ネーゲレ概算法と呼ばれる国際的な計算方法です。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. 妊娠月数と妊娠週数の関係は？</div>
-        <div class="faq-a">妊娠月数は4週を1ヶ月として数えます。1ヶ月目=1〜4週、2ヶ月目=5〜8週、という具合です。妊娠10ヶ月（40週）で出産の時期になります。</div>
-      </div>
-    </div>
   </div>
 </main>
 <footer>
   <div class="footer-logo">📐 はかるん</div>
   <div class="footer-links">
     <a href="../index.html">トップ</a>
-    <a href="bmi.html">BMI計算</a>
-    <a href="taishibo.html">体脂肪率計算</a>
-    <a href="suimin.html">睡眠時間計算</a>
+    <a href="../money/tedori.html">手取り計算</a>
+    <a href="../invest/nisa.html">NISA計算</a>
+    <a href="../tax/furusato.html">ふるさと納税</a>
   </div>
   <div class="footer-links" style="margin-top:12px">
     <a href="../privacy.html">プライバシーポリシー</a>
@@ -236,32 +215,49 @@
   <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 <script>
-function fmtDate(d) {
-  return d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日';
-}
-function calcNinshin() {
-  var val = document.getElementById('lmp').value;
-  if (!val) { alert('最終月経の開始日を入力してください'); return; }
-  var lmp = new Date(val);
-  var today = new Date();
-  today.setHours(0,0,0,0);
-  var days = Math.floor((today - lmp) / 86400000);
-  if (days < 0) { alert('日付が未来になっています。正しい日付を入力してください'); return; }
-  var weeks = Math.floor(days / 7);
-  var daysMod = days % 7;
-  var dueDate = new Date(lmp);
-  dueDate.setDate(dueDate.getDate() + 280);
-  var daysToGo = Math.floor((dueDate - today) / 86400000);
-  var months = Math.ceil((weeks + 1) / 4);
-  document.getElementById('res-main').textContent = weeks + '週' + daysMod + '日';
-  document.getElementById('res-weeks').textContent = weeks + '週' + daysMod + '日';
-  document.getElementById('res-months').textContent = '妊娠' + months + 'ヶ月';
-  document.getElementById('res-due').textContent = fmtDate(dueDate);
-  document.getElementById('res-togo').textContent = daysToGo > 0 ? daysToGo + '日' : '予定日を過ぎています';
+(function(){
+  var today=new Date();
+  var y=today.getFullYear(),m=today.getMonth(),d=today.getDate();
+  document.getElementById('startDate').value=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+  var end=new Date(y,m+1,d);
+  document.getElementById('endDate').value=end.getFullYear()+'-'+String(end.getMonth()+1).padStart(2,'0')+'-'+String(end.getDate()).padStart(2,'0');
+})();
+function calc(){
+  var s=new Date(document.getElementById('startDate').value);
+  var e=new Date(document.getElementById('endDate').value);
+  var inc=document.getElementById('include').value;
+  if(isNaN(s)||isNaN(e)){alert('日付を入力してください');return;}
+  if(s>e){alert('終了日は開始日以降を指定してください');return;}
+  var start=new Date(s), end=new Date(e);
+  if(inc==='end'||inc==='none') start.setDate(start.getDate()+1);
+  if(inc==='start'||inc==='none') end.setDate(end.getDate()-1);
+  if(start>end){
+    document.getElementById('r-period').textContent=s.toLocaleDateString('ja-JP')+' 〜 '+e.toLocaleDateString('ja-JP');
+    document.getElementById('r-total').textContent='0日';
+    document.getElementById('r-holiday').textContent='0日';
+    document.getElementById('r-biz').textContent='0日';
+    document.getElementById('res-main').textContent='0日';
+    document.getElementById('result').classList.add('show');
+    return;
+  }
+  var total=0,holiday=0,biz=0;
+  var cur=new Date(start);
+  while(cur<=end){
+    total++;
+    var dow=cur.getDay();
+    if(dow===0||dow===6) holiday++;
+    else biz++;
+    cur.setDate(cur.getDate()+1);
+  }
+  document.getElementById('r-period').textContent=s.toLocaleDateString('ja-JP')+' 〜 '+e.toLocaleDateString('ja-JP');
+  document.getElementById('r-total').textContent=total+'日';
+  document.getElementById('r-holiday').textContent=holiday+'日';
+  document.getElementById('r-biz').textContent=biz+'日';
+  document.getElementById('res-main').textContent=biz+'日';
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

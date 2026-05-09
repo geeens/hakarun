@@ -3,26 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>妊娠週数計算｜最終月経日から妊娠週数・出産予定日を無料計算｜はかるん</title>
-  <meta name="description" content="最終月経日を入力するだけで、現在の妊娠週数・妊娠月数・出産予定日・出産までの日数を無料計算します。">
+  <title>出産・育児費用計算｜出産から3歳までの費用を無料計算｜はかるん</title>
+  <meta name="description" content="分娩方法と育児スタイルを選ぶだけで、出産費用の自己負担額と0〜3歳の育児費用の目安を計算します。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
   <script type="application/ld+json">
-  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
-    { "@type": "Question", "name": "妊娠週数の数え方は？", "acceptedAnswer": { "@type": "Answer", "text": "最終月経の初日を0週0日として数えます。受精・着床前の時期から数えるため、妊娠確認時点ですでに4〜6週になっていることが多いです。" } },
-    { "@type": "Question", "name": "出産予定日はどう計算されますか？", "acceptedAnswer": { "@type": "Answer", "text": "最終月経の初日から280日後（40週0日）が出産予定日です。ネーゲレ概算法と呼ばれる国際的な計算方法です。" } },
-    { "@type": "Question", "name": "妊娠月数と妊娠週数の関係は？", "acceptedAnswer": { "@type": "Answer", "text": "妊娠月数は4週を1ヶ月として数えます。1ヶ月目=1〜4週、2ヶ月目=5〜8週、という具合です。妊娠10ヶ月（40週）で出産の時期になります。" } }
-  ] }
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "出産にかかる費用はいくら？", "acceptedAnswer": { "@type": "Answer", "text": "正常分娩の場合、全国平均は約50〜55万円です。出産育児一時金（50万円）が支給されるため、自己負担は0〜5万円程度が多いですが、地域・病院・分娩方法によって大きく異なります。" } },
+    { "@type": "Question", "name": "育児費用はどのくらいかかる？", "acceptedAnswer": { "@type": "Answer", "text": "0〜3歳の育児費用は、ミルク代・おむつ代・衣類・ベビー用品などで年間約50〜100万円が目安です。保育園代を含めると大きく増加します。" } },
+    { "@type": "Question", "name": "出産育児一時金はいつもらえる？", "acceptedAnswer": { "@type": "Answer", "text": "健康保険に加入していれば、出産育児一時金（現在50万円）が支給されます。多くの場合、病院と健保組合が直接支払い契約を結んでおり、退院時の精算に充当されます。" } }] }
   </script>
 </head>
 <body>
 <header>
   <div class="container">
     <a href="../index.html" class="logo">📐 はかるん</a>
-        <nav>
+    <nav>
       <div class="nav-item">
         <a href="../money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
@@ -49,7 +47,7 @@
           <a href="../money/nenkin.html">🏛️ 年金受給額シミュレーション</a>
         </div>
       </div>
-      <div class="nav-item active">
+      <div class="nav-item">
         <a href="../health/bmi.html" class="nav-link">健康・生活 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../health/bmi.html">⚖️ BMI計算</a>
@@ -74,7 +72,7 @@
           <a href="../health/stress.html">😓 ストレス度チェック</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item active">
         <a href="../life/loan.html" class="nav-link">生活・節約 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
           <a href="../life/loan.html">🏦 ローン返済シミュレーション</a>
@@ -163,70 +161,70 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 妊娠週数計算</div>
-      <h1>🤰 妊娠週数計算</h1>
-      <p class="subtitle">最終月経日から妊娠週数・出産予定日を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 生活・節約 &rsaquo; 👶 出産・育児費用計算</div>
+      <h1>👶 出産・育児費用計算</h1>
+      <p class="subtitle">分娩方法と育児スタイルから出産費用と0〜3歳の育児費用の目安を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>最終月経の開始日</label>
-        <div class="input-wrap">
-          <input type="date" id="lmp">
-        </div>
-        <p class="hint">最後に生理が始まった日を入力してください</p>
+        <label>分娩方法</label>
+        <div class="input-wrap"><select id="birth">
+          <option value="1">自然分娩（標準）</option>
+          <option value="2">無痛分娩（硬膜外麻酔）</option>
+          <option value="3">帝王切開</option>
+        </select></div>
       </div>
-      <button class="btn btn-primary" onclick="calcNinshin()">計算する</button>
+      <div class="form-group">
+        <label>出産する病院の種別</label>
+        <div class="input-wrap"><select id="hospital">
+          <option value="1">一般病院・クリニック</option>
+          <option value="2">大学病院・総合病院</option>
+          <option value="3">助産院</option>
+        </select></div>
+      </div>
+      <div class="form-group">
+        <label>育児スタイル（0〜3歳）</label>
+        <div class="input-wrap"><select id="style">
+          <option value="1">節約重視（中古・おさがり活用）</option>
+          <option value="2" selected>標準（バランス重視）</option>
+          <option value="3">こだわり重視（ブランド・高品質）</option>
+        </select></div>
+      </div>
+      <div class="form-group">
+        <label>保育園の利用</label>
+        <div class="input-wrap"><select id="hoiku">
+          <option value="0">利用しない（専業主婦・在宅）</option>
+          <option value="1" selected>認可保育園（1〜3歳）</option>
+          <option value="2">認可外保育園（1〜3歳）</option>
+        </select></div>
+      </div>
+      <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
-        <div class="result-main">
-          <div class="label">現在の妊娠週数</div>
-          <div class="value" id="res-main">—</div>
-        </div>
-        <div class="result-table">
-          <table><tbody>
-            <tr><td>妊娠週数</td><td id="res-weeks">—</td></tr>
-            <tr><td>妊娠月数</td><td id="res-months">—</td></tr>
-            <tr><td>出産予定日</td><td id="res-due">—</td></tr>
-            <tr><td>出産まであと</td><td id="res-togo">—</td></tr>
-          </tbody></table>
-        </div>
-        <div class="info-box">
-          ⚠️ この計算は目安です。正確な週数・予定日は産婦人科の超音波検査で確認してください。
-        </div>
+        <div class="result-main"><div class="label">出産〜3歳までの総費用目安</div><div class="value" id="res-main">—</div></div>
+        <div class="result-table"><table><tbody>
+          <tr><td>出産費用（病院への支払い）</td><td id="r-birth">—</td></tr>
+          <tr><td>出産育児一時金（支給）</td><td id="r-lump">▲500,000円</td></tr>
+          <tr><td>出産費用の自己負担</td><td id="r-jikotan">—</td></tr>
+          <tr><td>ベビー用品・初期費用</td><td id="r-goods">—</td></tr>
+          <tr><td>食費（ミルク・離乳食）年間</td><td id="r-milk">—</td></tr>
+          <tr><td>衣類・おむつ 年間</td><td id="r-diaper">—</td></tr>
+          <tr><td>保育園費用（3年間）</td><td id="r-hoiku">—</td></tr>
+          <tr><td>合計目安</td><td id="r-total">—</td></tr>
+        </tbody></table></div>
+        <div class="info-box">出産育児一時金（50万円）を差し引いた金額です。児童手当（0〜3歳：月15,000円）を受給すると、3年間で54万円の補助があります。実際の費用は地域・施設・お子さんの状況により異なります。</div>
       </div>
     </div>
     <div class="ad-area">広告</div>
-
-    <div class="article">
-      <h2>妊娠週数の数え方と出産予定日の計算</h2>
-      <p>妊娠週数は最終月経の初日を「0週0日」として数えます。受精は排卵日（最終月経から約2週間後）に起こるため、妊娠2週0日が実際の受精時期の目安です。出産予定日は最終月経の初日から280日後（40週0日）として計算します。この計算方法は世界的に標準として使われています。</p>
-      <p>妊娠は一般的に40週を1サイクルとして考えます。妊娠初期（〜13週）は基礎的な体の形成が進む重要な時期で、つわりが起きやすい時期でもあります。中期（14〜27週）は胎動が感じられ安定する時期、後期（28週〜）は赤ちゃんが急成長する時期です。</p>
-      <p>月数は「妊娠週数÷4」で概算できます（例：16週＝妊娠5ヶ月目の始め）。ただし正確な出産予定日は超音波検査の結果をもとに産婦人科医が決定します。このツールの計算結果はあくまで目安ですので、必ず医療機関での確認をお願いします。</p>
-    </div>
-    <div class="article">
-      <h2>よくある質問</h2>
-      <div class="faq-item">
-        <div class="faq-q">Q. 妊娠週数の数え方は？</div>
-        <div class="faq-a">最終月経の初日を0週0日として数えます。受精・着床前の時期から数えるため、妊娠確認時点ですでに4〜6週になっていることが多いです。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. 出産予定日はどう計算されますか？</div>
-        <div class="faq-a">最終月経の初日から280日後（40週0日）が出産予定日です。ネーゲレ概算法と呼ばれる国際的な計算方法です。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Q. 妊娠月数と妊娠週数の関係は？</div>
-        <div class="faq-a">妊娠月数は4週を1ヶ月として数えます。1ヶ月目=1〜4週、2ヶ月目=5〜8週、という具合です。妊娠10ヶ月（40週）で出産の時期になります。</div>
-      </div>
-    </div>
   </div>
 </main>
 <footer>
   <div class="footer-logo">📐 はかるん</div>
   <div class="footer-links">
     <a href="../index.html">トップ</a>
-    <a href="bmi.html">BMI計算</a>
-    <a href="taishibo.html">体脂肪率計算</a>
-    <a href="suimin.html">睡眠時間計算</a>
+    <a href="../money/tedori.html">手取り計算</a>
+    <a href="../invest/nisa.html">NISA計算</a>
+    <a href="../tax/furusato.html">ふるさと納税</a>
   </div>
   <div class="footer-links" style="margin-top:12px">
     <a href="../privacy.html">プライバシーポリシー</a>
@@ -236,32 +234,33 @@
   <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるん</p>
 </footer>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 <script>
-function fmtDate(d) {
-  return d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日';
-}
-function calcNinshin() {
-  var val = document.getElementById('lmp').value;
-  if (!val) { alert('最終月経の開始日を入力してください'); return; }
-  var lmp = new Date(val);
-  var today = new Date();
-  today.setHours(0,0,0,0);
-  var days = Math.floor((today - lmp) / 86400000);
-  if (days < 0) { alert('日付が未来になっています。正しい日付を入力してください'); return; }
-  var weeks = Math.floor(days / 7);
-  var daysMod = days % 7;
-  var dueDate = new Date(lmp);
-  dueDate.setDate(dueDate.getDate() + 280);
-  var daysToGo = Math.floor((dueDate - today) / 86400000);
-  var months = Math.ceil((weeks + 1) / 4);
-  document.getElementById('res-main').textContent = weeks + '週' + daysMod + '日';
-  document.getElementById('res-weeks').textContent = weeks + '週' + daysMod + '日';
-  document.getElementById('res-months').textContent = '妊娠' + months + 'ヶ月';
-  document.getElementById('res-due').textContent = fmtDate(dueDate);
-  document.getElementById('res-togo').textContent = daysToGo > 0 ? daysToGo + '日' : '予定日を過ぎています';
+function fmt(n){return Math.round(n).toLocaleString()+'円';}
+function calc(){
+  var birth=parseInt(document.getElementById('birth').value);
+  var hosp=parseInt(document.getElementById('hospital').value);
+  var style=parseInt(document.getElementById('style').value);
+  var hoiku=parseInt(document.getElementById('hoiku').value);
+  var birthCost=[[500000,580000,620000],[540000,620000,680000],[480000,550000,590000]];
+  var bc=birthCost[hosp-1][birth-1];
+  var lump=500000;
+  var jikotan=Math.max(0,bc-lump);
+  var goods=[150000,300000,500000][style-1];
+  var milk=[60000,90000,130000][style-1];
+  var diaper=[100000,150000,200000][style-1];
+  var hoikuCost=[0,600000,1080000][hoiku];
+  var total=jikotan+goods+(milk+diaper)*3+hoikuCost;
+  document.getElementById('r-birth').textContent=fmt(bc);
+  document.getElementById('r-jikotan').textContent=fmt(jikotan);
+  document.getElementById('r-goods').textContent=fmt(goods);
+  document.getElementById('r-milk').textContent=fmt(milk)+'/年';
+  document.getElementById('r-diaper').textContent=fmt(diaper)+'/年';
+  document.getElementById('r-hoiku').textContent=fmt(hoikuCost);
+  document.getElementById('r-total').textContent=fmt(total);
+  document.getElementById('res-main').textContent=fmt(total);
   document.getElementById('result').classList.add('show');
 }
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>
