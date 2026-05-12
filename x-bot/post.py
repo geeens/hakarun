@@ -181,10 +181,9 @@ def list_drafts():
 
     print(f"📋 未投稿の下書き（{len(pending)}件）\n")
     for d in pending:
-        print(f"┌── 下書き #{d['id']}（{d['category']}：{d['tool']}）{d['created_at']}")
-        for line in d['text'].split('\n'):
-            print(f"│ {line}")
-        print("└" + "─" * 45)
+        print(f"── 下書き #{d['id']}（{d['category']}：{d['tool']}）{d['created_at']}")
+        print(d['text'])
+        print("─" * 45)
         print()
     print(f"投稿するには: python3 post.py --send [番号]")
 
@@ -246,6 +245,25 @@ def delete_draft(draft_id):
 
     save_drafts_file(data)
     print(f"🗑️  下書き #{draft_id} を削除しました。")
+
+
+def clear_drafts():
+    """未投稿の下書きをすべて削除する"""
+    data = load_drafts()
+    pending = [d for d in data["drafts"] if not d["posted"]]
+
+    if not pending:
+        print("📭 削除する未投稿の下書きはありません。")
+        return
+
+    confirm = input(f"未投稿の下書き {len(pending)}件 をすべて削除しますか？ (y/n): ").strip().lower()
+    if confirm != 'y':
+        print("❌ キャンセルしました。")
+        return
+
+    data["drafts"] = [d for d in data["drafts"] if d["posted"]]
+    save_drafts_file(data)
+    print(f"🗑️  {len(pending)}件の下書きを削除しました。")
 
 
 def auto_post():
