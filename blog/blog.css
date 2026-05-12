@@ -222,11 +222,33 @@
   gap: 8px;
   padding: 12px 24px;
   border-radius: 8px;
+  background: var(--primary);
   font-size: 15px;
   font-weight: 700;
   text-decoration: none;
   transition: all 0.15s;
   color: #fff;
+  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.22);
+}
+.affili-btn:hover {
+  background: var(--primary-dark);
+  color: #fff;
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+.affili-box.type-furusato .affili-btn:not(.disabled) {
+  background: var(--success);
+  box-shadow: 0 6px 14px rgba(5, 150, 105, 0.22);
+}
+.affili-box.type-furusato .affili-btn:not(.disabled):hover {
+  background: #047857;
+}
+.affili-box.type-insurance .affili-btn:not(.disabled) {
+  background: var(--warning);
+  box-shadow: 0 6px 14px rgba(217, 119, 6, 0.22);
+}
+.affili-box.type-insurance .affili-btn:not(.disabled):hover {
+  background: #B45309;
 }
 .affili-btn.blue  { background: var(--primary); }
 .affili-btn.blue:hover  { background: var(--primary-dark); text-decoration: none; }
