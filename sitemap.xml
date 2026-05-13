@@ -109,4 +109,10 @@
   <url><loc>https://hakarun.net/tax/index.html</loc><priority>0.9</priority></url>
   <url><loc>https://hakarun.net/calc/index.html</loc><priority>0.9</priority></url>
   <url><loc>https://hakarun.net/invest/index.html</loc><priority>0.9</priority></url>
+  <url><loc>https://hakarun.net/blog/</loc><priority>0.9</priority></url>
+  <url><loc>https://hakarun.net/blog/tedori-setsuzei.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/blog/furusato-nozei.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/blog/sim-setsuyaku.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/blog/ideco-simulation.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/blog/hoken-koujyo.html</loc><priority>0.8</priority></url>
 </urlset>
