@@ -167,7 +167,7 @@
     <div class="page-header">
       <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 手取り計算</div>
       <h1>💴 手取り計算</h1>
-      <p class="subtitle">月収（額面）から毎月の手取り額を計算します</p>
+      <p class="subtitle">月収または年収から、毎月・年間の手取り額を概算します</p>
     </div>
 
     <div class="ad-area">広告</div>
@@ -175,12 +175,21 @@
     <div class="calc-card">
 
       <div class="form-group">
-        <label>月収（額面・総支給額）</label>
+        <label>入力する金額の種類</label>
+        <div class="radio-group">
+          <label><input type="radio" name="salaryType" value="monthly" checked onchange="updateSalaryLabel()"> 月収から計算</label>
+          <label><input type="radio" name="salaryType" value="annual" onchange="updateSalaryLabel()"> 年収から計算</label>
+        </div>
+        <p class="hint">迷ったら「月収から計算」のままでOKです。ざっくり概算できます。</p>
+      </div>
+
+      <div class="form-group">
+        <label id="salary-label">月収（額面・総支給額）</label>
         <div class="input-wrap">
           <input type="number" id="salary" placeholder="300000" min="0">
           <span class="unit">円</span>
         </div>
-        <p class="hint">給与明細の「総支給額」に記載されている金額を入力してください</p>
+        <p class="hint" id="salary-hint">給与明細の「総支給額」に記載されている金額を入力してください</p>
       </div>
 
       <div class="form-group">
@@ -205,6 +214,15 @@
         </div>
       </div>
 
+      <div class="form-group">
+        <label>住民税</label>
+        <div class="radio-group">
+          <label><input type="radio" name="residentTax" value="include" checked> 含める</label>
+          <label><input type="radio" name="residentTax" value="exclude"> 含めない</label>
+        </div>
+        <p class="hint">新社会人1年目や転職直後など、住民税がまだ給与天引きされていない場合は「含めない」を選べます。</p>
+      </div>
+
       <button class="btn btn-primary" onclick="calcTedori()">計算する</button>
 
       <div class="result-area" id="result">
@@ -212,6 +230,7 @@
           <div class="label">毎月の手取り（概算）</div>
           <div class="value" id="res-tedori">—</div>
           <div class="sub" id="res-rate">手取り率 —%</div>
+          <div class="sub" id="res-annual-summary">年間手取り —</div>
         </div>
 
         <div class="result-table">
@@ -221,13 +240,16 @@
             </thead>
             <tbody>
               <tr><td>月収（額面）</td><td id="res-salary">—</td></tr>
+              <tr><td>年収（額面）</td><td id="res-annual-salary">—</td></tr>
               <tr class="deduct"><td>健康保険料</td><td id="res-health">—</td></tr>
               <tr class="deduct"><td>介護保険料</td><td id="res-care">—</td></tr>
               <tr class="deduct"><td>厚生年金保険料</td><td id="res-pension">—</td></tr>
               <tr class="deduct"><td>雇用保険料</td><td id="res-employ">—</td></tr>
               <tr class="deduct"><td>所得税（概算）</td><td id="res-income">—</td></tr>
               <tr class="deduct"><td>住民税（概算）</td><td id="res-resident">—</td></tr>
+              <tr class="deduct"><td>控除合計（月）</td><td id="res-deduct-total">—</td></tr>
               <tr class="total"><td>手取り合計</td><td id="res-total">—</td></tr>
+              <tr class="total"><td>年間手取り（概算）</td><td id="res-annual-total">—</td></tr>
             </tbody>
           </table>
         </div>
@@ -306,12 +328,33 @@ function fmt(n) {
   return Math.round(n).toLocaleString('ja-JP') + ' 円';
 }
 
-function calcTedori() {
-  const salary = parseFloat(document.getElementById('salary').value);
-  if (!salary || salary <= 0) { alert('月収を入力してください'); return; }
+function updateSalaryLabel() {
+  const salaryType = document.querySelector('input[name="salaryType"]:checked').value;
+  const salaryInput = document.getElementById('salary');
+  const label = document.getElementById('salary-label');
+  const hint = document.getElementById('salary-hint');
 
+  if (salaryType === 'annual') {
+    label.textContent = '年収（額面・総支給額）';
+    salaryInput.placeholder = '4000000';
+    hint.textContent = '年間の額面収入を入力してください。賞与込みの年収でも概算できます。';
+  } else {
+    label.textContent = '月収（額面・総支給額）';
+    salaryInput.placeholder = '300000';
+    hint.textContent = '給与明細の「総支給額」に記載されている金額を入力してください。';
+  }
+}
+
+function calcTedori() {
+  const inputSalary = parseFloat(document.getElementById('salary').value);
+  const salaryType = document.querySelector('input[name="salaryType"]:checked').value;
+  if (!inputSalary || inputSalary <= 0) { alert('金額を入力してください'); return; }
+
+  const salary = salaryType === 'annual' ? inputSalary / 12 : inputSalary;
+  const annualSalary = salaryType === 'annual' ? inputSalary : inputSalary * 12;
   const isOver40 = document.querySelector('input[name="age"]:checked').value === 'over40';
   const dependents = parseInt(document.getElementById('dependents').value);
+  const includeResidentTax = document.querySelector('input[name="residentTax"]:checked').value === 'include';
 
   // 社会保険料（標準的な協会けんぽ 2024年度）
   const healthRate = 0.04985;     // 健康保険（労働者負担）
@@ -329,7 +372,6 @@ function calcTedori() {
   const socialTotal = healthAmt + careAmt + pensionAmt + employAmt;
 
   // 所得税（年収換算で計算）
-  const annualSalary = salary * 12;
   const annualSocial = socialTotal * 12;
 
   // 給与所得控除
@@ -365,24 +407,29 @@ function calcTedori() {
 
   // 住民税（概算：課税所得の10% + 均等割5000円）
   const juminKazei = Math.max(0, kyuyoShotoku - annualSocial - 430000 - fuyoKojo);
-  const annualJumin = juminKazei * 0.10 + 5000;
+  const annualJumin = includeResidentTax ? juminKazei * 0.10 + 5000 : 0;
   const monthlyJumin = Math.max(0, annualJumin / 12);
 
   const totalDeduct = socialTotal + monthlyIncomeTax + monthlyJumin;
   const tedori = salary - totalDeduct;
+  const annualTedori = tedori * 12;
   const rate = (tedori / salary * 100).toFixed(1);
 
   // 表示
   document.getElementById('res-tedori').textContent = fmt(tedori);
   document.getElementById('res-rate').textContent = `手取り率 ${rate}%`;
+  document.getElementById('res-annual-summary').textContent = `年間手取り ${fmt(annualTedori)}`;
   document.getElementById('res-salary').textContent = fmt(salary);
+  document.getElementById('res-annual-salary').textContent = fmt(annualSalary);
   document.getElementById('res-health').textContent = '- ' + fmt(healthAmt);
   document.getElementById('res-care').textContent = isOver40 ? '- ' + fmt(careAmt) : '- 0 円（40歳未満）';
   document.getElementById('res-pension').textContent = '- ' + fmt(pensionAmt);
   document.getElementById('res-employ').textContent = '- ' + fmt(employAmt);
   document.getElementById('res-income').textContent = '- ' + fmt(monthlyIncomeTax);
-  document.getElementById('res-resident').textContent = '- ' + fmt(monthlyJumin);
+  document.getElementById('res-resident').textContent = includeResidentTax ? '- ' + fmt(monthlyJumin) : '- 0 円（含めない）';
+  document.getElementById('res-deduct-total').textContent = '- ' + fmt(totalDeduct);
   document.getElementById('res-total').textContent = fmt(tedori);
+  document.getElementById('res-annual-total').textContent = fmt(annualTedori);
 
   document.getElementById('result').classList.add('show');
 }
