@@ -203,23 +203,6 @@
             <div class="input-wrap"><input type="number" id="resident-tax" placeholder="250000" min="0"><span class="unit">円</span></div>
             <p class="hint">住民税決定通知書などで分かる場合だけ入力してください。空欄なら年収から概算します。</p>
           </div>
-          <div class="form-group">
-            <label>年末ローン残高（わかる人だけ）</label>
-            <div class="input-wrap"><input type="number" id="manual-balance" placeholder="30000000" min="0"><span class="unit">円</span></div>
-            <p class="hint">残高証明書の金額が分かる場合は、1年目の残高として優先します。</p>
-          </div>
-          <div class="form-group">
-            <label>控除を計算する年数</label>
-            <div class="input-wrap"><input type="number" id="calc-years" placeholder="自動" min="1" max="13"><span class="unit">年</span></div>
-            <p class="hint">空欄なら入居年・住宅区分から自動で判定します。</p>
-          </div>
-          <div class="form-group">
-            <label>ふるさと納税をしていますか？</label>
-            <div class="radio-group">
-              <label><input type="radio" name="furusato" value="no" checked> していない / わからない</label>
-              <label><input type="radio" name="furusato" value="yes"> している</label>
-            </div>
-          </div>
         </div>
       </details>
       <div class="form-group">
@@ -398,9 +381,6 @@ function calc() {
   const familyType=document.querySelector('input[name="family-type"]:checked').value;
   const manualIncomeTax=num('income-tax');
   const manualResidentTax=num('resident-tax');
-  const manualBalance=num('manual-balance');
-  const calcYearsInput=Math.floor(num('calc-years'));
-  const furusato=document.querySelector('input[name="furusato"]:checked').value==='yes';
   const filingYear=document.querySelector('input[name="filing-year"]:checked').value;
   if(!salary){alert('給与年収を入力してください');return;}
   if(!loanAmount){alert('住宅ローン借入額を入力してください');return;}
@@ -413,7 +393,7 @@ function calc() {
   const incomeTax=manualIncomeTax || estimated.incomeTax;
   const residentTax=manualResidentTax || estimated.residentTax;
   const taxSource=(manualIncomeTax || manualResidentTax) ? '詳細入力を優先' : '年収から概算';
-  const years=Math.max(1,Math.min(calcYearsInput||rule.period,rule.period));
+  const years=rule.period;
   const residentTaxCap = moveYear <= 2021 ? 136500 : 97500;
   const residentLimit=Math.min(residentTax,residentTaxCap);
 
@@ -426,7 +406,6 @@ function calc() {
     const targetYear=moveYear+i;
     const paidMonths=monthsUntilDecember(startMonth,targetYear);
     let yearlyBalance=remainingBalance(loanAmount,interestRate,loanYears,paidMonths);
-    if(i===0 && manualBalance)yearlyBalance=manualBalance;
     if(i===0)firstBalance=yearlyBalance;
     const yearlyBase=Math.min(yearlyBalance,rule.limit);
     const yearlyDeduct=Math.floor(yearlyBase*rule.rate);
@@ -446,7 +425,6 @@ function calc() {
   if(rule.legacy)note+=' 2021年以前の住宅ローン控除は、消費税率や契約時期などで控除期間が変わる場合があるため、ここでは一般的な概算として表示しています。';
   if(rule.limit===0)note+=' 選択した「その他の住宅」は、入居年や建築確認時期によって対象外になる場合があります。購入時の書類や税務署で確認してください。';
   if(year==='2026')note+=' 2026年以降の制度は改正内容により変わる可能性があるため、ここでは概算として表示しています。';
-  if(furusato)note+=' ふるさと納税と併用できる場合がありますが、確定申告をする場合はワンストップ特例が使えません。ふるさと納税分も確定申告に入れてください。';
 
   document.getElementById('res-main').textContent=fmt(total);
   document.getElementById('res-main-sub').textContent=totalUnused>0?'控除可能額のうち合計 '+fmt(totalUnused)+' は使い切れない見込みです':'入力条件では控除可能額を使い切れる見込みです';
