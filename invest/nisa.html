@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NISA枠・積立シミュレーション｜非課税枠と節税メリットを無料計算｜はかるんツール</title>
-  <meta name="description" content="月々の積立額・年利・期間を入力するだけで、NISAの年間投資枠・生涯投資枠の利用状況、課税口座との比較、節税メリットを無料計算。">
+  <meta name="description" content="つみたて投資枠・成長投資枠の投資額、年利、期間を入力するだけで、NISAの年間投資枠・生涯投資枠の利用状況、節税メリットを無料計算。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "NISAとは何ですか？", "acceptedAnswer": {"@type": "Answer", "text": "少額投資非課税制度（Nippon Individual Savings Account）の略です。通常、投資の利益には約20%の税金がかかりますが、NISA口座内では非課税になります。"}}, {"@type": "Question", "name": "つみたて投資枠と成長投資枠の違いは？", "acceptedAnswer": {"@type": "Answer", "text": "つみたて投資枠は年間120万円まで、長期積立向けの投資信託が対象です。成長投資枠は年間240万円まで、個別株や幅広い投資信託に投資できます。両枠を合わせて生涯1,800万円まで利用できます。"}}, {"@type": "Question", "name": "NISAで投資する際の注意点は？", "acceptedAnswer": {"@type": "Answer", "text": "元本保証ではないため、投資した金額が減るリスクがあります。また、損失が出てもNISA口座では損益通算ができません。長期・分散・積立の原則を守って投資しましょう。"}}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "NISAとは何ですか？", "acceptedAnswer": {"@type": "Answer", "text": "少額投資非課税制度（Nippon Individual Savings Account）の略です。通常、投資の利益には約20%の税金がかかりますが、NISA口座内では非課税になります。"}}, {"@type": "Question", "name": "つみたて投資枠と成長投資枠の違いは？", "acceptedAnswer": {"@type": "Answer", "text": "つみたて投資枠は年間120万円まで、長期積立向けの投資信託が対象です。成長投資枠は年間240万円まで、個別株や幅広い投資信託に投資できます。両枠を合わせて年間360万円、生涯1,800万円まで利用できます。成長投資枠は生涯1,200万円までです。"}}, {"@type": "Question", "name": "NISAで投資する際の注意点は？", "acceptedAnswer": {"@type": "Answer", "text": "元本保証ではないため、投資した金額が減るリスクがあります。また、損失が出てもNISA口座では損益通算ができません。長期・分散・積立の原則を守って投資しましょう。"}}]}</script>
 </head>
 <body>
 <header>
@@ -126,14 +126,34 @@
     <div class="page-header">
       <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; NISA枠・積立シミュレーション</div>
       <h1>💹 NISA枠・積立シミュレーション</h1>
-      <p class="subtitle">毎月の積立額から、NISA枠の使い方と節税メリットを計算します</p>
+      <p class="subtitle">つみたて投資枠・成長投資枠・生涯投資枠の使い方を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>月々の積立額</label>
-        <div class="input-wrap"><input type="number" id="monthly" placeholder="30000" min="0"><span class="unit">円</span></div>
-        <p class="hint">つみたて投資枠だけで満額使う目安は月10万円です。</p>
+        <label>つみたて投資枠の月額</label>
+        <div class="input-wrap"><input type="number" id="tsumitate-monthly" placeholder="50000" min="0"><span class="unit">円</span></div>
+        <p class="hint">つみたて投資枠は年間120万円まで。月10万円が満額の目安です。</p>
+      </div>
+      <div class="form-group">
+        <label>成長投資枠の月額</label>
+        <div class="input-wrap"><input type="number" id="growth-monthly" placeholder="0" min="0"><span class="unit">円</span></div>
+        <p class="hint">成長投資枠は年間240万円まで。毎月積み立てる場合に入力してください。</p>
+      </div>
+      <div class="form-group">
+        <label>成長投資枠の年間一括投資額</label>
+        <div class="input-wrap"><input type="number" id="growth-lump" placeholder="0" min="0"><span class="unit">円</span></div>
+        <p class="hint">年初・ボーナス時などにまとめて投資する金額です。</p>
+      </div>
+      <div class="form-group">
+        <label>すでに使っているNISA元本</label>
+        <div class="input-wrap"><input type="number" id="used-principal" placeholder="0" min="0"><span class="unit">円</span></div>
+        <p class="hint">過去にNISAで投資済みの元本金額。わからなければ0円で大丈夫です。</p>
+      </div>
+      <div class="form-group">
+        <label>すでに使っている成長投資枠元本</label>
+        <div class="input-wrap"><input type="number" id="used-growth-principal" placeholder="0" min="0"><span class="unit">円</span></div>
+        <p class="hint">成長投資枠は生涯1,200万円まで。わからなければ0円で大丈夫です。</p>
       </div>
       <div class="form-group">
         <label>想定年利</label>
@@ -151,28 +171,30 @@
           <div class="value" id="res-main">—</div>
         </div>
         <div class="result-table"><table><tbody>
-          <tr><td>月々の積立額</td><td id="res-monthly">—</td></tr>
-          <tr><td>年間投資額</td><td id="res-annual">—</td></tr>
-          <tr><td>元本合計（積立総額）</td><td id="res-principal">—</td></tr>
-          <tr><td>運用益</td><td id="res-profit">—</td></tr>
-          <tr><td>NISAの最終金額</td><td id="res-total">—</td></tr>
-          <tr><td>課税口座の最終金額</td><td id="res-taxable-total">—</td></tr>
+          <tr><td>つみたて投資枠の年間利用額</td><td id="res-tsumitate-annual">—</td></tr>
+          <tr><td>成長投資枠の年間利用額</td><td id="res-growth-annual">—</td></tr>
+          <tr><td>年間投資額の合計</td><td id="res-annual">—</td></tr>
+          <tr><td>すでに使っているNISA元本</td><td id="res-used">—</td></tr>
+          <tr><td>すでに使っている成長投資枠元本</td><td id="res-used-growth">—</td></tr>
+          <tr><td>今回プランの投資予定額</td><td id="res-planned">—</td></tr>
+          <tr><td>NISA対象元本</td><td id="res-nisa-principal">—</td></tr>
+          <tr><td>生涯投資枠の超過額</td><td id="res-over-lifetime">—</td></tr>
+          <tr><td>NISA資産額（概算）</td><td id="res-total">—</td></tr>
+          <tr><td>NISA対象の運用益</td><td id="res-profit">—</td></tr>
           <tr><td>課税口座ならかかる税金</td><td id="res-tax">—</td></tr>
           <tr><td>NISAによる節税メリット</td><td id="res-saving">—</td></tr>
-          <tr><td>つみたて投資枠 年120万円</td><td id="res-tsumitate-limit">—</td></tr>
-          <tr><td>年間投資枠 年360万円</td><td id="res-annual-limit">—</td></tr>
-          <tr><td>生涯投資枠 1,800万円到達目安</td><td id="res-lifetime">—</td></tr>
         </tbody></table></div>
-        <h2 style="font-size:20px;margin:24px 0 12px;">NISAと課税口座の比較</h2>
-        <div class="result-table"><table><thead><tr><th>項目</th><th>NISA</th><th>課税口座</th></tr></thead><tbody>
-          <tr><td>元本合計</td><td id="cmp-nisa-principal">—</td><td id="cmp-tax-principal">—</td></tr>
-          <tr><td>運用益</td><td id="cmp-nisa-profit">—</td><td id="cmp-tax-profit">—</td></tr>
-          <tr><td>税金</td><td id="cmp-nisa-tax">—</td><td id="cmp-tax-tax">—</td></tr>
-          <tr class="total"><td>最終金額</td><td id="cmp-nisa-total">—</td><td id="cmp-tax-total">—</td></tr>
+        <h2 style="font-size:20px;margin:24px 0 12px;">枠の判定</h2>
+        <div class="result-table"><table><tbody>
+          <tr><td>つみたて投資枠 年120万円</td><td id="res-tsumitate-limit">—</td></tr>
+          <tr><td>成長投資枠 年240万円</td><td id="res-growth-limit">—</td></tr>
+          <tr><td>年間投資枠 年360万円</td><td id="res-annual-limit">—</td></tr>
+          <tr><td>成長投資枠 生涯1,200万円</td><td id="res-growth-lifetime">—</td></tr>
+          <tr><td>生涯投資枠 1,800万円</td><td id="res-lifetime">—</td></tr>
         </tbody></table></div>
         <h2 style="font-size:20px;margin:24px 0 12px;">年ごとの資産推移</h2>
-        <div class="result-table wide-table"><table>
-          <thead><tr><th>年数</th><th>元本合計</th><th>NISA資産額</th><th>課税口座の税引後</th><th>NISAの差額</th><th>生涯枠の使用率</th></tr></thead>
+        <div class="result-table wide-table sticky-first"><table>
+          <thead><tr><th>年数</th><th>つみたて枠累計</th><th>成長枠累計</th><th>NISA元本累計</th><th>NISA資産額</th><th>運用益</th><th>生涯枠使用率</th></tr></thead>
           <tbody id="yearly-body"></tbody>
         </table></div>
         <div class="info-box" id="nisa-info"></div>
@@ -183,13 +205,13 @@
     <div class="article">
       <h2>NISA枠を使った積立投資の基本</h2>
       <p>NISA（少額投資非課税制度）は、投資で得た利益を非課税にできる国の制度です。通常、株や投資信託の利益には約20.315%の税金がかかりますが、NISA口座内での運用益はゼロになります。2024年から新しいNISA制度が始まり、非課税枠が大幅に拡充されました。</p>
-      <p>新NISAには「つみたて投資枠」（年間120万円まで・長期積立向け投資信託が対象）と「成長投資枠」（年間240万円まで・個別株等も対象）の2種類があります。両枠を合わせて年間360万円まで投資でき、生涯の非課税保有限度額は1,800万円です。</p>
-      <p>このツールは、月々の積立額がNISA枠に収まるか、何年で生涯投資枠に届くか、課税口座と比べてどれくらい税金が変わるかを見るためのものです。まとまった資金も一緒に運用したい場合は、<a href="./tsumitate.html">投資シミュレーション（初期元本＋毎月積立）</a>をご利用ください。</p>
+      <p>新NISAには「つみたて投資枠」（年間120万円まで・長期積立向け投資信託が対象）と「成長投資枠」（年間240万円まで・個別株等も対象）の2種類があります。両枠を合わせて年間360万円まで投資でき、生涯の非課税保有限度額は1,800万円です。そのうち成長投資枠で使えるのは1,200万円までです。</p>
+      <p>このツールは、つみたて投資枠と成長投資枠を分けて、年間投資枠や生涯投資枠に収まるかを見るためのものです。運用益はNISAの生涯投資枠には含めず、投資した元本ベースで枠の使用率を計算しています。まとまった資金も一緒に運用したい場合は、<a href="./tsumitate.html">投資シミュレーション（初期元本＋毎月積立）</a>をご利用ください。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
       <div class="faq-item"><div class="faq-q">Q. NISAとは何ですか？</div><div class="faq-a">少額投資非課税制度（Nippon Individual Savings Account）の略です。通常、投資の利益には約20%の税金がかかりますが、NISA口座内では非課税になります。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. つみたて投資枠と成長投資枠の違いは？</div><div class="faq-a">つみたて投資枠は年間120万円まで、長期積立向けの投資信託が対象です。成長投資枠は年間240万円まで、個別株や幅広い投資信託に投資できます。両枠を合わせて生涯1,800万円まで利用できます。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. つみたて投資枠と成長投資枠の違いは？</div><div class="faq-a">つみたて投資枠は年間120万円まで、長期積立向けの投資信託が対象です。成長投資枠は年間240万円まで、個別株や幅広い投資信託に投資できます。両枠を合わせて年間360万円、生涯1,800万円まで利用できます。成長投資枠は生涯1,200万円までです。</div></div>
       <div class="faq-item"><div class="faq-q">Q. NISAで投資する際の注意点は？</div><div class="faq-a">元本保証ではないため、投資した金額が減るリスクがあります。また、損失が出てもNISA口座では損益通算ができません。長期・分散・積立の原則を守って投資しましょう。</div></div>
     </div>
   </div>
@@ -210,76 +232,110 @@
 </footer>
 <script>
 function calcNisa() {
-  const monthly = parseFloat(document.getElementById('monthly').value) || 0;
+  const tsumitateMonthly = parseFloat(document.getElementById('tsumitate-monthly').value) || 0;
+  const growthMonthly = parseFloat(document.getElementById('growth-monthly').value) || 0;
+  const growthLump = parseFloat(document.getElementById('growth-lump').value) || 0;
+  const usedPrincipal = parseFloat(document.getElementById('used-principal').value) || 0;
+  const usedGrowthPrincipal = parseFloat(document.getElementById('used-growth-principal').value) || 0;
   const annualRate = parseFloat(document.getElementById('rate').value);
   const years = parseFloat(document.getElementById('years').value);
-  if (!monthly || isNaN(annualRate) || !years) { alert('積立額・年利・期間を入力してください'); return; }
+  if ((tsumitateMonthly + growthMonthly + growthLump) === 0 || isNaN(annualRate) || !years) { alert('投資額・年利・期間を入力してください'); return; }
 
   const taxRate = 0.20315;
-  const r = annualRate / 100 / 12;
-  const futureValue = function(months) {
-    if (r === 0) return monthly * months;
-    return monthly * (Math.pow(1 + r, months) - 1) / r * (1 + r);
-  };
-  const n = years * 12;
-  const total = futureValue(n);
-  const principal = monthly * n;
-  const profit = total - principal;
-  const tax = profit * taxRate;
-  const taxableTotal = total - tax;
-  const annual = monthly * 12;
-  const lifetimeLimit = 18000000;
+  const yearlyRate = annualRate / 100;
   const tsumitateLimit = 1200000;
+  const growthLimit = 2400000;
   const annualLimit = 3600000;
-  const lifetimeYears = annual > 0 ? Math.ceil(lifetimeLimit / annual) : 0;
+  const growthLifetimeLimit = 12000000;
+  const lifetimeLimit = 18000000;
   const fmt = n => Math.round(n).toLocaleString('ja-JP') + ' 円';
+
+  const annualTsumitate = tsumitateMonthly * 12;
+  const annualGrowth = growthMonthly * 12 + growthLump;
+  const annualTotal = annualTsumitate + annualGrowth;
+  const plannedTotal = annualTotal * years;
+  const remainingLifetime = Math.max(0, lifetimeLimit - usedPrincipal);
+  const remainingGrowthLifetime = Math.max(0, growthLifetimeLimit - usedGrowthPrincipal);
+  const cappedAnnualTsumitate = Math.min(annualTsumitate, tsumitateLimit);
+  const cappedAnnualGrowth = Math.min(annualGrowth, growthLimit);
+  const annualEligiblePlanned = Math.min(cappedAnnualTsumitate + cappedAnnualGrowth, annualLimit);
+  const growthEligiblePlanned = Math.min(cappedAnnualGrowth * years, remainingGrowthLifetime);
+  const lifetimeEligiblePlanned = Math.min(annualEligiblePlanned * years, cappedAnnualTsumitate * years + growthEligiblePlanned);
+
+  let asset = 0;
+  let nisaPrincipal = 0;
+  let tsumitatePrincipal = 0;
+  let growthPrincipal = 0;
+  let rows = '';
+  let reachedYear = null;
+
+  for (let y = 1; y <= years; y++) {
+    asset = asset * (1 + yearlyRate);
+    let remaining = Math.max(0, remainingLifetime - nisaPrincipal);
+    let yTsumitate = Math.min(cappedAnnualTsumitate, remaining);
+    remaining -= yTsumitate;
+    let growthRemaining = Math.max(0, remainingGrowthLifetime - growthPrincipal);
+    let yGrowth = Math.min(cappedAnnualGrowth, remaining, growthRemaining);
+    remaining -= yGrowth;
+    const yContribution = yTsumitate + yGrowth;
+    if (!reachedYear && remainingLifetime > 0 && nisaPrincipal + yContribution >= remainingLifetime) reachedYear = y;
+    asset += yContribution;
+    nisaPrincipal += yContribution;
+    tsumitatePrincipal += yTsumitate;
+    growthPrincipal += yGrowth;
+    const yProfit = Math.max(0, asset - nisaPrincipal);
+    const useRate = Math.min(100, (usedPrincipal + nisaPrincipal) / lifetimeLimit * 100);
+    rows += '<tr><td>'+y+'年後</td><td>'+fmt(tsumitatePrincipal)+'</td><td>'+fmt(growthPrincipal)+'</td><td>'+fmt(nisaPrincipal)+'</td><td>'+fmt(asset)+'</td><td>'+fmt(yProfit)+'</td><td>'+useRate.toFixed(1)+'%</td></tr>';
+  }
+
+  const total = asset;
+  const profit = Math.max(0, total - nisaPrincipal);
+  const tax = profit * taxRate;
+  const overGrowthLifetime = Math.max(0, cappedAnnualGrowth * years - remainingGrowthLifetime);
+  const overLifetime = Math.max(0, lifetimeEligiblePlanned - remainingLifetime);
 
   const limitText = function(amount, limit) {
     if (amount <= limit) return '枠内（残り ' + fmt(limit - amount) + '）';
     return '超過（超過 ' + fmt(amount - limit) + '）';
   };
+  const lifetimeText = overLifetime > 0
+    ? '超過（超過 ' + fmt(overLifetime) + '）'
+    : '枠内（残り ' + fmt(remainingLifetime - lifetimeEligiblePlanned) + '）';
+  const growthLifetimeText = overGrowthLifetime > 0
+    ? '超過（超過 ' + fmt(overGrowthLifetime) + '）'
+    : '枠内（残り ' + fmt(remainingGrowthLifetime - cappedAnnualGrowth * years) + '）';
 
   document.getElementById('res-main').textContent = fmt(total);
-  document.getElementById('res-monthly').textContent = fmt(monthly);
-  document.getElementById('res-annual').textContent = fmt(annual);
-  document.getElementById('res-principal').textContent = fmt(principal);
+  document.getElementById('res-tsumitate-annual').textContent = fmt(annualTsumitate);
+  document.getElementById('res-growth-annual').textContent = fmt(annualGrowth);
+  document.getElementById('res-annual').textContent = fmt(annualTotal);
+  document.getElementById('res-used').textContent = fmt(usedPrincipal);
+  document.getElementById('res-used-growth').textContent = fmt(usedGrowthPrincipal);
+  document.getElementById('res-planned').textContent = fmt(plannedTotal);
+  document.getElementById('res-nisa-principal').textContent = fmt(nisaPrincipal);
+  document.getElementById('res-over-lifetime').textContent = fmt(overLifetime);
   document.getElementById('res-profit').textContent = fmt(profit);
   document.getElementById('res-total').textContent = fmt(total);
-  document.getElementById('res-taxable-total').textContent = fmt(taxableTotal);
   document.getElementById('res-tax').textContent = fmt(tax);
   document.getElementById('res-saving').textContent = fmt(tax);
-  document.getElementById('res-tsumitate-limit').textContent = limitText(annual, tsumitateLimit);
-  document.getElementById('res-annual-limit').textContent = limitText(annual, annualLimit);
-  document.getElementById('res-lifetime').textContent = lifetimeYears + '年で到達（元本ベース）';
-
-  document.getElementById('cmp-nisa-principal').textContent = fmt(principal);
-  document.getElementById('cmp-tax-principal').textContent = fmt(principal);
-  document.getElementById('cmp-nisa-profit').textContent = fmt(profit);
-  document.getElementById('cmp-tax-profit').textContent = fmt(profit);
-  document.getElementById('cmp-nisa-tax').textContent = '0 円';
-  document.getElementById('cmp-tax-tax').textContent = fmt(tax);
-  document.getElementById('cmp-nisa-total').textContent = fmt(total);
-  document.getElementById('cmp-tax-total').textContent = fmt(taxableTotal);
-
-  let rows = '';
-  for (let y = 1; y <= years; y++) {
-    const months = y * 12;
-    const yPrincipal = monthly * months;
-    const yTotal = futureValue(months);
-    const yProfit = yTotal - yPrincipal;
-    const yTaxable = yTotal - Math.max(0, yProfit * taxRate);
-    const yUse = Math.min(100, yPrincipal / lifetimeLimit * 100);
-    rows += '<tr><td>'+y+'年後</td><td>'+fmt(yPrincipal)+'</td><td>'+fmt(yTotal)+'</td><td>'+fmt(yTaxable)+'</td><td>'+fmt(yTotal-yTaxable)+'</td><td>'+yUse.toFixed(1)+'%</td></tr>';
-  }
+  document.getElementById('res-tsumitate-limit').textContent = limitText(annualTsumitate, tsumitateLimit);
+  document.getElementById('res-growth-limit').textContent = limitText(annualGrowth, growthLimit);
+  document.getElementById('res-annual-limit').textContent = limitText(annualTotal, annualLimit);
+  document.getElementById('res-growth-lifetime').textContent = growthLifetimeText;
+  document.getElementById('res-lifetime').textContent = lifetimeText;
   document.getElementById('yearly-body').innerHTML = rows;
 
   const info = document.getElementById('nisa-info');
-  if (annual <= tsumitateLimit) {
-    info.innerHTML = '<strong>つみたて投資枠内です：</strong>月10万円以下なので、つみたて投資枠だけで収まる目安です。まとまった資金も運用したい場合は、投資シミュレーション（初期元本＋毎月積立）も確認してください。';
-  } else if (annual <= annualLimit) {
-    info.innerHTML = '<strong>成長投資枠も使う水準です：</strong>年120万円を超えるため、つみたて投資枠に加えて成長投資枠も使う想定になります。';
+  if (usedGrowthPrincipal > usedPrincipal) {
+    info.innerHTML = '<strong>入力内容を確認してください：</strong>すでに使っている成長投資枠元本が、NISA元本全体より大きくなっています。金額を見直してください。';
+  } else if (annualTsumitate > tsumitateLimit || annualGrowth > growthLimit || annualTotal > annualLimit) {
+    info.innerHTML = '<strong>年間枠を超えています：</strong>つみたて投資枠は年120万円、成長投資枠は年240万円、合計で年360万円までです。超えた分はNISA対象元本から外して概算しています。';
+  } else if (overGrowthLifetime > 0) {
+    info.innerHTML = '<strong>成長投資枠の生涯上限を超えています：</strong>成長投資枠は生涯1,200万円までです。超えた分はNISA対象元本から外して概算しています。';
+  } else if (overLifetime > 0) {
+    info.innerHTML = '<strong>生涯投資枠を超えています：</strong>今回のプランでは生涯投資枠1,800万円を超えるため、' + (reachedYear ? reachedYear + '年目' : '期間内') + '以降の一部はNISA対象外になります。';
   } else {
-    info.innerHTML = '<strong>年間投資枠を超えています：</strong>NISAの年間投資枠は合計360万円が目安です。超えた分は課税口座での運用を考える必要があります。';
+    info.innerHTML = '<strong>NISA枠内に収まる見込みです：</strong>入力したプランは、年間投資枠と生涯投資枠の範囲内で運用できる目安です。まとまった資金も含めた資産形成は、投資シミュレーション（初期元本＋毎月積立）も確認してください。';
   }
   document.getElementById('result').classList.add('show');
 }
