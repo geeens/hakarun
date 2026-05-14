@@ -527,6 +527,13 @@ select:focus {
 }
 .result-table tr.deduct td { color: var(--danger); }
 .result-table td.limit-reached { color: var(--danger); }
+.result-note {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: -4px 0 10px;
+  line-height: 1.7;
+}
+.result-note:empty { display: none; }
 
 /* ===== INFO BOX ===== */
 .info-box {
