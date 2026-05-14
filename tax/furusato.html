@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ふるさと納税 上限額計算｜年収・家族構成から寄付上限額を無料計算｜はかるんツール</title>
-  <meta name="description" content="年収と家族構成を入力するだけでふるさと納税の寄付上限額を無料計算。実質2,000円で返礼品がもらえる金額の目安がわかります。">
+  <title>ふるさと納税 上限額・あといくら計算｜寄付済み額や控除も含めて無料シミュレーション｜はかるんツール</title>
+  <meta name="description" content="年収・家族構成・寄付済み額から、ふるさと納税の上限額と今年あといくら寄付できるかを無料計算。iDeCo・医療費控除・住宅ローン控除も任意で反映できます。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <!-- Google tag (gtag.js) -->
@@ -44,6 +44,22 @@
       "acceptedAnswer": {
         "@type": "Answer",
         "text": "確定申告をしなくても寄付先に申請書を送るだけでふるさと納税の控除が受けられる制度です。寄付先が5自治体以内・確定申告不要な給与所得者が対象です。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "今年あといくら寄付できるかもわかりますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "すでに寄付した金額を入力すると、上限額から差し引いて、あと寄付できる目安を表示します。年収見込みが変わる可能性がある場合は、安全目安を参考にしてください。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "iDeCoや医療費控除があると上限額は変わりますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "変わる場合があります。所得控除が増えると税金を計算する土台が小さくなり、ふるさと納税の上限額も下がることがあります。"
       }
     }
   ]
@@ -114,7 +130,7 @@
       <div class="nav-item active">
         <a href="../tax/index.html" class="nav-link">節税 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
-          <a href="../tax/furusato.html">🎎 ふるさと納税 上限額計算</a>
+          <a href="../tax/furusato.html">🎎 ふるさと納税 上限額・あといくら計算</a>
           <a href="../tax/setsuzei.html">📊 節税シミュレーション</a>
           <a href="../tax/jutaku.html">🏠 住宅ローン控除計算</a>
           <a href="../tax/iryouhi.html">🏥 医療費控除計算</a>
@@ -162,9 +178,9 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; ふるさと納税 上限額計算</div>
-      <h1>🎎 ふるさと納税 上限額計算</h1>
-      <p class="subtitle">自己負担2,000円になる寄付の上限額を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; ふるさと納税 上限額・あといくら計算</div>
+      <h1>🎎 ふるさと納税 上限額・あといくら計算</h1>
+      <p class="subtitle">寄付上限額と、今年あといくら寄付できるかを計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
@@ -190,12 +206,79 @@
           </select>
         </div>
       </div>
+      <div class="form-group">
+        <label>年齢</label>
+        <div class="radio-group">
+          <label><input type="radio" name="age" value="under40" checked> 40歳未満</label>
+          <label><input type="radio" name="age" value="over40"> 40歳以上</label>
+        </div>
+        <p class="hint">40歳以上は介護保険料があるため、上限額が少し変わります</p>
+      </div>
+      <div class="form-group">
+        <label>今年すでに寄付した金額</label>
+        <div class="input-wrap">
+          <input type="number" id="donated" placeholder="0" min="0">
+          <span class="unit">円</span>
+        </div>
+        <p class="hint">まだ寄付していない場合は空欄または0で大丈夫です</p>
+      </div>
+      <details style="margin:18px 0 22px;">
+        <summary style="cursor:pointer;font-weight:700;color:var(--primary);">詳細条件を入力する（任意）</summary>
+        <div style="margin-top:18px;">
+          <div class="form-group">
+            <label>iDeCoの年間掛金</label>
+            <div class="input-wrap">
+              <input type="number" id="ideco" placeholder="0" min="0">
+              <span class="unit">円</span>
+            </div>
+            <p class="hint">毎月2万円なら年間24万円です。未加入なら0で大丈夫です</p>
+          </div>
+          <div class="form-group">
+            <label>医療費控除額</label>
+            <div class="input-wrap">
+              <input type="number" id="medical" placeholder="0" min="0">
+              <span class="unit">円</span>
+            </div>
+            <p class="hint">医療費そのものではなく、医療費控除として差し引ける金額です</p>
+          </div>
+          <div class="form-group">
+            <label>生命保険料控除額（住民税側）</label>
+            <div class="input-wrap">
+              <input type="number" id="life-insurance" placeholder="0" min="0" max="70000">
+              <span class="unit">円</span>
+            </div>
+            <p class="hint">わからない場合は0で大丈夫です。住民税側の上限は一般的に最大7万円です</p>
+          </div>
+          <div class="form-group">
+            <label>住宅ローン控除（住民税から引かれる見込み）</label>
+            <div class="input-wrap">
+              <input type="number" id="housing-credit" placeholder="0" min="0">
+              <span class="unit">円</span>
+            </div>
+            <p class="hint">住宅ローン控除がない、または不明な場合は0で大丈夫です</p>
+          </div>
+        </div>
+      </details>
+      <div class="form-group">
+        <label>ワンストップ特例チェック</label>
+        <div class="input-wrap">
+          <select id="tax-return">
+            <option value="no">確定申告をしない予定</option>
+            <option value="yes">確定申告をする予定</option>
+          </select>
+        </div>
+        <div class="input-wrap" style="margin-top:10px;">
+          <input type="number" id="municipalities" placeholder="5" min="1">
+          <span class="unit">自治体</span>
+        </div>
+        <p class="hint">寄付先の自治体数です。同じ自治体に複数回寄付しても1自治体として数えます</p>
+      </div>
       <button class="btn btn-primary" onclick="calcFurusato()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
           <div class="label">ふるさと納税の上限額（目安）</div>
           <div class="value" id="res-limit">—</div>
-          <div class="sub">この金額まで寄付すれば自己負担は2,000円</div>
+          <div class="sub" id="res-main-sub">この金額まで寄付すれば自己負担は2,000円の目安</div>
         </div>
         <div class="result-table">
           <table>
@@ -204,22 +287,28 @@
               <tr><td>給与所得</td><td id="res-kyuyo">—</td></tr>
               <tr><td>住民税の所得割（概算）</td><td id="res-jumin">—</td></tr>
               <tr><td>寄付の上限額</td><td id="res-limit2">—</td></tr>
+              <tr><td>安全に寄付するなら</td><td id="res-safe">—</td></tr>
+              <tr><td>すでに寄付した金額</td><td id="res-donated">—</td></tr>
+              <tr><td>あと寄付できる目安</td><td id="res-remaining">—</td></tr>
+              <tr><td>返礼品の目安価値（最大30%）</td><td id="res-gift">—</td></tr>
+              <tr><td>実質メリットの目安</td><td id="res-benefit">—</td></tr>
+              <tr><td>手続きの目安</td><td id="res-onestop">—</td></tr>
               <tr><td>実質の自己負担</td><td>2,000 円</td></tr>
             </tbody>
           </table>
         </div>
         <div class="info-box">
           <strong>⚠️ この計算はあくまで目安です。</strong><br>
-          医療費控除・住宅ローン控除などがある場合、上限額は下がります。正確な上限額はお住まいの市区町村にご確認ください。また、ふるさと納税の控除を受けるには確定申告またはワンストップ特例の申請が必要です。
+          計算結果は概算です。医療費控除・住宅ローン控除・年収見込みの変化がある場合、上限額は変わります。迷う場合は「安全に寄付するなら」の金額を目安にしてください。ふるさと納税の控除を受けるには、確定申告またはワンストップ特例の申請が必要です。
         </div>
       </div>
     </div>
     <div class="ad-area">広告</div>
     <div class="article">
       <h2>ふるさと納税とは？わかりやすく解説</h2>
-      <p>ふるさと納税とは、好きな都道府県・市区町村に寄付をすると、翌年の住民税や所得税が減額される制度です。寄付のお礼として「返礼品」（食べ物・日用品など）がもらえるため、実質2,000円の自己負担でお得に買い物できる仕組みです。</p>
+      <p>ふるさと納税とは、好きな都道府県・市区町村に寄付をすると、翌年の住民税や所得税が減額される制度です。寄付のお礼として「返礼品」（食べ物・日用品など）がもらえるため、実質2,000円の自己負担で家計に役立つ返礼品を選べる仕組みです。</p>
       <h3>上限額を超えると損になる</h3>
-      <p>上限額を超えた分は税金が戻ってきません。上限額内に収めることが重要です。年収・家族構成によって上限額は変わります。</p>
+      <p>上限額を超えた分は控除されず、自己負担が増える可能性があります。上限額内に収めることが重要です。年収・家族構成だけでなく、iDeCo、医療費控除、生命保険料控除、住宅ローン控除などによっても上限額は変わります。</p>
       <h3>手続き方法（2択）</h3>
       <ul>
         <li><strong>ワンストップ特例</strong>：寄付先が5自治体以内で確定申告不要の方向け。寄付後に自治体へ申請書を送るだけ。</li>
@@ -227,12 +316,15 @@
       </ul>
       <h3>申し込みは年内（12月31日）まで</h3>
       <p>その年の住民税から控除されるには、12月31日までに寄付を完了する必要があります。</p>
+      <h3>2025年10月以降はポイント付与に注意</h3>
+      <p>2025年10月以降、ふるさと納税ポータルサイトを通じた寄付で、寄付者にポイントを付与する形の募集は制限されています。返礼品の内容、寄付先の使い道、家計で使いやすい品物かどうかを中心に選びましょう。</p>
     </div>
 
     <div class="article">
       <h2>ふるさと納税の仕組みと上限額の考え方</h2>
       <p>ふるさと納税とは、全国の自治体に寄付をすると、翌年の住民税や所得税が控除される制度です。2,000円の自己負担で返礼品がもらえることから「実質2,000円で日本各地の特産品をお得に手に入れられる制度」として広く普及しています。</p>
-      <p>控除を受けられる上限額（寄付限度額）は年収・家族構成・他の控除額によって異なります。上限を超えた分は控除されず自己負担になるため、事前に上限額を把握しておくことが重要です。このツールで年収と家族構成を入力するだけで目安の上限額を計算できます。</p>
+      <p>控除を受けられる上限額（寄付限度額）は年収・家族構成・他の控除額によって異なります。上限を超えた分は控除されず自己負担になるため、事前に上限額を把握しておくことが重要です。このツールでは、年収と家族構成だけの簡単な計算に加えて、寄付済み額や各種控除を入れた概算もできます。</p>
+      <p>ふるさと納税は年末にまとめて使われやすい制度ですが、年収見込みや控除額が変わると上限額も動きます。結果ぴったりまで寄付するより、少し余裕を残す方が安全です。このページでは、上限額とは別に「安全に寄付するなら」の金額も表示します。</p>
       <p>控除の受け方には「ワンストップ特例制度」と「確定申告」の2種類があります。給与所得者で寄付先が5自治体以内の場合はワンストップ特例が使えて便利です。ふるさと納税の申し込みは各ポータルサイト（さとふる・ふるさとチョイス等）から手軽に行えます。</p>
     </div>
     <div class="article">
@@ -248,6 +340,14 @@
       <div class="faq-item">
         <div class="faq-q">Q. ワンストップ特例制度とは何ですか？</div>
         <div class="faq-a">確定申告をしなくても寄付先に申請書を送るだけでふるさと納税の控除が受けられる制度です。寄付先が5自治体以内・確定申告不要な給与所得者が対象です。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q. 今年あといくら寄付できるかもわかりますか？</div>
+        <div class="faq-a">はい。すでに寄付した金額を入力すると、上限額から差し引いて、あと寄付できる目安を表示します。年収見込みが変わる可能性がある場合は、安全目安を参考にしてください。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q. iDeCoや医療費控除があると上限額は変わりますか？</div>
+        <div class="faq-a">変わる場合があります。所得控除が増えると税金を計算する土台が小さくなり、ふるさと納税の上限額も下がることがあります。このツールでは詳細条件として任意入力できます。</div>
       </div>
     </div>
   </div>
@@ -270,12 +370,21 @@
 </footer>
 <script>
 function fmt(n) { return Math.round(n).toLocaleString('ja-JP') + ' 円'; }
+function num(id) { return parseFloat(document.getElementById(id).value) || 0; }
 
 function calcFurusato() {
-  const income = parseFloat(document.getElementById('income').value);
+  const income = num('income');
   if (!income || income <= 0) { alert('年収を入力してください'); return; }
 
   const family = document.getElementById('family').value;
+  const isOver40 = document.querySelector('input[name="age"]:checked').value === 'over40';
+  const donated = num('donated');
+  const ideco = num('ideco');
+  const medical = num('medical');
+  const lifeInsurance = Math.min(num('life-insurance'), 70000);
+  const housingCredit = num('housing-credit');
+  const taxReturn = document.getElementById('tax-return').value;
+  const municipalities = Math.max(1, Math.floor(num('municipalities') || 5));
 
   // 給与所得控除
   let kyuyoKojo = 0;
@@ -288,8 +397,9 @@ function calcFurusato() {
 
   const kyuyoShotoku = income - kyuyoKojo;
 
-  // 社会保険料控除（概算：給与の14.5%）
-  const socialKojo = income * 0.145;
+  // 社会保険料控除（概算）
+  const socialRate = isOver40 ? 0.15925 : 0.15115;
+  const socialKojo = income * socialRate;
 
   // 扶養控除・配偶者控除（住民税用）
   let fuyoKojo = 0;
@@ -302,14 +412,16 @@ function calcFurusato() {
 
   // 住民税の基礎控除：43万円
   const kisoKojo = 430000;
-  const kazeiShotoku = Math.max(0, kyuyoShotoku - socialKojo - kisoKojo - fuyoKojo);
+  const otherKojo = ideco + medical + lifeInsurance;
+  const kazeiShotoku = Math.max(0, kyuyoShotoku - socialKojo - kisoKojo - fuyoKojo - otherKojo);
 
   // 住民税所得割：10%
-  const juminWarari = kazeiShotoku * 0.10;
+  const juminWarariBeforeCredit = kazeiShotoku * 0.10;
+  const juminWarari = Math.max(0, juminWarariBeforeCredit - housingCredit);
 
   // 所得税率（ふるさと納税の控除計算用）
   let shotokuZeiritsu = 0.05;
-  const kazeiShotokuKokuzei = Math.max(0, kyuyoShotoku - socialKojo - 480000 - fuyoKojo);
+  const kazeiShotokuKokuzei = Math.max(0, kyuyoShotoku - socialKojo - 480000 - fuyoKojo - otherKojo);
   if (kazeiShotokuKokuzei <= 1950000) shotokuZeiritsu = 0.05;
   else if (kazeiShotokuKokuzei <= 3300000) shotokuZeiritsu = 0.10;
   else if (kazeiShotokuKokuzei <= 6950000) shotokuZeiritsu = 0.20;
@@ -317,16 +429,31 @@ function calcFurusato() {
   else shotokuZeiritsu = 0.33;
 
   // 上限額の計算式
-  // 上限 = (住民税所得割 × 0.2) / (1 - 0.2142 - 所得税率 × 1.021) + 2000
-  const denominator = 1 - 0.2 - shotokuZeiritsu * 1.021;
-  let limit = (juminWarari * 0.2) / denominator + 2000;
+  // 特例控除が住民税所得割の20%に収まる寄付額を逆算します。
+  const denominator = 0.9 - shotokuZeiritsu * 1.021;
+  let limit = denominator > 0 ? (juminWarari * 0.2) / denominator + 2000 : 2000;
+  limit = Math.max(2000, limit);
   limit = Math.floor(limit / 1000) * 1000; // 千円単位に切り捨て
+  const safeLimit = Math.max(0, Math.floor((limit * 0.9) / 1000) * 1000);
+  const remaining = Math.max(0, safeLimit - donated);
+  const giftValue = Math.max(0, Math.floor(limit * 0.3 / 1000) * 1000);
+  const benefit = Math.max(0, giftValue - 2000);
+  let onestop = 'ワンストップ特例を使える可能性があります';
+  if (taxReturn === 'yes') onestop = '確定申告が必要です';
+  else if (municipalities > 5) onestop = '6自治体以上のため確定申告が必要です';
 
   document.getElementById('res-limit').textContent = fmt(limit);
+  document.getElementById('res-main-sub').textContent = remaining > 0 ? '安全目安では、あと ' + fmt(remaining) + ' まで寄付できる見込みです' : '寄付済み額が安全目安に達している可能性があります';
   document.getElementById('res-income').textContent = fmt(income);
   document.getElementById('res-kyuyo').textContent = fmt(kyuyoShotoku);
   document.getElementById('res-jumin').textContent = fmt(juminWarari);
   document.getElementById('res-limit2').textContent = fmt(limit);
+  document.getElementById('res-safe').textContent = fmt(safeLimit);
+  document.getElementById('res-donated').textContent = fmt(donated);
+  document.getElementById('res-remaining').textContent = fmt(remaining);
+  document.getElementById('res-gift').textContent = fmt(giftValue);
+  document.getElementById('res-benefit').textContent = fmt(benefit);
+  document.getElementById('res-onestop').textContent = onestop;
   document.getElementById('result').classList.add('show');
 }
 </script>
