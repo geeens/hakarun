@@ -167,6 +167,15 @@
             <div class="input-wrap"><input type="number" id="used-growth-principal" placeholder="0" min="0"><span class="unit">円</span></div>
             <p class="hint">成長投資枠は生涯1,200万円まで。わからなければ0円で大丈夫です。</p>
           </div>
+          <div class="form-group">
+            <label class="checkbox-field"><input type="checkbox" id="include-existing-assets"> 過去に投資済みのNISA資産も結果に含める</label>
+            <p class="hint">ONにすると、過去分のNISA資産も想定年利で運用する前提にします。</p>
+          </div>
+          <div class="form-group">
+            <label>現在のNISA資産額（評価額）</label>
+            <div class="input-wrap"><input type="number" id="existing-assets" placeholder="0" min="0"><span class="unit">円</span></div>
+            <p class="hint">過去分を含める場合だけ使います。未入力なら、すでに使っているNISA元本と同額として概算します。</p>
+          </div>
         </div>
       </details>
       <button class="btn btn-primary" onclick="calcNisa()">計算する</button>
@@ -190,7 +199,8 @@
           <tr><td>すでに使っているNISA元本</td><td id="res-used">—</td></tr>
           <tr><td>すでに使っている成長投資枠元本</td><td id="res-used-growth">—</td></tr>
           <tr><td>今回プランの投資予定額</td><td id="res-planned">—</td></tr>
-          <tr><td>NISA対象元本</td><td id="res-nisa-principal">—</td></tr>
+          <tr><td>今回追加できるNISA元本</td><td id="res-nisa-principal">—</td></tr>
+          <tr><td>計算に含めた既存NISA資産</td><td id="res-existing-assets">—</td></tr>
           <tr><td>NISA資産額（概算）</td><td id="res-total">—</td></tr>
           <tr><td>NISA対象の運用益</td><td id="res-profit">—</td></tr>
           <tr><td>節税メリット（課税口座ならかかる税金）</td><td id="res-saving">—</td></tr>
@@ -248,6 +258,8 @@ function calcNisa() {
   const growthLump = parseFloat(document.getElementById('growth-lump').value) || 0;
   const usedPrincipal = parseFloat(document.getElementById('used-principal').value) || 0;
   const usedGrowthPrincipal = parseFloat(document.getElementById('used-growth-principal').value) || 0;
+  const includeExistingAssets = document.getElementById('include-existing-assets').checked;
+  const existingAssetsInput = parseFloat(document.getElementById('existing-assets').value) || 0;
   const annualRate = parseFloat(document.getElementById('rate').value);
   const years = parseFloat(document.getElementById('years').value);
   if ((tsumitateMonthly + growthMonthly + growthLump) === 0 || isNaN(annualRate) || !years) { alert('投資額・年利・期間を入力してください'); return; }
@@ -273,6 +285,7 @@ function calcNisa() {
   const annualTotal = annualTsumitate + annualGrowth;
   const info = document.getElementById('nisa-info');
   const result = document.getElementById('result');
+  const existingAssetsForCalc = includeExistingAssets ? (existingAssetsInput > 0 ? existingAssetsInput : usedPrincipal) : 0;
   if (annualTsumitate > tsumitateLimit || annualGrowth > growthLimit || annualTotal > annualLimit) {
     const messages = [];
     if (annualTsumitate > tsumitateLimit) messages.push('つみたて投資枠の年間積立額が ' + fmt(annualTsumitate) + ' となり、年間上限を ' + fmt(annualTsumitate - tsumitateLimit) + ' 超えています。<br>（つみたて投資枠の年間上限は ' + fmt(tsumitateLimit) + ' です。月額は10万円までが目安です。）');
@@ -296,7 +309,7 @@ function calcNisa() {
   const growthEligiblePlanned = Math.min(cappedAnnualGrowth * years, remainingGrowthLifetime);
   const lifetimeEligiblePlanned = Math.min(annualEligiblePlanned * years, cappedAnnualTsumitate * years + growthEligiblePlanned);
 
-  let asset = 0;
+  let asset = existingAssetsForCalc;
   let nisaPrincipal = 0;
   let tsumitatePrincipal = 0;
   let growthPrincipal = 0;
@@ -346,7 +359,8 @@ function calcNisa() {
     nisaPrincipal += yContribution;
     tsumitatePrincipal += yTsumitate;
     growthPrincipal += yGrowth;
-    const yProfit = Math.max(0, asset - nisaPrincipal);
+    const yPrincipalForProfit = nisaPrincipal + (includeExistingAssets ? (usedPrincipal > 0 ? usedPrincipal : existingAssetsForCalc) : 0);
+    const yProfit = Math.max(0, asset - yPrincipalForProfit);
     const useRate = Math.min(100, (usedPrincipal + nisaPrincipal) / lifetimeLimit * 100);
     const growthReachedThisYear = !highlightedGrowthLifetime && remainingGrowthLifetime > 0 && growthPrincipal >= remainingGrowthLifetime;
     const lifetimeReachedThisYear = !highlightedLifetime && remainingLifetime > 0 && nisaPrincipal >= remainingLifetime;
@@ -358,7 +372,8 @@ function calcNisa() {
   }
 
   const total = asset;
-  const profit = Math.max(0, total - nisaPrincipal);
+  const principalForProfit = nisaPrincipal + (includeExistingAssets ? (usedPrincipal > 0 ? usedPrincipal : existingAssetsForCalc) : 0);
+  const profit = Math.max(0, total - principalForProfit);
   const tax = profit * taxRate;
   const growthLifetimeReached = reachedGrowthLifetimeMonth !== null;
   const lifetimeReached = reachedLifetimeMonth !== null;
@@ -385,6 +400,7 @@ function calcNisa() {
   document.getElementById('res-used-growth').textContent = fmt(usedGrowthPrincipal);
   document.getElementById('res-planned').textContent = fmt(plannedTotal);
   document.getElementById('res-nisa-principal').textContent = fmt(nisaPrincipal);
+  document.getElementById('res-existing-assets').textContent = fmt(existingAssetsForCalc);
   document.getElementById('res-profit').textContent = fmt(profit);
   document.getElementById('res-total').textContent = fmt(total);
   document.getElementById('res-saving').textContent = fmt(tax);
