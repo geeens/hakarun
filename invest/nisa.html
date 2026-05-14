@@ -269,14 +269,14 @@ function calcNisa() {
   const result = document.getElementById('result');
   if (annualTsumitate > tsumitateLimit || annualGrowth > growthLimit || annualTotal > annualLimit) {
     const messages = [];
-    if (annualTsumitate > tsumitateLimit) messages.push('つみたて投資枠を ' + fmt(annualTsumitate - tsumitateLimit) + ' 超えています（月額は10万円までが目安です）');
-    if (annualGrowth > growthLimit) messages.push('成長投資枠を ' + fmt(annualGrowth - growthLimit) + ' 超えています');
-    if (annualTotal > annualLimit) messages.push('年間投資枠の合計を ' + fmt(annualTotal - annualLimit) + ' 超えています');
+    if (annualTsumitate > tsumitateLimit) messages.push('つみたて投資枠の年間積立額が ' + fmt(annualTsumitate) + ' となり、年間上限を ' + fmt(annualTsumitate - tsumitateLimit) + ' 超えています。<br>（つみたて投資枠の年間上限は ' + fmt(tsumitateLimit) + ' です。月額は10万円までが目安です。）');
+    if (annualGrowth > growthLimit) messages.push('成長投資枠の年間投資額が ' + fmt(annualGrowth) + ' となり、年間上限を ' + fmt(annualGrowth - growthLimit) + ' 超えています。<br>（成長投資枠の年間上限は ' + fmt(growthLimit) + ' です。）');
+    if (annualTotal > annualLimit) messages.push('年間投資額の合計が ' + fmt(annualTotal) + ' となり、年間上限を ' + fmt(annualTotal - annualLimit) + ' 超えています。<br>（NISA全体の年間上限は ' + fmt(annualLimit) + ' です。）');
     document.getElementById('res-main').textContent = '計算できません';
     document.getElementById('res-growth-lifetime-reached').textContent = '—';
     document.getElementById('res-lifetime-reached').textContent = '—';
     document.getElementById('yearly-body').innerHTML = '';
-    info.innerHTML = '<strong>年間投資枠を超えています：</strong><br>' + messages.join('<br>') + '<br>入力額をNISAの年間上限内に下げてから、もう一度計算してください。';
+    info.innerHTML = '<strong>年間投資枠を超えています：</strong><br>' + messages.join('<br><br>') + '<br><br>入力額をNISAの年間上限内に下げてから、もう一度計算してください。';
     result.classList.add('show');
     return;
   }
