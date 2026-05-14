@@ -10,7 +10,7 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"初期元本とは何ですか？","acceptedAnswer":{"@type":"Answer","text":"投資を始める時点で一括で投資する金額のことです。貯金や退職金・相続などまとまった資金を最初に入れて、そこから毎月の積立を追加していくパターンに使います。"}},{"@type":"Question","name":"初期元本と毎月積立はどちらが効果的ですか？","acceptedAnswer":{"@type":"Answer","text":"まとまった資金がある場合は初期元本として早めに投資するほど複利効果が大きくなります。一方、月々の積立はドルコスト平均法の効果があり、価格変動リスクを平準化できます。両方を組み合わせるのが理想的です。"}},{"@type":"Question","name":"NISAで初期元本＋積立はできますか？","acceptedAnswer":{"@type":"Answer","text":"できます。NISAの成長投資枠（年240万円）で一括投資し、つみたて投資枠（年120万円）で積立を続ける組み合わせが代表的な活用方法です。ただし生涯投資枠は1,800万円までです。"}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"初期元本とは何ですか？","acceptedAnswer":{"@type":"Answer","text":"投資を始める時点で一括で投資する金額のことです。貯金や退職金・相続などまとまった資金を最初に入れて、そこから毎月の積立を追加していくパターンに使います。"}},{"@type":"Question","name":"初期元本と毎月積立はどちらが効果的ですか？","acceptedAnswer":{"@type":"Answer","text":"まとまった資金がある場合は初期元本として早めに投資するほど複利効果が大きくなります。一方、月々の積立はドルコスト平均法の効果があり、価格変動リスクを平準化できます。両方を組み合わせるのが理想的です。"}},{"@type":"Question","name":"NISA枠は考慮していますか？","acceptedAnswer":{"@type":"Answer","text":"このツールではNISA枠の上限判定は行わず、税引前と課税口座での税引後の目安を表示します。NISA枠の範囲内か確認したい場合は、NISA枠・積立シミュレーションをご利用ください。"}}]}</script>
 </head>
 <body>
 <header>
@@ -161,17 +161,10 @@
           <span class="unit">年</span>
         </div>
       </div>
-      <div class="form-group">
-        <label>口座の種類</label>
-        <div class="radio-group">
-          <label><input type="radio" name="nisa" value="nisa" checked> 非課税口座（NISA）</label>
-          <label><input type="radio" name="nisa" value="taxable"> 課税口座（一般）</label>
-        </div>
-      </div>
       <button class="btn btn-primary" onclick="calcTsumitate()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">最終資産額</div>
+          <div class="label">最終資産額（税引前）</div>
           <div class="value" id="res-main">—</div>
         </div>
         <div class="result-table">
@@ -182,18 +175,11 @@
             <tr><td>初期元本が増えた分</td><td id="res-principal-profit">—</td></tr>
             <tr><td>毎月積立が増えた分</td><td id="res-monthly-profit">—</td></tr>
             <tr><td>運用益</td><td id="res-profit">—</td></tr>
-            <tr><td>税金</td><td id="res-tax">—</td></tr>
-            <tr><td>最終資産額（税引後）</td><td id="res-total">—</td></tr>
-            <tr><td>NISAによる節税メリット</td><td id="res-saving">—</td></tr>
+            <tr><td>課税口座の場合の税金</td><td id="res-tax">—</td></tr>
+            <tr><td>最終資産額（税引前）</td><td id="res-total-before-tax">—</td></tr>
+            <tr><td>最終資産額（税引後・課税口座）</td><td id="res-total-after-tax">—</td></tr>
           </tbody></table>
         </div>
-        <h2 style="font-size:20px;margin:24px 0 12px;">NISAと課税口座の比較</h2>
-        <div class="result-table"><table><thead><tr><th>項目</th><th>NISA</th><th>課税口座</th></tr></thead><tbody>
-          <tr><td>元本合計</td><td id="cmp-nisa-principal">—</td><td id="cmp-tax-principal">—</td></tr>
-          <tr><td>運用益</td><td id="cmp-nisa-profit">—</td><td id="cmp-tax-profit">—</td></tr>
-          <tr><td>税金</td><td id="cmp-nisa-tax">—</td><td id="cmp-tax-tax">—</td></tr>
-          <tr class="total"><td>最終資産額</td><td id="cmp-nisa-total">—</td><td id="cmp-tax-total">—</td></tr>
-        </tbody></table></div>
         <h2 style="font-size:20px;margin:24px 0 12px;">投資元本と利益の推移</h2>
         <div class="chart-panel">
           <canvas id="growth-chart" width="900" height="320"></canvas>
@@ -216,7 +202,7 @@
       <h2>初期元本＋積立投資で加速する資産形成</h2>
       <p>まとまった資金（初期元本）があるときは、最初に一括で投資することで複利効果を最大限に活かせます。月々の積立と組み合わせることで、「一括投資の複利効果」＋「積立の継続効果」の両方を享受できる、最も効率的な資産形成パターンです。</p>
       <p>例として、初期元本100万円＋月3万円を年利5%で20年運用した場合を計算すると、元本合計は820万円（初期100万円＋積立720万円）、最終資産額は約1,510万円になります（初期元本のみなら約265万円、積立のみなら約1,245万円）。</p>
-      <p>初期元本には退職金・相続・まとまった貯蓄などを活用するケースが多いです。NISAの成長投資枠で一括投資し、つみたて投資枠で積立を継続するパターンは、新NISAの活用法として非常に有効です。ただし投資にはリスクがあるため、生活費6ヶ月分の緊急資金を確保した上でご検討ください。NISA枠の使い切り方を見たい場合は、<a href="./nisa.html">NISA枠・積立シミュレーション</a>をご利用ください。</p>
+      <p>初期元本には退職金・相続・まとまった貯蓄などを活用するケースが多いです。このツールでは、税引前の資産額と、課税口座で運用した場合の税引後資産額を並べて確認できます。NISA枠の使い切り方や、年間投資枠・生涯投資枠の範囲内かを見たい場合は、<a href="./nisa.html">NISA枠・積立シミュレーション</a>をご利用ください。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
@@ -229,8 +215,8 @@
         <div class="faq-a">まとまった資金がある場合は初期元本として早めに投資するほど複利効果が大きくなります。一方、月々の積立はドルコスト平均法の効果があり、価格変動リスクを平準化できます。両方を組み合わせるのが理想的です。</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">Q. NISAで初期元本＋積立はできますか？</div>
-        <div class="faq-a">できます。NISAの成長投資枠（年240万円）で一括投資し、つみたて投資枠（年120万円）で積立を続ける組み合わせが代表的な活用方法です。ただし生涯投資枠は1,800万円までです。</div>
+        <div class="faq-q">Q. NISA枠は考慮していますか？</div>
+        <div class="faq-a">このツールではNISA枠の上限判定は行わず、税引前と課税口座での税引後の目安を表示します。NISA枠の範囲内か確認したい場合は、NISA枠・積立シミュレーションをご利用ください。</div>
       </div>
     </div>
   </div>
@@ -257,7 +243,6 @@ function calcTsumitate() {
   const monthly = parseFloat(document.getElementById('monthly').value) || 0;
   const annualRate = parseFloat(document.getElementById('rate').value);
   const years = parseFloat(document.getElementById('years').value);
-  const isNisa = document.querySelector('input[name="nisa"]:checked').value === 'nisa';
 
   if (annualRate === undefined || isNaN(annualRate) || !years) {
     alert('年利と運用期間を入力してください'); return;
@@ -283,31 +268,21 @@ function calcTsumitate() {
   const profit = total - ganpon;
   const tax = profit * 0.20315;
   const taxableFinal = total - tax;
-  const finalAmount = isNisa ? total : total - tax;
   const principalProfit = principalFinal - P;
   const monthlyProfit = monthlyFinal - monthlyTotal;
 
   const fmt = v => Math.round(v).toLocaleString('ja-JP') + ' 円';
 
-  document.getElementById('res-main').textContent = fmt(finalAmount);
+  document.getElementById('res-main').textContent = fmt(total);
   document.getElementById('res-principal').textContent = fmt(P);
   document.getElementById('res-monthly-total').textContent = fmt(monthlyTotal);
   document.getElementById('res-ganpon').textContent = fmt(ganpon);
   document.getElementById('res-principal-profit').textContent = fmt(principalProfit);
   document.getElementById('res-monthly-profit').textContent = fmt(monthlyProfit);
   document.getElementById('res-profit').textContent = fmt(profit);
-  document.getElementById('res-tax').textContent = isNisa ? '非課税（NISA）' : fmt(tax);
-  document.getElementById('res-total').textContent = fmt(finalAmount);
-  document.getElementById('res-saving').textContent = isNisa ? fmt(tax) + '（節税効果）' : '—';
-
-  document.getElementById('cmp-nisa-principal').textContent = fmt(ganpon);
-  document.getElementById('cmp-tax-principal').textContent = fmt(ganpon);
-  document.getElementById('cmp-nisa-profit').textContent = fmt(profit);
-  document.getElementById('cmp-tax-profit').textContent = fmt(profit);
-  document.getElementById('cmp-nisa-tax').textContent = '0 円';
-  document.getElementById('cmp-tax-tax').textContent = fmt(tax);
-  document.getElementById('cmp-nisa-total').textContent = fmt(total);
-  document.getElementById('cmp-tax-total').textContent = fmt(taxableFinal);
+  document.getElementById('res-tax').textContent = fmt(tax);
+  document.getElementById('res-total-before-tax').textContent = fmt(total);
+  document.getElementById('res-total-after-tax').textContent = fmt(taxableFinal);
 
   let rows = '';
   const chartData = [];
@@ -317,7 +292,7 @@ function calcTsumitate() {
     const yGanpon = P + monthly * months;
     const yProfit = item.total - yGanpon;
     const yTax = Math.max(0, yProfit * 0.20315);
-    const yFinal = isNisa ? item.total : item.total - yTax;
+    const yFinal = item.total - yTax;
     chartData.push({ year: y, principal: yGanpon, profit: Math.max(0, yProfit), total: item.total });
     rows += '<tr><td>'+y+'年後</td><td>'+fmt(yGanpon)+'</td><td>'+fmt(item.pFinal)+'</td><td>'+fmt(item.mFinal)+'</td><td>'+fmt(item.total)+'</td><td>'+fmt(yFinal)+'</td></tr>';
   }
@@ -325,11 +300,7 @@ function calcTsumitate() {
   drawGrowthChart(chartData);
 
   const info = document.getElementById('result-info');
-  if (isNisa) {
-    info.innerHTML = '<strong>初期元本＋積立の効果：</strong>まとまった資金を早めに運用すると、初期元本部分にも長く複利が働きます。NISA枠に収まるかを詳しく見たい場合は、NISA枠・積立シミュレーションも確認してください。';
-  } else {
-    info.innerHTML = '<strong>課税口座では</strong>運用益に約20.315%の税金がかかります。NISAを活用するとこの税金が非課税になります。';
-  }
+  info.innerHTML = '<strong>初期元本＋積立の効果：</strong>まとまった資金を早めに運用すると、初期元本部分にも長く複利が働きます。NISA枠の範囲内か確認したい場合は、<a href="./nisa.html">NISA枠・積立シミュレーション</a>をご利用ください。';
 
   document.getElementById('result').classList.add('show');
 }
