@@ -186,7 +186,6 @@
           <tr><td>すでに使っている成長投資枠元本</td><td id="res-used-growth">—</td></tr>
           <tr><td>今回プランの投資予定額</td><td id="res-planned">—</td></tr>
           <tr><td>NISA対象元本</td><td id="res-nisa-principal">—</td></tr>
-          <tr><td>生涯投資枠の超過額</td><td id="res-over-lifetime">—</td></tr>
           <tr><td>NISA資産額（概算）</td><td id="res-total">—</td></tr>
           <tr><td>NISA対象の運用益</td><td id="res-profit">—</td></tr>
           <tr><td>課税口座ならかかる税金</td><td id="res-tax">—</td></tr>
@@ -298,6 +297,8 @@ function calcNisa() {
   let rows = '';
   let reachedGrowthLifetimeMonth = usedGrowthPrincipal >= growthLifetimeLimit ? 0 : null;
   let reachedLifetimeMonth = usedPrincipal >= lifetimeLimit ? 0 : null;
+  let highlightedGrowthLifetime = false;
+  let highlightedLifetime = false;
 
   let monthlyNisaPrincipal = 0;
   let monthlyGrowthPrincipal = 0;
@@ -341,7 +342,13 @@ function calcNisa() {
     growthPrincipal += yGrowth;
     const yProfit = Math.max(0, asset - nisaPrincipal);
     const useRate = Math.min(100, (usedPrincipal + nisaPrincipal) / lifetimeLimit * 100);
-    rows += '<tr><td>'+y+'年後</td><td>'+fmt(tsumitatePrincipal)+'</td><td>'+fmt(growthPrincipal)+'</td><td>'+fmt(nisaPrincipal)+'</td><td>'+fmt(asset)+'</td><td>'+fmt(yProfit)+'</td><td>'+useRate.toFixed(1)+'%</td></tr>';
+    const growthReachedThisYear = !highlightedGrowthLifetime && remainingGrowthLifetime > 0 && growthPrincipal >= remainingGrowthLifetime;
+    const lifetimeReachedThisYear = !highlightedLifetime && remainingLifetime > 0 && nisaPrincipal >= remainingLifetime;
+    if (growthReachedThisYear) highlightedGrowthLifetime = true;
+    if (lifetimeReachedThisYear) highlightedLifetime = true;
+    const growthClass = growthReachedThisYear ? ' class="limit-reached"' : '';
+    const lifetimeClass = lifetimeReachedThisYear ? ' class="limit-reached"' : '';
+    rows += '<tr><td>'+y+'年後</td><td>'+fmt(tsumitatePrincipal)+'</td><td'+growthClass+'>'+fmt(growthPrincipal)+'</td><td'+lifetimeClass+'>'+fmt(nisaPrincipal)+'</td><td>'+fmt(asset)+'</td><td>'+fmt(yProfit)+'</td><td>'+useRate.toFixed(1)+'%</td></tr>';
   }
 
   const total = asset;
@@ -370,7 +377,6 @@ function calcNisa() {
   document.getElementById('res-used-growth').textContent = fmt(usedGrowthPrincipal);
   document.getElementById('res-planned').textContent = fmt(plannedTotal);
   document.getElementById('res-nisa-principal').textContent = fmt(nisaPrincipal);
-  document.getElementById('res-over-lifetime').textContent = fmt(overLifetime);
   document.getElementById('res-profit').textContent = fmt(profit);
   document.getElementById('res-total').textContent = fmt(total);
   document.getElementById('res-tax').textContent = fmt(tax);

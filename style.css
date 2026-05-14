@@ -481,6 +481,7 @@ select:focus {
   background: #F8FAFC;
 }
 .result-table tr.deduct td { color: var(--danger); }
+.result-table td.limit-reached { color: var(--danger); }
 
 /* ===== INFO BOX ===== */
 .info-box {
