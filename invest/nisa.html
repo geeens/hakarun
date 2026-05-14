@@ -171,9 +171,6 @@
           <div class="value" id="res-main">—</div>
         </div>
         <div class="result-table"><table><tbody>
-          <tr><td>つみたて投資枠（年120万円）</td><td id="res-tsumitate-reached">—</td></tr>
-          <tr><td>成長投資枠（年240万円）</td><td id="res-growth-reached">—</td></tr>
-          <tr><td>年間投資枠（年360万円）</td><td id="res-annual-reached">—</td></tr>
           <tr><td>成長投資枠（生涯1,200万円）</td><td id="res-growth-lifetime-reached">—</td></tr>
           <tr><td>生涯投資枠（1,800万円）</td><td id="res-lifetime-reached">—</td></tr>
           <tr><td>計算の前提</td><td>枠に達した後は、NISA対象の追加入金を止めて計算しています</td></tr>
@@ -264,16 +261,25 @@ function calcNisa() {
     const monthInYear = ((month - 1) % 12) + 1;
     return year + '年目の' + monthInYear + 'ヶ月目';
   };
-  const annualReachMonth = function(monthly, lump, limit) {
-    if (lump >= limit) return 1;
-    if (monthly <= 0) return null;
-    const month = Math.ceil((limit - lump) / monthly);
-    return month <= 12 ? month : null;
-  };
 
   const annualTsumitate = tsumitateMonthly * 12;
   const annualGrowth = growthMonthly * 12 + growthLump;
   const annualTotal = annualTsumitate + annualGrowth;
+  const info = document.getElementById('nisa-info');
+  const result = document.getElementById('result');
+  if (annualTsumitate > tsumitateLimit || annualGrowth > growthLimit || annualTotal > annualLimit) {
+    const messages = [];
+    if (annualTsumitate > tsumitateLimit) messages.push('つみたて投資枠を ' + fmt(annualTsumitate - tsumitateLimit) + ' 超えています（月額は10万円までが目安です）');
+    if (annualGrowth > growthLimit) messages.push('成長投資枠を ' + fmt(annualGrowth - growthLimit) + ' 超えています');
+    if (annualTotal > annualLimit) messages.push('年間投資枠の合計を ' + fmt(annualTotal - annualLimit) + ' 超えています');
+    document.getElementById('res-main').textContent = '計算できません';
+    document.getElementById('res-growth-lifetime-reached').textContent = '—';
+    document.getElementById('res-lifetime-reached').textContent = '—';
+    document.getElementById('yearly-body').innerHTML = '';
+    info.innerHTML = '<strong>年間投資枠を超えています：</strong><br>' + messages.join('<br>') + '<br>入力額をNISAの年間上限内に下げてから、もう一度計算してください。';
+    result.classList.add('show');
+    return;
+  }
   const plannedTotal = annualTotal * years;
   const remainingLifetime = Math.max(0, lifetimeLimit - usedPrincipal);
   const remainingGrowthLifetime = Math.max(0, growthLifetimeLimit - usedGrowthPrincipal);
@@ -341,10 +347,6 @@ function calcNisa() {
   const tax = profit * taxRate;
   const overGrowthLifetime = Math.max(0, cappedAnnualGrowth * years - remainingGrowthLifetime);
   const overLifetime = Math.max(0, lifetimeEligiblePlanned - remainingLifetime);
-  const reachedTsumitateAnnualMonth = annualReachMonth(tsumitateMonthly, 0, tsumitateLimit);
-  const reachedGrowthAnnualMonth = annualReachMonth(growthMonthly, growthLump, growthLimit);
-  const reachedAnnualMonth = annualReachMonth(tsumitateMonthly + growthMonthly, growthLump, annualLimit);
-
   const limitText = function(amount, limit) {
     if (amount <= limit) return '枠内（残り ' + fmt(limit - amount) + '）';
     return '超過（超過 ' + fmt(amount - limit) + '）';
@@ -357,9 +359,6 @@ function calcNisa() {
     : '枠内（残り ' + fmt(remainingGrowthLifetime - cappedAnnualGrowth * years) + '）';
 
   document.getElementById('res-main').textContent = fmt(total);
-  document.getElementById('res-tsumitate-reached').textContent = fmtMonth(reachedTsumitateAnnualMonth);
-  document.getElementById('res-growth-reached').textContent = fmtMonth(reachedGrowthAnnualMonth);
-  document.getElementById('res-annual-reached').textContent = fmtMonth(reachedAnnualMonth);
   document.getElementById('res-growth-lifetime-reached').textContent = fmtMonth(reachedGrowthLifetimeMonth);
   document.getElementById('res-lifetime-reached').textContent = fmtMonth(reachedLifetimeMonth);
   document.getElementById('res-tsumitate-annual').textContent = fmt(annualTsumitate);
@@ -381,11 +380,8 @@ function calcNisa() {
   document.getElementById('res-lifetime').textContent = lifetimeText;
   document.getElementById('yearly-body').innerHTML = rows;
 
-  const info = document.getElementById('nisa-info');
   if (usedGrowthPrincipal > usedPrincipal) {
     info.innerHTML = '<strong>入力内容を確認してください：</strong>すでに使っている成長投資枠元本が、NISA元本全体より大きくなっています。金額を見直してください。';
-  } else if (annualTsumitate > tsumitateLimit || annualGrowth > growthLimit || annualTotal > annualLimit) {
-    info.innerHTML = '<strong>年間枠を超えています：</strong>つみたて投資枠は年120万円、成長投資枠は年240万円、合計で年360万円までです。超えた分はNISA対象元本から外して概算しています。';
   } else if (overGrowthLifetime > 0) {
     info.innerHTML = '<strong>成長投資枠の生涯上限を超えています：</strong>成長投資枠は生涯1,200万円までです。' + fmtMonth(reachedGrowthLifetimeMonth) + '以降の一部はNISA対象外として、入金を止めて概算しています。';
   } else if (overLifetime > 0) {
@@ -393,7 +389,7 @@ function calcNisa() {
   } else {
     info.innerHTML = '<strong>NISA枠内に収まる見込みです：</strong>入力したプランは、年間投資枠と生涯投資枠の範囲内で運用できる目安です。まとまった資金も含めた資産形成は、投資シミュレーション（初期元本＋毎月積立）も確認してください。';
   }
-  document.getElementById('result').classList.add('show');
+  result.classList.add('show');
 }
 </script>
 <script>
