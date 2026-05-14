@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>住宅ローン控除・還付金計算｜所得税・住民税から実際に戻る額を無料計算｜はかるんツール</title>
-  <meta name="description" content="住宅ローンの年末残高、住宅区分、入居年、所得税・住民税から住宅ローン控除額と実際の還付・軽減額を無料計算。控除しきれない額や期間合計も確認できます。">
+  <title>住宅ローン控除・還付金計算｜年ごとの控除額を無料シミュレーション｜はかるんツール</title>
+  <meta name="description" content="住宅ローンの借入額、金利、返済開始年月、ローン年数、年収から、年ごとの住宅ローン控除額と還付・軽減額を無料計算。所得税・住民税の詳細入力にも対応。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
@@ -125,14 +125,33 @@
     <div class="page-header">
       <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 節税 &rsaquo; 🏠 住宅ローン控除・還付金計算</div>
       <h1>🏠 住宅ローン控除・還付金計算</h1>
-      <p class="subtitle">控除可能額と、所得税・住民税から実際に戻る額を計算します</p>
+      <p class="subtitle">借入額・金利・返済開始年月から、年ごとの住宅ローン控除額を概算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>住宅ローンの年末残高</label>
-        <div class="input-wrap"><input type="number" id="balance" placeholder="30000000" min="0"><span class="unit">円</span></div>
-        <p class="hint">毎年の年末時点のローン残高。金融機関から「残高証明書」で確認できます。</p>
+        <label>給与年収</label>
+        <div class="input-wrap"><input type="number" id="salary" placeholder="6000000" min="0"><span class="unit">円</span></div>
+        <p class="hint">税金を引かれる前の年収を入力してください。所得税・住民税をざっくり見積もります。</p>
+      </div>
+      <div class="form-group">
+        <label>住宅ローン借入額</label>
+        <div class="input-wrap"><input type="number" id="loan-amount" placeholder="35000000" min="0"><span class="unit">円</span></div>
+        <p class="hint">最初に借りた金額を入力してください。年末残高はこの金額から概算します。</p>
+      </div>
+      <div class="form-group">
+        <label>金利</label>
+        <div class="input-wrap"><input type="number" id="interest-rate" placeholder="0.7" min="0" max="20" step="0.01"><span class="unit">%</span></div>
+        <p class="hint">変動金利の場合は、今の金利や契約時の金利を目安にしてください。</p>
+      </div>
+      <div class="form-group">
+        <label>返済開始年月</label>
+        <div class="input-wrap"><input type="month" id="start-month"></div>
+        <p class="hint">ローン返済が始まった年月を入力してください。</p>
+      </div>
+      <div class="form-group">
+        <label>ローン年数</label>
+        <div class="input-wrap"><input type="number" id="loan-years" placeholder="35" min="1" max="50"><span class="unit">年</span></div>
       </div>
       <div class="form-group">
         <label>住宅の種類</label>
@@ -147,11 +166,21 @@
       <div class="form-group">
         <label>入居年</label>
         <div class="input-wrap"><select id="move-year">
-          <option value="2025">2025年</option>
-          <option value="2024">2024年</option>
           <option value="2026">2026年以降（概算）</option>
+          <option value="2025" selected>2025年</option>
+          <option value="2024">2024年</option>
+          <option value="2023">2023年</option>
+          <option value="2022">2022年</option>
+          <option value="2021">2021年</option>
+          <option value="2020">2020年</option>
+          <option value="2019">2019年</option>
+          <option value="2018">2018年</option>
+          <option value="2017">2017年</option>
+          <option value="2016">2016年</option>
+          <option value="2015">2015年</option>
+          <option value="2014">2014年</option>
         </select></div>
-        <p class="hint">制度は入居年で変わります。2026年以降は今後の制度改正で変わる可能性があります。</p>
+        <p class="hint">制度は入居年で変わります。古い入居年は制度が複雑なため、概算として表示します。</p>
       </div>
       <div class="form-group">
         <label>子育て世帯・若者夫婦世帯ですか？</label>
@@ -161,28 +190,28 @@
         </div>
         <p class="hint">2024年・2025年入居では、対象世帯で借入限度額が上乗せされる場合があります。</p>
       </div>
-      <div class="form-group">
-        <label>年間の所得税額</label>
-        <div class="input-wrap"><input type="number" id="income-tax" placeholder="150000" min="0"><span class="unit">円</span></div>
-        <p class="hint">源泉徴収票の「源泉徴収税額」などを目安にしてください。</p>
-      </div>
-      <div class="form-group">
-        <label>年間の住民税額（目安）</label>
-        <div class="input-wrap"><input type="number" id="resident-tax" placeholder="250000" min="0"><span class="unit">円</span></div>
-        <p class="hint">住民税から控除できる金額には上限があります。</p>
-      </div>
       <details style="margin:18px 0 22px;">
         <summary style="cursor:pointer;font-weight:700;color:var(--primary);">詳細条件を入力する（任意）</summary>
         <div style="margin-top:18px;">
           <div class="form-group">
-            <label>毎年のローン残高減少額</label>
-            <div class="input-wrap"><input type="number" id="annual-repay" placeholder="1000000" min="0"><span class="unit">円</span></div>
-            <p class="hint">わからない場合は空欄で大丈夫です。期間合計を少し現実に近づけるための項目です。</p>
+            <label>年間の所得税額（わかる人だけ）</label>
+            <div class="input-wrap"><input type="number" id="income-tax" placeholder="150000" min="0"><span class="unit">円</span></div>
+            <p class="hint">源泉徴収票の「源泉徴収税額」など。空欄なら年収から概算します。</p>
           </div>
           <div class="form-group">
-            <label>残り控除年数</label>
-            <div class="input-wrap"><input type="number" id="remaining-years" placeholder="13" min="1" max="13"><span class="unit">年</span></div>
-            <p class="hint">初年度なら新築は13年、中古住宅は10年が目安です。</p>
+            <label>年間の住民税額（わかる人だけ）</label>
+            <div class="input-wrap"><input type="number" id="resident-tax" placeholder="250000" min="0"><span class="unit">円</span></div>
+            <p class="hint">住民税決定通知書などで分かる場合だけ入力してください。空欄なら年収から概算します。</p>
+          </div>
+          <div class="form-group">
+            <label>年末ローン残高（わかる人だけ）</label>
+            <div class="input-wrap"><input type="number" id="manual-balance" placeholder="30000000" min="0"><span class="unit">円</span></div>
+            <p class="hint">残高証明書の金額が分かる場合は、1年目の残高として優先します。</p>
+          </div>
+          <div class="form-group">
+            <label>控除を計算する年数</label>
+            <div class="input-wrap"><input type="number" id="calc-years" placeholder="自動" min="1" max="13"><span class="unit">年</span></div>
+            <p class="hint">空欄なら入居年・住宅区分から自動で判定します。</p>
           </div>
           <div class="form-group">
             <label>ふるさと納税をしていますか？</label>
@@ -203,23 +232,28 @@
       <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">年間の住宅ローン控除額（目安）</div>
+          <div class="label">控除期間合計の住宅ローン控除額（目安）</div>
           <div class="value" id="res-main">—</div>
-          <div class="sub" id="res-main-sub">所得税と住民税から実際に控除できる額を表示します</div>
+          <div class="sub" id="res-main-sub">年ごとの控除見込みを下の表に表示します</div>
         </div>
         <div class="result-table"><table><tbody>
-          <tr><td>ローン年末残高</td><td id="res-balance">—</td></tr>
+          <tr><td>初年度の年末ローン残高</td><td id="res-balance">—</td></tr>
           <tr><td>借入限度額</td><td id="res-loan-limit">—</td></tr>
           <tr><td>控除期間</td><td id="res-period">—</td></tr>
           <tr><td>控除率</td><td id="res-rate">—</td></tr>
-          <tr><td>控除可能額</td><td id="res-deduct">—</td></tr>
-          <tr><td>所得税から控除</td><td id="res-income-tax">—</td></tr>
-          <tr><td>住民税から控除</td><td id="res-resident-tax">—</td></tr>
-          <tr><td>控除しきれない額</td><td id="res-unused">—</td></tr>
-          <tr><td>実際の控除額</td><td id="res-actual">—</td></tr>
+          <tr><td>所得税・住民税の計算方法</td><td id="res-tax-source">—</td></tr>
+          <tr><td>年間の所得税額</td><td id="res-income-tax">—</td></tr>
+          <tr><td>年間の住民税額</td><td id="res-resident-tax">—</td></tr>
+          <tr><td>控除しきれない額の合計</td><td id="res-unused">—</td></tr>
+          <tr><td>初年度の控除見込み</td><td id="res-actual">—</td></tr>
           <tr><td>期間合計の控除目安</td><td id="res-total">—</td></tr>
           <tr><td>手続き</td><td id="res-filing">—</td></tr>
         </tbody></table></div>
+        <h2 style="font-size:20px;margin:24px 0 12px;">年ごとの控除見込み</h2>
+        <div class="result-table wide-table"><table>
+          <thead><tr><th>年</th><th>控除何年目</th><th>年末ローン残高</th><th>控除可能額</th><th>所得税から控除</th><th>住民税から控除</th><th>実際の控除見込み</th></tr></thead>
+          <tbody id="yearly-body"></tbody>
+        </table></div>
         <div class="info-box" id="res-note">住宅ローン控除は初年度に確定申告が必要です。2年目以降は会社員なら年末調整で手続きできることが多いです。適用条件・控除額は住宅の種類・入居時期によって異なります。</div>
       </div>
     </div>
@@ -227,6 +261,7 @@
     <div class="article">
       <h2>🏠 住宅ローン控除・還付金計算について</h2>
       <p>住宅ローン控除（住宅借入金等特別控除）とは、住宅ローンを組んでマイホームを購入した場合に、ローンの年末残高の一定割合が所得税から控除される制度です。所得税から引ききれない場合は、一定の範囲で翌年度の住民税からも控除されます。</p>
+      <p>このツールでは、住宅ローン借入額、金利、返済開始年月、ローン年数から年ごとの年末ローン残高を概算し、何年にいくら控除されそうかを一覧表で確認できます。年末残高証明書が手元になくても、おおまかな控除額を試せるようにしています。</p>
       <p>大切なのは、「控除可能額」と「実際に戻る額」は同じとは限らないことです。控除可能額が21万円でも、その年の所得税が10万円で、住民税から控除できる上限が9万円なら、実際に使える控除は19万円程度になります。残りは使い切れない場合があります。</p>
       <p>住宅ローン控除は、入居年、住宅の省エネ性能、住宅の種類、子育て世帯・若者夫婦世帯に該当するかなどで借入限度額が変わります。このツールでは、認定住宅、ZEH水準省エネ住宅、省エネ基準適合住宅、中古住宅などを分けて概算できます。</p>
       <p>初年度は会社員でも確定申告が必要です。2年目以降は勤務先の年末調整で手続きできることが多いです。床面積、所得、借入期間、居住開始時期などの条件もあるため、最終判断は税務署や住宅会社、税理士にも確認しましょう。</p>
@@ -272,69 +307,161 @@
 function fmt(n){return Math.round(n).toLocaleString('ja-JP')+' 円';}
 function num(id){return parseFloat(document.getElementById(id).value)||0;}
 function getRule(type, year, familyType){
-  const child = familyType === 'child' && (year === '2024' || year === '2025');
-  const rules = {
-    certified: { name:'認定住宅', limit: child ? 50000000 : 45000000, period:13, rate:0.007 },
-    zeh: { name:'ZEH水準省エネ住宅', limit: child ? 45000000 : 35000000, period:13, rate:0.007 },
-    energy: { name:'省エネ基準適合住宅', limit: child ? 40000000 : 30000000, period:13, rate:0.007 },
-    used: { name:'中古住宅・増改築等', limit:30000000, period:10, rate:0.007 },
-    other: { name:'その他の住宅（経過措置）', limit:(year==='2024'||year==='2025') ? 20000000 : 0, period:10, rate:0.007 }
-  };
+  const y = parseInt(year,10);
+  const child = familyType === 'child' && (y === 2024 || y === 2025);
+  let rules;
+  if(y <= 2021){
+    rules = {
+      certified: { name:'認定住宅', limit:50000000, period:10, rate:0.01, legacy:true },
+      zeh: { name:'省エネ住宅等', limit:40000000, period:10, rate:0.01, legacy:true },
+      energy: { name:'省エネ住宅等', limit:40000000, period:10, rate:0.01, legacy:true },
+      used: { name:'中古住宅・増改築等', limit:20000000, period:10, rate:0.01, legacy:true },
+      other: { name:'一般住宅', limit:40000000, period:10, rate:0.01, legacy:true }
+    };
+  } else if(y <= 2023){
+    rules = {
+      certified: { name:'認定住宅', limit:50000000, period:13, rate:0.007 },
+      zeh: { name:'ZEH水準省エネ住宅', limit:45000000, period:13, rate:0.007 },
+      energy: { name:'省エネ基準適合住宅', limit:40000000, period:13, rate:0.007 },
+      used: { name:'中古住宅・増改築等', limit:30000000, period:10, rate:0.007 },
+      other: { name:'その他の住宅', limit:30000000, period:13, rate:0.007 }
+    };
+  } else {
+    rules = {
+      certified: { name:'認定住宅', limit: child ? 50000000 : 45000000, period:13, rate:0.007 },
+      zeh: { name:'ZEH水準省エネ住宅', limit: child ? 45000000 : 35000000, period:13, rate:0.007 },
+      energy: { name:'省エネ基準適合住宅', limit: child ? 40000000 : 30000000, period:13, rate:0.007 },
+      used: { name:'中古住宅・増改築等', limit:30000000, period:10, rate:0.007 },
+      other: { name:'その他の住宅（経過措置）', limit:(y===2024||y===2025) ? 20000000 : 0, period:10, rate:0.007 }
+    };
+  }
   return rules[type] || rules.certified;
 }
+function salaryIncomeDeduction(salary){
+  if(salary<=1625000)return 550000;
+  if(salary<=1800000)return salary*0.4-100000;
+  if(salary<=3600000)return salary*0.3+80000;
+  if(salary<=6600000)return salary*0.2+440000;
+  if(salary<=8500000)return salary*0.1+1100000;
+  return 1950000;
+}
+function incomeTaxBase(taxable){
+  if(taxable<=0)return 0;
+  if(taxable<=1950000)return taxable*0.05;
+  if(taxable<=3300000)return taxable*0.10-97500;
+  if(taxable<=6950000)return taxable*0.20-427500;
+  if(taxable<=9000000)return taxable*0.23-636000;
+  if(taxable<=18000000)return taxable*0.33-1536000;
+  if(taxable<=40000000)return taxable*0.40-2796000;
+  return taxable*0.45-4796000;
+}
+function estimateTaxes(salary){
+  if(!salary)return {incomeTax:0,residentTax:0};
+  const employmentIncome=Math.max(0,salary-salaryIncomeDeduction(salary));
+  const social=Math.round(salary*0.15);
+  const incomeTaxable=Math.max(0,Math.floor((employmentIncome-social-480000)/1000)*1000);
+  const residentTaxable=Math.max(0,Math.floor((employmentIncome-social-430000)/1000)*1000);
+  const incomeTax=Math.floor(incomeTaxBase(incomeTaxable)*1.021);
+  const residentTax=Math.max(0,Math.floor(residentTaxable*0.10)+5000);
+  return {incomeTax,residentTax};
+}
+function monthlyPayment(principal, annualRate, years){
+  const months=years*12;
+  const r=annualRate/100/12;
+  if(r===0)return principal/months;
+  return principal*r*Math.pow(1+r,months)/(Math.pow(1+r,months)-1);
+}
+function remainingBalance(principal, annualRate, years, paidMonths){
+  const months=years*12;
+  const r=annualRate/100/12;
+  const m=Math.max(0,Math.min(paidMonths,months));
+  if(m>=months)return 0;
+  if(r===0)return Math.max(0,principal-(principal/months)*m);
+  const pmt=monthlyPayment(principal,annualRate,years);
+  return Math.max(0,principal*Math.pow(1+r,m)-pmt*(Math.pow(1+r,m)-1)/r);
+}
+function monthsUntilDecember(startValue, targetYear){
+  if(!startValue)return 12;
+  const parts=startValue.split('-');
+  const startYear=parseInt(parts[0],10);
+  const startMonth=parseInt(parts[1],10);
+  return Math.max(0,(targetYear-startYear)*12+(12-startMonth+1));
+}
 function calc() {
-  const balance=num('balance');
+  const salary=num('salary');
+  const loanAmount=num('loan-amount');
+  const interestRate=num('interest-rate');
+  const startMonth=document.getElementById('start-month').value;
+  const loanYears=Math.floor(num('loan-years'));
   const type=document.getElementById('house-type').value;
   const year=document.getElementById('move-year').value;
   const familyType=document.querySelector('input[name="family-type"]:checked').value;
-  const incomeTax=num('income-tax');
-  const residentTax=num('resident-tax');
-  const annualRepay=num('annual-repay');
+  const manualIncomeTax=num('income-tax');
+  const manualResidentTax=num('resident-tax');
+  const manualBalance=num('manual-balance');
+  const calcYearsInput=Math.floor(num('calc-years'));
   const furusato=document.querySelector('input[name="furusato"]:checked').value==='yes';
   const filingYear=document.querySelector('input[name="filing-year"]:checked').value;
-  if(!balance){alert('ローン年末残高を入力してください');return;}
+  if(!salary){alert('給与年収を入力してください');return;}
+  if(!loanAmount){alert('住宅ローン借入額を入力してください');return;}
+  if(!startMonth){alert('返済開始年月を入力してください');return;}
+  if(!loanYears){alert('ローン年数を入力してください');return;}
 
   const rule=getRule(type,year,familyType);
-  const yearsInput=Math.floor(num('remaining-years'));
-  const years=Math.max(1,Math.min(yearsInput||rule.period,rule.period));
-  const base=Math.min(balance,rule.limit);
-  const deduct=Math.floor(base*rule.rate);
-  const residentLimit=Math.min(residentTax,97500);
-  const fromIncomeTax=Math.min(deduct,incomeTax);
-  const remainingAfterIncome=Math.max(0,deduct-fromIncomeTax);
-  const fromResidentTax=Math.min(remainingAfterIncome,residentLimit);
-  const actual=fromIncomeTax+fromResidentTax;
-  const unused=Math.max(0,deduct-actual);
+  const moveYear=parseInt(year,10);
+  const estimated=estimateTaxes(salary);
+  const incomeTax=manualIncomeTax || estimated.incomeTax;
+  const residentTax=manualResidentTax || estimated.residentTax;
+  const taxSource=(manualIncomeTax || manualResidentTax) ? '詳細入力を優先' : '年収から概算';
+  const years=Math.max(1,Math.min(calcYearsInput||rule.period,rule.period));
+  const residentTaxCap = moveYear <= 2021 ? 136500 : 97500;
+  const residentLimit=Math.min(residentTax,residentTaxCap);
 
   let total=0;
+  let totalUnused=0;
+  let firstActual=0;
+  let firstBalance=0;
+  let yearlyRows='';
   for(let i=0;i<years;i++){
-    const yearlyBalance=Math.max(0,balance-(annualRepay*i));
+    const targetYear=moveYear+i;
+    const paidMonths=monthsUntilDecember(startMonth,targetYear);
+    let yearlyBalance=remainingBalance(loanAmount,interestRate,loanYears,paidMonths);
+    if(i===0 && manualBalance)yearlyBalance=manualBalance;
+    if(i===0)firstBalance=yearlyBalance;
     const yearlyBase=Math.min(yearlyBalance,rule.limit);
     const yearlyDeduct=Math.floor(yearlyBase*rule.rate);
     const yearlyIncome=Math.min(yearlyDeduct,incomeTax);
     const yearlyResident=Math.min(Math.max(0,yearlyDeduct-yearlyIncome),residentLimit);
-    total+=yearlyIncome+yearlyResident;
+    const yearlyActual=yearlyIncome+yearlyResident;
+    const yearlyUnused=Math.max(0,yearlyDeduct-yearlyActual);
+    if(i===0)firstActual=yearlyActual;
+    total+=yearlyActual;
+    totalUnused+=yearlyUnused;
+    yearlyRows += '<tr><td>'+targetYear+'年</td><td>'+(i+1)+'年目</td><td>'+fmt(yearlyBalance)+'</td><td>'+fmt(yearlyDeduct)+'</td><td>'+fmt(yearlyIncome)+'</td><td>'+fmt(yearlyResident)+'</td><td>'+fmt(yearlyActual)+'</td></tr>';
   }
 
   let filing=filingYear==='first'?'初年度は確定申告が必要です':'2年目以降は会社員なら年末調整で手続きできます';
-  let note='住宅ローン控除は、控除可能額がそのまま戻るとは限りません。まず所得税から控除し、引ききれない分が一定範囲で住民税から控除されます。';
+  let note='年ごとのローン残高は、入力された借入額・金利・返済開始年月・ローン年数から概算しています。ボーナス返済、繰上返済、金利変更がある場合は実際の残高とずれることがあります。';
+  if(taxSource==='年収から概算')note+=' 所得税・住民税は年収からざっくり計算しています。正確に見たい場合は、詳細条件に実際の税額を入力してください。';
+  if(rule.legacy)note+=' 2021年以前の住宅ローン控除は、消費税率や契約時期などで控除期間が変わる場合があるため、ここでは一般的な概算として表示しています。';
   if(rule.limit===0)note+=' 選択した「その他の住宅」は、入居年や建築確認時期によって対象外になる場合があります。購入時の書類や税務署で確認してください。';
   if(year==='2026')note+=' 2026年以降の制度は改正内容により変わる可能性があるため、ここでは概算として表示しています。';
   if(furusato)note+=' ふるさと納税と併用できる場合がありますが、確定申告をする場合はワンストップ特例が使えません。ふるさと納税分も確定申告に入れてください。';
 
-  document.getElementById('res-main').textContent=fmt(actual);
-  document.getElementById('res-main-sub').textContent=unused>0?'控除可能額のうち '+fmt(unused)+' は使い切れない見込みです':'控除可能額を使い切れる見込みです';
-  document.getElementById('res-balance').textContent=fmt(balance);
+  document.getElementById('res-main').textContent=fmt(total);
+  document.getElementById('res-main-sub').textContent=totalUnused>0?'控除可能額のうち合計 '+fmt(totalUnused)+' は使い切れない見込みです':'入力条件では控除可能額を使い切れる見込みです';
+  document.getElementById('res-balance').textContent=fmt(firstBalance);
   document.getElementById('res-loan-limit').textContent=rule.limit>0?fmt(rule.limit):'対象外の可能性あり';
   document.getElementById('res-period').textContent=rule.period+' 年';
   document.getElementById('res-rate').textContent=(rule.rate*100).toFixed(1)+'%';
-  document.getElementById('res-deduct').textContent=fmt(deduct);
-  document.getElementById('res-income-tax').textContent=fmt(fromIncomeTax);
-  document.getElementById('res-resident-tax').textContent=fmt(fromResidentTax);
-  document.getElementById('res-unused').textContent=fmt(unused);
-  document.getElementById('res-actual').textContent=fmt(actual);
+  document.getElementById('res-tax-source').textContent=taxSource;
+  document.getElementById('res-income-tax').textContent=fmt(incomeTax);
+  document.getElementById('res-resident-tax').textContent=fmt(residentTax);
+  document.getElementById('res-unused').textContent=fmt(totalUnused);
+  document.getElementById('res-actual').textContent=fmt(firstActual);
   document.getElementById('res-total').textContent=fmt(total)+'（'+years+'年間）';
   document.getElementById('res-filing').textContent=filing;
+  document.getElementById('yearly-body').innerHTML=yearlyRows;
   document.getElementById('res-note').textContent=note;
   document.getElementById('result').classList.add('show');
 }

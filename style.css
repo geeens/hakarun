@@ -400,6 +400,16 @@ select:focus {
   border-radius: var(--radius);
   overflow: hidden;
 }
+.result-table.wide-table {
+  overflow-x: auto;
+}
+.result-table.wide-table table {
+  min-width: 860px;
+}
+.result-table.wide-table td:nth-child(n+3) {
+  text-align: right;
+  font-weight: 600;
+}
 .result-table table {
   width: 100%;
   border-collapse: collapse;
