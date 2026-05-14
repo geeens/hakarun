@@ -406,7 +406,7 @@ select:focus {
 .result-table.wide-table table {
   min-width: 860px;
 }
-.result-table.wide-table td:nth-child(n+3) {
+.result-table.wide-table td:nth-child(n+2) {
   text-align: right;
   font-weight: 600;
 }
