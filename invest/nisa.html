@@ -193,8 +193,7 @@
           <tr><td>NISA対象元本</td><td id="res-nisa-principal">—</td></tr>
           <tr><td>NISA資産額（概算）</td><td id="res-total">—</td></tr>
           <tr><td>NISA対象の運用益</td><td id="res-profit">—</td></tr>
-          <tr><td>課税口座ならかかる税金</td><td id="res-tax">—</td></tr>
-          <tr><td>NISAによる節税メリット</td><td id="res-saving">—</td></tr>
+          <tr><td>節税メリット（課税口座ならかかる税金）</td><td id="res-saving">—</td></tr>
         </tbody></table></div>
         <h2 style="font-size:20px;margin:24px 0 12px;">枠の判定</h2>
         <div class="result-table"><table><tbody>
@@ -388,7 +387,6 @@ function calcNisa() {
   document.getElementById('res-nisa-principal').textContent = fmt(nisaPrincipal);
   document.getElementById('res-profit').textContent = fmt(profit);
   document.getElementById('res-total').textContent = fmt(total);
-  document.getElementById('res-tax').textContent = fmt(tax);
   document.getElementById('res-saving').textContent = fmt(tax);
   document.getElementById('res-tsumitate-limit').textContent = limitText(annualTsumitate, tsumitateLimit);
   document.getElementById('res-growth-limit').textContent = limitText(annualGrowth, growthLimit);
