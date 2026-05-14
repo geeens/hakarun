@@ -319,6 +319,9 @@ function calcNisa() {
   let reachedLifetimeMonth = usedPrincipal >= lifetimeLimit ? 0 : null;
   let highlightedGrowthLifetime = false;
   let highlightedLifetime = false;
+  const existingGrowthPrincipalForDisplay = includeExistingAssets ? Math.min(usedGrowthPrincipal, usedPrincipal) : 0;
+  const existingTsumitatePrincipalForDisplay = includeExistingAssets ? Math.max(0, usedPrincipal - usedGrowthPrincipal) : 0;
+  const existingNisaPrincipalForDisplay = includeExistingAssets ? usedPrincipal : 0;
 
   let monthlyNisaPrincipal = 0;
   let monthlyGrowthPrincipal = 0;
@@ -369,7 +372,10 @@ function calcNisa() {
     if (lifetimeReachedThisYear) highlightedLifetime = true;
     const growthClass = growthReachedThisYear ? ' class="limit-reached"' : '';
     const lifetimeClass = lifetimeReachedThisYear ? ' class="limit-reached"' : '';
-    rows += '<tr><td>'+y+'年後</td><td>'+fmt(tsumitatePrincipal)+'</td><td'+growthClass+'>'+fmt(growthPrincipal)+'</td><td'+lifetimeClass+'>'+fmt(nisaPrincipal)+'</td><td>'+fmt(asset)+'</td><td>'+fmt(yProfit)+'</td><td>'+useRate.toFixed(1)+'%</td></tr>';
+    const displayTsumitatePrincipal = existingTsumitatePrincipalForDisplay + tsumitatePrincipal;
+    const displayGrowthPrincipal = existingGrowthPrincipalForDisplay + growthPrincipal;
+    const displayNisaPrincipal = existingNisaPrincipalForDisplay + nisaPrincipal;
+    rows += '<tr><td>'+y+'年後</td><td>'+fmt(displayTsumitatePrincipal)+'</td><td'+growthClass+'>'+fmt(displayGrowthPrincipal)+'</td><td'+lifetimeClass+'>'+fmt(displayNisaPrincipal)+'</td><td>'+fmt(asset)+'</td><td>'+fmt(yProfit)+'</td><td>'+useRate.toFixed(1)+'%</td></tr>';
   }
 
   const total = asset;
@@ -412,6 +418,7 @@ function calcNisa() {
   document.getElementById('res-lifetime').textContent = lifetimeText;
   document.getElementById('yearly-body').innerHTML = rows;
   const yearlyNotes = [];
+  if (includeExistingAssets) yearlyNotes.push('過去分を含めた場合、つみたて枠累計・成長枠累計・NISA元本累計には、すでに使っているNISA元本も含めています。');
   if (growthLifetimeReached) yearlyNotes.push('成長枠累計の赤字は、成長投資枠の生涯上限1,200万円に達した年です。');
   if (lifetimeReached) yearlyNotes.push('NISA元本累計の赤字は、NISA全体の生涯投資枠1,800万円に達した年です。');
   document.getElementById('yearly-note').textContent = yearlyNotes.join(' ');
