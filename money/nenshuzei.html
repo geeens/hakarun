@@ -133,10 +133,15 @@
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
-      <p class="subtitle" style="margin-bottom:16px">年収から手取り・税金・社会保険料の内訳を計算します（給与所得者・独身の場合）</p>
+      <p class="subtitle" style="margin-bottom:16px">年収から手取り・税金・社会保険料の内訳を計算し、年収アップ時の差額も比較できます</p>
       <div class="form-group">
-        <label>年収（額面）</label>
+        <label>現在の年収（額面）</label>
         <div class="input-wrap"><input type="number" id="income" placeholder="5000000" min="0"><span class="unit">円</span></div>
+      </div>
+      <div class="form-group">
+        <label>比較する年収（任意）</label>
+        <div class="input-wrap"><input type="number" id="compare-income" placeholder="6000000" min="0"><span class="unit">円</span></div>
+        <p class="hint">転職・昇給後の年収を入れると、増える手取りと税金を比較できます。空欄でも計算できます。</p>
       </div>
       <div class="form-group">
         <label>扶養親族の人数</label>
@@ -147,7 +152,7 @@
       </div>
       <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
-        <div class="result-main"><div class="label">年間手取り額</div><div class="value" id="res-main">—</div></div>
+        <div class="result-main"><div class="label">現在年収の年間手取り額</div><div class="value" id="res-main">—</div><div class="sub" id="res-month-main">月あたり —</div></div>
         <div class="result-table"><table><tbody>
           <tr><td>年収（額面）</td><td id="r-income">—</td></tr>
           <tr><td>給与所得控除後</td><td id="r-kyuyo">—</td></tr>
@@ -159,14 +164,45 @@
           <tr><td>年間手取り</td><td id="r-tedori">—</td></tr>
           <tr><td>月間手取り（÷12）</td><td id="r-month">—</td></tr>
         </tbody></table></div>
+
+        <div class="result-table" id="compare-result" style="display:none;margin-top:16px"><table>
+          <thead><tr><th>比較項目</th><th>現在年収</th><th>比較年収</th><th>差額</th></tr></thead>
+          <tbody>
+            <tr><td>年収（額面）</td><td id="c-income-a">—</td><td id="c-income-b">—</td><td id="c-income-diff">—</td></tr>
+            <tr><td>年間手取り</td><td id="c-tedori-a">—</td><td id="c-tedori-b">—</td><td id="c-tedori-diff">—</td></tr>
+            <tr><td>月あたり手取り</td><td id="c-month-a">—</td><td id="c-month-b">—</td><td id="c-month-diff">—</td></tr>
+            <tr><td>税・保険料 合計</td><td id="c-tax-a">—</td><td id="c-tax-b">—</td><td id="c-tax-diff">—</td></tr>
+          </tbody>
+        </table></div>
         <div class="info-box">この計算は給与所得者を対象とした概算です。社会保険料控除・基礎控除のみ考慮しています。各種控除（医療費・ふるさと納税等）により実際の税額は異なります。</div>
       </div>
     </div>
     <div class="article">
-      <h2>📋 年収と税金・手取りの関係</h2>
-      <p>日本の税制では、年収が増えるほど税負担率が高くなる「累進課税」が採用されています。所得税の税率は5%〜45%の7段階で、年収が高い部分ほど高い税率が適用されます。ただし増えた収入全体に高い税率がかかるわけではなく、一定額を超えた部分にのみ高い税率がかかります。</p>
-      <p>年収300万円台では手取り比率が約80〜82%、年収500万円台では約78〜80%、年収800万円超では75%程度まで下がります。社会保険料（健康保険・厚生年金・雇用保険）は年収の約15%で、所得税・住民税と合わせると高年収ほど実質的な負担が増えます。</p>
-      <p>手取りを増やす方法として、iDeCo（小規模企業共済等掛金控除）・ふるさと納税・医療費控除などの活用が有効です。これらを使うことで課税所得を減らし、所得税・住民税の両方を節税できます。</p>
+      <h2>年収アップ時に見るべきポイント</h2>
+      <p>年収別税金シミュレーションは、「年収が変わると手取りがどれくらい増えるか」を見るためのツールです。手取り計算が現在の給与確認に向いているのに対して、このページは転職・昇給・副業収入の増加など、年収の変化を比べる場面に向いています。</p>
+      <p>年収が100万円増えても、手取りが100万円そのまま増えるわけではありません。増えた分から所得税・住民税・社会保険料が引かれるため、実際に増える手取りは年収増加分より少なくなります。ただし「年収が上がると損」という意味ではありません。所得税は超過累進税率なので、高い税率は増えた部分にだけかかります。</p>
+      <p>転職や昇給を考えるときは、額面年収だけでなく「年間手取りがいくら増えるか」「月あたりの自由に使えるお金がいくら増えるか」を見ると判断しやすくなります。比較年収を入力すると、その差額をまとめて確認できます。</p>
+    </div>
+
+    <div class="article">
+      <h2>年収別 手取り早見表</h2>
+      <p>以下は扶養なし・会社員を想定した概算です。実際の金額は年齢、勤務先、各種控除、住民税の状況などで変わります。</p>
+      <div class="result-table"><table>
+        <thead><tr><th>年収</th><th>年間手取り目安</th><th>税・保険料合計</th><th>手取り率</th></tr></thead>
+        <tbody id="quick-table"></tbody>
+      </table></div>
+    </div>
+
+    <div class="article">
+      <h2>関連ツール</h2>
+      <div class="tool-grid">
+        <a href="tedori.html" class="tool-card"><div class="icon">💴</div><div class="name">手取り計算</div><div class="desc">月収または年収から今の手取りをざっくり確認</div></a>
+        <a href="shokyuu.html" class="tool-card"><div class="icon">📊</div><div class="name">昇給効果計算</div><div class="desc">昇給前後の月収差を細かく確認</div></a>
+        <a href="shakaihoken.html" class="tool-card"><div class="icon">🏥</div><div class="name">社会保険料シミュレーション</div><div class="desc">健康保険・厚生年金などを詳しく確認</div></a>
+        <a href="juuminzei.html" class="tool-card"><div class="icon">🏙️</div><div class="name">住民税計算</div><div class="desc">住民税だけを詳しく概算</div></a>
+        <a href="gyaku.html" class="tool-card"><div class="icon">🔄</div><div class="name">手取りから額面逆算</div><div class="desc">欲しい手取りから必要な額面を逆算</div></a>
+        <a href="../tax/setsuzei.html" class="tool-card"><div class="icon">📊</div><div class="name">節税シミュレーション</div><div class="desc">控除を使った節税額の目安を確認</div></a>
+      </div>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
@@ -195,10 +231,9 @@
 </footer>
 <script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 <script>
-function calc(){
-  const income=parseFloat(document.getElementById('income').value);
-  const fuyou=parseInt(document.getElementById('fuyou').value);
-  if(!income){alert('年収を入力してください');return;}
+const fmt=n=>Math.round(n).toLocaleString('ja-JP')+' 円';
+
+function calcIncome(income, fuyou){
   let kj;
   if(income<=1625000)kj=550000;
   else if(income<=3600000)kj=income*0.3+180000;
@@ -219,19 +254,62 @@ function calc(){
   const totalTax=shakai+shotoku+jumin;
   const tedori=income-totalTax;
   const rate=(totalTax/income*100).toFixed(1);
-  const fmt=n=>Math.round(n).toLocaleString('ja-JP')+' 円';
-  document.getElementById('r-income').textContent=fmt(income);
-  document.getElementById('r-kyuyo').textContent=fmt(kyuyo);
-  document.getElementById('r-shakai').textContent=fmt(shakai);
-  document.getElementById('r-shotoku').textContent=fmt(shotoku);
-  document.getElementById('r-jumin').textContent=fmt(jumin);
-  document.getElementById('r-total-tax').textContent=fmt(totalTax);
-  document.getElementById('r-rate').textContent=rate+'%';
-  document.getElementById('r-tedori').textContent=fmt(tedori);
-  document.getElementById('r-month').textContent=fmt(Math.round(tedori/12));
-  document.getElementById('res-main').textContent=fmt(tedori);
+  return {income, kyuyo, shakai, shotoku, jumin, totalTax, tedori, month: tedori/12, rate};
+}
+
+function renderQuickTable(){
+  const tbody=document.getElementById('quick-table');
+  if(!tbody) return;
+  const rows=[3000000,4000000,5000000,6000000,7000000,8000000,10000000].map(income=>{
+    const r=calcIncome(income,0);
+    return `<tr><td>${fmt(income)}</td><td>${fmt(r.tedori)}</td><td>${fmt(r.totalTax)}</td><td>${(r.tedori/income*100).toFixed(1)}%</td></tr>`;
+  }).join('');
+  tbody.innerHTML=rows;
+}
+
+function calc(){
+  const income=parseFloat(document.getElementById('income').value);
+  const compareIncome=parseFloat(document.getElementById('compare-income').value);
+  const fuyou=parseInt(document.getElementById('fuyou').value);
+  if(!income){alert('年収を入力してください');return;}
+
+  const base=calcIncome(income,fuyou);
+  document.getElementById('r-income').textContent=fmt(base.income);
+  document.getElementById('r-kyuyo').textContent=fmt(base.kyuyo);
+  document.getElementById('r-shakai').textContent=fmt(base.shakai);
+  document.getElementById('r-shotoku').textContent=fmt(base.shotoku);
+  document.getElementById('r-jumin').textContent=fmt(base.jumin);
+  document.getElementById('r-total-tax').textContent=fmt(base.totalTax);
+  document.getElementById('r-rate').textContent=base.rate+'%';
+  document.getElementById('r-tedori').textContent=fmt(base.tedori);
+  document.getElementById('r-month').textContent=fmt(base.month);
+  document.getElementById('res-main').textContent=fmt(base.tedori);
+  document.getElementById('res-month-main').textContent='月あたり '+fmt(base.month);
+
+  const compareBox=document.getElementById('compare-result');
+  if(compareIncome && compareIncome > 0){
+    const comp=calcIncome(compareIncome,fuyou);
+    compareBox.style.display='block';
+    document.getElementById('c-income-a').textContent=fmt(base.income);
+    document.getElementById('c-income-b').textContent=fmt(comp.income);
+    document.getElementById('c-income-diff').textContent=fmt(comp.income-base.income);
+    document.getElementById('c-tedori-a').textContent=fmt(base.tedori);
+    document.getElementById('c-tedori-b').textContent=fmt(comp.tedori);
+    document.getElementById('c-tedori-diff').textContent=fmt(comp.tedori-base.tedori);
+    document.getElementById('c-month-a').textContent=fmt(base.month);
+    document.getElementById('c-month-b').textContent=fmt(comp.month);
+    document.getElementById('c-month-diff').textContent=fmt(comp.month-base.month);
+    document.getElementById('c-tax-a').textContent=fmt(base.totalTax);
+    document.getElementById('c-tax-b').textContent=fmt(comp.totalTax);
+    document.getElementById('c-tax-diff').textContent=fmt(comp.totalTax-base.totalTax);
+  }else{
+    compareBox.style.display='none';
+  }
+
   document.getElementById('result').classList.add('show');
 }
+
+renderQuickTable();
 </script>
 </body>
 </html>
