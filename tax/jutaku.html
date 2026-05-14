@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>住宅ローン控除計算｜年末残高から控除額を計算｜はかるんツール</title>
-  <meta name="description" content="住宅ローンの年末残高を入力するだけで住宅ローン控除額と税金の還付額を計算。マイホーム購入の参考に。">
+  <title>住宅ローン控除・還付金計算｜所得税・住民税から実際に戻る額を無料計算｜はかるんツール</title>
+  <meta name="description" content="住宅ローンの年末残高、住宅区分、入居年、所得税・住民税から住宅ローン控除額と実際の還付・軽減額を無料計算。控除しきれない額や期間合計も確認できます。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
@@ -77,7 +77,7 @@
         <div class="dropdown">
           <a href="../tax/furusato.html">🎎 ふるさと納税 上限額・あといくら計算</a>
           <a href="../tax/setsuzei.html">📊 節税シミュレーション</a>
-          <a href="../tax/jutaku.html">🏠 住宅ローン控除計算</a>
+          <a href="../tax/jutaku.html">🏠 住宅ローン控除・還付金計算</a>
           <a href="../tax/iryouhi.html">🏥 医療費控除・還付金計算</a>
           <a href="../health/kougaku.html">🏥 高額療養費計算</a>
           <a href="../tax/kanpu.html">💰 確定申告 還付金計算</a>
@@ -123,9 +123,9 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 節税 &rsaquo; 🏠 住宅ローン控除計算</div>
-      <h1>🏠 住宅ローン控除計算</h1>
-      <p class="subtitle">住宅ローンの年末残高から控除額・還付金の目安を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 節税 &rsaquo; 🏠 住宅ローン控除・還付金計算</div>
+      <h1>🏠 住宅ローン控除・還付金計算</h1>
+      <p class="subtitle">控除可能額と、所得税・住民税から実際に戻る額を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
@@ -136,44 +136,119 @@
       </div>
       <div class="form-group">
         <label>住宅の種類</label>
-        <div class="radio-group">
-          <label><input type="radio" name="type" value="new" checked> 新築・認定住宅等</label>
-          <label><input type="radio" name="type" value="used"> 中古住宅</label>
-        </div>
+        <div class="input-wrap"><select id="house-type">
+          <option value="certified">認定長期優良住宅・認定低炭素住宅</option>
+          <option value="zeh">ZEH水準省エネ住宅</option>
+          <option value="energy">省エネ基準適合住宅</option>
+          <option value="used">中古住宅・増改築等</option>
+          <option value="other">その他の住宅（経過措置）</option>
+        </select></div>
       </div>
       <div class="form-group">
-        <label>年間の所得税＋住民税（目安）</label>
-        <div class="input-wrap"><input type="number" id="tax" placeholder="500000" min="0"><span class="unit">円</span></div>
-        <p class="hint">源泉徴収票の「所得税額」で確認できます。控除額はこの金額が上限です。</p>
+        <label>入居年</label>
+        <div class="input-wrap"><select id="move-year">
+          <option value="2025">2025年</option>
+          <option value="2024">2024年</option>
+          <option value="2026">2026年以降（概算）</option>
+        </select></div>
+        <p class="hint">制度は入居年で変わります。2026年以降は今後の制度改正で変わる可能性があります。</p>
+      </div>
+      <div class="form-group">
+        <label>子育て世帯・若者夫婦世帯ですか？</label>
+        <div class="radio-group">
+          <label><input type="radio" name="family-type" value="normal" checked> いいえ</label>
+          <label><input type="radio" name="family-type" value="child"> はい</label>
+        </div>
+        <p class="hint">2024年・2025年入居では、対象世帯で借入限度額が上乗せされる場合があります。</p>
+      </div>
+      <div class="form-group">
+        <label>年間の所得税額</label>
+        <div class="input-wrap"><input type="number" id="income-tax" placeholder="150000" min="0"><span class="unit">円</span></div>
+        <p class="hint">源泉徴収票の「源泉徴収税額」などを目安にしてください。</p>
+      </div>
+      <div class="form-group">
+        <label>年間の住民税額（目安）</label>
+        <div class="input-wrap"><input type="number" id="resident-tax" placeholder="250000" min="0"><span class="unit">円</span></div>
+        <p class="hint">住民税から控除できる金額には上限があります。</p>
+      </div>
+      <details style="margin:18px 0 22px;">
+        <summary style="cursor:pointer;font-weight:700;color:var(--primary);">詳細条件を入力する（任意）</summary>
+        <div style="margin-top:18px;">
+          <div class="form-group">
+            <label>毎年のローン残高減少額</label>
+            <div class="input-wrap"><input type="number" id="annual-repay" placeholder="1000000" min="0"><span class="unit">円</span></div>
+            <p class="hint">わからない場合は空欄で大丈夫です。期間合計を少し現実に近づけるための項目です。</p>
+          </div>
+          <div class="form-group">
+            <label>残り控除年数</label>
+            <div class="input-wrap"><input type="number" id="remaining-years" placeholder="13" min="1" max="13"><span class="unit">年</span></div>
+            <p class="hint">初年度なら新築は13年、中古住宅は10年が目安です。</p>
+          </div>
+          <div class="form-group">
+            <label>ふるさと納税をしていますか？</label>
+            <div class="radio-group">
+              <label><input type="radio" name="furusato" value="no" checked> していない / わからない</label>
+              <label><input type="radio" name="furusato" value="yes"> している</label>
+            </div>
+          </div>
+        </div>
+      </details>
+      <div class="form-group">
+        <label>手続きの年</label>
+        <div class="radio-group">
+          <label><input type="radio" name="filing-year" value="first" checked> 初年度</label>
+          <label><input type="radio" name="filing-year" value="after"> 2年目以降</label>
+        </div>
       </div>
       <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
           <div class="label">年間の住宅ローン控除額（目安）</div>
           <div class="value" id="res-main">—</div>
+          <div class="sub" id="res-main-sub">所得税と住民税から実際に控除できる額を表示します</div>
         </div>
         <div class="result-table"><table><tbody>
           <tr><td>ローン年末残高</td><td id="res-balance">—</td></tr>
+          <tr><td>借入限度額</td><td id="res-loan-limit">—</td></tr>
+          <tr><td>控除期間</td><td id="res-period">—</td></tr>
           <tr><td>控除率</td><td id="res-rate">—</td></tr>
-          <tr><td>控除額（計算値）</td><td id="res-deduct">—</td></tr>
-          <tr><td>実際の控除額（税額上限）</td><td id="res-actual">—</td></tr>
-          <tr><td>13年間の控除合計（目安）</td><td id="res-total">—</td></tr>
+          <tr><td>控除可能額</td><td id="res-deduct">—</td></tr>
+          <tr><td>所得税から控除</td><td id="res-income-tax">—</td></tr>
+          <tr><td>住民税から控除</td><td id="res-resident-tax">—</td></tr>
+          <tr><td>控除しきれない額</td><td id="res-unused">—</td></tr>
+          <tr><td>実際の控除額</td><td id="res-actual">—</td></tr>
+          <tr><td>期間合計の控除目安</td><td id="res-total">—</td></tr>
+          <tr><td>手続き</td><td id="res-filing">—</td></tr>
         </tbody></table></div>
-        <div class="info-box">住宅ローン控除は確定申告（初年度）と年末調整（2年目以降）で適用されます。適用条件・控除額は住宅の種類・入居時期によって異なります。詳細は税務署または税理士にご確認ください。</div>
+        <div class="info-box" id="res-note">住宅ローン控除は初年度に確定申告が必要です。2年目以降は会社員なら年末調整で手続きできることが多いです。適用条件・控除額は住宅の種類・入居時期によって異なります。</div>
       </div>
     </div>
     <div class="ad-area">広告</div>
     <div class="article">
-      <h2>🏠 住宅ローン控除計算について</h2>
-      <p>住宅ローン控除（住宅借入金等特別控除）とは、住宅ローンを組んでマイホームを購入した場合に、ローンの年末残高の一定割合が所得税・住民税から控除される制度です。2024年以降の新築住宅では控除率0.7%・控除期間13年が基本です。</p>
-      <p>控除額の計算は「年末残高×0.7%」が基本ですが、支払った所得税・住民税が上限になります。たとえば年末残高3,000万円なら控除額は21万円ですが、年間の所得税が15万円なら15万円が実際の控除額（還付）になります。</p>
-      <p>住宅ローン控除の初年度は確定申告が必要です。2年目以降は勤務先の年末調整で手続きできます。適用を受けるには床面積・居住開始時期など一定の条件があるため、住宅購入時に税務署や税理士に確認することをおすすめします。</p>
+      <h2>🏠 住宅ローン控除・還付金計算について</h2>
+      <p>住宅ローン控除（住宅借入金等特別控除）とは、住宅ローンを組んでマイホームを購入した場合に、ローンの年末残高の一定割合が所得税から控除される制度です。所得税から引ききれない場合は、一定の範囲で翌年度の住民税からも控除されます。</p>
+      <p>大切なのは、「控除可能額」と「実際に戻る額」は同じとは限らないことです。控除可能額が21万円でも、その年の所得税が10万円で、住民税から控除できる上限が9万円なら、実際に使える控除は19万円程度になります。残りは使い切れない場合があります。</p>
+      <p>住宅ローン控除は、入居年、住宅の省エネ性能、住宅の種類、子育て世帯・若者夫婦世帯に該当するかなどで借入限度額が変わります。このツールでは、認定住宅、ZEH水準省エネ住宅、省エネ基準適合住宅、中古住宅などを分けて概算できます。</p>
+      <p>初年度は会社員でも確定申告が必要です。2年目以降は勤務先の年末調整で手続きできることが多いです。床面積、所得、借入期間、居住開始時期などの条件もあるため、最終判断は税務署や住宅会社、税理士にも確認しましょう。</p>
+    </div>
+    <div class="article">
+      <h2>住宅区分と控除の見方</h2>
+      <p>近年の住宅ローン控除では、省エネ性能の高い住宅ほど借入限度額が大きくなりやすいです。住宅購入時の資料に、認定長期優良住宅、認定低炭素住宅、ZEH水準、省エネ基準適合住宅などの記載があるか確認しましょう。</p>
+      <div class="result-table"><table><thead><tr><th>区分</th><th>見るポイント</th></tr></thead><tbody>
+        <tr><td>認定長期優良住宅・認定低炭素住宅</td><td>借入限度額が大きくなりやすい</td></tr>
+        <tr><td>ZEH水準省エネ住宅</td><td>省エネ性能の証明書類が重要</td></tr>
+        <tr><td>省エネ基準適合住宅</td><td>新築では省エネ基準への適合が重要</td></tr>
+        <tr><td>中古住宅・増改築等</td><td>控除期間や借入限度額が新築と異なることがある</td></tr>
+      </tbody></table></div>
+      <p>ふるさと納税と住宅ローン控除は併用できる場合があります。ただし、初年度の住宅ローン控除や医療費控除などで確定申告をする場合、ふるさと納税のワンストップ特例は使えません。確定申告書にふるさと納税分も一緒に入力しましょう。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item"><div class="faq-q">Q. 住宅ローン控除の控除期間は？</div><div class="faq-a">2022年以降に入居した新築住宅は原則13年間。中古住宅は10年間です。控除率はいずれも0.7%です。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 住宅ローン控除の控除期間は？</div><div class="faq-a">新築の認定住宅等は13年間が目安です。中古住宅や増改築等は10年間になることがあります。入居年や住宅区分で変わるため、購入時の資料を確認しましょう。</div></div>
       <div class="faq-item"><div class="faq-q">Q. 確定申告は必ず必要？</div><div class="faq-a">初年度は確定申告が必要です。2年目以降は会社員なら年末調整で対応できます。</div></div>
       <div class="faq-item"><div class="faq-q">Q. 借り換えした場合はどうなる？</div><div class="faq-a">原則として住宅ローン控除は継続できますが、借り換え先のローンが一定条件を満たす必要があります。詳細は税務署に確認してください。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 控除可能額が全部戻らないことはありますか？</div><div class="faq-a">あります。住宅ローン控除は税金から差し引く制度なので、所得税や住民税が少ない場合は控除可能額を使い切れないことがあります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. ふるさと納税と併用できますか？</div><div class="faq-a">併用できる場合があります。ただし確定申告をする場合はワンストップ特例が使えないため、ふるさと納税の寄付金控除も確定申告に入れる必要があります。</div></div>
     </div>
   </div>
 </main>
@@ -194,24 +269,73 @@
   <p class="copyright" style="margin-top:8px">© 2024 はかるんツール</p>
 </footer>
 <script>
+function fmt(n){return Math.round(n).toLocaleString('ja-JP')+' 円';}
+function num(id){return parseFloat(document.getElementById(id).value)||0;}
+function getRule(type, year, familyType){
+  const child = familyType === 'child' && (year === '2024' || year === '2025');
+  const rules = {
+    certified: { name:'認定住宅', limit: child ? 50000000 : 45000000, period:13, rate:0.007 },
+    zeh: { name:'ZEH水準省エネ住宅', limit: child ? 45000000 : 35000000, period:13, rate:0.007 },
+    energy: { name:'省エネ基準適合住宅', limit: child ? 40000000 : 30000000, period:13, rate:0.007 },
+    used: { name:'中古住宅・増改築等', limit:30000000, period:10, rate:0.007 },
+    other: { name:'その他の住宅（経過措置）', limit:(year==='2024'||year==='2025') ? 20000000 : 0, period:10, rate:0.007 }
+  };
+  return rules[type] || rules.certified;
+}
 function calc() {
-  const balance=parseFloat(document.getElementById('balance').value);
-  const type=document.querySelector('input[name="type"]:checked').value;
-  const tax=parseFloat(document.getElementById('tax').value)||0;
+  const balance=num('balance');
+  const type=document.getElementById('house-type').value;
+  const year=document.getElementById('move-year').value;
+  const familyType=document.querySelector('input[name="family-type"]:checked').value;
+  const incomeTax=num('income-tax');
+  const residentTax=num('resident-tax');
+  const annualRepay=num('annual-repay');
+  const furusato=document.querySelector('input[name="furusato"]:checked').value==='yes';
+  const filingYear=document.querySelector('input[name="filing-year"]:checked').value;
   if(!balance){alert('ローン年末残高を入力してください');return;}
-  const limit=type==='new'?50000000:30000000;
-  const base=Math.min(balance,limit);
-  const rate=0.007;
-  const deduct=Math.floor(base*rate);
-  const actual=tax>0?Math.min(deduct,tax):deduct;
-  const total=actual*13;
-  const fmt=n=>Math.round(n).toLocaleString('ja-JP')+' 円';
+
+  const rule=getRule(type,year,familyType);
+  const yearsInput=Math.floor(num('remaining-years'));
+  const years=Math.max(1,Math.min(yearsInput||rule.period,rule.period));
+  const base=Math.min(balance,rule.limit);
+  const deduct=Math.floor(base*rule.rate);
+  const residentLimit=Math.min(residentTax,97500);
+  const fromIncomeTax=Math.min(deduct,incomeTax);
+  const remainingAfterIncome=Math.max(0,deduct-fromIncomeTax);
+  const fromResidentTax=Math.min(remainingAfterIncome,residentLimit);
+  const actual=fromIncomeTax+fromResidentTax;
+  const unused=Math.max(0,deduct-actual);
+
+  let total=0;
+  for(let i=0;i<years;i++){
+    const yearlyBalance=Math.max(0,balance-(annualRepay*i));
+    const yearlyBase=Math.min(yearlyBalance,rule.limit);
+    const yearlyDeduct=Math.floor(yearlyBase*rule.rate);
+    const yearlyIncome=Math.min(yearlyDeduct,incomeTax);
+    const yearlyResident=Math.min(Math.max(0,yearlyDeduct-yearlyIncome),residentLimit);
+    total+=yearlyIncome+yearlyResident;
+  }
+
+  let filing=filingYear==='first'?'初年度は確定申告が必要です':'2年目以降は会社員なら年末調整で手続きできます';
+  let note='住宅ローン控除は、控除可能額がそのまま戻るとは限りません。まず所得税から控除し、引ききれない分が一定範囲で住民税から控除されます。';
+  if(rule.limit===0)note+=' 選択した「その他の住宅」は、入居年や建築確認時期によって対象外になる場合があります。購入時の書類や税務署で確認してください。';
+  if(year==='2026')note+=' 2026年以降の制度は改正内容により変わる可能性があるため、ここでは概算として表示しています。';
+  if(furusato)note+=' ふるさと納税と併用できる場合がありますが、確定申告をする場合はワンストップ特例が使えません。ふるさと納税分も確定申告に入れてください。';
+
   document.getElementById('res-main').textContent=fmt(actual);
+  document.getElementById('res-main-sub').textContent=unused>0?'控除可能額のうち '+fmt(unused)+' は使い切れない見込みです':'控除可能額を使い切れる見込みです';
   document.getElementById('res-balance').textContent=fmt(balance);
-  document.getElementById('res-rate').textContent='0.7%';
+  document.getElementById('res-loan-limit').textContent=rule.limit>0?fmt(rule.limit):'対象外の可能性あり';
+  document.getElementById('res-period').textContent=rule.period+' 年';
+  document.getElementById('res-rate').textContent=(rule.rate*100).toFixed(1)+'%';
   document.getElementById('res-deduct').textContent=fmt(deduct);
+  document.getElementById('res-income-tax').textContent=fmt(fromIncomeTax);
+  document.getElementById('res-resident-tax').textContent=fmt(fromResidentTax);
+  document.getElementById('res-unused').textContent=fmt(unused);
   document.getElementById('res-actual').textContent=fmt(actual);
-  document.getElementById('res-total').textContent=fmt(total)+'（13年間）';
+  document.getElementById('res-total').textContent=fmt(total)+'（'+years+'年間）';
+  document.getElementById('res-filing').textContent=filing;
+  document.getElementById('res-note').textContent=note;
   document.getElementById('result').classList.add('show');
 }
 </script>
