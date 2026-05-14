@@ -76,7 +76,7 @@ TOOLS = [
     {'name': '面積計算', 'url': 'https://hakarun.net/calc/menseki.html', 'cat': '計算', 'hint': '縦×横の面積を㎡・帖・坪に一括変換'},
     # 投資・資産
     {'name': '複利計算', 'url': 'https://hakarun.net/invest/fukuri.html', 'cat': '投資', 'hint': '100万円を年利5%で20年運用すると約265万円に。複利の力はすごい'},
-    {'name': 'NISA・投資シミュレーション', 'url': 'https://hakarun.net/invest/nisa.html', 'cat': '投資', 'hint': '月5万円を年利5%で20年積み立てると約2,055万円になることも'},
+    {'name': 'NISA枠・積立シミュレーション', 'url': 'https://hakarun.net/invest/nisa.html', 'cat': '投資', 'hint': '月5万円を年利5%で20年積み立てると約2,055万円になることも'},
     {'name': '損益計算', 'url': 'https://hakarun.net/invest/soneki.html', 'cat': '投資', 'hint': '株の購入価格と売却価格から損益額・損益率を計算'},
     {'name': '不動産利回り計算', 'url': 'https://hakarun.net/invest/rimawari.html', 'cat': '投資', 'hint': '表面利回りと実質利回りは全然違う。空室率・諸経費込みで計算しよう'},
     {'name': '老後資金計算', 'url': 'https://hakarun.net/invest/rogo.html', 'cat': '投資', 'hint': '老後30年で月25万円必要なら9,000万円。年金を引いた不足分を計算しよう'},
