@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>医療費控除計算｜年間医療費から控除額・還付金を計算｜はかるんツール</title>
-  <meta name="description" content="年間医療費と年収を入力するだけで医療費控除額と還付金の目安を計算。確定申告の参考に。">
+  <title>医療費控除・還付金計算｜セルフメディケーション税制と比較｜はかるんツール</title>
+  <meta name="description" content="年間医療費と年収から医療費控除額、所得税の還付、住民税の軽減額を無料計算。セルフメディケーション税制と比較して有利な方も確認できます。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
@@ -78,7 +78,7 @@
           <a href="../tax/furusato.html">🎎 ふるさと納税 上限額・あといくら計算</a>
           <a href="../tax/setsuzei.html">📊 節税シミュレーション</a>
           <a href="../tax/jutaku.html">🏠 住宅ローン控除計算</a>
-          <a href="../tax/iryouhi.html">🏥 医療費控除計算</a>
+          <a href="../tax/iryouhi.html">🏥 医療費控除・還付金計算</a>
           <a href="../health/kougaku.html">🏥 高額療養費計算</a>
           <a href="../tax/kanpu.html">💰 確定申告 還付金計算</a>
           <a href="../tax/haigusha.html">👫 配偶者控除計算</a>
@@ -123,9 +123,9 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 節税 &rsaquo; 🏥 医療費控除計算</div>
-      <h1>🏥 医療費控除計算</h1>
-      <p class="subtitle">年間の医療費から医療費控除額と税金の還付額を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 節税 &rsaquo; 🏥 医療費控除・還付金計算</div>
+      <h1>🏥 医療費控除・還付金計算</h1>
+      <p class="subtitle">医療費控除額、所得税の還付、住民税の軽減額を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
@@ -142,35 +142,81 @@
       <div class="form-group">
         <label>年収（給与所得）の目安</label>
         <div class="input-wrap"><input type="number" id="income" placeholder="5000000" min="0"><span class="unit">円</span></div>
+        <p class="hint">源泉徴収票の「支払金額」の目安を入力してください。</p>
+      </div>
+      <details style="margin:18px 0 22px;">
+        <summary style="cursor:pointer;font-weight:700;color:var(--primary);">詳細条件を入力する（任意）</summary>
+        <div style="margin-top:18px;">
+          <div class="form-group">
+            <label>セルフメディケーション対象の市販薬代</label>
+            <div class="input-wrap"><input type="number" id="otc" placeholder="0" min="0"><span class="unit">円</span></div>
+            <p class="hint">対象マークのある市販薬など。通常の医療費控除とは併用できません。</p>
+          </div>
+          <div class="form-group">
+            <label>ふるさと納税をしていますか？</label>
+            <div class="radio-group">
+              <label><input type="radio" name="furusato" value="no" checked> していない / わからない</label>
+              <label><input type="radio" name="furusato" value="yes"> している</label>
+            </div>
+            <p class="hint">医療費控除で確定申告すると、ワンストップ特例は使えなくなります。</p>
+          </div>
+        </div>
+      </details>
+      <div class="form-group">
+        <label>申告する人</label>
+        <div class="radio-group">
+          <label><input type="radio" name="family" value="self" checked> 自分の医療費のみ</label>
+          <label><input type="radio" name="family" value="household"> 生計を一にする家族分も含める</label>
+        </div>
+        <p class="hint">家族分を含める場合も、同じ年の1月〜12月に支払った医療費で計算します。</p>
       </div>
       <button class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
           <div class="label">医療費控除額（目安）</div>
           <div class="value" id="res-main">—</div>
+          <div class="sub" id="res-main-sub">所得税と住民税への影響も確認できます</div>
         </div>
         <div class="result-table"><table><tbody>
           <tr><td>医療費合計</td><td id="res-medical">—</td></tr>
           <tr><td>差し引く保険金等</td><td id="res-ins">—</td></tr>
-          <tr><td>10万円の基準額</td><td id="res-base">—</td></tr>
+          <tr><td>基準額</td><td id="res-base">—</td></tr>
           <tr><td>医療費控除額</td><td id="res-deduct">—</td></tr>
-          <tr><td>還付される税金の目安</td><td id="res-refund">—</td></tr>
+          <tr><td>所得税の還付目安</td><td id="res-refund">—</td></tr>
+          <tr><td>住民税の軽減目安</td><td id="res-resident">—</td></tr>
+          <tr><td>合計メリット</td><td id="res-total-benefit">—</td></tr>
+          <tr><td>セルフメディケーション控除額</td><td id="res-selfmed-deduct">—</td></tr>
+          <tr><td>有利な制度</td><td id="res-better">—</td></tr>
+          <tr><td>確定申告</td><td id="res-filing">—</td></tr>
         </tbody></table></div>
-        <div class="info-box">医療費控除は確定申告が必要です。領収書をまとめて保管しておきましょう。セルフメディケーション税制（市販薬の控除）と医療費控除はどちらか一方しか選べません。</div>
+        <div class="info-box" id="res-note">医療費控除は確定申告が必要です。領収書をまとめて保管しておきましょう。セルフメディケーション税制（市販薬の控除）と医療費控除はどちらか一方しか選べません。</div>
       </div>
     </div>
     <div class="ad-area">広告</div>
     <div class="article">
-      <h2>🏥 医療費控除計算について</h2>
-      <p>医療費控除とは、1年間（1月〜12月）に支払った医療費が10万円（所得が200万円未満の場合は所得の5%）を超えた場合、超えた金額を所得から差し引いて税金を減らせる制度です。確定申告で申請することで払いすぎた税金が還付されます。</p>
-      <p>対象になる医療費には、病院・歯科・薬局の支払いのほか、処方薬・市販の医薬品・通院のための交通費（公共交通機関）なども含まれます。一方、健康診断・予防接種・美容目的の治療は原則対象外です。</p>
-      <p>医療費控除を受けるには確定申告が必要です。領収書は5年間保管しておきましょう。家族全員（生計を一にする家族）の医療費を合算できるため、誰が申告するかを検討することが大切です。一般的に所得の高い人が申告する方が還付額が多くなります。</p>
+      <h2>🏥 医療費控除・還付金計算について</h2>
+      <p>医療費控除とは、1年間（1月〜12月）に支払った医療費が一定額を超えた場合、超えた金額を所得から差し引いて税金を軽くできる制度です。基準額は原則10万円ですが、所得が200万円未満の場合は所得の5%が基準になります。控除額の上限は200万円です。</p>
+      <p>このツールでは、通常の医療費控除に加えて、セルフメディケーション税制も比較できます。セルフメディケーション税制とは、対象の市販薬の購入額が年12,000円を超えた場合に使える医療費控除の特例です。ただし、通常の医療費控除とセルフメディケーション税制は同時に使えません。どちらか有利な方を選びます。</p>
+      <p>医療費控除を受けるには確定申告が必要です。ふるさと納税でワンストップ特例を使っている人が医療費控除のために確定申告をすると、ワンストップ特例は無効になります。その場合は、確定申告書にふるさと納税の寄付金控除も一緒に入れる必要があります。</p>
+    </div>
+    <div class="article">
+      <h2>対象になるもの・ならないもの</h2>
+      <p>医療費控除では、病気やけがの治療のために支払った費用が対象になりやすいです。美容や予防、健康維持のための支出は対象外になりやすいため、領収書を整理するときに分けておくと確定申告が楽になります。</p>
+      <div class="result-table"><table><thead><tr><th>対象になりやすいもの</th><th>対象外になりやすいもの</th></tr></thead><tbody>
+        <tr><td>病院・歯科の診療費</td><td>美容目的の治療</td></tr>
+        <tr><td>処方薬、治療目的の市販薬</td><td>健康維持目的のサプリ</td></tr>
+        <tr><td>通院の電車・バス代</td><td>自家用車のガソリン代・駐車場代</td></tr>
+        <tr><td>出産関連の一部費用</td><td>予防接種、健康診断のみの費用</td></tr>
+      </tbody></table></div>
+      <p>生命保険の入院給付金、高額療養費、出産育児一時金などで補填された金額は、医療費から差し引いて計算します。実際に自分や家族が負担した金額で見るのがポイントです。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
       <div class="faq-item"><div class="faq-q">Q. 医療費控除の対象になるものは？</div><div class="faq-a">病院・歯科の診療費・薬局での処方薬・市販の風邪薬・通院交通費（電車・バス）などが対象です。美容目的・健康診断・予防接種・マッサージ（治療目的以外）は対象外です。</div></div>
       <div class="faq-item"><div class="faq-q">Q. 家族の医療費もまとめて申告できる？</div><div class="faq-a">はい、生計を一にする配偶者・子ども・親などの医療費を合算できます。一般的に所得税率の高い人が申告すると還付額が多くなります。</div></div>
       <div class="faq-item"><div class="faq-q">Q. セルフメディケーション税制との違いは？</div><div class="faq-a">セルフメディケーション税制は特定の市販薬（スイッチOTC薬）の購入費が年12,000円を超えた場合に控除を受けられる制度です。通常の医療費控除と同時には使えません。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. ふるさと納税のワンストップ特例を使っていても大丈夫？</div><div class="faq-a">医療費控除で確定申告をする場合、ワンストップ特例は無効になります。確定申告書に、医療費控除だけでなく、ふるさと納税の寄付金控除も一緒に入力してください。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 領収書は提出しますか？</div><div class="faq-a">確定申告では医療費控除の明細書を作成します。領収書そのものは提出しない場合でも、あとで確認される可能性があるため、一定期間保管しておきましょう。</div></div>
     </div>
   </div>
 </main>
@@ -191,23 +237,74 @@
   <p class="copyright" style="margin-top:8px">© 2024 はかるんツール</p>
 </footer>
 <script>
+function fmt(n){return Math.round(n).toLocaleString('ja-JP')+' 円';}
+function num(id){return parseFloat(document.getElementById(id).value)||0;}
+function salaryIncomeDeduction(income){
+  if(income<=1625000)return 550000;
+  if(income<=1800000)return income*0.4-100000;
+  if(income<=3600000)return income*0.3+80000;
+  if(income<=6600000)return income*0.2+440000;
+  if(income<=8500000)return income*0.1+1100000;
+  return 1950000;
+}
+function incomeTaxRate(taxable){
+  if(taxable<=1950000)return 0.05;
+  if(taxable<=3300000)return 0.10;
+  if(taxable<=6950000)return 0.20;
+  if(taxable<=9000000)return 0.23;
+  if(taxable<=18000000)return 0.33;
+  if(taxable<=40000000)return 0.40;
+  return 0.45;
+}
 function calc() {
-  const medical=parseFloat(document.getElementById('medical').value)||0;
-  const ins=parseFloat(document.getElementById('insurance').value)||0;
-  const income=parseFloat(document.getElementById('income').value)||0;
+  const medical=num('medical');
+  const ins=num('insurance');
+  const income=num('income');
+  const otc=num('otc');
+  const hasFurusato=document.querySelector('input[name="furusato"]:checked').value==='yes';
+  const isHousehold=document.querySelector('input[name="family"]:checked').value==='household';
   if(!medical){alert('医療費合計を入力してください');return;}
+  if(!income){alert('年収を入力してください');return;}
+
+  const kyuyoShotoku=Math.max(0,income-salaryIncomeDeduction(income));
   const netMedical=Math.max(0,medical-ins);
-  const base=income>=2000000?100000:income*0.05;
-  const deduct=Math.max(0,netMedical-base);
-  const taxRate=income>=6000000?0.20:income>=3300000?0.10:0.05;
-  const refund=Math.floor(deduct*taxRate);
-  const fmt=n=>Math.round(n).toLocaleString('ja-JP')+' 円';
+  const base=Math.min(100000,kyuyoShotoku*0.05);
+  const deduct=Math.min(2000000,Math.max(0,netMedical-base));
+
+  // 税率は、給与所得から社会保険料などの概算控除を引いて求める簡易計算です。
+  const socialKojo=income*0.15115;
+  const taxable=Math.max(0,kyuyoShotoku-socialKojo-480000);
+  const taxRate=incomeTaxRate(taxable);
+  const incomeTaxBenefit=Math.floor(deduct*taxRate);
+  const residentBenefit=Math.floor(deduct*0.10);
+  const totalBenefit=incomeTaxBenefit+residentBenefit;
+
+  const selfMedDeduct=Math.min(88000,Math.max(0,otc-12000));
+  const selfMedIncomeTax=Math.floor(selfMedDeduct*taxRate);
+  const selfMedResident=Math.floor(selfMedDeduct*0.10);
+  const selfMedTotal=selfMedIncomeTax+selfMedResident;
+  let better='通常の医療費控除が有利です';
+  if(selfMedTotal>totalBenefit)better='セルフメディケーション税制が有利です';
+  else if(selfMedTotal===totalBenefit)better='どちらも同じくらいです';
+
+  const filing=deduct>0||selfMedDeduct>0?'確定申告が必要です':'控除額がないため申告メリットは小さいです';
+  let note='医療費控除とセルフメディケーション税制は併用できません。有利な方を選んで確定申告します。';
+  if(hasFurusato)note+=' ふるさと納税でワンストップ特例を使っている場合、医療費控除で確定申告するとワンストップ特例は無効になります。確定申告書にふるさと納税分も一緒に入れてください。';
+  if(isHousehold)note+=' 生計を一にする家族分を合算する場合、同じ年に実際に支払った医療費をまとめてください。';
+
   document.getElementById('res-main').textContent=fmt(deduct);
+  document.getElementById('res-main-sub').textContent=deduct>0?'合計メリットの目安は '+fmt(totalBenefit)+' です':'通常の医療費控除は基準額以下です';
   document.getElementById('res-medical').textContent=fmt(medical);
   document.getElementById('res-ins').textContent=fmt(ins);
   document.getElementById('res-base').textContent=fmt(base);
   document.getElementById('res-deduct').textContent=fmt(deduct);
-  document.getElementById('res-refund').textContent=deduct>0?'約'+fmt(refund):'控除なし（医療費が基準額以下）';
+  document.getElementById('res-refund').textContent=deduct>0?'約 '+fmt(incomeTaxBenefit):'控除なし（医療費が基準額以下）';
+  document.getElementById('res-resident').textContent=deduct>0?'約 '+fmt(residentBenefit):'控除なし';
+  document.getElementById('res-total-benefit').textContent=deduct>0?'約 '+fmt(totalBenefit):'控除なし';
+  document.getElementById('res-selfmed-deduct').textContent=fmt(selfMedDeduct)+'（メリット目安 '+fmt(selfMedTotal)+'）';
+  document.getElementById('res-better').textContent=better;
+  document.getElementById('res-filing').textContent=filing;
+  document.getElementById('res-note').textContent=note;
   document.getElementById('result').classList.add('show');
 }
 </script>

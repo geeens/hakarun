@@ -64,7 +64,7 @@ TOOLS = [
     {'name': '出産・育児費用計算', 'url': 'https://hakarun.net/life/baby.html', 'cat': '暮らし', 'hint': '出産から3歳までにかかる費用は平均200〜300万円'},
     # 節税
     {'name': 'ふるさと納税 上限額・あといくら計算', 'url': 'https://hakarun.net/tax/furusato.html', 'cat': '節税', 'hint': '年収500万・独身なら上限は約6万円。返礼品ももらえてお得'},
-    {'name': '医療費控除計算', 'url': 'https://hakarun.net/tax/iryouhi.html', 'cat': '節税', 'hint': '年間医療費が10万円を超えると確定申告で還付が受けられる'},
+    {'name': '医療費控除・還付金計算', 'url': 'https://hakarun.net/tax/iryouhi.html', 'cat': '節税', 'hint': '年間医療費が10万円を超えると確定申告で還付が受けられる'},
     {'name': '高額療養費計算', 'url': 'https://hakarun.net/health/kougaku.html', 'cat': '節税', 'hint': '月の医療費が一定額を超えると払い戻しがある'},
     {'name': '住宅ローン控除計算', 'url': 'https://hakarun.net/tax/jutaku.html', 'cat': '節税', 'hint': 'ローン残高の0.7%が毎年所得税から控除される。最大13年間'},
     {'name': 'iDeCo節税計算', 'url': 'https://hakarun.net/tax/ideco.html', 'cat': '節税', 'hint': 'iDeCoで月2万円積み立てると年間約4.8万円節税できる（年収500万の場合）'},
