@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>社会保険料シミュレーション｜健康保険・厚生年金・雇用保険の負担額を計算｜はかるんツール</title>
-  <meta name="description" content="月収・年齢・都道府県を入力するだけで健康保険料・厚生年金・雇用保険・介護保険の自己負担額を無料試算。">
+  <title>社会保険料計算｜健康保険・厚生年金・雇用保険の自己負担額を無料計算｜はかるんツール</title>
+  <meta name="description" content="月収または年収を入力するだけで、健康保険料・厚生年金保険料・雇用保険料・介護保険料の自己負担額を概算。会社負担分や年間負担額も確認できます。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <!-- Google tag (gtag.js) -->
@@ -61,7 +61,7 @@
           <a href="../money/zangyo.html">⏰ 残業代計算</a>
           <a href="../money/bonus.html">🎁 ボーナス手取り計算</a>
           <a href="../money/nenshu.html">📈 年収→月収・時給計算</a>
-          <a href="../money/shakaihoken.html">🏥 社会保険料シミュレーション</a>
+          <a href="../money/shakaihoken.html">🏥 社会保険料計算</a>
           <a href="../money/taisyokukin.html">👴 退職金手取り計算</a>
           <a href="../money/shohizei.html">🛒 消費税計算</a>
           <a href="../money/warikan.html">👥 割り勘計算</a>
@@ -161,18 +161,35 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 社会保険料シミュレーション</div>
-      <h1>🏥 社会保険料シミュレーション</h1>
-      <p class="subtitle">月収から社会保険料の内訳と合計を計算します</p>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 社会保険料計算</div>
+      <h1>🏥 社会保険料計算</h1>
+      <p class="subtitle">健康保険・厚生年金・雇用保険の自己負担額と会社負担分を概算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>月収（額面）</label>
+        <label>入力する金額の種類</label>
+        <div class="radio-group">
+          <label><input type="radio" name="salaryType" value="monthly" checked onchange="updateSalaryLabel()"> 月収から計算</label>
+          <label><input type="radio" name="salaryType" value="annual" onchange="updateSalaryLabel()"> 年収から計算</label>
+        </div>
+        <p class="hint">迷ったら「月収から計算」のままでOKです。ざっくり概算できます。</p>
+      </div>
+      <div class="form-group">
+        <label id="salary-label">月収（額面）</label>
         <div class="input-wrap">
           <input type="number" id="salary" placeholder="300000" min="0">
           <span class="unit">円</span>
         </div>
+        <p class="hint" id="salary-hint">毎月の額面給与を入力してください。賞与なしの概算ならこの入力だけで計算できます。</p>
+      </div>
+      <div class="form-group">
+        <label>年間賞与（任意）</label>
+        <div class="input-wrap">
+          <input type="number" id="bonus" placeholder="0" min="0">
+          <span class="unit">円</span>
+        </div>
+        <p class="hint">ボーナス分も年間負担に含めたい場合だけ入力してください。空欄でもOKです。</p>
       </div>
       <div class="form-group">
         <label>年齢</label>
@@ -184,43 +201,74 @@
       <button class="btn btn-primary" onclick="calcShakaiHoken()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">社会保険料 合計</div>
+          <div class="label">毎月の社会保険料（自己負担）</div>
           <div class="value" id="res-total">—</div>
           <div class="sub" id="res-rate">月収の —%</div>
+          <div class="sub" id="res-year-self">年間自己負担 —</div>
         </div>
         <div class="result-table">
           <table>
-            <thead><tr><th>種類</th><th>料率</th><th>金額</th></tr></thead>
+            <thead><tr><th>種類</th><th>自己負担/月</th><th>会社負担/月</th><th>合計/月</th></tr></thead>
             <tbody>
-              <tr class="deduct"><td>健康保険料</td><td>4.985%</td><td id="res-health">—</td></tr>
-              <tr class="deduct"><td>介護保険料</td><td id="care-rate">—</td><td id="res-care">—</td></tr>
-              <tr class="deduct"><td>厚生年金保険料</td><td>9.15%</td><td id="res-pension">—</td></tr>
-              <tr class="deduct"><td>雇用保険料</td><td>0.6%</td><td id="res-employ">—</td></tr>
-              <tr class="total"><td colspan="2">合計</td><td id="res-sum">—</td></tr>
+              <tr class="deduct"><td>健康保険料</td><td id="res-health-self">—</td><td id="res-health-company">—</td><td id="res-health-total">—</td></tr>
+              <tr class="deduct"><td>介護保険料</td><td id="res-care-self">—</td><td id="res-care-company">—</td><td id="res-care-total">—</td></tr>
+              <tr class="deduct"><td>厚生年金保険料</td><td id="res-pension-self">—</td><td id="res-pension-company">—</td><td id="res-pension-total">—</td></tr>
+              <tr class="deduct"><td>雇用保険料</td><td id="res-employ-self">—</td><td id="res-employ-company">—</td><td id="res-employ-total">—</td></tr>
+              <tr class="total"><td>合計</td><td id="res-sum-self">—</td><td id="res-sum-company">—</td><td id="res-sum-total">—</td></tr>
             </tbody>
           </table>
         </div>
-        <div class="info-box">会社も同額程度を負担しています。社会保険料の合計（労使合計）は月収の約30%に達します。</div>
+        <div class="result-table" style="margin-top:16px">
+          <table>
+            <tbody>
+              <tr><td>月収換算（額面）</td><td id="res-monthly-salary">—</td></tr>
+              <tr><td>年収換算（賞与込み）</td><td id="res-annual-salary">—</td></tr>
+              <tr><td>年間自己負担</td><td id="res-annual-self">—</td></tr>
+              <tr><td>年間会社負担の目安</td><td id="res-annual-company">—</td></tr>
+              <tr class="total"><td>年間の労使合計</td><td id="res-annual-total">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="info-box">この計算は協会けんぽ・一般の事業を想定した概算です。健康保険料率は都道府県や健康保険組合により異なります。会社負担分は目安として表示しています。</div>
       </div>
     </div>
     <div class="ad-area">広告</div>
     <div class="article">
-      <h2>社会保険料とは？</h2>
-      <p>社会保険料とは、健康保険・年金・雇用保険など、社会保障のために毎月給与から天引きされるお金です。会社員は給与の約15%が引かれます。</p>
+      <h2>社会保険料計算の見方</h2>
+      <p>社会保険料とは、健康保険・厚生年金・雇用保険など、社会保障のために毎月の給与から差し引かれるお金です。手取り計算では税金も含めた最終的な受取額を見ますが、このページでは「何の保険料がいくら引かれているのか」を詳しく確認できます。</p>
+      <h3>自己負担と会社負担</h3>
+      <p>健康保険料と厚生年金保険料は、基本的に本人と会社が半分ずつ負担します。給与明細に載るのは本人の自己負担分だけですが、会社側も同じくらいの金額を負担しています。雇用保険は本人負担と会社負担の料率が少し異なります。</p>
       <h3>各保険の役割</h3>
       <ul>
-        <li><strong>健康保険</strong>：病院代が3割負担になる保険</li>
-        <li><strong>介護保険</strong>：40歳から加入。介護が必要になったときに使えるサービスの保険</li>
-        <li><strong>厚生年金</strong>：老後にもらえる年金の積立</li>
-        <li><strong>雇用保険</strong>：失業したときの生活費をサポートする保険</li>
+        <li><strong>健康保険</strong>：病院にかかったときの医療費負担を軽くする保険です。</li>
+        <li><strong>介護保険</strong>：40歳から64歳までの人が負担する、介護サービスのための保険です。</li>
+        <li><strong>厚生年金</strong>：将来の年金につながる保険です。社会保険料の中で大きな割合を占めます。</li>
+        <li><strong>雇用保険</strong>：失業給付や育児休業給付などに使われる保険です。</li>
       </ul>
+      <p>社会保険料は全額が所得控除の対象です。つまり、支払った社会保険料は所得税・住民税を計算するときに所得から差し引かれます。負担は大きい一方で、医療・年金・失業時の備えにもつながる仕組みです。</p>
     </div>
 
     <div class="article">
-      <h2>社会保険料の種類と負担額の仕組み</h2>
-      <p>会社員が毎月の給与から差し引かれる社会保険料は主に4種類あります。健康保険料・厚生年金保険料・雇用保険料・介護保険料（40歳以上）です。これらは労使折半が基本で、会社も同程度の金額を負担しています。給与明細に記載されているのはあくまで自己負担分のみです。</p>
-      <p>社会保険料の合計は給与の約15%程度が目安で、月収30万円なら約4.5万円が差し引かれます。健康保険と厚生年金の保険料率は都道府県や加入している健康保険組合によって異なります。毎年4〜6月の給与（残業代を含む）をもとに「標準報酬月額」が決まり、その額に応じた保険料が9月から適用されます。</p>
-      <p>社会保険料は全額が所得控除の対象となるため、払った分だけ所得税・住民税が安くなります。また、厚生年金に加入することで将来受け取れる老齢年金が増える、健康保険で傷病手当金・出産手当金が受給できるといったメリットもあります。</p>
+      <h2>社会保険料 早見表</h2>
+      <p>以下は40歳未満・賞与なし・協会けんぽの全国平均に近い料率を想定した概算です。</p>
+      <div class="result-table">
+        <table>
+          <thead><tr><th>月収</th><th>自己負担/月</th><th>自己負担/年</th><th>月収比</th></tr></thead>
+          <tbody id="quick-table"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="article">
+      <h2>関連ツール</h2>
+      <div class="tool-grid">
+        <a href="tedori.html" class="tool-card"><div class="icon">💴</div><div class="name">手取り計算</div><div class="desc">税金も含めた最終的な手取りを確認</div></a>
+        <a href="nenshuzei.html" class="tool-card"><div class="icon">📋</div><div class="name">年収別 手取り・税金シミュレーション</div><div class="desc">年収アップ時の手取り差額を比較</div></a>
+        <a href="juuminzei.html" class="tool-card"><div class="icon">🏙️</div><div class="name">住民税計算</div><div class="desc">住民税だけを詳しく概算</div></a>
+        <a href="nenkin.html" class="tool-card"><div class="icon">🏛️</div><div class="name">年金受給額シミュレーション</div><div class="desc">厚生年金が将来の年金にどう関わるか確認</div></a>
+        <a href="shobyo.html" class="tool-card"><div class="icon">🏥</div><div class="name">傷病手当金計算</div><div class="desc">健康保険から受け取れる手当の目安を計算</div></a>
+        <a href="ikukyu.html" class="tool-card"><div class="icon">👶</div><div class="name">育児休業給付金計算</div><div class="desc">雇用保険から受け取れる育休手当を確認</div></a>
+      </div>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
@@ -257,26 +305,120 @@
 </footer>
 <script>
 function fmt(n) { return Math.round(n).toLocaleString('ja-JP') + ' 円'; }
+
+const RATES = {
+  healthSelf: 0.05,
+  healthCompany: 0.05,
+  careSelf: 0.0081,
+  careCompany: 0.0081,
+  pensionSelf: 0.0915,
+  pensionCompany: 0.0915,
+  employSelf: 0.005,
+  employCompany: 0.0085
+};
+
+function updateSalaryLabel() {
+  const salaryType = document.querySelector('input[name="salaryType"]:checked').value;
+  const input = document.getElementById('salary');
+  const label = document.getElementById('salary-label');
+  const hint = document.getElementById('salary-hint');
+
+  if (salaryType === 'annual') {
+    label.textContent = '年収（額面）';
+    input.placeholder = '4000000';
+    hint.textContent = '年間の額面収入を入力してください。月収に換算して社会保険料を概算します。';
+  } else {
+    label.textContent = '月収（額面）';
+    input.placeholder = '300000';
+    hint.textContent = '毎月の額面給与を入力してください。賞与なしの概算ならこの入力だけで計算できます。';
+  }
+}
+
+function calcByMonthlySalary(monthlySalary, annualBonus, isOver40) {
+  const bonus = annualBonus || 0;
+  const pensionBase = Math.min(monthlySalary, 650000);
+  const healthSelf = monthlySalary * RATES.healthSelf;
+  const healthCompany = monthlySalary * RATES.healthCompany;
+  const careSelf = isOver40 ? monthlySalary * RATES.careSelf : 0;
+  const careCompany = isOver40 ? monthlySalary * RATES.careCompany : 0;
+  const pensionSelf = pensionBase * RATES.pensionSelf;
+  const pensionCompany = pensionBase * RATES.pensionCompany;
+  const employSelf = monthlySalary * RATES.employSelf;
+  const employCompany = monthlySalary * RATES.employCompany;
+
+  const monthlySelf = healthSelf + careSelf + pensionSelf + employSelf;
+  const monthlyCompany = healthCompany + careCompany + pensionCompany + employCompany;
+  const monthlyTotal = monthlySelf + monthlyCompany;
+
+  const bonusSelf = bonus * (RATES.healthSelf + (isOver40 ? RATES.careSelf : 0) + RATES.pensionSelf + RATES.employSelf);
+  const bonusCompany = bonus * (RATES.healthCompany + (isOver40 ? RATES.careCompany : 0) + RATES.pensionCompany + RATES.employCompany);
+
+  return {
+    monthlySalary,
+    annualSalary: monthlySalary * 12 + bonus,
+    healthSelf, healthCompany,
+    careSelf, careCompany,
+    pensionSelf, pensionCompany,
+    employSelf, employCompany,
+    monthlySelf, monthlyCompany, monthlyTotal,
+    annualSelf: monthlySelf * 12 + bonusSelf,
+    annualCompany: monthlyCompany * 12 + bonusCompany
+  };
+}
+
 function calcShakaiHoken() {
-  const salary = parseFloat(document.getElementById('salary').value);
-  if (!salary || salary <= 0) { alert('月収を入力してください'); return; }
+  const inputSalary = parseFloat(document.getElementById('salary').value);
+  const annualBonus = parseFloat(document.getElementById('bonus').value) || 0;
+  const salaryType = document.querySelector('input[name="salaryType"]:checked').value;
+  if (!inputSalary || inputSalary <= 0) { alert('金額を入力してください'); return; }
+
+  const monthlySalary = salaryType === 'annual' ? Math.max(0, (inputSalary - annualBonus) / 12) : inputSalary;
   const isOver40 = document.querySelector('input[name="age"]:checked').value === 'over40';
-  const health = salary * 0.04985;
-  const care = isOver40 ? salary * 0.009 : 0;
-  const pension = Math.min(salary, 650000) * 0.0915;
-  const employ = salary * 0.006;
-  const total = health + care + pension + employ;
-  const rate = (total / salary * 100).toFixed(1);
-  document.getElementById('res-total').textContent = fmt(total);
+
+  if (monthlySalary <= 0) { alert('年収より年間賞与が大きくなっています。金額を確認してください'); return; }
+
+  const r = calcByMonthlySalary(monthlySalary, annualBonus, isOver40);
+  const rate = (r.monthlySelf / monthlySalary * 100).toFixed(1);
+
+  document.getElementById('res-total').textContent = fmt(r.monthlySelf);
   document.getElementById('res-rate').textContent = `月収の ${rate}%`;
-  document.getElementById('res-health').textContent = fmt(health);
-  document.getElementById('care-rate').textContent = isOver40 ? '0.9%' : '—（40歳未満）';
-  document.getElementById('res-care').textContent = isOver40 ? fmt(care) : '0 円';
-  document.getElementById('res-pension').textContent = fmt(pension);
-  document.getElementById('res-employ').textContent = fmt(employ);
-  document.getElementById('res-sum').textContent = fmt(total);
+  document.getElementById('res-year-self').textContent = `年間自己負担 ${fmt(r.annualSelf)}`;
+
+  document.getElementById('res-health-self').textContent = fmt(r.healthSelf);
+  document.getElementById('res-health-company').textContent = fmt(r.healthCompany);
+  document.getElementById('res-health-total').textContent = fmt(r.healthSelf + r.healthCompany);
+  document.getElementById('res-care-self').textContent = isOver40 ? fmt(r.careSelf) : '0 円';
+  document.getElementById('res-care-company').textContent = isOver40 ? fmt(r.careCompany) : '0 円';
+  document.getElementById('res-care-total').textContent = isOver40 ? fmt(r.careSelf + r.careCompany) : '0 円';
+  document.getElementById('res-pension-self').textContent = fmt(r.pensionSelf);
+  document.getElementById('res-pension-company').textContent = fmt(r.pensionCompany);
+  document.getElementById('res-pension-total').textContent = fmt(r.pensionSelf + r.pensionCompany);
+  document.getElementById('res-employ-self').textContent = fmt(r.employSelf);
+  document.getElementById('res-employ-company').textContent = fmt(r.employCompany);
+  document.getElementById('res-employ-total').textContent = fmt(r.employSelf + r.employCompany);
+  document.getElementById('res-sum-self').textContent = fmt(r.monthlySelf);
+  document.getElementById('res-sum-company').textContent = fmt(r.monthlyCompany);
+  document.getElementById('res-sum-total').textContent = fmt(r.monthlyTotal);
+
+  document.getElementById('res-monthly-salary').textContent = fmt(r.monthlySalary);
+  document.getElementById('res-annual-salary').textContent = fmt(r.annualSalary);
+  document.getElementById('res-annual-self').textContent = fmt(r.annualSelf);
+  document.getElementById('res-annual-company').textContent = fmt(r.annualCompany);
+  document.getElementById('res-annual-total').textContent = fmt(r.annualSelf + r.annualCompany);
   document.getElementById('result').classList.add('show');
 }
+
+function renderQuickTable() {
+  const tbody = document.getElementById('quick-table');
+  if (!tbody) return;
+  tbody.innerHTML = [200000,300000,400000,500000,600000].map(salary => {
+    const r = calcByMonthlySalary(salary, 0, false);
+    const rate = (r.monthlySelf / salary * 100).toFixed(1);
+    return `<tr><td>${fmt(salary)}</td><td>${fmt(r.monthlySelf)}</td><td>${fmt(r.annualSelf)}</td><td>${rate}%</td></tr>`;
+  }).join('');
+}
+
+renderQuickTable();
 </script>
 <script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
