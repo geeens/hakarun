@@ -106,7 +106,7 @@
         <div class="dropdown">
           <a href="../invest/fukuri.html">📈 複利計算</a>
           <a href="../invest/nisa.html">💹 NISA枠・積立シミュレーション</a>
-          <a href="../invest/tsumitate.html">💰 初期元本＋毎月積立シミュレーション</a>
+          <a href="../invest/tsumitate.html">💰 投資シミュレーション（初期元本＋毎月積立）</a>
           <a href="../invest/soneki.html">📉 損益計算</a>
           <a href="../invest/rimawari.html">🏠 不動産利回り計算</a>
           <a href="../invest/teiki.html">🏦 定期預金計算</a>
@@ -184,7 +184,7 @@
       <h2>NISA枠を使った積立投資の基本</h2>
       <p>NISA（少額投資非課税制度）は、投資で得た利益を非課税にできる国の制度です。通常、株や投資信託の利益には約20.315%の税金がかかりますが、NISA口座内での運用益はゼロになります。2024年から新しいNISA制度が始まり、非課税枠が大幅に拡充されました。</p>
       <p>新NISAには「つみたて投資枠」（年間120万円まで・長期積立向け投資信託が対象）と「成長投資枠」（年間240万円まで・個別株等も対象）の2種類があります。両枠を合わせて年間360万円まで投資でき、生涯の非課税保有限度額は1,800万円です。</p>
-      <p>このツールは、月々の積立額がNISA枠に収まるか、何年で生涯投資枠に届くか、課税口座と比べてどれくらい税金が変わるかを見るためのものです。まとまった資金も一緒に運用したい場合は、<a href="./tsumitate.html">初期元本＋毎月積立シミュレーション</a>をご利用ください。</p>
+      <p>このツールは、月々の積立額がNISA枠に収まるか、何年で生涯投資枠に届くか、課税口座と比べてどれくらい税金が変わるかを見るためのものです。まとまった資金も一緒に運用したい場合は、<a href="./tsumitate.html">投資シミュレーション（初期元本＋毎月積立）</a>をご利用ください。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
@@ -275,7 +275,7 @@ function calcNisa() {
 
   const info = document.getElementById('nisa-info');
   if (annual <= tsumitateLimit) {
-    info.innerHTML = '<strong>つみたて投資枠内です：</strong>月10万円以下なので、つみたて投資枠だけで収まる目安です。まとまった資金も運用したい場合は、初期元本＋毎月積立シミュレーションも確認してください。';
+    info.innerHTML = '<strong>つみたて投資枠内です：</strong>月10万円以下なので、つみたて投資枠だけで収まる目安です。まとまった資金も運用したい場合は、投資シミュレーション（初期元本＋毎月積立）も確認してください。';
   } else if (annual <= annualLimit) {
     info.innerHTML = '<strong>成長投資枠も使う水準です：</strong>年120万円を超えるため、つみたて投資枠に加えて成長投資枠も使う想定になります。';
   } else {

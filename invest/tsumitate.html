@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>初期元本＋毎月積立シミュレーション｜まとまった資金の将来額を無料計算｜はかるんツール</title>
-  <meta name="description" content="初期元本と月々の積立額・年利・期間を入力するだけで、まとまった資金と毎月積立の将来資産額、運用益、税引後金額を無料計算。">
+  <title>投資シミュレーション（初期元本＋毎月積立）｜まとまった資金の将来額を無料計算｜はかるんツール</title>
+  <meta name="description" content="初期元本と毎月積立額・年利・期間を入力するだけで、投資元本と利益の推移、将来資産額、税引後金額を無料シミュレーション。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
@@ -106,7 +106,7 @@
         <div class="dropdown">
           <a href="../invest/fukuri.html">📈 複利計算</a>
           <a href="../invest/nisa.html">💹 NISA枠・積立シミュレーション</a>
-          <a href="../invest/tsumitate.html">💰 初期元本＋毎月積立シミュレーション</a>
+          <a href="../invest/tsumitate.html">💰 投資シミュレーション（初期元本＋毎月積立）</a>
           <a href="../invest/soneki.html">📉 損益計算</a>
           <a href="../invest/rimawari.html">🏠 不動産利回り計算</a>
           <a href="../invest/teiki.html">🏦 定期預金計算</a>
@@ -124,8 +124,8 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 初期元本＋毎月積立シミュレーション</div>
-      <h1>💰 初期元本＋毎月積立シミュレーション</h1>
+      <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 投資シミュレーション（初期元本＋毎月積立）</div>
+      <h1>💰 投資シミュレーション（初期元本＋毎月積立）</h1>
       <p class="subtitle">まとまった資金＋毎月の積立で将来の資産額を計算します</p>
     </div>
     <div class="ad-area">広告</div>
@@ -194,8 +194,16 @@
           <tr><td>税金</td><td id="cmp-nisa-tax">—</td><td id="cmp-tax-tax">—</td></tr>
           <tr class="total"><td>最終資産額</td><td id="cmp-nisa-total">—</td><td id="cmp-tax-total">—</td></tr>
         </tbody></table></div>
+        <h2 style="font-size:20px;margin:24px 0 12px;">投資元本と利益の推移</h2>
+        <div class="chart-panel">
+          <canvas id="growth-chart" width="900" height="320"></canvas>
+          <div class="chart-legend">
+            <span><i style="background:#2563EB"></i>投資元本</span>
+            <span><i style="background:#10B981"></i>運用益</span>
+          </div>
+        </div>
         <h2 style="font-size:20px;margin:24px 0 12px;">年ごとの資産推移</h2>
-        <div class="result-table wide-table"><table>
+        <div class="result-table wide-table sticky-first"><table>
           <thead><tr><th>年数</th><th>元本合計</th><th>初期元本部分</th><th>積立部分</th><th>税引前資産額</th><th>税引後資産額</th></tr></thead>
           <tbody id="yearly-body"></tbody>
         </table></div>
@@ -302,6 +310,7 @@ function calcTsumitate() {
   document.getElementById('cmp-tax-total').textContent = fmt(taxableFinal);
 
   let rows = '';
+  const chartData = [];
   for (let y = 1; y <= years; y++) {
     const months = y * 12;
     const item = futureValue(P, monthly, months);
@@ -309,9 +318,11 @@ function calcTsumitate() {
     const yProfit = item.total - yGanpon;
     const yTax = Math.max(0, yProfit * 0.20315);
     const yFinal = isNisa ? item.total : item.total - yTax;
+    chartData.push({ year: y, principal: yGanpon, profit: Math.max(0, yProfit), total: item.total });
     rows += '<tr><td>'+y+'年後</td><td>'+fmt(yGanpon)+'</td><td>'+fmt(item.pFinal)+'</td><td>'+fmt(item.mFinal)+'</td><td>'+fmt(item.total)+'</td><td>'+fmt(yFinal)+'</td></tr>';
   }
   document.getElementById('yearly-body').innerHTML = rows;
+  drawGrowthChart(chartData);
 
   const info = document.getElementById('result-info');
   if (isNisa) {
@@ -321,6 +332,83 @@ function calcTsumitate() {
   }
 
   document.getElementById('result').classList.add('show');
+}
+function drawGrowthChart(data) {
+  const canvas = document.getElementById('growth-chart');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const cssWidth = Math.max(720, canvas.clientWidth || 900);
+  const cssHeight = 320;
+  canvas.width = cssWidth * dpr;
+  canvas.height = cssHeight * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, cssWidth, cssHeight);
+
+  const pad = { top: 22, right: 20, bottom: 44, left: 70 };
+  const w = cssWidth - pad.left - pad.right;
+  const h = cssHeight - pad.top - pad.bottom;
+  const max = Math.max.apply(null, data.map(function(d){ return d.total; })) || 1;
+  const niceMax = Math.ceil(max / 1000000) * 1000000;
+  const xStep = data.length > 1 ? w / (data.length - 1) : w;
+  const y = function(v){ return pad.top + h - (v / niceMax) * h; };
+  const x = function(i){ return pad.left + xStep * i; };
+  const fmtShort = function(v){
+    if (v >= 100000000) return Math.round(v / 100000000) + '億円';
+    return Math.round(v / 10000).toLocaleString('ja-JP') + '万円';
+  };
+
+  ctx.font = '12px sans-serif';
+  ctx.textBaseline = 'middle';
+  ctx.strokeStyle = '#E2E8F0';
+  ctx.fillStyle = '#64748B';
+  for (let i = 0; i <= 4; i++) {
+    const value = niceMax / 4 * i;
+    const yy = y(value);
+    ctx.beginPath();
+    ctx.moveTo(pad.left, yy);
+    ctx.lineTo(cssWidth - pad.right, yy);
+    ctx.stroke();
+    ctx.fillText(fmtShort(value), 8, yy);
+  }
+
+  function area(points, basePoints, color) {
+    ctx.beginPath();
+    points.forEach(function(p, i){
+      if (i === 0) ctx.moveTo(p.x, p.y);
+      else ctx.lineTo(p.x, p.y);
+    });
+    for (let i = basePoints.length - 1; i >= 0; i--) {
+      ctx.lineTo(basePoints[i].x, basePoints[i].y);
+    }
+    ctx.closePath();
+    ctx.fillStyle = color;
+    ctx.fill();
+  }
+
+  const base = data.map(function(d, i){ return { x: x(i), y: y(0) }; });
+  const principal = data.map(function(d, i){ return { x: x(i), y: y(d.principal) }; });
+  const totalPoints = data.map(function(d, i){ return { x: x(i), y: y(d.total) }; });
+  area(principal, base, 'rgba(37, 99, 235, 0.22)');
+  area(totalPoints, principal, 'rgba(16, 185, 129, 0.30)');
+
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = '#2563EB';
+  ctx.beginPath();
+  principal.forEach(function(p, i){ if (i === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y); });
+  ctx.stroke();
+  ctx.strokeStyle = '#10B981';
+  ctx.beginPath();
+  totalPoints.forEach(function(p, i){ if (i === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y); });
+  ctx.stroke();
+
+  ctx.fillStyle = '#64748B';
+  ctx.textAlign = 'center';
+  const labelEvery = Math.max(1, Math.ceil(data.length / 8));
+  data.forEach(function(d, i){
+    if (i === 0 || i === data.length - 1 || d.year % labelEvery === 0) {
+      ctx.fillText(d.year + '年', x(i), cssHeight - 22);
+    }
+  });
 }
 </script>
 <script>
