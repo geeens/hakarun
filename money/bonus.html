@@ -27,7 +27,7 @@
       "name": "ボーナスから引かれる税金は何ですか？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "健康保険料・厚生年金保険料・雇用保険料・所得税（源泉徴収）が差し引かれます。住民税は通常ボーナスからは天引きされません。"
+        "text": "健康保険料・厚生年金保険料・雇用保険料・子ども・子育て支援金・所得税（源泉徴収）が差し引かれます。住民税は通常ボーナスからは天引きされません。"
       }
     },
     {
@@ -218,6 +218,7 @@
               <tr class="deduct"><td>介護保険料</td><td id="res-care">—</td></tr>
               <tr class="deduct"><td>厚生年金保険料</td><td id="res-pension">—</td></tr>
               <tr class="deduct"><td>雇用保険料</td><td id="res-employ">—</td></tr>
+              <tr class="deduct"><td>子ども・子育て支援金</td><td id="res-childcare">—</td></tr>
               <tr class="deduct"><td>所得税</td><td id="res-income">—</td></tr>
               <tr class="total"><td>手取り合計</td><td id="res-total">—</td></tr>
             </tbody>
@@ -225,7 +226,7 @@
         </div>
         <div class="info-box">
           <strong>⚠️ この計算はあくまで概算です。</strong><br>
-          ボーナスの所得税は「賞与に対する源泉徴収税額の算出率の表」に基づき計算しています。実際の金額は給与明細でご確認ください。
+          ボーナスの所得税は「賞与に対する源泉徴収税額の算出率の表」に基づき計算しています。令和8年度からの子ども・子育て支援金も概算に含めています。実際の金額は給与明細でご確認ください。
         </div>
       </div>
     </div>
@@ -241,7 +242,7 @@
 
     <div class="article">
       <h2>ボーナスから引かれる税金と社会保険料</h2>
-      <p>ボーナス（賞与）は毎月の給与とは別に支給される臨時収入ですが、税金や社会保険料の対象となります。ボーナスから差し引かれるのは、健康保険料・厚生年金保険料・雇用保険料・所得税（源泉徴収）の4つです。住民税はボーナスからは差し引かれないのが一般的です。</p>
+      <p>ボーナス（賞与）は毎月の給与とは別に支給される臨時収入ですが、税金や社会保険料の対象となります。ボーナスから差し引かれるのは、健康保険料・厚生年金保険料・雇用保険料・子ども・子育て支援金・所得税（源泉徴収）です。住民税はボーナスからは差し引かれないのが一般的です。</p>
       <p>ボーナスにかかる所得税は、前月の給与をもとにした「賞与に対する源泉徴収税額の算出率の表」を使って計算します。前月の給与が高いほど税率も上がる仕組みです。社会保険料は月給と同じく標準報酬月額ではなく、実際のボーナス額に保険料率をかけて計算します。</p>
       <p>手取りの目安は支給額の80〜85%程度です。たとえばボーナス50万円の場合、手取りは40〜42万円前後になることが多いです。年収が高いほど所得税率も上がるため、手取り割合は下がる傾向があります。</p>
     </div>
@@ -249,7 +250,7 @@
       <h2>よくある質問</h2>
       <div class="faq-item">
         <div class="faq-q">Q. ボーナスから引かれる税金は何ですか？</div>
-        <div class="faq-a">健康保険料・厚生年金保険料・雇用保険料・所得税（源泉徴収）が差し引かれます。住民税は通常ボーナスからは天引きされません。</div>
+        <div class="faq-a">健康保険料・厚生年金保険料・雇用保険料・子ども・子育て支援金・所得税（源泉徴収）が差し引かれます。住民税は通常ボーナスからは天引きされません。</div>
       </div>
       <div class="faq-item">
         <div class="faq-q">Q. ボーナスの手取り割合はどのくらいですか？</div>
@@ -291,13 +292,14 @@ function calcBonus() {
   const dependents = parseInt(document.getElementById('dependents').value);
 
   const healthAmt  = bonus * 0.04985;
-  const careAmt    = isOver40 ? bonus * 0.009 : 0;
+  const careAmt    = isOver40 ? bonus * 0.0081 : 0;
   const pensionAmt = Math.min(bonus, 1500000) * 0.0915;
-  const employAmt  = bonus * 0.006;
-  const socialTotal = healthAmt + careAmt + pensionAmt + employAmt;
+  const employAmt  = bonus * 0.005;
+  const childcareAmt = bonus * 0.00115;
+  const socialTotal = healthAmt + careAmt + pensionAmt + employAmt + childcareAmt;
 
   // 前月給与から社会保険料を引いた課税月収で税率を決定
-  const prevSocial = prevSalary * (0.04985 + (isOver40 ? 0.009 : 0) + 0.0915 + 0.006);
+  const prevSocial = prevSalary * (0.04985 + (isOver40 ? 0.0081 : 0) + 0.0915 + 0.005 + 0.00115);
   const prevTaxable = Math.max(0, prevSalary - prevSocial) - (dependents * 31667);
 
   // 簡易税率テーブル（国税庁 令和6年版）
@@ -328,6 +330,7 @@ function calcBonus() {
   document.getElementById('res-care').textContent = isOver40 ? '- ' + fmt(careAmt) : '- 0 円（40歳未満）';
   document.getElementById('res-pension').textContent = '- ' + fmt(pensionAmt);
   document.getElementById('res-employ').textContent = '- ' + fmt(employAmt);
+  document.getElementById('res-childcare').textContent = '- ' + fmt(childcareAmt);
   document.getElementById('res-income').textContent = '- ' + fmt(incomeTax);
   document.getElementById('res-total').textContent = fmt(tedori);
   document.getElementById('result').classList.add('show');

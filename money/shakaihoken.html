@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>社会保険料計算｜健康保険・厚生年金・雇用保険の自己負担額を無料計算｜はかるんツール</title>
-  <meta name="description" content="月収または年収を入力するだけで、健康保険料・厚生年金保険料・雇用保険料・介護保険料の自己負担額を概算。会社負担分や年間負担額も確認できます。">
+  <meta name="description" content="月収または年収を入力するだけで、健康保険料・厚生年金保険料・雇用保険料・介護保険料・子ども・子育て支援金の自己負担額を概算。会社負担分や年間負担額も確認できます。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <!-- Google tag (gtag.js) -->
@@ -26,7 +26,7 @@
       "name": "社会保険料の種類は何がありますか？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "会社員が負担する主な社会保険料は、健康保険料・厚生年金保険料・雇用保険料・介護保険料（40歳以上）の4種類です。"
+        "text": "会社員が負担する主な社会保険料は、健康保険料・厚生年金保険料・雇用保険料・介護保険料（40歳以上）です。令和8年度からは医療保険料とあわせて子ども・子育て支援金も徴収されます。"
       }
     },
     {
@@ -34,7 +34,7 @@
       "name": "社会保険料はどのくらいかかりますか？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "概ね給与の約15%程度が社会保険料として差し引かれます。会社も同額程度を負担しています。"
+        "text": "概ね給与の約15%前後が社会保険料として差し引かれます。実際の金額は年度、健康保険組合、年齢、賞与の有無で変わります。"
       }
     },
     {
@@ -163,7 +163,7 @@
     <div class="page-header">
       <div class="breadcrumb"><a href="../index.html">トップ</a> &rsaquo; 社会保険料計算</div>
       <h1>🏥 社会保険料計算</h1>
-      <p class="subtitle">健康保険・厚生年金・雇用保険の自己負担額と会社負担分を概算します</p>
+      <p class="subtitle">健康保険・厚生年金・雇用保険・子ども・子育て支援金の自己負担額と会社負担分を概算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
@@ -214,6 +214,7 @@
               <tr class="deduct"><td>介護保険料</td><td id="res-care-self">—</td><td id="res-care-company">—</td><td id="res-care-total">—</td></tr>
               <tr class="deduct"><td>厚生年金保険料</td><td id="res-pension-self">—</td><td id="res-pension-company">—</td><td id="res-pension-total">—</td></tr>
               <tr class="deduct"><td>雇用保険料</td><td id="res-employ-self">—</td><td id="res-employ-company">—</td><td id="res-employ-total">—</td></tr>
+              <tr class="deduct"><td>子ども・子育て支援金</td><td id="res-childcare-self">—</td><td id="res-childcare-company">—</td><td id="res-childcare-total">—</td></tr>
               <tr class="total"><td>合計</td><td id="res-sum-self">—</td><td id="res-sum-company">—</td><td id="res-sum-total">—</td></tr>
             </tbody>
           </table>
@@ -229,7 +230,7 @@
             </tbody>
           </table>
         </div>
-        <div class="info-box">この計算は協会けんぽ・一般の事業を想定した概算です。健康保険料率は都道府県や健康保険組合により異なります。会社負担分は目安として表示しています。</div>
+        <div class="info-box">この計算は協会けんぽ・一般の事業を想定した概算です。令和8年度から始まった子ども・子育て支援金（被用者保険の支援金率0.23%、本人負担は半分の0.115%目安）も含めています。健康保険料率は都道府県や健康保険組合により異なります。</div>
       </div>
     </div>
     <div class="ad-area">広告</div>
@@ -244,6 +245,7 @@
         <li><strong>介護保険</strong>：40歳から64歳までの人が負担する、介護サービスのための保険です。</li>
         <li><strong>厚生年金</strong>：将来の年金につながる保険です。社会保険料の中で大きな割合を占めます。</li>
         <li><strong>雇用保険</strong>：失業給付や育児休業給付などに使われる保険です。</li>
+        <li><strong>子ども・子育て支援金</strong>：令和8年度から医療保険料とあわせて徴収される、子育て支援のための支援金です。</li>
       </ul>
       <p>社会保険料は全額が所得控除の対象です。つまり、支払った社会保険料は所得税・住民税を計算するときに所得から差し引かれます。負担は大きい一方で、医療・年金・失業時の備えにもつながる仕組みです。</p>
     </div>
@@ -274,11 +276,11 @@
       <h2>よくある質問</h2>
       <div class="faq-item">
         <div class="faq-q">Q. 社会保険料の種類は何がありますか？</div>
-        <div class="faq-a">会社員が負担する主な社会保険料は、健康保険料・厚生年金保険料・雇用保険料・介護保険料（40歳以上）の4種類です。</div>
+        <div class="faq-a">会社員が負担する主な社会保険料は、健康保険料・厚生年金保険料・雇用保険料・介護保険料（40歳以上）です。令和8年度からは医療保険料とあわせて子ども・子育て支援金も徴収されます。</div>
       </div>
       <div class="faq-item">
         <div class="faq-q">Q. 社会保険料はどのくらいかかりますか？</div>
-        <div class="faq-a">概ね給与の約15%程度が社会保険料として差し引かれます。会社も同額程度を負担しています。</div>
+        <div class="faq-a">概ね給与の約15%前後が社会保険料として差し引かれます。実際の金額は年度、健康保険組合、年齢、賞与の有無で変わります。</div>
       </div>
       <div class="faq-item">
         <div class="faq-q">Q. 社会保険料は節税になりますか？</div>
@@ -314,7 +316,9 @@ const RATES = {
   pensionSelf: 0.0915,
   pensionCompany: 0.0915,
   employSelf: 0.005,
-  employCompany: 0.0085
+  employCompany: 0.0085,
+  childcareSelf: 0.00115,
+  childcareCompany: 0.00115
 };
 
 function updateSalaryLabel() {
@@ -345,13 +349,15 @@ function calcByMonthlySalary(monthlySalary, annualBonus, isOver40) {
   const pensionCompany = pensionBase * RATES.pensionCompany;
   const employSelf = monthlySalary * RATES.employSelf;
   const employCompany = monthlySalary * RATES.employCompany;
+  const childcareSelf = monthlySalary * RATES.childcareSelf;
+  const childcareCompany = monthlySalary * RATES.childcareCompany;
 
-  const monthlySelf = healthSelf + careSelf + pensionSelf + employSelf;
-  const monthlyCompany = healthCompany + careCompany + pensionCompany + employCompany;
+  const monthlySelf = healthSelf + careSelf + pensionSelf + employSelf + childcareSelf;
+  const monthlyCompany = healthCompany + careCompany + pensionCompany + employCompany + childcareCompany;
   const monthlyTotal = monthlySelf + monthlyCompany;
 
-  const bonusSelf = bonus * (RATES.healthSelf + (isOver40 ? RATES.careSelf : 0) + RATES.pensionSelf + RATES.employSelf);
-  const bonusCompany = bonus * (RATES.healthCompany + (isOver40 ? RATES.careCompany : 0) + RATES.pensionCompany + RATES.employCompany);
+  const bonusSelf = bonus * (RATES.healthSelf + (isOver40 ? RATES.careSelf : 0) + RATES.pensionSelf + RATES.employSelf + RATES.childcareSelf);
+  const bonusCompany = bonus * (RATES.healthCompany + (isOver40 ? RATES.careCompany : 0) + RATES.pensionCompany + RATES.employCompany + RATES.childcareCompany);
 
   return {
     monthlySalary,
@@ -360,6 +366,7 @@ function calcByMonthlySalary(monthlySalary, annualBonus, isOver40) {
     careSelf, careCompany,
     pensionSelf, pensionCompany,
     employSelf, employCompany,
+    childcareSelf, childcareCompany,
     monthlySelf, monthlyCompany, monthlyTotal,
     annualSelf: monthlySelf * 12 + bonusSelf,
     annualCompany: monthlyCompany * 12 + bonusCompany
@@ -396,6 +403,9 @@ function calcShakaiHoken() {
   document.getElementById('res-employ-self').textContent = fmt(r.employSelf);
   document.getElementById('res-employ-company').textContent = fmt(r.employCompany);
   document.getElementById('res-employ-total').textContent = fmt(r.employSelf + r.employCompany);
+  document.getElementById('res-childcare-self').textContent = fmt(r.childcareSelf);
+  document.getElementById('res-childcare-company').textContent = fmt(r.childcareCompany);
+  document.getElementById('res-childcare-total').textContent = fmt(r.childcareSelf + r.childcareCompany);
   document.getElementById('res-sum-self').textContent = fmt(r.monthlySelf);
   document.getElementById('res-sum-company').textContent = fmt(r.monthlyCompany);
   document.getElementById('res-sum-total').textContent = fmt(r.monthlyTotal);
