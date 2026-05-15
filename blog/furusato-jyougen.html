@@ -114,17 +114,24 @@
         <h2 id="section2">2. 独身・共働きの上限額早見表</h2>
         <p>以下の表は、独身または共働き（配偶者控除なし・扶養なし）の会社員を想定した場合の、年収別の上限額の目安です。住宅ローン控除やiDeCoなどの控除を使っていない標準的なケースをもとにしています。</p>
 
+        <div style="background:#D1FAE5;border-left:4px solid #059669;padding:10px 16px;border-radius:0 8px 8px 0;margin:16px 0;font-size:14px;color:#065F46;">
+          ✅ 下の表の上限額の範囲内で寄付すれば、返礼品の<strong>実質負担は一律2,000円</strong>で済みます。
+        </div>
+
         <div class="result-table" style="margin:20px 0;">
           <table>
+            <colgroup>
+              <col style="width:40%">
+              <col style="width:60%">
+            </colgroup>
             <thead>
               <tr>
                 <th>年収</th>
                 <th>上限額の目安</th>
-                <th>返礼品の実質負担</th>
               </tr>
             </thead>
             <tbody>
-              <tr><td>300万円</td><td>約 28,000円</td><td rowspan="10" style="text-align:center;vertical-align:middle;font-weight:700;color:var(--success);">2,000円</td></tr>
+              <tr><td>300万円</td><td>約 28,000円</td></tr>
               <tr><td>350万円</td><td>約 34,000円</td></tr>
               <tr><td>400万円</td><td>約 42,000円</td></tr>
               <tr><td>450万円</td><td>約 52,000円</td></tr>
@@ -138,12 +145,7 @@
           </table>
         </div>
 
-        <p>※ 上記はあくまで目安です。給与収入のみの会社員で、住宅ローン控除・医療費控除・iDeCoなどを利用していない場合を想定しています。実際の上限額は各種控除の利用状況によって変わります。</p>
-
-        <div class="summary-box">
-          <div class="summary-title">この表の読み方</div>
-          <p style="margin:0;">「上限額の目安」の範囲内で寄付すれば、自己負担は2,000円で済みます。たとえば年収500万円（独身）なら、61,000円まで寄付しても実質負担は2,000円です。</p>
-        </div>
+        <p style="font-size:13px;color:#6B7280;">※ 給与収入のみの会社員で、住宅ローン控除・医療費控除・iDeCoなどを利用していない場合の目安です。各種控除の利用状況によって変わります。</p>
 
         <h2 id="section3">3. 家族構成別の上限額早見表</h2>
         <p>扶養家族がいる場合、所得控除が増えるため、同じ年収でも独身より上限額が低くなります。以下の表で家族構成別の違いを確認してください。</p>
@@ -152,6 +154,11 @@
         <p>配偶者が専業主婦・主夫など、年収103万円以下の場合に配偶者控除が適用されます。</p>
         <div class="result-table" style="margin:20px 0;">
           <table>
+            <colgroup>
+              <col style="width:30%">
+              <col style="width:35%">
+              <col style="width:35%">
+            </colgroup>
             <thead>
               <tr>
                 <th>年収</th>
@@ -176,6 +183,11 @@
         <p>小・中学生は16歳未満のため扶養控除の対象外ですが、配偶者控除の影響で独身より上限額が低くなります。</p>
         <div class="result-table" style="margin:20px 0;">
           <table>
+            <colgroup>
+              <col style="width:30%">
+              <col style="width:35%">
+              <col style="width:35%">
+            </colgroup>
             <thead>
               <tr>
                 <th>年収</th>
@@ -200,6 +212,11 @@
         <p>子どもが2人いる場合、配偶者控除に加えて扶養の人数が増えるため、上限額がさらに低くなります。</p>
         <div class="result-table" style="margin:20px 0;">
           <table>
+            <colgroup>
+              <col style="width:30%">
+              <col style="width:35%">
+              <col style="width:35%">
+            </colgroup>
             <thead>
               <tr>
                 <th>年収</th>
@@ -219,6 +236,66 @@
             </tbody>
           </table>
         </div>
+
+        <h3>📊 家族構成別の上限額グラフ</h3>
+        <p>年収と家族構成によって上限額がどう変わるかを、グラフで比較しました。</p>
+        <div style="margin:20px 0;overflow-x:auto;">
+          <svg viewBox="0 0 620 310" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="年収別・家族構成別のふるさと納税の上限額比較グラフ" style="width:100%;max-width:620px;display:block;margin:0 auto;">
+            <!-- グリッド線 -->
+            <line x1="65" y1="183" x2="610" y2="183" stroke="#E2E8F0" stroke-width="1"/>
+            <line x1="65" y1="120" x2="610" y2="120" stroke="#E2E8F0" stroke-width="1"/>
+            <line x1="65" y1="58"  x2="610" y2="58"  stroke="#E2E8F0" stroke-width="1"/>
+            <!-- Y軸ラベル -->
+            <text x="58" y="187" text-anchor="end" font-size="11" fill="#64748B">5万</text>
+            <text x="58" y="124" text-anchor="end" font-size="11" fill="#64748B">10万</text>
+            <text x="58" y="62"  text-anchor="end" font-size="11" fill="#64748B">15万</text>
+            <!-- ベースライン -->
+            <line x1="65" y1="245" x2="610" y2="245" stroke="#CBD5E1" stroke-width="1.5"/>
+            <!-- 年収300万円 -->
+            <rect x="74"  y="210" width="20" height="35"  fill="#059669" rx="2"/>
+            <rect x="98"  y="221" width="20" height="24"  fill="#2563EB" rx="2"/>
+            <rect x="122" y="221" width="20" height="24"  fill="#F59E0B" rx="2"/>
+            <rect x="146" y="234" width="20" height="11"  fill="#7C3AED" rx="2"/>
+            <!-- 年収500万円 -->
+            <rect x="183" y="169" width="20" height="76"  fill="#059669" rx="2"/>
+            <rect x="207" y="169" width="20" height="76"  fill="#059669" rx="2" opacity="0"/>
+            <rect x="207" y="184" width="20" height="61"  fill="#2563EB" rx="2"/>
+            <rect x="231" y="184" width="20" height="61"  fill="#F59E0B" rx="2"/>
+            <rect x="255" y="207" width="20" height="38"  fill="#7C3AED" rx="2"/>
+            <!-- 年収700万円 -->
+            <rect x="292" y="110" width="20" height="135" fill="#059669" rx="2"/>
+            <rect x="316" y="137" width="20" height="108" fill="#2563EB" rx="2"/>
+            <rect x="340" y="150" width="20" height="95"  fill="#F59E0B" rx="2"/>
+            <rect x="364" y="159" width="20" height="86"  fill="#7C3AED" rx="2"/>
+            <!-- 年収900万円 -->
+            <rect x="401" y="56"  width="20" height="189" fill="#059669" rx="2"/>
+            <rect x="425" y="80"  width="20" height="165" fill="#2563EB" rx="2"/>
+            <rect x="449" y="92"  width="20" height="153" fill="#F59E0B" rx="2"/>
+            <rect x="473" y="112" width="20" height="133" fill="#7C3AED" rx="2"/>
+            <!-- 年収1000万円 -->
+            <rect x="510" y="25"  width="20" height="220" fill="#059669" rx="2"/>
+            <rect x="534" y="54"  width="20" height="191" fill="#2563EB" rx="2"/>
+            <rect x="558" y="65"  width="20" height="180" fill="#F59E0B" rx="2"/>
+            <rect x="582" y="85"  width="20" height="160" fill="#7C3AED" rx="2"/>
+            <!-- X軸ラベル -->
+            <text x="122" y="262" text-anchor="middle" font-size="11" fill="#374151">300万</text>
+            <text x="231" y="262" text-anchor="middle" font-size="11" fill="#374151">500万</text>
+            <text x="340" y="262" text-anchor="middle" font-size="11" fill="#374151">700万</text>
+            <text x="449" y="262" text-anchor="middle" font-size="11" fill="#374151">900万</text>
+            <text x="558" y="262" text-anchor="middle" font-size="11" fill="#374151">1,000万</text>
+            <text x="338" y="277" text-anchor="middle" font-size="11" fill="#9CA3AF">（年収）</text>
+            <!-- 凡例 -->
+            <rect x="30"  y="290" width="12" height="12" fill="#059669" rx="2"/>
+            <text x="46"  y="300" font-size="11" fill="#374151">独身・共働き</text>
+            <rect x="150" y="290" width="12" height="12" fill="#2563EB" rx="2"/>
+            <text x="166" y="300" font-size="11" fill="#374151">夫婦（配偶者控除あり）</text>
+            <rect x="355" y="290" width="12" height="12" fill="#F59E0B" rx="2"/>
+            <text x="371" y="300" font-size="11" fill="#374151">夫婦＋子1人</text>
+            <rect x="470" y="290" width="12" height="12" fill="#7C3AED" rx="2"/>
+            <text x="486" y="300" font-size="11" fill="#374151">夫婦＋子2人</text>
+          </svg>
+        </div>
+        <p style="font-size:13px;color:#6B7280;text-align:center;">※ 縦軸は上限額（万円）、横軸は年収。各グループ左から独身→夫婦→夫婦+子1人→夫婦+子2人。</p>
 
         <div class="hakase-balloon">
           <img src="hakase.png" alt="ハカセ" class="hakase-icon">
