@@ -308,6 +308,7 @@ function calcNisa() {
     drawNisaGrowthChart([]);
     info.innerHTML = '<strong>年間投資枠を超えています：</strong><br>' + messages.join('<br><br>') + '<br><br>入力額をNISAの年間上限内に下げてから、もう一度計算してください。';
     result.classList.add('show');
+    scrollToNisaResult();
     return;
   }
   const plannedTotal = annualTotal * years;
@@ -445,6 +446,15 @@ function calcNisa() {
     info.innerHTML = '<strong>NISA枠内に収まる見込みです：</strong>入力したプランは、年間投資枠と生涯投資枠の範囲内で運用できる目安です。まとまった資金も含めた資産形成は、投資シミュレーション（初期元本＋毎月積立）も確認してください。';
   }
   result.classList.add('show');
+  scrollToNisaResult();
+}
+function scrollToNisaResult() {
+  const target = document.getElementById('result');
+  if (!target) return;
+  const header = document.querySelector('header');
+  const headerHeight = header ? header.getBoundingClientRect().height : 0;
+  const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
+  window.scrollTo({ top: y, behavior: 'smooth' });
 }
 function drawNisaGrowthChart(data) {
   const canvas = document.getElementById('nisa-growth-chart');
