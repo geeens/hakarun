@@ -214,6 +214,14 @@
           <tr><td>成長投資枠 生涯1,200万円</td><td id="res-growth-lifetime">—</td></tr>
           <tr><td>生涯投資枠 1,800万円</td><td id="res-lifetime">—</td></tr>
         </tbody></table></div>
+        <h2 style="font-size:20px;margin:24px 0 12px;">NISA元本と運用益の推移</h2>
+        <div class="chart-panel">
+          <canvas id="nisa-growth-chart" width="900" height="320"></canvas>
+          <div class="chart-legend">
+            <span><i style="background:#2563EB"></i>NISA元本累計</span>
+            <span><i style="background:#10B981"></i>運用益</span>
+          </div>
+        </div>
         <h2 style="font-size:20px;margin:24px 0 12px;">年ごとの資産推移</h2>
         <p class="result-note" id="yearly-note"></p>
         <div class="result-table wide-table sticky-first"><table>
@@ -297,6 +305,7 @@ function calcNisa() {
     document.getElementById('res-lifetime-reached').textContent = '—';
     document.getElementById('yearly-body').innerHTML = '';
     document.getElementById('yearly-note').textContent = '';
+    drawNisaGrowthChart([]);
     info.innerHTML = '<strong>年間投資枠を超えています：</strong><br>' + messages.join('<br><br>') + '<br><br>入力額をNISAの年間上限内に下げてから、もう一度計算してください。';
     result.classList.add('show');
     return;
@@ -322,6 +331,7 @@ function calcNisa() {
   const existingGrowthPrincipalForDisplay = includeExistingAssets ? Math.min(usedGrowthPrincipal, usedPrincipal) : 0;
   const existingTsumitatePrincipalForDisplay = includeExistingAssets ? Math.max(0, usedPrincipal - usedGrowthPrincipal) : 0;
   const existingNisaPrincipalForDisplay = includeExistingAssets ? usedPrincipal : 0;
+  const chartData = [];
 
   let monthlyNisaPrincipal = 0;
   let monthlyGrowthPrincipal = 0;
@@ -375,6 +385,7 @@ function calcNisa() {
     const displayTsumitatePrincipal = existingTsumitatePrincipalForDisplay + tsumitatePrincipal;
     const displayGrowthPrincipal = existingGrowthPrincipalForDisplay + growthPrincipal;
     const displayNisaPrincipal = existingNisaPrincipalForDisplay + nisaPrincipal;
+    chartData.push({ year: y, principal: displayNisaPrincipal, profit: yProfit, total: asset });
     rows += '<tr><td>'+y+'年後</td><td>'+fmt(displayTsumitatePrincipal)+'</td><td'+growthClass+'>'+fmt(displayGrowthPrincipal)+'</td><td'+lifetimeClass+'>'+fmt(displayNisaPrincipal)+'</td><td>'+fmt(asset)+'</td><td>'+fmt(yProfit)+'</td><td>'+useRate.toFixed(1)+'%</td></tr>';
   }
 
@@ -416,6 +427,7 @@ function calcNisa() {
   document.getElementById('res-annual-limit').textContent = limitText(annualTotal, annualLimit);
   document.getElementById('res-growth-lifetime').textContent = growthLifetimeText;
   document.getElementById('res-lifetime').textContent = lifetimeText;
+  drawNisaGrowthChart(chartData);
   document.getElementById('yearly-body').innerHTML = rows;
   const yearlyNotes = [];
   if (includeExistingAssets) yearlyNotes.push('過去分を含めた場合、つみたて枠累計・成長枠累計・NISA元本累計には、すでに使っているNISA元本も含めています。');
@@ -433,6 +445,84 @@ function calcNisa() {
     info.innerHTML = '<strong>NISA枠内に収まる見込みです：</strong>入力したプランは、年間投資枠と生涯投資枠の範囲内で運用できる目安です。まとまった資金も含めた資産形成は、投資シミュレーション（初期元本＋毎月積立）も確認してください。';
   }
   result.classList.add('show');
+}
+function drawNisaGrowthChart(data) {
+  const canvas = document.getElementById('nisa-growth-chart');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const cssWidth = Math.max(720, canvas.clientWidth || 900);
+  const cssHeight = 320;
+  canvas.width = cssWidth * dpr;
+  canvas.height = cssHeight * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, cssWidth, cssHeight);
+  if (!data.length) return;
+
+  const pad = { top: 22, right: 20, bottom: 44, left: 70 };
+  const w = cssWidth - pad.left - pad.right;
+  const h = cssHeight - pad.top - pad.bottom;
+  const max = Math.max.apply(null, data.map(function(d){ return d.total; })) || 1;
+  const niceMax = Math.ceil(max / 1000000) * 1000000;
+  const xStep = data.length > 1 ? w / (data.length - 1) : w;
+  const y = function(v){ return pad.top + h - (v / niceMax) * h; };
+  const x = function(i){ return pad.left + xStep * i; };
+  const fmtShort = function(v){
+    if (v >= 100000000) return Math.round(v / 100000000) + '億円';
+    return Math.round(v / 10000).toLocaleString('ja-JP') + '万円';
+  };
+
+  ctx.font = '12px sans-serif';
+  ctx.textBaseline = 'middle';
+  ctx.strokeStyle = '#E2E8F0';
+  ctx.fillStyle = '#64748B';
+  for (let i = 0; i <= 4; i++) {
+    const value = niceMax / 4 * i;
+    const yy = y(value);
+    ctx.beginPath();
+    ctx.moveTo(pad.left, yy);
+    ctx.lineTo(cssWidth - pad.right, yy);
+    ctx.stroke();
+    ctx.fillText(fmtShort(value), 8, yy);
+  }
+
+  function area(points, basePoints, color) {
+    ctx.beginPath();
+    points.forEach(function(p, i){
+      if (i === 0) ctx.moveTo(p.x, p.y);
+      else ctx.lineTo(p.x, p.y);
+    });
+    for (let i = basePoints.length - 1; i >= 0; i--) {
+      ctx.lineTo(basePoints[i].x, basePoints[i].y);
+    }
+    ctx.closePath();
+    ctx.fillStyle = color;
+    ctx.fill();
+  }
+
+  const base = data.map(function(d, i){ return { x: x(i), y: y(0) }; });
+  const principal = data.map(function(d, i){ return { x: x(i), y: y(d.principal) }; });
+  const totalPoints = data.map(function(d, i){ return { x: x(i), y: y(d.total) }; });
+  area(principal, base, 'rgba(37, 99, 235, 0.22)');
+  area(totalPoints, principal, 'rgba(16, 185, 129, 0.30)');
+
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = '#2563EB';
+  ctx.beginPath();
+  principal.forEach(function(p, i){ if (i === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y); });
+  ctx.stroke();
+  ctx.strokeStyle = '#10B981';
+  ctx.beginPath();
+  totalPoints.forEach(function(p, i){ if (i === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y); });
+  ctx.stroke();
+
+  ctx.fillStyle = '#64748B';
+  ctx.textAlign = 'center';
+  const labelEvery = Math.max(1, Math.ceil(data.length / 8));
+  data.forEach(function(d, i){
+    if (i === 0 || i === data.length - 1 || d.year % labelEvery === 0) {
+      ctx.fillText(d.year + '年', x(i), cssHeight - 22);
+    }
+  });
 }
 </script>
 <script>
