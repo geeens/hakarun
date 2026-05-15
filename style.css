@@ -475,8 +475,6 @@ select:focus {
 .result-table.wide-table td:nth-child(n+2) {
   text-align: right;
   font-weight: 600;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-variant-numeric: tabular-nums;
 }
 .result-table.sticky-first th:first-child,
 .result-table.sticky-first td:first-child {
@@ -543,8 +541,6 @@ select:focus {
 .result-table td:last-child {
   text-align: right;
   font-weight: 600;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-variant-numeric: tabular-nums;
 }
 .result-table tr.total td {
   font-weight: 700;
