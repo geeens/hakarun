@@ -179,7 +179,7 @@
           </div>
         </div>
       </details>
-      <button class="btn btn-primary" onclick="calcNisa()">計算する</button>
+      <button class="btn btn-primary" id="calc-button" onclick="calcNisa()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
           <div class="label">NISA利用枠内の最終金額</div>
@@ -449,11 +449,11 @@ function calcNisa() {
   scrollToNisaResult();
 }
 function scrollToNisaResult() {
-  const target = document.getElementById('result');
+  const target = document.getElementById('calc-button');
   if (!target) return;
   const header = document.querySelector('header');
   const headerHeight = header ? header.getBoundingClientRect().height : 0;
-  const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
+  const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 24;
   window.scrollTo({ top: y, behavior: 'smooth' });
 }
 function drawNisaGrowthChart(data) {
