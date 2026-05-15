@@ -161,7 +161,7 @@
           <span class="unit">年</span>
         </div>
       </div>
-      <button class="btn btn-primary" onclick="calcTsumitate()">計算する</button>
+      <button class="btn btn-primary" id="calc-button" onclick="calcTsumitate()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
           <div class="label">最終資産額（税引前）</div>
@@ -305,6 +305,15 @@ function calcTsumitate() {
   info.innerHTML = '<strong>初期元本＋積立の効果：</strong>まとまった資金を早めに運用すると、初期元本部分にも長く複利が働きます。NISA枠の範囲内か確認したい場合は、<a href="./nisa.html">NISA枠・積立シミュレーション</a>をご利用ください。';
 
   document.getElementById('result').classList.add('show');
+  scrollToTsumitateResult();
+}
+function scrollToTsumitateResult() {
+  const target = document.getElementById('calc-button');
+  if (!target) return;
+  const header = document.querySelector('header');
+  const headerHeight = header ? header.getBoundingClientRect().height : 0;
+  const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 24;
+  window.scrollTo({ top: y, behavior: 'smooth' });
 }
 function drawGrowthChart(data) {
   const canvas = document.getElementById('growth-chart');
