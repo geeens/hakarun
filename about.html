@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>免責事項｜はかるんツール</title>
-  <meta name="description" content="はかるんツールの免責事項です。計算結果の取り扱いについてご確認ください。">
+  <title>運営者情報｜はかるんツール</title>
+  <meta name="description" content="はかるんツールの運営者情報です。サイトの目的・コンセプト・運営者についてご紹介します。">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
-  <link rel="canonical" href="https://hakarun.net/disclaimer.html">
+  <link rel="canonical" href="https://hakarun.net/about.html">
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>
@@ -18,13 +18,66 @@
   </script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085"
        crossorigin="anonymous"></script>
+  <style>
+    .about-profile {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      margin-bottom: 28px;
+    }
+    .about-profile img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .about-profile-text .name {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .about-profile-text p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin: 0;
+    }
+    .site-info-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+    }
+    .site-info-table th,
+    .site-info-table td {
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      font-size: 14px;
+      text-align: left;
+      vertical-align: top;
+    }
+    .site-info-table th {
+      background: var(--surface);
+      font-weight: 600;
+      width: 30%;
+      white-space: nowrap;
+    }
+    @media (max-width: 600px) {
+      .about-profile { flex-direction: column; text-align: center; }
+      .site-info-table th { width: auto; white-space: normal; }
+    }
+  </style>
 </head>
 <body>
 
 <header>
   <div class="container">
     <a href="/" class="logo">📐 はかるんツール</a>
-        <nav>
+    <nav>
       <div class="nav-item">
         <a href="money/tedori.html" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
         <div class="dropdown">
@@ -133,42 +186,76 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <h1>免責事項</h1>
-      <p class="subtitle">最終更新日：2024年1月</p>
+      <h1>運営者情報</h1>
+      <p class="subtitle">はかるんツールについて</p>
+    </div>
+
+    <div class="about-profile">
+      <img src="blog/hakase-profile.webp" alt="はかるんツール運営者 ハカセ">
+      <div class="about-profile-text">
+        <div class="name">🦉 ハカセ（ペンネーム）</div>
+        <p>お金・健康・暮らしに関する計算をわかりやすく。<br>
+        難しい数字をツールで即解決できるサイト「はかるんツール」を運営しています。</p>
+      </div>
     </div>
 
     <div class="article">
+      <h2>このサイトについて</h2>
+      <p>「はかるんツール」は、日常生活で役立つ計算をすぐに・無料でできるツールを集めたWebサービスです。手取り計算・税金計算・健康管理・投資シミュレーションなど、お金と暮らしに関する100以上の計算ツールを提供しています。</p>
+      <p>「計算が苦手でも、自分の数字を知ってほしい」という思いから、入力欄にシンプルな数値を入れるだけで即座に結果がわかる設計にしています。アプリのインストール不要・会員登録不要・完全無料でご利用いただけます。</p>
+      <p>計算ツールに加え、お金・節税・投資・暮らしに関するブログ記事も公開しています。ツールを使いながら関連する知識も身につけていただけるよう、わかりやすい解説を心がけています。</p>
 
-      <h2>1. 計算結果について</h2>
-      <p>当サイト（はかるんツール）が提供する計算ツールの結果は、一般的な計算式に基づいた<strong>目安・参考値</strong>です。以下の点にご注意ください。</p>
+      <h2>コンテンツ一覧</h2>
+      <p>現在、以下のカテゴリで計算ツールを提供しています。</p>
       <ul>
-        <li>手取り・税金の計算は、勤務先・住所・家族構成・各種控除の有無などにより実際の金額と異なる場合があります</li>
-        <li>ふるさと納税の上限額は、他の控除（住宅ローン控除・医療費控除など）がある場合に変わります</li>
-        <li>健康に関する計算（BMI・カロリーなど）は個人差があり、医学的な診断ではありません</li>
-        <li>税制や法律の改正により、計算結果が最新の情報と異なる場合があります</li>
+        <li><strong>お金・給与</strong>：手取り計算、ボーナス計算、残業代計算、社会保険料計算 など</li>
+        <li><strong>健康・医療</strong>：BMI計算、基礎代謝計算、高額療養費計算 など</li>
+        <li><strong>暮らし・節約</strong>：ローン返済シミュレーション、電気代計算、生活費配分計算 など</li>
+        <li><strong>日付・時間</strong>：日数計算、年齢計算、勤務時間計算 など</li>
+        <li><strong>節税</strong>：ふるさと納税計算、住宅ローン控除計算、iDeCo節税計算 など</li>
+        <li><strong>計算・変換</strong>：パーセント計算、単位変換、外貨換算 など</li>
+        <li><strong>投資・資産</strong>：複利計算、NISA積立シミュレーション、老後資金計算 など</li>
       </ul>
 
-      <h2>2. 専門家へのご相談のお願い</h2>
-      <p>当サイトの計算結果をもとに重要な判断をされる場合は、必ず以下の専門家にご相談ください。</p>
-      <ul>
-        <li><strong>税金・節税・ふるさと納税</strong>：税理士・税務署</li>
-        <li><strong>給与・労働問題</strong>：社会保険労務士・労働基準監督署</li>
-        <li><strong>健康・ダイエット</strong>：医師・管理栄養士</li>
-      </ul>
+      <h2>計算の正確性について</h2>
+      <p>各計算ツールは、公的機関の資料・税率表・保険料率表をもとに作成しています。ただし、計算結果はあくまで目安です。実際の金額は個人の状況や制度改正によって異なる場合があります。重要な判断をされる際は、必ず専門家（税理士・ファイナンシャルプランナーなど）にご確認ください。</p>
 
-      <h2>3. 情報の正確性について</h2>
-      <p>当サイトの情報は正確性を心がけておりますが、内容の完全性・正確性・有用性を保証するものではありません。当サイトの情報を利用したことにより生じたいかなる損害についても、当サイトは責任を負いかねます。</p>
+      <h2>運営者情報</h2>
+      <table class="site-info-table">
+        <tr>
+          <th>サイト名</th>
+          <td>はかるんツール</td>
+        </tr>
+        <tr>
+          <th>URL</th>
+          <td>https://hakarun.net</td>
+        </tr>
+        <tr>
+          <th>運営者</th>
+          <td>ハカセ（ペンネーム）</td>
+        </tr>
+        <tr>
+          <th>開設</th>
+          <td>2024年</td>
+        </tr>
+        <tr>
+          <th>主なコンテンツ</th>
+          <td>無料計算ツール（100種類以上）、お金・暮らしに関するブログ記事</td>
+        </tr>
+        <tr>
+          <th>広告について</th>
+          <td>当サイトはGoogle AdSenseによる広告を掲載しています。</td>
+        </tr>
+        <tr>
+          <th>お問い合わせ</th>
+          <td><a href="contact.html">お問い合わせフォーム</a>よりご連絡ください。</td>
+        </tr>
+      </table>
 
-      <h2>4. 外部リンクについて</h2>
-      <p>当サイトから外部サイトへのリンクを掲載することがありますが、リンク先のコンテンツについては責任を負いかねます。</p>
-
-      <h2>5. 著作権について</h2>
-      <p>当サイトのコンテンツ（文章・デザインなど）の著作権は当サイトに帰属します。無断転載・複製はお断りします。</p>
-
-      <h2>6. お問い合わせ</h2>
-      <p>免責事項に関するお問い合わせは、<a href="contact.html">お問い合わせページ</a>よりご連絡ください。</p>
-
+      <h2>お問い合わせ</h2>
+      <p>ツールの不具合・計算内容のご指摘・ご要望などは、<a href="contact.html">お問い合わせページ</a>よりお気軽にご連絡ください。</p>
     </div>
+
   </div>
 </main>
 

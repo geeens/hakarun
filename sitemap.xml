@@ -64,6 +64,7 @@
   <url><loc>https://hakarun.net/invest/soneki.html</loc><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/invest/rimawari.html</loc><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/invest/teiki.html</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/about.html</loc><priority>0.6</priority></url>
   <url><loc>https://hakarun.net/privacy.html</loc><priority>0.3</priority></url>
   <url><loc>https://hakarun.net/disclaimer.html</loc><priority>0.3</priority></url>
   <url><loc>https://hakarun.net/contact.html</loc><priority>0.3</priority></url>
