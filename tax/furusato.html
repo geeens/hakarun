@@ -292,7 +292,7 @@
         </div>
         <p class="hint">寄付先の自治体数です。同じ自治体に複数回寄付しても1自治体として数えます</p>
       </div>
-      <button class="btn btn-primary" onclick="calcFurusato()">計算する</button>
+      <button class="btn btn-primary" id="calc-button" onclick="calcFurusato()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
           <div class="label">ふるさと納税の上限額（目安）</div>
@@ -554,6 +554,16 @@ function calcFurusato() {
   document.getElementById('res-benefit').textContent = fmt(benefit);
   document.getElementById('res-onestop').textContent = onestop;
   document.getElementById('result').classList.add('show');
+  scrollToFurusatoResult();
+}
+
+function scrollToFurusatoResult() {
+  const target = document.getElementById('calc-button');
+  if (!target) return;
+  const header = document.querySelector('header');
+  const headerHeight = header ? header.getBoundingClientRect().height : 0;
+  const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 24;
+  window.scrollTo({ top: y, behavior: 'smooth' });
 }
 </script>
 <script>
