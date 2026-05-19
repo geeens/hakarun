@@ -304,12 +304,12 @@
 
           <div class="compare-highlights">
             <div class="compare-highlight" id="case2-highlight">
-              <div class="label">ケース2の月間差</div>
+              <div class="label" id="case2-diff-label">ケース2の月間差</div>
               <div class="value" id="case2-month-diff">—</div>
               <div class="sub" id="case2-annual-diff">年間差 —</div>
             </div>
             <div class="compare-highlight" id="case3-highlight">
-              <div class="label">ケース3の月間差</div>
+              <div class="label" id="case3-diff-label">ケース3の月間差</div>
               <div class="value" id="case3-month-diff">—</div>
               <div class="sub" id="case3-annual-diff">年間差 —</div>
             </div>
@@ -697,18 +697,25 @@ function calcCompare(salaryType, conditions) {
   const labels = ['ケース1（基準）', 'ケース2', 'ケース3'].slice(0, results.length);
   const monthlyDiff2 = results[1].tedori - base.tedori;
   const monthlyDiff3 = results[2] ? results[2].tedori - base.tedori : 0;
+  const annualDiff2 = monthlyDiff2 * 12;
+  const annualDiff3 = monthlyDiff3 * 12;
+  const isAnnualMode = salaryType === 'annual';
 
   document.getElementById('single-result-content').style.display = 'none';
   document.getElementById('compare-result-content').style.display = '';
-  document.getElementById('compare-main').textContent = `最大 ${signedFmt(Math.max(...results.slice(1).map(r => r.tedori - base.tedori)))} / 月`;
-  document.getElementById('compare-main-sub').textContent = 'ケース1と比べた毎月の手取り差です';
-  document.getElementById('case2-month-diff').textContent = signedFmt(monthlyDiff2);
-  document.getElementById('case2-annual-diff').textContent = `年間差 ${signedFmt(monthlyDiff2 * 12)}`;
+  document.getElementById('compare-main').textContent = isAnnualMode
+    ? `最大 ${signedFmt(Math.max(...results.slice(1).map(r => (r.tedori - base.tedori) * 12)))} / 年`
+    : `最大 ${signedFmt(Math.max(...results.slice(1).map(r => r.tedori - base.tedori)))} / 月`;
+  document.getElementById('compare-main-sub').textContent = isAnnualMode ? 'ケース1と比べた年間手取り差です' : 'ケース1と比べた毎月の手取り差です';
+  document.getElementById('case2-diff-label').textContent = isAnnualMode ? 'ケース2の年間差' : 'ケース2の月間差';
+  document.getElementById('case3-diff-label').textContent = isAnnualMode ? 'ケース3の年間差' : 'ケース3の月間差';
+  document.getElementById('case2-month-diff').textContent = isAnnualMode ? signedFmt(annualDiff2) : signedFmt(monthlyDiff2);
+  document.getElementById('case2-annual-diff').textContent = isAnnualMode ? `月間差 ${signedFmt(monthlyDiff2)}` : `年間差 ${signedFmt(annualDiff2)}`;
   document.getElementById('case2-highlight').className = `compare-highlight ${monthlyDiff2 >= 0 ? 'plus' : 'minus'}`;
   document.getElementById('case3-highlight').style.display = results[2] ? '' : 'none';
   if (results[2]) {
-    document.getElementById('case3-month-diff').textContent = signedFmt(monthlyDiff3);
-    document.getElementById('case3-annual-diff').textContent = `年間差 ${signedFmt(monthlyDiff3 * 12)}`;
+    document.getElementById('case3-month-diff').textContent = isAnnualMode ? signedFmt(annualDiff3) : signedFmt(monthlyDiff3);
+    document.getElementById('case3-annual-diff').textContent = isAnnualMode ? `月間差 ${signedFmt(monthlyDiff3)}` : `年間差 ${signedFmt(annualDiff3)}`;
     document.getElementById('case3-highlight').className = `compare-highlight ${monthlyDiff3 >= 0 ? 'plus' : 'minus'}`;
   }
 
