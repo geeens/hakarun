@@ -29,7 +29,7 @@ DRAFTS_FILE = SCRIPT_DIR / 'drafts.json'
 # ===== ツール一覧 =====
 TOOLS = [
     # お金・給与
-    {'name': '手取り計算', 'url': 'https://hakarun.net/money/tedori.html', 'cat': 'お金', 'hint': '年収500万の手取りは約390万円。毎月9万円が税金と社会保険料で消える'},
+    {'name': '手取り計算・比較', 'url': 'https://hakarun.net/money/tedori.html', 'cat': 'お金', 'hint': '年収500万の手取りは約390万円。給与アップ時の手取り差額も比較できる'},
     {'name': '残業代計算', 'url': 'https://hakarun.net/money/zangyo.html', 'cat': 'お金', 'hint': '残業代の割増率は通常25%。深夜・休日はさらに高くなる'},
     {'name': 'ボーナス手取り計算', 'url': 'https://hakarun.net/money/bonus.html', 'cat': 'お金', 'hint': '100万円のボーナスでも手取りは約80万円になることが多い'},
     {'name': '年収→月収・時給計算', 'url': 'https://hakarun.net/money/nenshu.html', 'cat': 'お金', 'hint': '年収400万円は月収約33万円、時給換算で約1,920円'},
