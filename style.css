@@ -612,6 +612,10 @@ select:focus {
 .result-table.medical-target-table td:last-child {
   text-align: left;
 }
+.result-table.medical-target-table td,
+.result-table.medical-target-table td:last-child {
+  font-weight: 400;
+}
 .result-table.medical-target-table th:first-child,
 .result-table.medical-target-table td:first-child {
   border-right: 1px solid var(--border);
