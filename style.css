@@ -607,6 +607,15 @@ select:focus {
 }
 .result-table tr.deduct td { color: var(--danger); }
 .result-table td.limit-reached { color: var(--danger); }
+.result-table.medical-target-table th,
+.result-table.medical-target-table td,
+.result-table.medical-target-table td:last-child {
+  text-align: left;
+}
+.result-table.medical-target-table th:first-child,
+.result-table.medical-target-table td:first-child {
+  border-right: 1px solid var(--border);
+}
 .result-note {
   font-size: 13px;
   color: var(--text-secondary);
