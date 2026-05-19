@@ -189,7 +189,7 @@
         </div>
         <p class="hint">家族分を含める場合も、同じ年の1月〜12月に支払った医療費で計算します。</p>
       </div>
-      <button class="btn btn-primary" onclick="calc()">計算する</button>
+      <button id="calc-button" class="btn btn-primary" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
           <div class="label">医療費控除額（目安）</div>
@@ -399,6 +399,20 @@ function calc() {
   document.getElementById('res-filing').textContent=filing;
   document.getElementById('res-note').textContent=note;
   document.getElementById('result').classList.add('show');
+  setTimeout(scrollToResult, 50);
+}
+
+function scrollToResult() {
+  const target = document.getElementById('calc-button');
+  if (!target) return;
+  const header = document.querySelector('header');
+  const headerHeight = header ? header.getBoundingClientRect().height : 0;
+  const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 24;
+  if (window.scrollTo) {
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  } else {
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }
 </script>
 <script>
