@@ -636,7 +636,7 @@ select:focus {
 .medical-list-section + .medical-list-section {
   border-left: 1px solid var(--border);
 }
-.medical-list-section h3 {
+.article .medical-list-section h3 {
   display: flex;
   align-items: center;
   gap: 8px;
