@@ -318,13 +318,19 @@
           <div class="result-table wide-table compare-table">
             <table>
               <thead>
-                <tr><th>ケース</th><th>額面月収</th><th>毎月の手取り</th><th>ケース1との差</th><th>年間差額</th><th>手取り率</th></tr>
+                <tr><th>ケース</th><th>額面月収</th><th>毎月の手取り</th><th>社会保険料</th><th>所得税</th><th>住民税</th><th>ケース1との差</th><th>年間差額</th><th>手取り率</th></tr>
               </thead>
               <tbody id="compare-table-body"></tbody>
             </table>
           </div>
 
-          <div class="compare-bars" id="compare-bars" aria-label="3ケースの手取り比較グラフ"></div>
+          <div class="stacked-legend" aria-label="グラフの凡例">
+            <span><i class="legend-takehome"></i>手取り</span>
+            <span><i class="legend-social"></i>社会保険料</span>
+            <span><i class="legend-income"></i>所得税</span>
+            <span><i class="legend-resident"></i>住民税</span>
+          </div>
+          <div class="compare-bars stacked-bars" id="compare-bars" aria-label="3ケースの手取りと控除内訳の比較グラフ"></div>
         </div>
 
         <div class="info-box">
@@ -615,6 +621,7 @@ function calcTakehome(inputSalary, salaryType, conditions) {
     totalDeduct,
     tedori,
     annualTedori,
+    socialTotal,
     rate,
     isOver40,
     includeResidentTax
@@ -677,7 +684,6 @@ function calcCompare(salaryType, conditions) {
 
   const results = values.map(v => calcTakehome(v, salaryType, conditions));
   const base = results[0];
-  const maxTakehome = Math.max(...results.map(r => r.tedori));
   const labels = ['ケース1（基準）', 'ケース2', 'ケース3'];
   const monthlyDiff2 = results[1].tedori - base.tedori;
   const monthlyDiff3 = results[2].tedori - base.tedori;
@@ -701,6 +707,9 @@ function calcCompare(salaryType, conditions) {
       <td>${labels[i]}</td>
       <td>${fmt(r.salary)}</td>
       <td>${fmt(r.tedori)}</td>
+      <td>${fmt(r.socialTotal)}</td>
+      <td>${fmt(r.monthlyIncomeTax)}</td>
+      <td>${fmt(r.monthlyJumin)}</td>
       <td class="${diffClass}">${i === 0 ? '基準' : signedFmt(monthlyDiff)}</td>
       <td class="${diffClass}">${i === 0 ? '基準' : signedFmt(annualDiff)}</td>
       <td>${r.rate}%</td>
@@ -708,11 +717,19 @@ function calcCompare(salaryType, conditions) {
   }).join('');
 
   document.getElementById('compare-bars').innerHTML = results.map((r, i) => {
-    const width = Math.max(8, r.tedori / maxTakehome * 100);
     const monthlyDiff = r.tedori - base.tedori;
+    const takehomePct = Math.max(0, r.tedori / r.salary * 100);
+    const socialPct = Math.max(0, r.socialTotal / r.salary * 100);
+    const incomePct = Math.max(0, r.monthlyIncomeTax / r.salary * 100);
+    const residentPct = Math.max(0, r.monthlyJumin / r.salary * 100);
     return `<div class="compare-bar-row">
       <span class="bar-label">${labels[i]}</span>
-      <div class="bar-track"><span class="bar-fill" style="width:${width}%"></span></div>
+      <div class="stacked-track">
+        <span class="stacked-fill takehome" style="width:${takehomePct}%"></span>
+        <span class="stacked-fill social" style="width:${socialPct}%"></span>
+        <span class="stacked-fill income" style="width:${incomePct}%"></span>
+        <span class="stacked-fill resident" style="width:${residentPct}%"></span>
+      </div>
       <span class="bar-value">${fmt(r.tedori)}${i === 0 ? '' : `（${signedFmt(monthlyDiff)}）`}</span>
     </div>`;
   }).join('');
