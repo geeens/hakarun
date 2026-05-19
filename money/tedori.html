@@ -261,7 +261,7 @@
         <p class="hint">新社会人1年目や転職直後など、住民税がまだ給与天引きされていない場合は「含めない」を選べます。</p>
       </div>
 
-      <button class="btn btn-primary" onclick="calcTedori()">計算する</button>
+      <button class="btn btn-primary" id="calc-button" onclick="calcTedori()">計算する</button>
 
       <div class="result-area" id="result">
         <div id="single-result-content">
@@ -670,6 +670,7 @@ function calcTedori() {
   document.getElementById('res-annual-total').textContent = fmt(result.annualTedori);
 
   document.getElementById('result').classList.add('show');
+  scrollToTedoriResult();
 }
 
 function calcCompare(salaryType, conditions) {
@@ -748,6 +749,16 @@ function calcCompare(salaryType, conditions) {
   }).join('');
 
   document.getElementById('result').classList.add('show');
+  scrollToTedoriResult();
+}
+
+function scrollToTedoriResult() {
+  const target = document.getElementById('calc-button');
+  if (!target) return;
+  const header = document.querySelector('header');
+  const headerHeight = header ? header.getBoundingClientRect().height : 0;
+  const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 24;
+  window.scrollTo({ top: y, behavior: 'smooth' });
 }
 </script>
 
