@@ -194,18 +194,36 @@
         <p class="hint">源泉徴収票の「支払金額」に記載されている金額を入力してください</p>
       </div>
       <div class="form-group">
-        <label>家族構成</label>
-        <div class="input-wrap">
-          <select id="family">
-            <option value="single">独身 または 共働き（子なし）</option>
-            <option value="couple">配偶者控除あり（専業主婦・夫）</option>
-            <option value="child1">共働き＋子ども1人（16歳未満）</option>
-            <option value="child1_16">共働き＋子ども1人（16〜18歳）</option>
-            <option value="child1_19">共働き＋子ども1人（19〜22歳）</option>
-            <option value="couple_child1">配偶者控除あり＋子ども1人（16歳未満）</option>
-            <option value="couple_child1_16">配偶者控除あり＋子ども1人（16〜18歳）</option>
-          </select>
+        <label>配偶者</label>
+        <div class="radio-group">
+          <label><input type="radio" name="spouse" value="none" checked onchange="toggleSpouseDeduction()"> なし</label>
+          <label><input type="radio" name="spouse" value="yes" onchange="toggleSpouseDeduction()"> あり</label>
         </div>
+      </div>
+      <div class="form-group" id="spouse-deduction-group" style="display:none;">
+        <label>配偶者控除</label>
+        <div class="radio-group">
+          <label><input type="radio" name="spouseDeduction" value="none" checked> なし</label>
+          <label><input type="radio" name="spouseDeduction" value="yes"> あり（配偶者を扶養）</label>
+        </div>
+        <p class="hint">配偶者の収入が少なく、配偶者控除を受けている場合は「あり」を選んでください。</p>
+      </div>
+      <div class="form-group">
+        <label>高校生の扶養親族（16〜18歳）</label>
+        <div class="radio-group">
+          <label><input type="radio" name="highSchoolChildren" value="0" checked> 0人</label>
+          <label><input type="radio" name="highSchoolChildren" value="1"> 1人</label>
+          <label><input type="radio" name="highSchoolChildren" value="2"> 2人</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>大学生などの扶養親族（19〜22歳）</label>
+        <div class="radio-group">
+          <label><input type="radio" name="collegeChildren" value="0" checked> 0人</label>
+          <label><input type="radio" name="collegeChildren" value="1"> 1人</label>
+          <label><input type="radio" name="collegeChildren" value="2"> 2人</label>
+        </div>
+        <p class="hint">※ 16歳未満の子どもは扶養控除の対象外のため、この簡易計算では「扶養なし」と同じ扱いです。</p>
       </div>
       <div class="form-group">
         <label>年齢</label>
@@ -445,11 +463,22 @@
 function fmt(n) { return Math.round(n).toLocaleString('ja-JP') + ' 円'; }
 function num(id) { return parseFloat(document.getElementById(id).value) || 0; }
 
+function toggleSpouseDeduction() {
+  const hasSpouse = document.querySelector('input[name="spouse"]:checked').value === 'yes';
+  const group = document.getElementById('spouse-deduction-group');
+  group.style.display = hasSpouse ? 'block' : 'none';
+  if (!hasSpouse) {
+    document.querySelector('input[name="spouseDeduction"][value="none"]').checked = true;
+  }
+}
+
 function calcFurusato() {
   const income = num('income');
   if (!income || income <= 0) { alert('年収を入力してください'); return; }
 
-  const family = document.getElementById('family').value;
+  const spouseDeduction = document.querySelector('input[name="spouseDeduction"]:checked').value === 'yes';
+  const highSchoolChildren = parseInt(document.querySelector('input[name="highSchoolChildren"]:checked').value, 10);
+  const collegeChildren = parseInt(document.querySelector('input[name="collegeChildren"]:checked').value, 10);
   const isOver40 = document.querySelector('input[name="age"]:checked').value === 'over40';
   const donated = num('donated');
   const ideco = num('ideco');
@@ -475,13 +504,10 @@ function calcFurusato() {
   const socialKojo = income * socialRate;
 
   // 扶養控除・配偶者控除（住民税用）
-  let fuyoKojo = 0;
-  if (family === 'couple') fuyoKojo = 330000;
-  else if (family === 'child1') fuyoKojo = 0;
-  else if (family === 'child1_16') fuyoKojo = 330000;
-  else if (family === 'child1_19') fuyoKojo = 450000;
-  else if (family === 'couple_child1') fuyoKojo = 330000;
-  else if (family === 'couple_child1_16') fuyoKojo = 330000 + 330000;
+  const spouseKojo = spouseDeduction ? 330000 : 0;
+  const highSchoolKojo = highSchoolChildren * 330000;
+  const collegeKojo = collegeChildren * 450000;
+  const fuyoKojo = spouseKojo + highSchoolKojo + collegeKojo;
 
   // 住民税の基礎控除：43万円
   const kisoKojo = 430000;
