@@ -620,6 +620,33 @@ select:focus {
 .result-table.medical-target-table td:first-child {
   border-right: 1px solid var(--border);
 }
+.medical-list-panel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 14px 0 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.medical-list-section {
+  padding: 18px 20px;
+}
+.medical-list-section + .medical-list-section {
+  border-left: 1px solid var(--border);
+}
+.medical-list-section h3 {
+  margin: 0 0 12px;
+  color: var(--text-secondary);
+}
+.medical-list-section ul {
+  margin: 0;
+  padding-left: 1.3em;
+}
+.medical-list-section li {
+  margin-bottom: 8px;
+  font-weight: 600;
+}
 .result-note {
   font-size: 13px;
   color: var(--text-secondary);
@@ -898,6 +925,13 @@ footer .copyright { font-size: 12px; }
   .compare-bar-row {
     grid-template-columns: 1fr;
     gap: 5px;
+  }
+  .medical-list-panel {
+    grid-template-columns: 1fr;
+  }
+  .medical-list-section + .medical-list-section {
+    border-left: none;
+    border-top: 1px solid var(--border);
   }
   .bar-row {
     grid-template-columns: 1fr;
