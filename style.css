@@ -841,6 +841,19 @@ select:focus {
   font-weight: 700;
 }
 .example-table tr:last-child td { border-bottom: none; }
+.table-scroll-hint {
+  position: sticky;
+  left: 0;
+  display: inline-flex;
+  align-items: center;
+  margin: 0 0 8px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: #EFF6FF;
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 700;
+}
 .upper-limit-table table {
   min-width: 920px;
 }
