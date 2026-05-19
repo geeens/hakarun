@@ -220,7 +220,7 @@
             </div>
           </div>
           <div>
-            <label for="salary-case-3">ケース3</label>
+            <label for="salary-case-3">ケース3（任意）</label>
             <div class="input-wrap">
               <input type="number" id="salary-case-3" placeholder="380000" min="0">
               <span class="unit">円</span>
@@ -678,28 +678,37 @@ function calcCompare(salaryType, conditions) {
     parseFloat(document.getElementById('salary-case-3').value)
   ];
 
-  if (values.some(v => !v || v <= 0)) {
-    alert('3つのケースすべてに金額を入力してください');
+  if (!values[0] || values[0] <= 0 || !values[1] || values[1] <= 0) {
+    alert('ケース1とケース2の金額を入力してください');
     return;
   }
 
-  const results = values.map(v => calcTakehome(v, salaryType, conditions));
+  if (values[2] && values[2] < 0) {
+    alert('ケース3には0より大きい金額を入力してください');
+    return;
+  }
+
+  const activeValues = values[2] && values[2] > 0 ? values : values.slice(0, 2);
+  const results = activeValues.map(v => calcTakehome(v, salaryType, conditions));
   const base = results[0];
   const maxSalary = Math.max(...results.map(r => r.salary));
-  const labels = ['ケース1（基準）', 'ケース2', 'ケース3'];
+  const labels = ['ケース1（基準）', 'ケース2', 'ケース3'].slice(0, results.length);
   const monthlyDiff2 = results[1].tedori - base.tedori;
-  const monthlyDiff3 = results[2].tedori - base.tedori;
+  const monthlyDiff3 = results[2] ? results[2].tedori - base.tedori : 0;
 
   document.getElementById('single-result-content').style.display = 'none';
   document.getElementById('compare-result-content').style.display = '';
-  document.getElementById('compare-main').textContent = `最大 ${signedFmt(Math.max(monthlyDiff2, monthlyDiff3))} / 月`;
+  document.getElementById('compare-main').textContent = `最大 ${signedFmt(Math.max(...results.slice(1).map(r => r.tedori - base.tedori)))} / 月`;
   document.getElementById('compare-main-sub').textContent = 'ケース1と比べた毎月の手取り差です';
   document.getElementById('case2-month-diff').textContent = signedFmt(monthlyDiff2);
   document.getElementById('case2-annual-diff').textContent = `年間差 ${signedFmt(monthlyDiff2 * 12)}`;
-  document.getElementById('case3-month-diff').textContent = signedFmt(monthlyDiff3);
-  document.getElementById('case3-annual-diff').textContent = `年間差 ${signedFmt(monthlyDiff3 * 12)}`;
   document.getElementById('case2-highlight').className = `compare-highlight ${monthlyDiff2 >= 0 ? 'plus' : 'minus'}`;
-  document.getElementById('case3-highlight').className = `compare-highlight ${monthlyDiff3 >= 0 ? 'plus' : 'minus'}`;
+  document.getElementById('case3-highlight').style.display = results[2] ? '' : 'none';
+  if (results[2]) {
+    document.getElementById('case3-month-diff').textContent = signedFmt(monthlyDiff3);
+    document.getElementById('case3-annual-diff').textContent = `年間差 ${signedFmt(monthlyDiff3 * 12)}`;
+    document.getElementById('case3-highlight').className = `compare-highlight ${monthlyDiff3 >= 0 ? 'plus' : 'minus'}`;
+  }
 
   document.getElementById('compare-table-body').innerHTML = results.map((r, i) => {
     const monthlyDiff = r.tedori - base.tedori;
