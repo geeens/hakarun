@@ -841,6 +841,30 @@ select:focus {
   font-weight: 700;
 }
 .example-table tr:last-child td { border-bottom: none; }
+.upper-limit-table table {
+  min-width: 720px;
+}
+.upper-limit-table th:first-child,
+.upper-limit-table td:first-child {
+  width: 56px;
+  text-align: center;
+  font-weight: 800;
+}
+.upper-limit-table td:nth-child(2) {
+  font-weight: 700;
+}
+.upper-limit-table td:nth-child(2) span {
+  display: block;
+  margin-top: 4px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.55;
+  font-weight: 500;
+}
+.upper-limit-table td:nth-child(3) {
+  font-weight: 700;
+  white-space: nowrap;
+}
 .takehome-bars {
   display: grid;
   gap: 10px;
