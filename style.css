@@ -842,7 +842,7 @@ select:focus {
 }
 .example-table tr:last-child td { border-bottom: none; }
 .upper-limit-table table {
-  min-width: 720px;
+  min-width: 920px;
 }
 .upper-limit-table th:first-child,
 .upper-limit-table td:first-child {
@@ -861,7 +861,8 @@ select:focus {
   line-height: 1.55;
   font-weight: 500;
 }
-.upper-limit-table td:nth-child(3) {
+.upper-limit-table td:nth-child(3),
+.upper-limit-table td:nth-child(4) {
   font-weight: 700;
   white-space: nowrap;
 }
