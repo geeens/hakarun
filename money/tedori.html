@@ -330,7 +330,7 @@
             <span><i class="legend-income"></i>所得税</span>
             <span><i class="legend-resident"></i>住民税</span>
           </div>
-          <p class="result-note">グラフは一番高い額面月収を基準に表示しています。棒が長いほど、月収と手取りの金額が大きいことを表します。</p>
+          <p class="result-note" id="compare-graph-note">グラフは一番高い額面月収を基準に表示しています。棒が長いほど、月収と手取りの金額が大きいことを表します。</p>
           <div class="compare-bars stacked-bars" id="compare-bars" aria-label="3ケースの手取りと控除内訳の比較グラフ"></div>
         </div>
 
@@ -707,6 +707,9 @@ function calcCompare(salaryType, conditions) {
     ? `最大 ${signedFmt(Math.max(...results.slice(1).map(r => (r.tedori - base.tedori) * 12)))} / 年`
     : `最大 ${signedFmt(Math.max(...results.slice(1).map(r => r.tedori - base.tedori)))} / 月`;
   document.getElementById('compare-main-sub').textContent = isAnnualMode ? 'ケース1と比べた年間手取り差です' : 'ケース1と比べた毎月の手取り差です';
+  document.getElementById('compare-graph-note').textContent = isAnnualMode
+    ? 'グラフは一番高い額面年収を基準に、年間手取りと年間控除額の内訳を表示しています。'
+    : 'グラフは一番高い額面月収を基準に、毎月の手取りと控除額の内訳を表示しています。';
   document.getElementById('case2-diff-label').textContent = isAnnualMode ? 'ケース2の年間差' : 'ケース2の月間差';
   document.getElementById('case3-diff-label').textContent = isAnnualMode ? 'ケース3の年間差' : 'ケース3の月間差';
   document.getElementById('case2-month-diff').textContent = isAnnualMode ? signedFmt(annualDiff2) : signedFmt(monthlyDiff2);
@@ -738,11 +741,18 @@ function calcCompare(salaryType, conditions) {
 
   document.getElementById('compare-bars').innerHTML = results.map((r, i) => {
     const monthlyDiff = r.tedori - base.tedori;
-    const grossPct = Math.max(8, r.salary / maxSalary * 100);
-    const takehomePct = Math.max(0, r.tedori / r.salary * 100);
-    const socialPct = Math.max(0, r.socialTotal / r.salary * 100);
-    const incomePct = Math.max(0, r.monthlyIncomeTax / r.salary * 100);
-    const residentPct = Math.max(0, r.monthlyJumin / r.salary * 100);
+    const displaySalary = isAnnualMode ? r.annualSalary : r.salary;
+    const maxDisplaySalary = isAnnualMode ? Math.max(...results.map(item => item.annualSalary)) : maxSalary;
+    const displayTakehome = isAnnualMode ? r.annualTedori : r.tedori;
+    const displaySocial = isAnnualMode ? r.socialTotal * 12 : r.socialTotal;
+    const displayIncome = isAnnualMode ? r.monthlyIncomeTax * 12 : r.monthlyIncomeTax;
+    const displayResident = isAnnualMode ? r.monthlyJumin * 12 : r.monthlyJumin;
+    const diff = isAnnualMode ? monthlyDiff * 12 : monthlyDiff;
+    const grossPct = Math.max(8, displaySalary / maxDisplaySalary * 100);
+    const takehomePct = Math.max(0, displayTakehome / displaySalary * 100);
+    const socialPct = Math.max(0, displaySocial / displaySalary * 100);
+    const incomePct = Math.max(0, displayIncome / displaySalary * 100);
+    const residentPct = Math.max(0, displayResident / displaySalary * 100);
     return `<div class="compare-bar-row">
       <span class="bar-label">${labels[i]}</span>
       <div class="stacked-track" style="width:${grossPct}%">
@@ -751,7 +761,7 @@ function calcCompare(salaryType, conditions) {
         <span class="stacked-fill income" style="width:${incomePct}%"></span>
         <span class="stacked-fill resident" style="width:${residentPct}%"></span>
       </div>
-      <span class="bar-value">${fmt(r.tedori)}${i === 0 ? '' : `（${signedFmt(monthlyDiff)}）`}</span>
+      <span class="bar-value">${fmt(displayTakehome)}${i === 0 ? '' : `（${signedFmt(diff)}）`}</span>
     </div>`;
   }).join('');
 
