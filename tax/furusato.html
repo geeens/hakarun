@@ -554,16 +554,20 @@ function calcFurusato() {
   document.getElementById('res-benefit').textContent = fmt(benefit);
   document.getElementById('res-onestop').textContent = onestop;
   document.getElementById('result').classList.add('show');
-  scrollToFurusatoResult();
+  setTimeout(scrollToFurusatoResult, 50);
 }
 
 function scrollToFurusatoResult() {
-  const target = document.getElementById('calc-button');
+  const target = document.getElementById('result');
   if (!target) return;
   const header = document.querySelector('header');
   const headerHeight = header ? header.getBoundingClientRect().height : 0;
-  const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 24;
-  window.scrollTo({ top: y, behavior: 'smooth' });
+  const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 16;
+  if (window.scrollTo) {
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  } else {
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }
 </script>
 <script>
