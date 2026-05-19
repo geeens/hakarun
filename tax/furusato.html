@@ -558,11 +558,11 @@ function calcFurusato() {
 }
 
 function scrollToFurusatoResult() {
-  const target = document.getElementById('result');
+  const target = document.getElementById('calc-button');
   if (!target) return;
   const header = document.querySelector('header');
   const headerHeight = header ? header.getBoundingClientRect().height : 0;
-  const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 16;
+  const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 24;
   if (window.scrollTo) {
     window.scrollTo({ top: y, behavior: 'smooth' });
   } else {
