@@ -176,6 +176,15 @@
     <div class="calc-card">
 
       <div class="form-group">
+        <label>計算モード</label>
+        <div class="radio-group">
+          <label><input type="radio" name="calcMode" value="single" checked onchange="updateCalcMode()"> 1件だけ計算</label>
+          <label><input type="radio" name="calcMode" value="compare" onchange="updateCalcMode()"> 3ケース比較</label>
+        </div>
+        <p class="hint">給与アップ、勤務条件の変更、住民税あり・なしなどを比べたい場合は「3ケース比較」を選んでください。</p>
+      </div>
+
+      <div class="form-group">
         <label>入力する金額の種類</label>
         <div class="radio-group">
           <label><input type="radio" name="salaryType" value="monthly" checked onchange="updateSalaryLabel()"> 月収から計算</label>
@@ -184,13 +193,41 @@
         <p class="hint">迷ったら「月収から計算」のままでOKです。ざっくり概算できます。</p>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" id="single-salary-group">
         <label id="salary-label">月収（額面・総支給額）</label>
         <div class="input-wrap">
           <input type="number" id="salary" placeholder="300000" min="0">
           <span class="unit">円</span>
         </div>
         <p class="hint" id="salary-hint">給与明細の「総支給額」に記載されている金額を入力してください</p>
+      </div>
+
+      <div class="form-group compare-inputs" id="compare-salary-group" style="display:none">
+        <label id="compare-salary-label">比較する月収（額面・総支給額）</label>
+        <div class="compare-field-grid">
+          <div>
+            <label for="salary-case-1">ケース1（基準）</label>
+            <div class="input-wrap">
+              <input type="number" id="salary-case-1" placeholder="300000" min="0">
+              <span class="unit">円</span>
+            </div>
+          </div>
+          <div>
+            <label for="salary-case-2">ケース2</label>
+            <div class="input-wrap">
+              <input type="number" id="salary-case-2" placeholder="330000" min="0">
+              <span class="unit">円</span>
+            </div>
+          </div>
+          <div>
+            <label for="salary-case-3">ケース3</label>
+            <div class="input-wrap">
+              <input type="number" id="salary-case-3" placeholder="380000" min="0">
+              <span class="unit">円</span>
+            </div>
+          </div>
+        </div>
+        <p class="hint" id="compare-salary-hint">ケース1を基準に、ケース2・ケース3で手取りがどれくらい変わるか比較します。</p>
       </div>
 
       <div class="form-group">
@@ -227,33 +264,67 @@
       <button class="btn btn-primary" onclick="calcTedori()">計算する</button>
 
       <div class="result-area" id="result">
-        <div class="result-main">
-          <div class="label">毎月の手取り（概算）</div>
-          <div class="value" id="res-tedori">—</div>
-          <div class="sub" id="res-rate">手取り率 —%</div>
-          <div class="sub" id="res-annual-summary">年間手取り —</div>
+        <div id="single-result-content">
+          <div class="result-main">
+            <div class="label">毎月の手取り（概算）</div>
+            <div class="value" id="res-tedori">—</div>
+            <div class="sub" id="res-rate">手取り率 —%</div>
+            <div class="sub" id="res-annual-summary">年間手取り —</div>
+          </div>
+
+          <div class="result-table">
+            <table>
+              <thead>
+                <tr><th>項目</th><th>金額</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>月収（額面）</td><td id="res-salary">—</td></tr>
+                <tr><td>年収（額面）</td><td id="res-annual-salary">—</td></tr>
+                <tr class="deduct"><td>健康保険料</td><td id="res-health">—</td></tr>
+                <tr class="deduct"><td>介護保険料</td><td id="res-care">—</td></tr>
+                <tr class="deduct"><td>厚生年金保険料</td><td id="res-pension">—</td></tr>
+                <tr class="deduct"><td>雇用保険料</td><td id="res-employ">—</td></tr>
+                <tr class="deduct"><td>子ども・子育て支援金</td><td id="res-childcare">—</td></tr>
+                <tr class="deduct"><td>所得税（概算）</td><td id="res-income">—</td></tr>
+                <tr class="deduct"><td>住民税（概算）</td><td id="res-resident">—</td></tr>
+                <tr class="deduct"><td>控除合計（月）</td><td id="res-deduct-total">—</td></tr>
+                <tr class="total"><td>手取り合計</td><td id="res-total">—</td></tr>
+                <tr class="total"><td>年間手取り（概算）</td><td id="res-annual-total">—</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
 
-        <div class="result-table">
-          <table>
-            <thead>
-              <tr><th>項目</th><th>金額</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>月収（額面）</td><td id="res-salary">—</td></tr>
-              <tr><td>年収（額面）</td><td id="res-annual-salary">—</td></tr>
-              <tr class="deduct"><td>健康保険料</td><td id="res-health">—</td></tr>
-              <tr class="deduct"><td>介護保険料</td><td id="res-care">—</td></tr>
-              <tr class="deduct"><td>厚生年金保険料</td><td id="res-pension">—</td></tr>
-              <tr class="deduct"><td>雇用保険料</td><td id="res-employ">—</td></tr>
-              <tr class="deduct"><td>子ども・子育て支援金</td><td id="res-childcare">—</td></tr>
-              <tr class="deduct"><td>所得税（概算）</td><td id="res-income">—</td></tr>
-              <tr class="deduct"><td>住民税（概算）</td><td id="res-resident">—</td></tr>
-              <tr class="deduct"><td>控除合計（月）</td><td id="res-deduct-total">—</td></tr>
-              <tr class="total"><td>手取り合計</td><td id="res-total">—</td></tr>
-              <tr class="total"><td>年間手取り（概算）</td><td id="res-annual-total">—</td></tr>
-            </tbody>
-          </table>
+        <div id="compare-result-content" style="display:none">
+          <div class="result-main">
+            <div class="label">3ケース比較（概算）</div>
+            <div class="value" id="compare-main">—</div>
+            <div class="sub" id="compare-main-sub">ケース1との差を表示します</div>
+          </div>
+
+          <div class="compare-highlights">
+            <div class="compare-highlight" id="case2-highlight">
+              <div class="label">ケース2の月間差</div>
+              <div class="value" id="case2-month-diff">—</div>
+              <div class="sub" id="case2-annual-diff">年間差 —</div>
+            </div>
+            <div class="compare-highlight" id="case3-highlight">
+              <div class="label">ケース3の月間差</div>
+              <div class="value" id="case3-month-diff">—</div>
+              <div class="sub" id="case3-annual-diff">年間差 —</div>
+            </div>
+          </div>
+
+          <div class="result-table wide-table compare-table">
+            <table>
+              <thead>
+                <tr><th>ケース</th><th>額面月収</th><th>毎月の手取り</th><th>ケース1との差</th><th>年間差額</th><th>手取り率</th></tr>
+              </thead>
+              <tbody id="compare-table-body"></tbody>
+            </table>
+          </div>
+
+          <div class="compare-bars" id="compare-bars" aria-label="3ケースの手取り比較グラフ"></div>
         </div>
 
         <div class="info-box">
@@ -421,28 +492,54 @@ function updateSalaryLabel() {
   const salaryInput = document.getElementById('salary');
   const label = document.getElementById('salary-label');
   const hint = document.getElementById('salary-hint');
+  const compareLabel = document.getElementById('compare-salary-label');
+  const compareHint = document.getElementById('compare-salary-hint');
+  const compareInputs = [
+    document.getElementById('salary-case-1'),
+    document.getElementById('salary-case-2'),
+    document.getElementById('salary-case-3')
+  ];
 
   if (salaryType === 'annual') {
     label.textContent = '年収（額面・総支給額）';
     salaryInput.placeholder = '4000000';
     hint.textContent = '年間の額面収入を入力してください。賞与込みの年収でも概算できます。';
+    compareLabel.textContent = '比較する年収（額面・総支給額）';
+    compareHint.textContent = 'ケース1を基準に、ケース2・ケース3で年間手取りがどれくらい変わるか比較します。';
+    compareInputs[0].placeholder = '4000000';
+    compareInputs[1].placeholder = '4500000';
+    compareInputs[2].placeholder = '5000000';
   } else {
     label.textContent = '月収（額面・総支給額）';
     salaryInput.placeholder = '300000';
     hint.textContent = '給与明細の「総支給額」に記載されている金額を入力してください。';
+    compareLabel.textContent = '比較する月収（額面・総支給額）';
+    compareHint.textContent = 'ケース1を基準に、ケース2・ケース3で毎月の手取りがどれくらい変わるか比較します。';
+    compareInputs[0].placeholder = '300000';
+    compareInputs[1].placeholder = '330000';
+    compareInputs[2].placeholder = '380000';
   }
 }
 
-function calcTedori() {
-  const inputSalary = parseFloat(document.getElementById('salary').value);
-  const salaryType = document.querySelector('input[name="salaryType"]:checked').value;
-  if (!inputSalary || inputSalary <= 0) { alert('金額を入力してください'); return; }
+function updateCalcMode() {
+  const mode = document.querySelector('input[name="calcMode"]:checked').value;
+  document.getElementById('single-salary-group').style.display = mode === 'single' ? '' : 'none';
+  document.getElementById('compare-salary-group').style.display = mode === 'compare' ? '' : 'none';
+  document.getElementById('result').classList.remove('show');
+}
 
+function getCommonConditions() {
+  return {
+    isOver40: document.querySelector('input[name="age"]:checked').value === 'over40',
+    dependents: parseInt(document.getElementById('dependents').value),
+    includeResidentTax: document.querySelector('input[name="residentTax"]:checked').value === 'include'
+  };
+}
+
+function calcTakehome(inputSalary, salaryType, conditions) {
   const salary = salaryType === 'annual' ? inputSalary / 12 : inputSalary;
   const annualSalary = salaryType === 'annual' ? inputSalary : inputSalary * 12;
-  const isOver40 = document.querySelector('input[name="age"]:checked').value === 'over40';
-  const dependents = parseInt(document.getElementById('dependents').value);
-  const includeResidentTax = document.querySelector('input[name="residentTax"]:checked').value === 'include';
+  const { isOver40, dependents, includeResidentTax } = conditions;
 
   // 社会保険料は都道府県や年度で変わるため、全国平均に近い概算率で計算します。
   const healthRate = 0.04985;     // 健康保険（労働者負担）
@@ -505,22 +602,120 @@ function calcTedori() {
   const annualTedori = tedori * 12;
   const rate = (tedori / salary * 100).toFixed(1);
 
+  return {
+    salary,
+    annualSalary,
+    healthAmt,
+    careAmt,
+    pensionAmt,
+    employAmt,
+    childcareAmt,
+    monthlyIncomeTax,
+    monthlyJumin,
+    totalDeduct,
+    tedori,
+    annualTedori,
+    rate,
+    isOver40,
+    includeResidentTax
+  };
+}
+
+function signedFmt(n) {
+  const sign = n > 0 ? '+ ' : n < 0 ? '- ' : '';
+  return sign + fmt(Math.abs(n));
+}
+
+function calcTedori() {
+  const mode = document.querySelector('input[name="calcMode"]:checked').value;
+  const salaryType = document.querySelector('input[name="salaryType"]:checked').value;
+  const conditions = getCommonConditions();
+
+  if (mode === 'compare') {
+    calcCompare(salaryType, conditions);
+    return;
+  }
+
+  const inputSalary = parseFloat(document.getElementById('salary').value);
+  if (!inputSalary || inputSalary <= 0) { alert('金額を入力してください'); return; }
+
+  const result = calcTakehome(inputSalary, salaryType, conditions);
+
   // 表示
-  document.getElementById('res-tedori').textContent = fmt(tedori);
-  document.getElementById('res-rate').textContent = `手取り率 ${rate}%`;
-  document.getElementById('res-annual-summary').textContent = `年間手取り ${fmt(annualTedori)}`;
-  document.getElementById('res-salary').textContent = fmt(salary);
-  document.getElementById('res-annual-salary').textContent = fmt(annualSalary);
-  document.getElementById('res-health').textContent = '- ' + fmt(healthAmt);
-  document.getElementById('res-care').textContent = isOver40 ? '- ' + fmt(careAmt) : '- 0 円（40歳未満）';
-  document.getElementById('res-pension').textContent = '- ' + fmt(pensionAmt);
-  document.getElementById('res-employ').textContent = '- ' + fmt(employAmt);
-  document.getElementById('res-childcare').textContent = '- ' + fmt(childcareAmt);
-  document.getElementById('res-income').textContent = '- ' + fmt(monthlyIncomeTax);
-  document.getElementById('res-resident').textContent = includeResidentTax ? '- ' + fmt(monthlyJumin) : '- 0 円（含めない）';
-  document.getElementById('res-deduct-total').textContent = '- ' + fmt(totalDeduct);
-  document.getElementById('res-total').textContent = fmt(tedori);
-  document.getElementById('res-annual-total').textContent = fmt(annualTedori);
+  document.getElementById('single-result-content').style.display = '';
+  document.getElementById('compare-result-content').style.display = 'none';
+  document.getElementById('res-tedori').textContent = fmt(result.tedori);
+  document.getElementById('res-rate').textContent = `手取り率 ${result.rate}%`;
+  document.getElementById('res-annual-summary').textContent = `年間手取り ${fmt(result.annualTedori)}`;
+  document.getElementById('res-salary').textContent = fmt(result.salary);
+  document.getElementById('res-annual-salary').textContent = fmt(result.annualSalary);
+  document.getElementById('res-health').textContent = '- ' + fmt(result.healthAmt);
+  document.getElementById('res-care').textContent = result.isOver40 ? '- ' + fmt(result.careAmt) : '- 0 円（40歳未満）';
+  document.getElementById('res-pension').textContent = '- ' + fmt(result.pensionAmt);
+  document.getElementById('res-employ').textContent = '- ' + fmt(result.employAmt);
+  document.getElementById('res-childcare').textContent = '- ' + fmt(result.childcareAmt);
+  document.getElementById('res-income').textContent = '- ' + fmt(result.monthlyIncomeTax);
+  document.getElementById('res-resident').textContent = result.includeResidentTax ? '- ' + fmt(result.monthlyJumin) : '- 0 円（含めない）';
+  document.getElementById('res-deduct-total').textContent = '- ' + fmt(result.totalDeduct);
+  document.getElementById('res-total').textContent = fmt(result.tedori);
+  document.getElementById('res-annual-total').textContent = fmt(result.annualTedori);
+
+  document.getElementById('result').classList.add('show');
+}
+
+function calcCompare(salaryType, conditions) {
+  const values = [
+    parseFloat(document.getElementById('salary-case-1').value),
+    parseFloat(document.getElementById('salary-case-2').value),
+    parseFloat(document.getElementById('salary-case-3').value)
+  ];
+
+  if (values.some(v => !v || v <= 0)) {
+    alert('3つのケースすべてに金額を入力してください');
+    return;
+  }
+
+  const results = values.map(v => calcTakehome(v, salaryType, conditions));
+  const base = results[0];
+  const maxTakehome = Math.max(...results.map(r => r.tedori));
+  const labels = ['ケース1（基準）', 'ケース2', 'ケース3'];
+  const monthlyDiff2 = results[1].tedori - base.tedori;
+  const monthlyDiff3 = results[2].tedori - base.tedori;
+
+  document.getElementById('single-result-content').style.display = 'none';
+  document.getElementById('compare-result-content').style.display = '';
+  document.getElementById('compare-main').textContent = `最大 ${signedFmt(Math.max(monthlyDiff2, monthlyDiff3))} / 月`;
+  document.getElementById('compare-main-sub').textContent = 'ケース1と比べた毎月の手取り差です';
+  document.getElementById('case2-month-diff').textContent = signedFmt(monthlyDiff2);
+  document.getElementById('case2-annual-diff').textContent = `年間差 ${signedFmt(monthlyDiff2 * 12)}`;
+  document.getElementById('case3-month-diff').textContent = signedFmt(monthlyDiff3);
+  document.getElementById('case3-annual-diff').textContent = `年間差 ${signedFmt(monthlyDiff3 * 12)}`;
+  document.getElementById('case2-highlight').className = `compare-highlight ${monthlyDiff2 >= 0 ? 'plus' : 'minus'}`;
+  document.getElementById('case3-highlight').className = `compare-highlight ${monthlyDiff3 >= 0 ? 'plus' : 'minus'}`;
+
+  document.getElementById('compare-table-body').innerHTML = results.map((r, i) => {
+    const monthlyDiff = r.tedori - base.tedori;
+    const annualDiff = monthlyDiff * 12;
+    const diffClass = monthlyDiff > 0 ? 'plus' : monthlyDiff < 0 ? 'minus' : '';
+    return `<tr>
+      <td>${labels[i]}</td>
+      <td>${fmt(r.salary)}</td>
+      <td>${fmt(r.tedori)}</td>
+      <td class="${diffClass}">${i === 0 ? '基準' : signedFmt(monthlyDiff)}</td>
+      <td class="${diffClass}">${i === 0 ? '基準' : signedFmt(annualDiff)}</td>
+      <td>${r.rate}%</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('compare-bars').innerHTML = results.map((r, i) => {
+    const width = Math.max(8, r.tedori / maxTakehome * 100);
+    const monthlyDiff = r.tedori - base.tedori;
+    return `<div class="compare-bar-row">
+      <span class="bar-label">${labels[i]}</span>
+      <div class="bar-track"><span class="bar-fill" style="width:${width}%"></span></div>
+      <span class="bar-value">${fmt(r.tedori)}${i === 0 ? '' : `（${signedFmt(monthlyDiff)}）`}</span>
+    </div>`;
+  }).join('');
 
   document.getElementById('result').classList.add('show');
 }
