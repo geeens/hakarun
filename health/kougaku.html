@@ -152,8 +152,10 @@
         </div>
         <div class="result-table"><table><tbody>
           <tr><td>窓口での支払い額</td><td id="res-paid">—</td></tr>
+          <tr><td>計算に使う医療費総額</td><td id="res-total-medical">—</td></tr>
           <tr><td>自己負担の上限額</td><td id="res-limit">—</td></tr>
           <tr><td>高額療養費として還付される額</td><td id="res-refund">—</td></tr>
+          <tr><td>上限額の計算式</td><td id="res-formula" class="formula-cell">—</td></tr>
         </tbody></table></div>
         <div class="info-box">高額療養費制度を利用するには、加入している健康保険組合・協会けんぽ・市区町村（国民健康保険）に申請が必要です。「限度額適用認定証」を事前に取得すると窓口での支払いが上限額までに抑えられます。</div>
       </div>
@@ -338,19 +340,35 @@ function calc() {
   const income = document.querySelector('input[name="income"]:checked').value;
   const medical = parseFloat(document.getElementById('medical').value);
   if (!medical) { alert('医療費を入力してください'); return; }
+  const totalMedical = medical / 0.3;
   let limit;
-  if (income === '0') limit = 35400;
-  else if (income === '1') limit = 57600;
-  else if (income === '2') limit = 80100 + Math.max(0, (medical / 0.3 - 267000)) * 0.01;
-  else if (income === '3') limit = 167400 + Math.max(0, (medical / 0.3 - 558000)) * 0.01;
-  else limit = 252600 + Math.max(0, (medical / 0.3 - 842000)) * 0.01;
+  let formula;
+  if (income === '0') {
+    limit = 35400;
+    formula = '住民税非課税者：35,400円';
+  } else if (income === '1') {
+    limit = 57600;
+    formula = '年収約370万円以下：57,600円';
+  } else if (income === '2') {
+    limit = 80100 + Math.max(0, (totalMedical - 267000)) * 0.01;
+    formula = '80,100円＋（医療費総額 ' + fmtPlain(totalMedical) + '円 − 267,000円）×1%';
+  } else if (income === '3') {
+    limit = 167400 + Math.max(0, (totalMedical - 558000)) * 0.01;
+    formula = '167,400円＋（医療費総額 ' + fmtPlain(totalMedical) + '円 − 558,000円）×1%';
+  } else {
+    limit = 252600 + Math.max(0, (totalMedical - 842000)) * 0.01;
+    formula = '252,600円＋（医療費総額 ' + fmtPlain(totalMedical) + '円 − 842,000円）×1%';
+  }
   limit = Math.round(limit);
   const refund = Math.max(0, medical - limit);
+  function fmtPlain(n) { return Math.round(n).toLocaleString('ja-JP'); }
   const fmt = n => Math.round(n).toLocaleString('ja-JP') + ' 円';
   document.getElementById('res-main').textContent = fmt(limit);
   document.getElementById('res-paid').textContent = fmt(medical);
+  document.getElementById('res-total-medical').textContent = fmt(totalMedical) + '（窓口支払額 ÷ 30%）';
   document.getElementById('res-limit').textContent = fmt(limit);
   document.getElementById('res-refund').textContent = refund > 0 ? fmt(refund) : '還付なし（上限額以下）';
+  document.getElementById('res-formula').textContent = formula;
   document.getElementById('result').classList.add('show');
 }
 </script>

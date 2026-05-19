@@ -601,6 +601,11 @@ select:focus {
   text-align: right;
   font-weight: 600;
 }
+.result-table td.formula-cell {
+  text-align: left;
+  font-weight: 600;
+  line-height: 1.6;
+}
 .result-table tr.total td {
   font-weight: 700;
   background: #F8FAFC;
