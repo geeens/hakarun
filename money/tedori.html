@@ -330,6 +330,7 @@
             <span><i class="legend-income"></i>所得税</span>
             <span><i class="legend-resident"></i>住民税</span>
           </div>
+          <p class="result-note">グラフは一番高い額面月収を基準に表示しています。棒が長いほど、月収と手取りの金額が大きいことを表します。</p>
           <div class="compare-bars stacked-bars" id="compare-bars" aria-label="3ケースの手取りと控除内訳の比較グラフ"></div>
         </div>
 
@@ -684,6 +685,7 @@ function calcCompare(salaryType, conditions) {
 
   const results = values.map(v => calcTakehome(v, salaryType, conditions));
   const base = results[0];
+  const maxSalary = Math.max(...results.map(r => r.salary));
   const labels = ['ケース1（基準）', 'ケース2', 'ケース3'];
   const monthlyDiff2 = results[1].tedori - base.tedori;
   const monthlyDiff3 = results[2].tedori - base.tedori;
@@ -718,13 +720,14 @@ function calcCompare(salaryType, conditions) {
 
   document.getElementById('compare-bars').innerHTML = results.map((r, i) => {
     const monthlyDiff = r.tedori - base.tedori;
+    const grossPct = Math.max(8, r.salary / maxSalary * 100);
     const takehomePct = Math.max(0, r.tedori / r.salary * 100);
     const socialPct = Math.max(0, r.socialTotal / r.salary * 100);
     const incomePct = Math.max(0, r.monthlyIncomeTax / r.salary * 100);
     const residentPct = Math.max(0, r.monthlyJumin / r.salary * 100);
     return `<div class="compare-bar-row">
       <span class="bar-label">${labels[i]}</span>
-      <div class="stacked-track">
+      <div class="stacked-track" style="width:${grossPct}%">
         <span class="stacked-fill takehome" style="width:${takehomePct}%"></span>
         <span class="stacked-fill social" style="width:${socialPct}%"></span>
         <span class="stacked-fill income" style="width:${incomePct}%"></span>
