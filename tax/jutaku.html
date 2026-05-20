@@ -468,7 +468,7 @@ function calc() {
     let yearlyBalance=remainingBalance(loanAmount,interestRate,loanYears,paidMonths);
     if(i===0)firstBalance=yearlyBalance;
     const yearlyBase=Math.min(yearlyBalance,rule.limit);
-    const yearlyDeduct=Math.floor(yearlyBase*rule.rate);
+    const yearlyDeduct=Math.floor((yearlyBase*rule.rate)/100)*100;
     const yearlyIncome=Math.min(yearlyDeduct,incomeTax);
     const yearlyResident=Math.min(Math.max(0,yearlyDeduct-yearlyIncome),residentLimit);
     const yearlyActual=yearlyIncome+yearlyResident;
