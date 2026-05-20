@@ -13,7 +13,7 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
   <script type="application/ld+json">
   { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "iDeCoで年間いくら節税できる？", "acceptedAnswer": { "@type": "Answer", "text": "年収500万円で毎月2万円のiDeCoに加入した場合、年間約48,000円の節税（所得税＋住民税）になります。年収・掛金・税率によって異なります。" } },
-    { "@type": "Question", "name": "iDeCoの掛金上限はいくら？", "acceptedAnswer": { "@type": "Answer", "text": "会社員（企業年金なし）は月23,000円、会社員（企業年金あり）は月12,000〜20,000円、自営業者は月68,000円が上限です。" } },
+    { "@type": "Question", "name": "iDeCoの掛金上限はいくら？", "acceptedAnswer": { "@type": "Answer", "text": "会社員（企業年金なし）は月23,000円、自営業者は月68,000円が上限です。企業年金ありの会社員や公務員は、2024年12月の制度改正により最大20,000円まで拠出できる場合があります。" } },
     { "@type": "Question", "name": "iDeCoのデメリットは何？", "acceptedAnswer": { "@type": "Answer", "text": "原則として60歳まで引き出せないこと、手数料がかかること、運用次第では元本割れのリスクがあることなどがデメリットです。老後資金として長期的に積み立てる前提で活用するのが適しています。" } }] }
   </script>
 </head>
@@ -138,7 +138,7 @@
       <div class="form-group">
         <label>毎月の掛金</label>
         <div class="input-wrap"><input type="number" id="kakkin" placeholder="20000" min="5000" max="68000" step="1000"><span class="unit">円</span></div>
-        <p class="hint">会社員（企業年金なし）：上限23,000円　自営業者：上限68,000円</p>
+        <p class="hint">会社員（企業年金なし）：上限23,000円　企業年金あり・公務員：最大20,000円　自営業者：上限68,000円</p>
       </div>
       <div class="form-group">
         <label>年収（額面）</label>
@@ -162,13 +162,59 @@
     <div class="article">
       <h2>💎 iDeCoの節税効果をわかりやすく解説</h2>
       <p>iDeCo（個人型確定拠出年金）は、毎月一定の掛金を積み立てて老後資金を準備する制度です。最大のメリットは税制優遇で、①掛金が全額所得控除→所得税・住民税が軽減、②運用益が非課税、③受取時も退職所得控除または公的年金等控除が使える、という三重の税制優遇があります。</p>
-      <p>掛金の上限は加入区分によって異なります。会社員（企業年金なし）は月23,000円（年27.6万円）、会社員（企業年金あり）は月12,000〜20,000円、公務員は月12,000円、自営業者は月68,000円（国民年金基金と合算）が上限です。</p>
+      <p>掛金の上限は加入区分によって異なります。会社員（企業年金なし）は月23,000円（年27.6万円）、会社員（企業年金あり）や公務員は月20,000円を上限に、企業型DCの事業主掛金やDB等の他制度掛金相当額によって変わります。自営業者は月68,000円（国民年金基金と合算）が上限です。</p>
       <p>デメリットは、原則60歳まで引き出せないこと（流動性がない）、口座管理手数料がかかること、投資信託で運用する場合は元本割れのリスクがあることです。生活費の緊急予備資金は別に確保した上で活用するのが重要です。</p>
+
+      <h3>具体例：年収と掛金で節税額はどう変わる？</h3>
+      <p>iDeCoは、掛金そのものが戻ってくる制度ではなく、掛金が所得控除になることで所得税と住民税が軽くなる制度です。たとえば年収500万円で毎月2万円を積み立てる場合、年間掛金24万円に対して、所得税と住民税を合わせた節税額は約4.9万円が目安です。</p>
+      <div class="example-table">
+        <table>
+          <thead>
+            <tr><th>ケース</th><th>毎月の掛金</th><th>年間掛金</th><th>所得税の節税</th><th>住民税の節税</th><th>年間節税額</th><th>実質負担</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>年収400万円</td><td>1万円</td><td>12.0万円</td><td>約0.6万円</td><td>約1.2万円</td><td>約1.8万円</td><td>約10.2万円</td></tr>
+            <tr><td>年収500万円</td><td>2万円</td><td>24.0万円</td><td>約2.5万円</td><td>約2.4万円</td><td>約4.9万円</td><td>約19.1万円</td></tr>
+            <tr><td>年収700万円</td><td>2.3万円</td><td>27.6万円</td><td>約5.6万円</td><td>約2.8万円</td><td>約8.4万円</td><td>約19.2万円</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="stacked-legend" aria-label="iDeCo節税例グラフの凡例">
+        <span><i style="background:#60A5FA"></i>実質負担</span>
+        <span><i style="background:#059669"></i>節税で軽くなる部分</span>
+      </div>
+      <div class="compare-bars stacked-bars" aria-label="iDeCoの掛金と節税額の比較グラフ">
+        <div class="compare-bar-row">
+          <span class="bar-label">年収400万円</span>
+          <div class="stacked-track" style="width:43.5%">
+            <span class="stacked-fill" style="width:84.9%;background:#60A5FA"></span>
+            <span class="stacked-fill" style="width:15.1%;background:#059669"></span>
+          </div>
+          <span class="bar-value">節税 約1.8万円</span>
+        </div>
+        <div class="compare-bar-row">
+          <span class="bar-label">年収500万円</span>
+          <div class="stacked-track" style="width:87.0%">
+            <span class="stacked-fill" style="width:79.8%;background:#60A5FA"></span>
+            <span class="stacked-fill" style="width:20.2%;background:#059669"></span>
+          </div>
+          <span class="bar-value">節税 約4.9万円</span>
+        </div>
+        <div class="compare-bar-row">
+          <span class="bar-label">年収700万円</span>
+          <div class="stacked-track" style="width:100%">
+            <span class="stacked-fill" style="width:69.6%;background:#60A5FA"></span>
+            <span class="stacked-fill" style="width:30.4%;background:#059669"></span>
+          </div>
+          <span class="bar-value">節税 約8.4万円</span>
+        </div>
+      </div>
+      <p>年収が高く所得税率が上がるほど、同じ掛金でも節税効果は大きくなりやすいです。一方で、iDeCoは老後資金向けの制度なので、節税額だけでなく「60歳まで引き出せないお金として無理なく積み立てられるか」も一緒に確認しましょう。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
       <div class="faq-item"><div class="faq-q">Q. iDeCoで年間いくら節税できる？</div><div class="faq-a">年収500万円で毎月2万円のiDeCoに加入した場合、年間約48,000円の節税（所得税＋住民税）になります。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. iDeCoの掛金上限はいくら？</div><div class="faq-a">会社員（企業年金なし）は月23,000円、自営業者は月68,000円が上限です。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. iDeCoの掛金上限はいくら？</div><div class="faq-a">会社員（企業年金なし）は月23,000円、自営業者は月68,000円が上限です。企業年金ありの会社員や公務員は、2024年12月の制度改正により最大20,000円まで拠出できる場合があります。勤務先の企業型DCやDB等の状況によって変わるため、正確な上限は勤務先や運営管理機関で確認しましょう。</div></div>
       <div class="faq-item"><div class="faq-q">Q. iDeCoのデメリットは何？</div><div class="faq-a">原則60歳まで引き出せないこと、手数料がかかること、運用次第では元本割れのリスクがあることなどがデメリットです。</div></div>
       <div class="faq-item"><div class="faq-q">Q. iDeCoとNISAの違いは何ですか？</div><div class="faq-a">iDeCoは老後資金のための制度で掛金全額が所得控除になりますが、原則60歳まで引き出せません。NISAは運用益が非課税になる制度で、いつでも引き出せます。iDeCoは節税効果が大きく、NISAは資金の流動性が高いという違いがあります。両方を組み合わせて活用するのが効果的です。</div></div>
       <div class="faq-item"><div class="faq-q">Q. iDeCoはいつ始めるのがよいですか？</div><div class="faq-a">早ければ早いほど複利の効果が大きくなります。20代・30代から始めると30〜40年間の運用期間を確保でき、節税額も長期にわたって積み上がります。加入は原則65歳未満（国民年金被保険者）が対象で、会社員の場合は勤務先に確認が必要です。</div></div>
