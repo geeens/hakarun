@@ -320,6 +320,67 @@ main { padding: 32px 0 60px; }
   font-weight: 800;
 }
 
+.category-guide {
+  margin: 0 0 28px;
+  display: grid;
+  gap: 16px;
+}
+.guide-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.guide-panel h2,
+.guide-panel h3 {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.guide-panel p {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 10px;
+}
+.guide-panel p:last-child {
+  margin-bottom: 0;
+}
+.guide-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.guide-list li {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  padding-left: 16px;
+  position: relative;
+}
+.guide-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.75em;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--success);
+}
+.guide-list strong {
+  color: var(--text);
+}
+.guide-list a {
+  font-weight: 700;
+}
+.guide-two-column {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
 /* ===== CATEGORY SECTION ===== */
 .category-section { margin-bottom: 40px; }
 .category-section h2 {
@@ -1061,6 +1122,7 @@ footer .copyright { font-size: 12px; }
   header .container { gap: 10px; }
   .primary-tools { padding: 18px; }
   .compare-field-grid,
+  .guide-two-column,
   .compare-highlights {
     grid-template-columns: 1fr;
   }
