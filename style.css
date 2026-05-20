@@ -163,6 +163,7 @@ main { padding: 32px 0 60px; }
 
 /* ===== AD PLACEHOLDER ===== */
 .ad-area {
+  display: none;
   background: #F8FAFC;
   border: 1px dashed #CBD5E1;
   border-radius: var(--radius);
