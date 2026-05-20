@@ -129,6 +129,20 @@
     </div>
     <div class="ad-area">広告</div>
 
+    <section class="tool-search" aria-labelledby="tool-search-heading">
+      <div class="section-heading">
+        <h2 id="tool-search-heading">ツールを検索</h2>
+        <p>キーワードをスペースで区切ると、すべての言葉を含むツールを探せます。</p>
+      </div>
+      <div class="tool-search-box">
+        <input type="search" id="tool-search-input" placeholder="例：給料 手取り / 医療費 還付 / 投資 積立" autocomplete="off" aria-describedby="tool-search-help">
+        <button type="button" id="tool-search-clear" aria-label="検索キーワードを消す">×</button>
+      </div>
+      <p class="tool-search-help" id="tool-search-help">ツール名・説明文・カテゴリから検索します。例：「年収 税金」「NISA 積立」「日付 何日」。</p>
+      <div class="tool-search-status" id="tool-search-status" aria-live="polite"></div>
+      <div class="tool-grid tool-search-results" id="tool-search-results"></div>
+    </section>
+
     <section class="primary-tools">
       <div class="section-heading">
         <h2>まず使いたい主要12ツール</h2>
@@ -311,6 +325,115 @@
   <p class="copyright">※ 計算結果はあくまで目安です。正確な金額は専門家にご相談ください。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるんツール</p>
 </footer>
+<script>
+(function(){
+  const input = document.getElementById('tool-search-input');
+  const clearButton = document.getElementById('tool-search-clear');
+  const results = document.getElementById('tool-search-results');
+  const status = document.getElementById('tool-search-status');
+  if(!input || !results || !status) return;
+
+  const synonymMap = {
+    '給料': ['給与','月収','年収','手取り','額面'],
+    '給与': ['給料','月収','年収','手取り','額面'],
+    '月給': ['月収','給与','給料','手取り'],
+    '賞与': ['ボーナス'],
+    'ボーナス': ['賞与'],
+    '医療': ['医療費','病院','高額療養費','控除','還付'],
+    '病院': ['医療','医療費','高額療養費'],
+    '還付': ['戻る','返金','控除'],
+    '戻る': ['還付','返金','控除'],
+    '税金': ['所得税','住民税','控除','節税'],
+    '節税': ['控除','税金','所得税','住民税'],
+    '投資': ['NISA','積立','資産','複利'],
+    '積立': ['つみたて','投資','NISA'],
+    '住宅': ['ローン','住宅ローン','控除'],
+    '日付': ['日数','曜日','期間'],
+    '時間': ['勤務','時差','日数']
+  };
+
+  const tools = Array.from(document.querySelectorAll('.category-section .tool-card')).map(function(card){
+    const category = card.closest('.category-section')?.querySelector('h2')?.textContent.trim() || '';
+    const name = card.querySelector('.name')?.textContent.trim() || '';
+    const desc = card.querySelector('.desc')?.textContent.trim() || '';
+    const icon = card.querySelector('.icon')?.textContent.trim() || '';
+    const href = card.getAttribute('href') || '#';
+    const text = normalize([category, name, desc, href].join(' '));
+    return { category, name, desc, icon, href, text };
+  });
+
+  function normalize(text){
+    return String(text || '').toLowerCase().replace(/[　]/g, ' ').trim();
+  }
+
+  function variantsFor(word){
+    const base = normalize(word);
+    return [base].concat(synonymMap[base] || []).map(normalize).filter(Boolean);
+  }
+
+  function cardFor(tool){
+    const a = document.createElement('a');
+    a.href = tool.href;
+    a.className = 'tool-card search-result-card';
+
+    const icon = document.createElement('div');
+    icon.className = 'icon';
+    icon.textContent = tool.icon;
+
+    const name = document.createElement('div');
+    name.className = 'name';
+    name.textContent = tool.name;
+
+    const desc = document.createElement('div');
+    desc.className = 'desc';
+    desc.textContent = tool.desc;
+
+    const category = document.createElement('div');
+    category.className = 'search-result-category';
+    category.textContent = tool.category;
+
+    a.append(icon, name, desc, category);
+    return a;
+  }
+
+  function search(){
+    const words = normalize(input.value).split(/\s+/).filter(Boolean);
+    results.textContent = '';
+    status.textContent = '';
+    clearButton.classList.toggle('show', input.value.length > 0);
+
+    if(words.length === 0){
+      results.classList.remove('show');
+      status.classList.remove('show');
+      return;
+    }
+
+    const matches = tools.filter(function(tool){
+      return words.every(function(word){
+        return variantsFor(word).some(function(v){ return tool.text.includes(v); });
+      });
+    }).slice(0, 12);
+
+    results.classList.add('show');
+    status.classList.add('show');
+
+    if(matches.length === 0){
+      status.textContent = '該当するツールが見つかりませんでした。別のキーワードで試してください。';
+      return;
+    }
+
+    status.textContent = matches.length + '件のツールが見つかりました';
+    matches.forEach(function(tool){ results.appendChild(cardFor(tool)); });
+  }
+
+  input.addEventListener('input', search);
+  clearButton.addEventListener('click', function(){
+    input.value = '';
+    input.focus();
+    search();
+  });
+})();
+</script>
 <script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>
