@@ -820,6 +820,9 @@ select:focus {
   line-height: 1.7;
 }
 .result-note:empty { display: none; }
+.gift-result-note {
+  margin-top: 8px;
+}
 .compare-highlights {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
