@@ -208,7 +208,7 @@
           <input type="number" id="midnight" placeholder="0" min="0" value="0">
           <span class="unit">時間</span>
         </div>
-        <p class="hint">時間外と重なる場合は合算で50%増し。深夜のみなら25%増し</p>
+        <p class="hint">時間外と重なる場合は、通常残業にも入力してください。深夜のみなら追加の割増分25%を計算します</p>
       </div>
 
       <div class="form-group">
@@ -248,9 +248,9 @@
                 <td id="res-ot60-amt">—</td>
               </tr>
               <tr>
-                <td>深夜労働（単独）</td>
+                <td>深夜割増（深夜のみ）</td>
                 <td id="res-mid-h">—</td>
-                <td>×1.25</td>
+                <td>+0.25</td>
                 <td id="res-mid-amt">—</td>
               </tr>
               <tr>
@@ -288,7 +288,7 @@
       <ul>
         <li><strong>時間外労働（残業）</strong>：基礎時給 × 1.25倍</li>
         <li><strong>月60時間を超える残業</strong>：基礎時給 × 1.50倍</li>
-        <li><strong>深夜労働（22時〜5時）</strong>：基礎時給 × 1.25倍（残業と重なる場合は1.50倍）</li>
+        <li><strong>深夜労働（22時〜5時）</strong>：深夜のみなら追加で25%、残業と重なる場合は合計1.50倍</li>
         <li><strong>法定休日の労働</strong>：基礎時給 × 1.35倍</li>
       </ul>
 
@@ -381,14 +381,14 @@ function calcZangyo() {
   // 時間外：60時間以内は1.25倍、60時間超は1.50倍
   const ot60 = Math.min(overtime, 60);
   const otOver60 = Math.max(0, overtime - 60);
-  const otAmt = hourly * 0.25 * ot60;
-  const ot60Amt = hourly * 0.50 * otOver60;
+  const otAmt = hourly * 1.25 * ot60;
+  const ot60Amt = hourly * 1.50 * otOver60;
 
-  // 深夜単独：1.25倍
+  // 深夜のみ：月給に含まれる通常賃金とは別に、深夜割増分25%を計算
   const midAmt = hourly * 0.25 * midnight;
 
   // 休日：1.35倍
-  const holAmt = hourly * 0.35 * holiday;
+  const holAmt = hourly * 1.35 * holiday;
 
   const total = otAmt + ot60Amt + midAmt + holAmt;
 
