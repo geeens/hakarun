@@ -220,7 +220,7 @@
         <p class="hint">法定休日（週に1日）の労働。割増率：35%増し</p>
       </div>
 
-      <button class="btn btn-primary" onclick="calcZangyo()">計算する</button>
+      <button class="btn btn-primary" id="calc-button" onclick="calcZangyo()">計算する</button>
 
       <div class="result-area" id="result">
         <div class="result-main">
@@ -406,6 +406,16 @@ function calcZangyo() {
   document.getElementById('res-sum').textContent = fmt(total);
 
   document.getElementById('result').classList.add('show');
+  scrollToZangyoResult();
+}
+
+function scrollToZangyoResult() {
+  const target = document.getElementById('calc-button');
+  if (!target) return;
+  const header = document.querySelector('header');
+  const headerHeight = header ? header.getBoundingClientRect().height : 0;
+  const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 24;
+  window.scrollTo({ top: y, behavior: 'smooth' });
 }
 </script>
 
