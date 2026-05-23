@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>スマホ代節約計算｜格安SIMへの乗り換え節約額を計算｜はかるんツール</title>
-  <meta name="description" content="現在のスマホ月額と乗り換え後の月額を入力するだけで月間・年間の節約額を計算。格安SIM比較に。">
+  <title>スマホ代節約計算｜格安SIM・スマホ料金の乗り換え節約額を計算｜はかるんツール</title>
+  <meta name="description" content="現在のスマホ月額と、楽天モバイル・ahamo・povo・LINEMOなど主要プランの月額料金から月間・年間の節約額を計算。格安SIM比較に。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <link rel="canonical" href="https://hakarun.net/life/sumaho">
@@ -135,9 +135,21 @@
         <div class="input-wrap"><input type="number" id="current" placeholder="8000" min="0"><span class="unit">円/月</span></div>
       </div>
       <div class="form-group">
+        <label>乗り換え先の会社</label>
+        <select id="carrier" onchange="updateCarrierPlans()">
+          <option value="">手入力する</option>
+        </select>
+        <p class="hint">代表的な11社の通常料金（税込）から選べます</p>
+      </div>
+      <div class="form-group" id="plan-select-group" style="display:none">
+        <label>データ量・プラン</label>
+        <select id="plan" onchange="applySelectedPlan()"></select>
+        <p class="hint" id="plan-note">選択したプランの月額料金を下の入力欄に反映します</p>
+      </div>
+      <div class="form-group">
         <label>乗り換え後の月額料金（予定）</label>
         <div class="input-wrap"><input type="number" id="after" placeholder="2000" min="0"><span class="unit">円/月</span></div>
-        <p class="hint">格安SIM（楽天・ahamo・povo等）の料金を入力</p>
+        <p class="hint">上の会社・データ量を選ぶと自動入力されます。割引やキャンペーンを使う場合は手入力で調整できます</p>
       </div>
       <div class="form-group">
         <label>乗り換えにかかる初期費用（省略可）</label>
@@ -151,6 +163,7 @@
           <div class="value" id="res-yearly">—</div>
         </div>
         <div class="result-table"><table><tbody>
+          <tr><td>選択した乗り換え先</td><td id="res-plan">—</td></tr>
           <tr><td>月々の節約額</td><td id="res-monthly">—</td></tr>
           <tr><td>年間節約額</td><td id="res-y">—</td></tr>
           <tr><td>3年間の節約額</td><td id="res-3y">—</td></tr>
@@ -165,19 +178,32 @@
       <p>スマートフォンの通信費は、毎月かかる固定費の中でも削減効果が大きい支出の一つです。大手キャリア（ドコモ・au・ソフトバンク）のプランでは月7,000〜10,000円かかる場合がありますが、格安SIMや大手のサブブランドに乗り換えると月1,500〜3,000円程度に抑えられることもあります。</p>
       <p>格安SIMや低価格プランへの乗り換えによる節約効果は、年間で数万円に上ることも珍しくありません。たとえば月8,000円のプランから月2,000円のプランに変えると、月6,000円・年間72,000円の節約になります。この金額を投資や貯蓄に回せば、長期的な資産形成にも大きく貢献します。</p>
       <p>乗り換えを検討する際は、初期費用（SIM発行料・事務手数料・違約金など）を考慮して、何ヶ月で元が取れるかを確認することが大切です。このツールで初期費用の回収期間も計算できるので、乗り換えのタイミング判断に活用してください。</p>
-      <p>主要なプランの種類をおさらいしておきましょう。大手3キャリア（ドコモ・au・ソフトバンク）の無制限プランは月7,000〜9,000円程度。サブブランド（ahamo・povo・LINEMO）は月2,700〜3,000円。格安SIM（IIJmio・OCNモバイル・mineo等）は月1,000〜2,000円程度です。楽天モバイルは3GB以下なら月1,078円、3〜20GBは月2,178円という料金体系です。</p>
+      <p>主要なプランの種類をおさらいしておきましょう。大手3キャリア（ドコモ・au・ソフトバンク）の無制限プランは月7,000〜9,000円程度。サブブランド（ahamo・povo・LINEMO）は月2,700〜3,000円前後。格安SIM（IIJmio・mineo・日本通信SIM・HISモバイル・NUROモバイル等）は、データ容量によって月1,000〜2,000円程度に収まることもあります。楽天モバイルは3GB以下なら月1,078円、3〜20GBは月2,178円という料金体系です。</p>
       <p>乗り換え先を選ぶポイントは①月額料金、②データ容量、③通話品質・エリア、④使えるサービス（キャリアメール、ペイサービスとの連携など）の4つです。大手キャリアからサブブランドへの乗り換えは番号そのままで可能（MNP）で、特に初期費用もほとんどかかりません。</p>
       <p>スマホ本体の費用も見直しポイントです。最新フラッグシップモデルは10〜15万円以上しますが、2〜3年前のモデルや廉価版（ミドルレンジ）は3〜5万円で購入できます。SNSや動画視聴が主な用途であれば、格安スマホで十分な性能が得られます。通信費と端末費用をあわせて検討しましょう。</p>
     </div>
     <div class="article">
-      <h2>💡 プラン別・月額料金の目安（2025年）</h2>
-      <ul style="padding-left:1.4em;line-height:2">
-        <li><strong>大手3キャリア（無制限）</strong>：月7,000〜9,000円</li>
-        <li><strong>サブブランド（ahamo・povo・LINEMO）</strong>：月2,700〜3,000円</li>
-        <li><strong>楽天モバイル（3GB以下）</strong>：月1,078円</li>
-        <li><strong>格安SIM（IIJmio等・3GB）</strong>：月858〜1,100円</li>
-        <li><strong>格安SIM（20GB）</strong>：月1,500〜2,000円程度</li>
-      </ul>
+      <h2>💡 主要11社・月額料金の目安</h2>
+      <p>以下は、2026年5月23日時点で公式サイト等を確認した通常料金（税込）の目安です。割引、キャンペーン、家族割、光回線セット割、通話オプション、端末代、ユニバーサルサービス料などは含めていません。申込前には必ず各社公式サイトで最新条件を確認してください。</p>
+      <div class="example-table">
+        <table>
+          <thead><tr><th>会社</th><th>選べる代表プラン</th><th>料金の見方</th></tr></thead>
+          <tbody>
+            <tr><td>楽天モバイル</td><td>3GB / 20GB / 無制限</td><td>使ったデータ量で月額が変わる段階制</td></tr>
+            <tr><td>ahamo</td><td>30GB / 110GB</td><td>5分以内の国内通話込み</td></tr>
+            <tr><td>povo</td><td>3GB / 5GB / 30GB / 90GBなど</td><td>月額制ではなく、データトッピングを購入</td></tr>
+            <tr><td>LINEMO</td><td>3GB / 10GB / 30GB</td><td>3GB・10GBは段階制、30GBは5分通話込み</td></tr>
+            <tr><td>UQ mobile</td><td>5GB / 30GB / 35GB</td><td>割引条件で実際の支払額が変わりやすい</td></tr>
+            <tr><td>Y!mobile</td><td>5GB / 30GB / 35GB</td><td>家族割・光回線セット割で変わりやすい</td></tr>
+            <tr><td>mineo</td><td>3GB / 7GB / 15GB / 30GB / 50GB</td><td>音声通話付きのマイピタ料金</td></tr>
+            <tr><td>IIJmio</td><td>2GB / 5GB / 10GB / 15GB / 25GB / 35GB / 45GB / 55GB</td><td>音声SIM・音声eSIMのギガプラン料金</td></tr>
+            <tr><td>日本通信SIM</td><td>1GB / 20GB / 50GB</td><td>20GB以上は無料通話込みの合理的プラン</td></tr>
+            <tr><td>HIS Mobile</td><td>1GB / 3GB / 7GB / 10GB / 20GB / 30GB</td><td>音声通話付きの自由自在2.0プラン</td></tr>
+            <tr><td>NUROモバイル</td><td>3GB / 5GB / 10GB / 15GB / 35GB</td><td>音声通話付きの代表プラン</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="result-note">参照先：<a href="https://mobile.rakuten.co.jp/fee/" target="_blank" rel="noopener">楽天モバイル</a>、<a href="https://ahamo.com/plan/index.html" target="_blank" rel="noopener">ahamo</a>、<a href="https://povo.jp/simulator/" target="_blank" rel="noopener">povo</a>、<a href="https://www.linemo.jp/plan/" target="_blank" rel="noopener">LINEMO</a>、<a href="https://www.uqwimax.jp/mobile/plan/" target="_blank" rel="noopener">UQ mobile</a>、<a href="https://www.ymobile.jp/plan/" target="_blank" rel="noopener">Y!mobile</a>、<a href="https://mineo.jp/price/" target="_blank" rel="noopener">mineo</a>、<a href="https://www.iijmio.jp/hdc/spec/" target="_blank" rel="noopener">IIJmio</a>、<a href="https://www.nihontsushin.com/plan/" target="_blank" rel="noopener">日本通信SIM</a>、<a href="https://his-mobile.com/domestic/planlp_2022splan" target="_blank" rel="noopener">HIS Mobile</a>、<a href="https://mobile.nuro.jp/" target="_blank" rel="noopener">NUROモバイル</a></p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
@@ -217,6 +243,131 @@
   <p class="copyright" style="margin-top:8px">© 2024 はかるんツール</p>
 </footer>
 <script>
+const SMARTPHONE_PRICE_DATE = '2026年5月23日';
+const SMARTPHONE_PLANS = [
+  { carrier: '楽天モバイル', plans: [
+    { label: '3GBまで', price: 1078, detail: 'Rakuten最強プラン・3GBまで' },
+    { label: '20GBまで', price: 2178, detail: 'Rakuten最強プラン・3GB超〜20GBまで' },
+    { label: '無制限', price: 3278, detail: 'Rakuten最強プラン・20GB超' }
+  ] },
+  { carrier: 'ahamo', plans: [
+    { label: '30GB', price: 2970, detail: 'ahamo 30GB・5分通話込み' },
+    { label: '110GB', price: 4950, detail: 'ahamo大盛り 110GB・5分通話込み' }
+  ] },
+  { carrier: 'povo', plans: [
+    { label: '3GB（30日間）', price: 990, detail: 'データ追加3GB（30日間）' },
+    { label: '5GB（30日間）', price: 1380, detail: 'データ追加5GB（30日間）' },
+    { label: '30GB（30日間）', price: 2780, detail: 'データ追加30GB（30日間）' },
+    { label: '60GB（90日間）', price: 2164, detail: '60GB/90日を30日あたりに換算' },
+    { label: '90GB（90日間）', price: 2660, detail: '90GB/90日を30日あたりに換算' }
+  ] },
+  { carrier: 'LINEMO', plans: [
+    { label: '3GBまで', price: 990, detail: 'LINEMOベストプラン・3GBまで' },
+    { label: '10GBまで', price: 2090, detail: 'LINEMOベストプラン・10GBまで' },
+    { label: '30GB', price: 2970, detail: 'LINEMOベストプランV・5分通話込み' }
+  ] },
+  { carrier: 'UQ mobile', plans: [
+    { label: '5GBまで', price: 2948, detail: 'トクトクプラン2・5GB以下の月' },
+    { label: '30GB', price: 4048, detail: 'トクトクプラン2・割引前基本使用料' },
+    { label: '35GB', price: 3828, detail: 'コミコミプランバリュー・10分通話込み' }
+  ] },
+  { carrier: 'Y!mobile', plans: [
+    { label: '5GB', price: 3058, detail: 'シンプル3 S' },
+    { label: '30GB', price: 4158, detail: 'シンプル3 M' },
+    { label: '35GB', price: 5258, detail: 'シンプル3 L' }
+  ] },
+  { carrier: 'mineo', plans: [
+    { label: '3GB', price: 1298, detail: 'マイピタ・音声通話付き' },
+    { label: '7GB', price: 1518, detail: 'マイピタ・音声通話付き' },
+    { label: '15GB', price: 1958, detail: 'マイピタ・音声通話付き' },
+    { label: '30GB', price: 2178, detail: 'マイピタ・音声通話付き' },
+    { label: '50GB', price: 2948, detail: 'マイピタ・音声通話付き' }
+  ] },
+  { carrier: 'IIJmio', plans: [
+    { label: '2GB', price: 850, detail: 'ギガプラン・音声SIM/音声eSIM' },
+    { label: '5GB', price: 950, detail: 'ギガプラン・音声SIM/音声eSIM' },
+    { label: '10GB', price: 1400, detail: 'ギガプラン・音声SIM/音声eSIM' },
+    { label: '15GB', price: 1600, detail: 'ギガプラン・音声SIM/音声eSIM' },
+    { label: '25GB', price: 2000, detail: 'ギガプラン・音声SIM/音声eSIM' },
+    { label: '35GB', price: 2400, detail: 'ギガプラン・音声SIM/音声eSIM' },
+    { label: '45GB', price: 3300, detail: 'ギガプラン・音声SIM/音声eSIM' },
+    { label: '55GB', price: 3900, detail: 'ギガプラン・音声SIM/音声eSIM' }
+  ] },
+  { carrier: '日本通信SIM', plans: [
+    { label: '1GB', price: 290, detail: '合理的シンプル290プラン' },
+    { label: '20GB', price: 1390, detail: '合理的みんなのプラン・無料通話込み' },
+    { label: '50GB', price: 2178, detail: '合理的50GBプラン・無料通話込み' }
+  ] },
+  { carrier: 'HIS Mobile', plans: [
+    { label: '1GB', price: 550, detail: '自由自在2.0プラン・音声通話付き' },
+    { label: '3GB', price: 770, detail: '自由自在2.0プラン・音声通話付き' },
+    { label: '7GB', price: 990, detail: '自由自在2.0プラン・音声通話付き' },
+    { label: '10GB', price: 1340, detail: '自由自在2.0プラン・音声通話付き' },
+    { label: '20GB', price: 2090, detail: '自由自在2.0プラン・6分通話込み' },
+    { label: '30GB', price: 2970, detail: '自由自在2.0プラン・6分通話込み' }
+  ] },
+  { carrier: 'NUROモバイル', plans: [
+    { label: '3GB', price: 792, detail: 'VSプラン・音声通話付き' },
+    { label: '5GB', price: 990, detail: 'VMプラン・音声通話付き' },
+    { label: '10GB', price: 1485, detail: 'VLプラン・音声通話付き' },
+    { label: '15GB', price: 1790, detail: 'VLLプラン・音声通話付き' },
+    { label: '35GB', price: 2699, detail: 'NEOプラン・音声通話付き' }
+  ] }
+];
+
+function yen(n) {
+  return Math.round(n).toLocaleString('ja-JP') + '円';
+}
+
+function initCarrierSelect() {
+  const carrierSelect = document.getElementById('carrier');
+  SMARTPHONE_PLANS.forEach(function(item) {
+    const option = document.createElement('option');
+    option.value = item.carrier;
+    option.textContent = item.carrier;
+    carrierSelect.appendChild(option);
+  });
+}
+
+function updateCarrierPlans() {
+  const carrier = document.getElementById('carrier').value;
+  const planSelect = document.getElementById('plan');
+  const group = document.getElementById('plan-select-group');
+  const note = document.getElementById('plan-note');
+  planSelect.innerHTML = '';
+  if (!carrier) {
+    group.style.display = 'none';
+    note.textContent = '選択したプランの月額料金を下の入力欄に反映します';
+    return;
+  }
+  const data = SMARTPHONE_PLANS.find(function(item) { return item.carrier === carrier; });
+  if (!data) return;
+  data.plans.forEach(function(plan, index) {
+    const option = document.createElement('option');
+    option.value = String(index);
+    option.textContent = plan.label + ' / 月額 ' + yen(plan.price);
+    planSelect.appendChild(option);
+  });
+  group.style.display = 'block';
+  applySelectedPlan();
+}
+
+function getSelectedPlan() {
+  const carrier = document.getElementById('carrier').value;
+  const planIndex = parseInt(document.getElementById('plan').value, 10);
+  const data = SMARTPHONE_PLANS.find(function(item) { return item.carrier === carrier; });
+  if (!data || isNaN(planIndex)) return null;
+  return { carrier: carrier, plan: data.plans[planIndex] };
+}
+
+function applySelectedPlan() {
+  const selected = getSelectedPlan();
+  const note = document.getElementById('plan-note');
+  if (!selected) return;
+  document.getElementById('after').value = selected.plan.price;
+  note.textContent = selected.plan.detail + '。料金確認日：' + SMARTPHONE_PRICE_DATE + '。';
+}
+
 function calc() {
   const cur = parseFloat(document.getElementById('current').value);
   const after = parseFloat(document.getElementById('after').value);
@@ -228,15 +379,22 @@ function calc() {
   const y3 = monthly * 36 - initial;
   const payback = initial > 0 ? Math.ceil(initial / monthly) : 0;
   const fmt = n => Math.round(n).toLocaleString('ja-JP') + ' 円';
+  const selected = getSelectedPlan();
+  const selectedText = selected
+    ? selected.carrier + ' ' + selected.plan.label + '（月額' + yen(selected.plan.price) + '）'
+    : '手入力';
   document.getElementById('res-yearly').textContent = fmt(yearly);
+  document.getElementById('res-plan').textContent = selectedText;
   document.getElementById('res-monthly').textContent = fmt(monthly);
   document.getElementById('res-y').textContent = fmt(yearly);
   document.getElementById('res-3y').textContent = fmt(y3);
   document.getElementById('res-payback').textContent = payback > 0 ? payback + 'ヶ月' : '初期費用なし';
   const info = document.getElementById('info-box');
-  info.innerHTML = `月々<strong>${fmt(monthly)}</strong>の節約で、年間<strong>${fmt(yearly)}</strong>お得になります。`;
+  info.innerHTML = `月々<strong>${fmt(monthly)}</strong>の節約で、年間<strong>${fmt(yearly)}</strong>お得になります。<br>料金データ確認日：${SMARTPHONE_PRICE_DATE}（通常料金・税込の目安）`;
   document.getElementById('result').classList.add('show');
 }
+
+initCarrierSelect();
 </script>
 <script>
 document.querySelectorAll('input[type="number"]').forEach(function(input){
