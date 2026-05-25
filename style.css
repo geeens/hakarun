@@ -988,6 +988,36 @@ select:focus {
   font-weight: 700;
 }
 .example-table tr:last-child td { border-bottom: none; }
+.carrier-price-table table {
+  min-width: 1180px;
+}
+.carrier-price-table th,
+.carrier-price-table td {
+  white-space: nowrap;
+}
+.carrier-price-table th:first-child,
+.carrier-price-table td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  min-width: 126px;
+  background: var(--surface);
+  font-weight: 800;
+}
+.carrier-price-table th:first-child {
+  z-index: 2;
+  background: #F8FAFC;
+}
+.carrier-price-table th:not(:first-child),
+.carrier-price-table td:not(:first-child) {
+  text-align: right;
+}
+.carrier-price-table th:last-child,
+.carrier-price-table td:last-child {
+  min-width: 190px;
+  text-align: left;
+  white-space: normal;
+}
 .table-scroll-hint {
   position: sticky;
   left: 0;
