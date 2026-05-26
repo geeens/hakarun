@@ -17,6 +17,183 @@
     { "@type": "Question", "name": "目標利益率から販売価格を計算するには？", "acceptedAnswer": { "@type": "Answer", "text": "目標利益率30%にしたい場合、販売価格＝原価÷(1−0.30)で計算します。原価1,000円なら販売価格は約1,429円になります。" } },
     { "@type": "Question", "name": "値引きすると利益率はどれくらい下がりますか？", "acceptedAnswer": { "@type": "Answer", "text": "原価600円・販売価格1,000円の商品は利益率40%ですが、10%値引きして900円で売ると利益率は33.3%になります。値引きは売上だけでなく利益額も直接減らします。" } }] }
   </script>
+  <style>
+    .profit-visual {
+      margin: 18px 0 24px;
+      overflow-x: auto;
+    }
+    .profit-visual-inner {
+      min-width: 680px;
+      padding: 24px;
+      border: 1px solid #D7E2F0;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #F8FBFF 0%, #FFFFFF 100%);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    }
+    .profit-visual-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      color: #0F172A;
+      font-weight: 800;
+      font-size: 20px;
+    }
+    .profit-visual-title::before,
+    .profit-visual-title::after {
+      content: "";
+      width: 120px;
+      height: 2px;
+      background: #0F172A;
+    }
+    .profit-bar {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 10px 20px rgba(15, 23, 42, 0.16);
+    }
+    .profit-bar-part {
+      padding: 20px 16px;
+      color: #FFFFFF;
+      text-align: center;
+      font-weight: 800;
+      font-size: 22px;
+      text-shadow: 0 2px 6px rgba(15, 23, 42, 0.28);
+    }
+    .profit-bar-cost {
+      background: linear-gradient(180deg, #38BDF8 0%, #0369A1 100%);
+      border: 2px solid #075985;
+    }
+    .profit-bar-gross {
+      background: linear-gradient(180deg, #FDBA74 0%, #EA580C 100%);
+      border: 2px solid #C2410C;
+      border-left: 0;
+    }
+    .profit-plus {
+      position: absolute;
+      left: 33.333%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 3px solid #0F172A;
+      border-radius: 50%;
+      background: #FFFFFF;
+      color: #0F172A;
+      font-size: 30px;
+      font-weight: 900;
+      line-height: 1;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.22);
+    }
+    .profit-formulas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 22px;
+    }
+    .profit-formula-card {
+      position: relative;
+      min-height: 132px;
+      padding: 24px 22px 18px;
+      border: 2px solid;
+      border-radius: 8px;
+      background: #FFFFFF;
+      overflow: hidden;
+    }
+    .profit-formula-cost {
+      border-color: #0E7490;
+    }
+    .profit-formula-gross {
+      border-color: #C2410C;
+    }
+    .profit-formula-main {
+      color: #0F172A;
+      font-weight: 800;
+      font-size: 18px;
+      line-height: 1.8;
+    }
+    .profit-formula-main strong {
+      font-size: 24px;
+    }
+    .profit-formula-cost strong {
+      color: #0369A1;
+    }
+    .profit-formula-gross strong {
+      color: #C2410C;
+    }
+    .profit-badge {
+      position: absolute;
+      right: -18px;
+      bottom: -18px;
+      display: grid;
+      place-items: center;
+      width: 104px;
+      height: 104px;
+      border-radius: 50%;
+      color: #FFFFFF;
+      font-size: 27px;
+      font-weight: 900;
+      text-shadow: 0 2px 5px rgba(15, 23, 42, 0.25);
+    }
+    .profit-badge-cost {
+      background: linear-gradient(180deg, #60A5FA 0%, #0369A1 100%);
+    }
+    .profit-badge-gross {
+      background: linear-gradient(180deg, #FDBA74 0%, #EA580C 100%);
+    }
+    .profit-total {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 22px;
+      color: #0F172A;
+      font-weight: 900;
+      font-size: 20px;
+    }
+    .profit-total-chip {
+      padding: 10px 14px;
+      border: 2px solid;
+      border-radius: 8px;
+      background: #FFFFFF;
+    }
+    .profit-total-cost {
+      border-color: #0E7490;
+      color: #0369A1;
+    }
+    .profit-total-gross {
+      border-color: #C2410C;
+      color: #C2410C;
+    }
+    .profit-total-check {
+      display: inline-grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border: 3px solid #0F172A;
+      border-radius: 50%;
+      color: #EA580C;
+      font-size: 22px;
+      line-height: 1;
+    }
+    @media (max-width: 760px) {
+      .profit-visual-inner {
+        padding: 18px;
+      }
+      .profit-visual-title {
+        font-size: 18px;
+      }
+      .profit-visual-title::before,
+      .profit-visual-title::after {
+        width: 70px;
+      }
+    }
+  </style>
 </head>
 <body>
 <header>
@@ -246,6 +423,37 @@
     </div>
     <div class="article">
       <h2>💹 利益率・原価率の基礎知識</h2>
+      <div class="profit-visual" aria-label="販売価格を原価と粗利に分けて、原価率と利益率を説明する図">
+        <div class="profit-visual-inner">
+          <div class="profit-visual-title">販売価格 1,500円（100%）</div>
+          <div class="profit-bar">
+            <div class="profit-bar-part profit-bar-cost">原価 500円</div>
+            <div class="profit-bar-part profit-bar-gross">粗利 1,000円</div>
+            <div class="profit-plus">+</div>
+          </div>
+          <div class="profit-formulas">
+            <div class="profit-formula-card profit-formula-cost">
+              <div class="profit-formula-main">
+                原価率 = <strong>500</strong> ÷ 1,500 × 100
+              </div>
+              <div class="profit-badge profit-badge-cost">33.3%</div>
+            </div>
+            <div class="profit-formula-card profit-formula-gross">
+              <div class="profit-formula-main">
+                利益率 = <strong>1,000</strong> ÷ 1,500 × 100
+              </div>
+              <div class="profit-badge profit-badge-gross">66.7%</div>
+            </div>
+          </div>
+          <div class="profit-total">
+            <span class="profit-total-chip profit-total-cost">33.3% 原価率</span>
+            <span>+</span>
+            <span class="profit-total-chip profit-total-gross">66.7% 利益率</span>
+            <span>= 100%</span>
+            <span class="profit-total-check">✓</span>
+          </div>
+        </div>
+      </div>
       <p>ビジネスで価格設定をする際に欠かせない「利益率」と「原価率」について解説します。<strong>利益率（粗利率）</strong>は「（販売価格−原価）÷販売価格×100」で計算します。<strong>原価率</strong>は「原価÷販売価格×100」で、利益率＋原価率＝100%になります。たとえば原価500円の商品を1,500円で売ると粗利1,000円・利益率66.7%・原価率33.3%です。</p>
       <p>価格設定の基本は「原価＋適正利益＝販売価格」ですが、競合他社の価格や市場相場との兼ね合いも重要です。注意したいのが値引きの影響です。利益率30%の商品を10%値引きすると利益率は20%に下がり、利益額は33%も減少します。値引きは見た目以上に利益を圧迫するため、慎重に判断することが大切です。</p>
       <p>粗利（粗利益）はあくまで「原価を引いた後の利益」です。ここからさらに人件費・家賃・光熱費・広告費などの諸経費を差し引いた金額が最終的な純利益になります。粗利率が高くても、固定費が大きければ経営が苦しくなることもあります。粗利率を参考にしながら、経費のコントロールも合わせて意識しましょう。</p>
