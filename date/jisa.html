@@ -137,8 +137,8 @@
           <label><input type="radio" name="mode" value="to-japan"> 世界の時間から日本時間</label>
         </div>
       </div>
-      <div class="form-group" id="source-city-group" style="display:none">
-        <label>基準にする都市</label>
+      <div class="form-group" id="source-city-group">
+        <label id="city-select-label">変換先の都市</label>
         <div class="input-wrap">
           <select id="source-city"></select>
         </div>
@@ -360,7 +360,7 @@ function initJisa() {
 function updateMode() {
   const mode = document.querySelector('input[name="mode"]:checked').value;
   const source = CITIES[Number(document.getElementById('source-city').value)] || CITIES[0];
-  document.getElementById('source-city-group').style.display = mode === 'to-japan' ? '' : 'none';
+  document.getElementById('city-select-label').textContent = mode === 'to-japan' ? '基準にする都市' : '変換先の都市';
   document.getElementById('time-label').textContent = mode === 'to-japan' ? `${source.name}の現地時間` : '日本時間（JST）';
   document.getElementById('result').classList.remove('show');
 }
@@ -372,9 +372,10 @@ function calc() {
   const tbody = document.getElementById('city-rows');
   tbody.innerHTML = '';
   if (mode === 'from-japan') {
+    const selectedCity = CITIES[Number(document.getElementById('source-city').value)];
     const instant = zonedTimeToUtc(dateStr, timeStr, JAPAN_TZ);
-    document.getElementById('res-label').textContent = '入力した日本時間';
-    document.getElementById('res-main').textContent = formatZoned(instant, JAPAN_TZ);
+    document.getElementById('res-label').textContent = `${selectedCity.name}の現地時間`;
+    document.getElementById('res-main').textContent = formatZoned(instant, selectedCity.tz);
     document.getElementById('city-head').innerHTML = '<tr><th>都市</th><th>現地日時</th><th>日本との時差</th></tr>';
     CITIES.forEach(c => {
       const tr = document.createElement('tr');
