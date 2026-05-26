@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ランニング消費カロリー計算｜距離・時間・速度から無料シミュレーション｜はかるんツール</title>
+  <meta name="description" content="年齢・身長・体重・速度・距離または時間を入力して、ランニングの消費カロリー、走行時間、距離、ペース、脂肪燃焼量を無料計算。5km、10km、30分ランの目安も確認できます。">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="canonical" href="https://hakarun.net/health/running">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "ランニングの消費カロリーはどう計算しますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "このツールでは速度から運動強度（METs）を推定し、METs × 体重 × 時間 × 1.05 で消費カロリーを概算します。坂道や風、フォームによって実際の消費量は変わります。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "5km走ると何カロリー消費しますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "体重60kgの人が時速10kmで5km走ると、約330kcalが目安です。体重が重いほど消費カロリーは増えます。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "30分ランニングすると何カロリー消費しますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "体重60kgの人が時速8kmで30分走ると、約270kcalが目安です。速度が速くなるほど消費カロリーは増えます。"
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<header>
+  <div class="container">
+    <a href="../" class="logo">📐 はかるんツール</a>
+    <nav>
+      <div class="nav-item">
+        <a href="../money/" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../money/tedori">💴 手取り計算</a>
+          <a href="../money/zangyo">⏰ 残業代計算</a>
+          <a href="../money/bonus">🎁 ボーナス手取り計算</a>
+          <a href="../money/nenshu">📈 年収→月収・時給計算</a>
+          <a href="../money/shakaihoken">🏥 社会保険料計算</a>
+          <a href="../money/taisyokukin">👴 退職金手取り計算</a>
+          <a href="../money/shohizei">🛒 消費税計算</a>
+          <a href="../money/warikan">👥 割り勘計算</a>
+          <a href="../money/" class="dropdown-all">▶ すべて見る（20ツール）</a>
+        </div>
+      </div>
+      <div class="nav-item active">
+        <a href="../health/" class="nav-link">健康・医療 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../health/bmi">⚖️ BMI計算</a>
+          <a href="../health/metabolism">🔥 基礎代謝計算</a>
+          <a href="../health/calorie">🍱 消費カロリー計算</a>
+          <a href="../health/idealweight">👗 理想体重・モデル体重計算</a>
+          <a href="../health/alcohol">🍺 飲酒カロリー計算</a>
+          <a href="../health/steps">🚶 歩数→消費カロリー計算</a>
+          <a href="../health/taishibo">📊 体脂肪率計算</a>
+          <a href="../health/ninshin">🤰 妊娠週数計算</a>
+          <a href="../health/" class="dropdown-all">▶ すべて見る（20ツール）</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="../life/" class="nav-link">暮らし・節約 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../life/loan">🏦 ローン返済シミュレーション</a>
+          <a href="../life/denki">💡 電気代計算</a>
+          <a href="../life/gasoline">⛽ ガソリン代計算</a>
+          <a href="../life/chochiku">💰 積立貯金シミュレーション</a>
+          <a href="../life/suidou">🚿 水道代計算</a>
+          <a href="../life/seikatsuhi">🏠 生活費配分計算</a>
+          <a href="../life/hikkoshi">🚚 引越し費用計算</a>
+          <a href="../life/sumaho">📱 スマホ代節約計算</a>
+          <a href="../life/" class="dropdown-all">▶ すべて見る（18ツール）</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="../date/" class="nav-link">日付・時間 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../date/nissuu">📅 日数計算</a>
+          <a href="../date/nenrei">🎂 年齢計算</a>
+          <a href="../date/jikan">⏱️ 勤務時間計算</a>
+          <a href="../date/jisa">⏰ 時差計算</a>
+          <a href="../date/gyakusan">🕐 締め切りカウントダウン</a>
+          <a href="../date/kinenbi">🎉 記念日カウンター</a>
+          <a href="../date/jikanzansan">⌛ 時間の足し算・引き算</a>
+          <a href="../date/sankyuu">🍼 産休・育休期間計算</a>
+          <a href="../date/" class="dropdown-all">▶ すべて見る（12ツール）</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="../tax/" class="nav-link">節税 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../tax/furusato">🎎 ふるさと納税 上限額・あといくら計算</a>
+          <a href="../tax/setsuzei">📊 節税シミュレーション</a>
+          <a href="../tax/jutaku">🏠 住宅ローン控除・還付金計算</a>
+          <a href="../tax/iryouhi">🏥 医療費控除・還付金計算</a>
+          <a href="../health/kougaku">🏥 高額療養費計算</a>
+          <a href="../tax/kanpu">💰 確定申告 還付金計算</a>
+          <a href="../tax/haigusha">👫 配偶者控除計算</a>
+          <a href="../tax/ideco">💎 iDeCo節税計算</a>
+          <a href="../tax/gift">🎁 贈与税計算</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="../calc/" class="nav-link">計算・変換 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../calc/percent">🔢 パーセント計算</a>
+          <a href="../calc/unit">📐 単位変換</a>
+          <a href="../calc/wariai">➗ 比率計算</a>
+          <a href="../calc/speed">🚗 速さ・距離・時間計算</a>
+          <a href="../calc/ondo">🌡️ 温度変換</a>
+          <a href="../calc/gaika">💱 外貨換算</a>
+          <a href="../calc/menseki">📐 面積計算</a>
+          <a href="../calc/tsubo">🏠 坪・平米変換</a>
+          <a href="../calc/" class="dropdown-all">▶ すべて見る（11ツール）</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="../invest/" class="nav-link">投資・資産 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../invest/fukuri">📈 複利計算</a>
+          <a href="../invest/nisa">💹 NISA枠・積立シミュレーション</a>
+          <a href="../invest/tsumitate">💰 投資シミュレーション（初期元本＋毎月積立）</a>
+          <a href="../invest/soneki">📉 損益計算</a>
+          <a href="../invest/rimawari">🏠 不動産利回り計算</a>
+          <a href="../invest/teiki">🏦 定期預金計算</a>
+          <a href="../invest/rogo">👴 老後資金計算</a>
+          <a href="../invest/seimei">🛡️ 生命保険必要額計算</a>
+          <a href="../money/nenkin">🏛️ 年金受給額シミュレーション</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="../blog/" class="nav-link">📝 ブログ</a>
+      </div>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="container">
+    <div class="page-header">
+      <div class="breadcrumb"><a href="../">トップ</a> &rsaquo; 健康・医療 &rsaquo; 🏃 ランニング消費カロリー計算</div>
+      <h1>🏃 ランニング消費カロリー計算</h1>
+      <p class="subtitle">速度と距離または時間から、ランニングの消費カロリー・ペース・脂肪燃焼量を計算します</p>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="calc-card">
+      <div class="form-group">
+        <label>性別</label>
+        <div class="radio-group">
+          <label><input type="radio" name="gender" value="male" checked> 男性</label>
+          <label><input type="radio" name="gender" value="female"> 女性</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>年齢</label>
+        <div class="input-wrap"><input type="number" id="age" placeholder="35" min="10" max="100"><span class="unit">歳</span></div>
+      </div>
+      <div class="form-group">
+        <label>身長</label>
+        <div class="input-wrap"><input type="number" id="height" placeholder="170" min="100" max="230"><span class="unit">cm</span></div>
+        <p class="hint">推定歩数の計算に使います</p>
+      </div>
+      <div class="form-group">
+        <label>体重</label>
+        <div class="input-wrap"><input type="number" id="weight" placeholder="65" min="1" max="300"><span class="unit">kg</span></div>
+      </div>
+      <div class="form-group">
+        <label>速度</label>
+        <div class="input-wrap"><input type="number" id="speed" placeholder="10" min="1" max="25" step="0.1"><span class="unit">km/h</span></div>
+        <p class="hint">時速10kmは、1kmあたり6分ペースです</p>
+      </div>
+      <div class="form-group">
+        <label>計算方法</label>
+        <div class="radio-group">
+          <label><input type="radio" name="mode" value="distance" checked onchange="toggleMode()"> 距離から計算</label>
+          <label><input type="radio" name="mode" value="time" onchange="toggleMode()"> 時間から計算</label>
+        </div>
+      </div>
+      <div class="form-group" id="distance-group">
+        <label>走る距離</label>
+        <div class="input-wrap"><input type="number" id="distance" placeholder="5" min="0.1" step="0.1"><span class="unit">km</span></div>
+      </div>
+      <div class="form-group" id="time-group" style="display:none">
+        <label>走る時間</label>
+        <div class="input-wrap"><input type="number" id="time" placeholder="30" min="1" step="1"><span class="unit">分</span></div>
+      </div>
+      <button class="btn btn-primary" id="calc-button" onclick="calcRunning()">計算する</button>
+      <div class="result-area" id="result">
+        <div class="result-main">
+          <div class="label">消費カロリー（概算）</div>
+          <div class="value" id="res-kcal">—</div>
+          <div class="sub" id="res-summary">—</div>
+        </div>
+        <div class="result-table"><table><tbody>
+          <tr><td>走行距離</td><td id="r-distance">—</td></tr>
+          <tr><td>走行時間</td><td id="r-time">—</td></tr>
+          <tr><td>平均ペース</td><td id="r-pace">—</td></tr>
+          <tr><td>推定METs</td><td id="r-mets">—</td></tr>
+          <tr><td>脂肪燃焼量（目安）</td><td id="r-fat">—</td></tr>
+          <tr><td>推定歩数</td><td id="r-steps">—</td></tr>
+          <tr><td>目安心拍数</td><td id="r-heart">—</td></tr>
+        </tbody></table></div>
+        <div class="info-box">計算式：速度から推定したMETs × 体重(kg) × 時間(h) × 1.05。平地を走る場合の概算で、坂道・気温・風・フォームによって実際の消費カロリーは変わります。</div>
+      </div>
+    </div>
+    <div class="ad-area">広告</div>
+    <div class="article">
+      <h2>距離・時間別のランニング消費カロリー目安</h2>
+      <p>体重60kgの人が平地を走る場合の目安です。ランニングは速度が上がるほど1分あたりの消費カロリーが増えますが、同じ距離を走る場合は体重の影響も大きくなります。</p>
+      <div class="example-table">
+        <table>
+          <thead><tr><th>条件</th><th>速度</th><th>時間の目安</th><th>消費カロリー目安</th></tr></thead>
+          <tbody>
+            <tr><td>30分ラン</td><td>8km/h</td><td>30分</td><td>約270kcal</td></tr>
+            <tr><td>5kmラン</td><td>10km/h</td><td>30分</td><td>約330kcal</td></tr>
+            <tr><td>10kmラン</td><td>10km/h</td><td>60分</td><td>約660kcal</td></tr>
+            <tr><td>ゆっくりジョギング30分</td><td>7km/h</td><td>30分</td><td>約240kcal</td></tr>
+            <tr><td>速めのラン30分</td><td>12km/h</td><td>30分</td><td>約390kcal</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="result-note">※ 体重60kgで計算した目安です。体重70kgの場合は、おおよそ60kgの場合の約1.17倍になります。</p>
+    </div>
+    <div class="article">
+      <h2>ランニングの消費カロリーの考え方</h2>
+      <p>ランニングの消費カロリーは、主に体重・走った時間・速度で決まります。このツールでは、速度からMETs（メッツ）を推定して計算しています。METsとは、安静時と比べて何倍のエネルギーを使うかを表す運動強度の目安です。</p>
+      <p>同じ30分でも、時速8kmで走る場合と時速12kmで走る場合では消費カロリーが変わります。一方で、同じ距離を走る場合は速度差による違いよりも、体重や坂道・風などの条件の影響が大きくなることがあります。</p>
+      <p>年齢は消費カロリーそのものには大きく入りませんが、運動強度の目安として心拍数を見るときに役立ちます。このツールでは「220−年齢」を最大心拍数の簡易目安として、脂肪燃焼を意識しやすい心拍ゾーンも表示します。</p>
+    </div>
+    <div class="article">
+      <h2>よくある質問</h2>
+      <div class="faq-item"><div class="faq-q">Q. ランニングの消費カロリーはどう計算しますか？</div><div class="faq-a">このツールでは、速度から運動強度（METs）を推定し、METs × 体重 × 時間 × 1.05で消費カロリーを概算します。坂道や風、路面、フォームによって実際の消費量は変わります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 5km走ると何カロリー消費しますか？</div><div class="faq-a">体重60kgの人が時速10kmで5km走ると、約330kcalが目安です。体重が70kgなら約380kcal前後になります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 30分ランニングすると何カロリー消費しますか？</div><div class="faq-a">体重60kgの人が時速8kmで30分走ると、約270kcalが目安です。時速10kmなら約330kcal、時速12kmなら約390kcal前後になります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 脂肪燃焼量はどう計算していますか？</div><div class="faq-a">脂肪1gを約7.2kcalとして、消費カロリーを7.2で割って目安を表示しています。実際には糖質もエネルギーとして使われるため、脂肪だけがそのまま減るわけではありません。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 年齢や身長は消費カロリーに影響しますか？</div><div class="faq-a">この計算では、消費カロリーの中心は体重・速度・時間です。年齢は目安心拍数、身長は推定歩数の計算に使っています。より正確に見るには心拍計やランニングウォッチの記録も参考になります。</div></div>
+    </div>
+    <div class="article">
+      <h2>関連ツール</h2>
+      <ul>
+        <li><a href="../health/steps">🔗 歩数→消費カロリー計算</a> — 歩数から距離と消費カロリーを計算</li>
+        <li><a href="../calc/speed">🔗 速さ・距離・時間計算</a> — ランニングペースや走行時間を計算</li>
+        <li><a href="../health/shinpaku">🔗 目標心拍数計算</a> — 年齢から運動時の心拍ゾーンを確認</li>
+        <li><a href="../health/calorie">🔗 消費カロリー計算</a> — 1日の総消費カロリーを計算</li>
+      </ul>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="footer-logo">📐 はかるんツール</div>
+  <div class="footer-links">
+    <a href="../">トップ</a>
+    <a href="calorie">消費カロリー計算</a>
+    <a href="steps">歩数計算</a>
+    <a href="shinpaku">心拍数計算</a>
+  </div>
+  <div class="footer-links" style="margin-top:12px">
+    <a href="../about">運営者情報</a>
+    <a href="../privacy">プライバシーポリシー</a>
+    <a href="../disclaimer">免責事項</a>
+    <a href="../contact">お問い合わせ</a>
+  </div>
+  <p class="copyright">※ 計算結果はあくまで目安です。健康に関することは医師にご相談ください。</p>
+  <p class="copyright" style="margin-top:8px">© 2024 はかるんツール</p>
+</footer>
+<script>
+function toggleMode() {
+  const mode = document.querySelector('input[name="mode"]:checked').value;
+  document.getElementById('distance-group').style.display = mode === 'distance' ? 'block' : 'none';
+  document.getElementById('time-group').style.display = mode === 'time' ? 'block' : 'none';
+}
+function estimateMets(speed) {
+  const meterPerMin = speed * 1000 / 60;
+  const vo2 = 0.2 * meterPerMin + 3.5;
+  return vo2 / 3.5;
+}
+function formatTime(minutes) {
+  const total = Math.round(minutes);
+  const h = Math.floor(total / 60);
+  const m = total % 60;
+  return h > 0 ? h + '時間' + m + '分' : m + '分';
+}
+function formatPace(speed) {
+  const minPerKm = 60 / speed;
+  const min = Math.floor(minPerKm);
+  const sec = Math.round((minPerKm - min) * 60);
+  return min + '分' + String(sec).padStart(2, '0') + '秒 / km';
+}
+function scrollToRunningResult() {
+  const target = document.getElementById('calc-button');
+  if (!target) return;
+  const header = document.querySelector('header');
+  const headerHeight = header ? header.getBoundingClientRect().height : 0;
+  const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 24;
+  window.scrollTo({ top: y, behavior: 'smooth' });
+}
+function calcRunning() {
+  const age = parseFloat(document.getElementById('age').value);
+  const height = parseFloat(document.getElementById('height').value);
+  const weight = parseFloat(document.getElementById('weight').value);
+  const speed = parseFloat(document.getElementById('speed').value);
+  const mode = document.querySelector('input[name="mode"]:checked').value;
+  const distanceInput = parseFloat(document.getElementById('distance').value);
+  const timeInput = parseFloat(document.getElementById('time').value);
+  if (!age || !height || !weight || !speed) { alert('年齢・身長・体重・速度を入力してください'); return; }
+  let distance, minutes;
+  if (mode === 'distance') {
+    if (!distanceInput) { alert('走る距離を入力してください'); return; }
+    distance = distanceInput;
+    minutes = distance / speed * 60;
+  } else {
+    if (!timeInput) { alert('走る時間を入力してください'); return; }
+    minutes = timeInput;
+    distance = speed * minutes / 60;
+  }
+  const hours = minutes / 60;
+  const mets = estimateMets(speed);
+  const kcal = Math.round(mets * weight * hours * 1.05);
+  const fat = kcal / 7.2;
+  const stride = height * 0.65 / 100;
+  const steps = Math.round(distance * 1000 / stride);
+  const maxHeart = 220 - age;
+  const zoneLow = Math.round(maxHeart * 0.6);
+  const zoneHigh = Math.round(maxHeart * 0.75);
+  document.getElementById('res-kcal').textContent = kcal.toLocaleString('ja-JP') + ' kcal';
+  document.getElementById('res-summary').textContent = distance.toFixed(2) + 'km / ' + formatTime(minutes) + ' / ' + formatPace(speed);
+  document.getElementById('r-distance').textContent = distance.toFixed(2) + ' km';
+  document.getElementById('r-time').textContent = formatTime(minutes) + '（約' + minutes.toFixed(1) + '分）';
+  document.getElementById('r-pace').textContent = formatPace(speed);
+  document.getElementById('r-mets').textContent = mets.toFixed(1);
+  document.getElementById('r-fat').textContent = fat.toFixed(1) + ' g';
+  document.getElementById('r-steps').textContent = steps.toLocaleString('ja-JP') + ' 歩';
+  document.getElementById('r-heart').textContent = zoneLow + '〜' + zoneHigh + ' bpm（最大心拍数の60〜75%目安）';
+  document.getElementById('result').classList.add('show');
+  scrollToRunningResult();
+}
+document.querySelectorAll('input[type="number"]').forEach(function(input){
+  input.addEventListener('wheel', function(){
+    if(document.activeElement === input) input.blur();
+  });
+});
+</script>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
+</body>
+</html>
