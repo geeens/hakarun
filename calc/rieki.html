@@ -97,13 +97,15 @@
       margin-top: 22px;
     }
     .profit-formula-card {
-      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 96px;
+      align-items: center;
+      gap: 18px;
       min-height: 132px;
-      padding: 24px 150px 22px 22px;
+      padding: 22px;
       border: 2px solid;
       border-radius: 8px;
       background: #FFFFFF;
-      overflow: hidden;
     }
     .profit-formula-cost {
       border-color: #0E7490;
@@ -116,7 +118,7 @@
       font-weight: 800;
       font-size: 17px;
       line-height: 1.8;
-      white-space: nowrap;
+      word-break: keep-all;
     }
     .profit-formula-main strong {
       font-size: 24px;
@@ -128,9 +130,6 @@
       color: #C2410C;
     }
     .profit-badge {
-      position: absolute;
-      right: 22px;
-      bottom: 18px;
       display: grid;
       place-items: center;
       width: 96px;
