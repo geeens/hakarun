@@ -134,6 +134,55 @@
       margin-top: 4px;
       font-variant-numeric: tabular-nums;
     }
+    .clock-toolbar {
+      display: flex;
+      justify-content: center;
+      margin: 14px 0 6px;
+    }
+    .realtime-button {
+      width: auto;
+      min-width: 180px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: #0f172a;
+      color: #ffffff;
+      border: none;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .realtime-button:hover {
+      background: #1e293b;
+    }
+    .dst-status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 12px 0 4px;
+      color: var(--text-primary);
+      font-size: 14px;
+      font-weight: 700;
+      text-align: center;
+    }
+    .dst-badge {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 4px 10px;
+      background: #dbeafe;
+      color: #1d4ed8;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .dst-badge.standard {
+      background: #f1f5f9;
+      color: #475569;
+    }
+    .dst-badge.none {
+      background: #ecfdf5;
+      color: #047857;
+    }
     .clock-note {
       color: var(--text-secondary);
       font-size: 12px;
@@ -298,6 +347,10 @@
           <div class="label" id="res-label">入力した時間</div>
           <div class="value" id="res-main">—</div>
         </div>
+        <div class="clock-toolbar">
+          <button type="button" class="realtime-button" onclick="setRealtimeDisplay()">リアルタイム表示</button>
+        </div>
+        <div class="dst-status" id="dst-status">サマータイム判定：—</div>
         <div class="timezone-clocks" id="clock-compare">
           <div class="timezone-clock-card">
             <div class="timezone-clock-title" id="clock-japan-title">日本時間</div>
@@ -330,7 +383,7 @@
             <div class="digital-date" id="clock-city-date">----</div>
           </div>
         </div>
-        <p class="clock-note">※ 時計は計算した日時を起点に、ページを開いている間だけ秒単位で進みます。</p>
+        <p class="clock-note">※ 時計は計算した日時を起点に、ページを開いている間だけ秒単位で進みます。リアルタイム表示はお使いの端末時刻を基準にします。</p>
         <div class="result-table">
           <table id="city-table"><thead id="city-head"><tr><th>都市</th><th>現地日時</th><th>時差</th></tr></thead>
           <tbody id="city-rows"></tbody></table>
@@ -517,6 +570,33 @@ function formatDiffBetween(date, fromTz, toTz, fromName) {
   const hours = formatHourDiff(Math.abs(diffHours));
   return diffHours > 0 ? `${fromName}より${hours}早い` : `${fromName}より${hours}遅い`;
 }
+function formatInputDateTimeForZone(date, timeZone) {
+  const p = getZoneParts(date, timeZone);
+  return {
+    date: `${p.year}-${String(p.month).padStart(2,'0')}-${String(p.day).padStart(2,'0')}`,
+    time: `${String(p.hour).padStart(2,'0')}:${String(p.minute).padStart(2,'0')}`
+  };
+}
+function getDstInfo(date, city) {
+  const p = getZoneParts(date, city.tz);
+  const jan = new Date(Date.UTC(p.year, 0, 1, 12, 0));
+  const jul = new Date(Date.UTC(p.year, 6, 1, 12, 0));
+  const janOffset = getOffsetMinutes(jan, city.tz);
+  const julOffset = getOffsetMinutes(jul, city.tz);
+  if (janOffset === julOffset) {
+    return { state: 'none', label: 'サマータイムなし', detail: `${city.name}は、この判定ではサマータイムを採用していない地域です。` };
+  }
+  const currentOffset = getOffsetMinutes(date, city.tz);
+  const isDst = currentOffset === Math.max(janOffset, julOffset);
+  return isDst
+    ? { state: 'dst', label: 'サマータイム適用中', detail: `${city.name}は、この日時ではサマータイムが適用されています。` }
+    : { state: 'standard', label: '標準時間', detail: `${city.name}は、この日時ではサマータイム期間外です。` };
+}
+function updateDstStatus(instant, city) {
+  const info = getDstInfo(instant, city);
+  const className = info.state === 'dst' ? 'dst-badge' : `dst-badge ${info.state}`;
+  document.getElementById('dst-status').innerHTML = `<span class="${className}">${info.label}</span><span>${info.detail}</span>`;
+}
 function initJisa() {
   setCurrentTime();
   const select = document.getElementById('source-city');
@@ -540,6 +620,15 @@ function setCurrentTime() {
   document.getElementById('base-time').value = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
   document.getElementById('result').classList.remove('show');
   stopClockComparison();
+}
+function setRealtimeDisplay() {
+  const mode = document.querySelector('input[name="mode"]:checked').value;
+  const selectedCity = CITIES[Number(document.getElementById('source-city').value)] || CITIES[0];
+  const now = new Date();
+  const input = formatInputDateTimeForZone(now, mode === 'to-japan' ? selectedCity.tz : JAPAN_TZ);
+  document.getElementById('base-date').value = input.date;
+  document.getElementById('base-time').value = input.time;
+  calc();
 }
 function updateMode() {
   const mode = document.querySelector('input[name="mode"]:checked').value;
@@ -604,6 +693,7 @@ function calc() {
       tr.innerHTML = `<td>${c.name}</td><td><strong>${formatZoned(instant, c.tz)}</strong></td><td>${formatDiffFromJapan(instant, c.tz)}</td>`;
       tbody.appendChild(tr);
     });
+    updateDstStatus(instant, selectedCity);
     startClockComparison(instant, selectedCity);
   } else {
     const source = CITIES[Number(document.getElementById('source-city').value)];
@@ -617,6 +707,7 @@ function calc() {
     const japanRow = document.createElement('tr');
     japanRow.innerHTML = `<td>日本</td><td><strong>${formatZoned(instant, JAPAN_TZ)}</strong></td><td>${formatDiffBetween(instant, source.tz, JAPAN_TZ, source.name)}</td>`;
     tbody.appendChild(japanRow);
+    updateDstStatus(instant, source);
     startClockComparison(instant, source);
   }
   document.getElementById('result').classList.add('show');
