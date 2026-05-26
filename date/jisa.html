@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>時差計算｜世界の主要都市との時差を計算｜はかるんツール</title>
-  <meta name="description" content="日本時間を入力するだけで世界20都市の現地時間を計算。海外出張・旅行・国際電話の時差確認に。">
+  <title>時差計算｜日本時間から世界の現地時間を無料計算｜はかるんツール</title>
+  <meta name="description" content="日本時間を入力するだけでニューヨーク・ロンドン・パリ・ハワイなど世界の現地時間を無料計算。海外会議や旅行の時差確認に。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <link rel="canonical" href="https://hakarun.net/date/jisa">
@@ -126,7 +126,7 @@
     <div class="page-header">
       <div class="breadcrumb"><a href="../">トップ</a> &rsaquo; 日付・時間 &rsaquo; ⏰ 時差計算</div>
       <h1>⏰ 時差計算</h1>
-      <p class="subtitle">日本時間を入力すると世界各都市の現地時間を表示します</p>
+      <p class="subtitle">日本時間からニューヨーク・ロンドン・パリ・ハワイなど世界の現地時間を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
@@ -134,7 +134,7 @@
         <label>日本時間（JST）</label>
         <div class="input-wrap"><input type="time" id="jst-time" value="12:00"></div>
       </div>
-      <button class="btn btn-primary" onclick="calc()">計算する</button>
+      <button class="btn btn-primary" id="calc-button" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
           <div class="label">入力した日本時間</div>
@@ -147,6 +147,59 @@
       </div>
     </div>
     <div class="ad-area">広告</div>
+    <div class="article">
+      <h2>🌏 日本時間12:00のときの主要都市の時差早見表</h2>
+      <p>日本時間の正午を基準に、よく確認される都市の現地時間をまとめました。海外との会議、電話、旅行前の時差確認に使えます。</p>
+      <div class="example-table">
+        <table>
+          <thead>
+            <tr>
+              <th>都市</th>
+              <th>日本との時差</th>
+              <th>日本が12:00のとき</th>
+              <th>日付</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>ソウル</td><td>同じ</td><td>12:00</td><td>同日</td></tr>
+            <tr><td>北京・上海</td><td>−1時間</td><td>11:00</td><td>同日</td></tr>
+            <tr><td>バンコク</td><td>−2時間</td><td>10:00</td><td>同日</td></tr>
+            <tr><td>ドバイ</td><td>−5時間</td><td>07:00</td><td>同日</td></tr>
+            <tr><td>パリ</td><td>−8時間</td><td>04:00</td><td>同日</td></tr>
+            <tr><td>ロンドン</td><td>−9時間</td><td>03:00</td><td>同日</td></tr>
+            <tr><td>ニューヨーク</td><td>−14時間</td><td>22:00</td><td>前日</td></tr>
+            <tr><td>ロサンゼルス</td><td>−17時間</td><td>19:00</td><td>前日</td></tr>
+            <tr><td>ホノルル</td><td>−19時間</td><td>17:00</td><td>前日</td></tr>
+            <tr><td>シドニー</td><td>+1時間</td><td>13:00</td><td>同日</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>※ この表は標準時間を基準にした目安です。サマータイム中は時差が1時間変わる地域があります。</p>
+    </div>
+    <div class="article">
+      <h2>💼 海外会議・電話に使いやすい日本時間の目安</h2>
+      <p>海外との連絡では、相手の現地時間が朝9時〜夕方6時ごろに入る時間帯を選ぶと無理が少なくなります。</p>
+      <div class="example-table">
+        <table>
+          <thead>
+            <tr>
+              <th>相手の地域</th>
+              <th>日本から連絡しやすい時間</th>
+              <th>相手側の目安</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>韓国・中国・シンガポール</td><td>日本時間 10:00〜18:00</td><td>日中〜夕方</td></tr>
+            <tr><td>インド</td><td>日本時間 13:00〜20:00</td><td>朝〜夕方</td></tr>
+            <tr><td>ヨーロッパ</td><td>日本時間 17:00〜24:00</td><td>朝〜夕方</td></tr>
+            <tr><td>アメリカ東海岸</td><td>日本時間 22:00〜翌朝8:00</td><td>朝〜夕方</td></tr>
+            <tr><td>アメリカ西海岸</td><td>日本時間 翌1:00〜翌11:00</td><td>朝〜夕方</td></tr>
+            <tr><td>ハワイ</td><td>日本時間 翌4:00〜翌13:00</td><td>朝〜夕方</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>仕事の会議では、相手側の午前中または午後早めを狙うと調整しやすくなります。深夜・早朝の連絡は避けるのが無難です。</p>
+    </div>
     <div class="article">
       <h2>⏰ 時差計算について</h2>
       <p>海外出張・旅行・国際ビジネス・海外の友人との連絡など、時差を把握しなければならない場面は意外と多くあります。世界は24のタイムゾーンに分かれており、日本（JST＝UTC+9）を基準にして各都市との時差を計算します。</p>
@@ -234,6 +287,15 @@ function calc() {
     tbody.appendChild(tr);
   });
   document.getElementById('result').classList.add('show');
+  scrollToJisaResult();
+}
+function scrollToJisaResult() {
+  const target = document.getElementById('calc-button');
+  if (!target) return;
+  const header = document.querySelector('header');
+  const headerHeight = header ? header.getBoundingClientRect().height : 0;
+  const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 24;
+  window.scrollTo({ top: y, behavior: 'smooth' });
 }
 </script>
 <script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
