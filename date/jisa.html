@@ -143,6 +143,7 @@
           <select id="source-city"></select>
         </div>
       </div>
+      <button type="button" class="btn btn-secondary" onclick="setCurrentTime()">現在時刻をセット</button>
       <div class="form-group">
         <label>日付</label>
         <div class="input-wrap"><input type="date" id="base-date"></div>
@@ -340,8 +341,7 @@ function formatDiffBetween(date, fromTz, toTz, fromName) {
   return diffHours > 0 ? `${fromName}より${hours}早い` : `${fromName}より${hours}遅い`;
 }
 function initJisa() {
-  const today = new Date();
-  document.getElementById('base-date').value = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+  setCurrentTime();
   const select = document.getElementById('source-city');
   CITIES.forEach((city, index) => {
     const option = document.createElement('option');
@@ -356,6 +356,12 @@ function initJisa() {
   });
   select.addEventListener('change', updateMode);
   updateMode();
+}
+function setCurrentTime() {
+  const now = new Date();
+  document.getElementById('base-date').value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  document.getElementById('base-time').value = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  document.getElementById('result').classList.remove('show');
 }
 function updateMode() {
   const mode = document.querySelector('input[name="mode"]:checked').value;
