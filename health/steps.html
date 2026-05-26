@@ -330,7 +330,15 @@ function calcSteps() {
   document.getElementById('res-fat').textContent = (fat * 1000).toFixed(1) + ' g';
   document.getElementById('res-per10k').textContent = Math.round(per10k) + ' kcal';
   document.getElementById('result').classList.add('show');
-  document.getElementById('calculate-button').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  scrollToStepsResult();
+}
+function scrollToStepsResult() {
+  const target = document.getElementById('calculate-button');
+  if (!target) return;
+  const header = document.querySelector('header');
+  const headerHeight = header ? header.getBoundingClientRect().height : 0;
+  const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 24;
+  window.scrollTo({ top: y, behavior: 'smooth' });
 }
 </script>
 <script>
