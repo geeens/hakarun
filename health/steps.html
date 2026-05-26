@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>歩数から消費カロリー計算｜歩数・距離・消費カロリーを無料計算｜はかるんツール</title>
-  <meta name="description" content="歩数と体重を入力するだけで消費カロリーと歩いた距離を無料計算。ウォーキングダイエットの管理に活用できます。">
+  <title>歩数から消費カロリー計算｜何キロ歩いたか・脂肪燃焼量も無料計算｜はかるんツール</title>
+  <meta name="description" content="歩数と体重から消費カロリー・歩いた距離・脂肪燃焼量を計算。5000歩、8000歩、1万歩、2万歩の距離やカロリー目安も確認できます。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <link rel="canonical" href="https://hakarun.net/health/steps">
@@ -164,7 +164,7 @@
     <div class="page-header">
       <div class="breadcrumb"><a href="../">トップ</a> &rsaquo; 歩数→消費カロリー計算</div>
       <h1>🚶 歩数→消費カロリー計算</h1>
-      <p class="subtitle">歩数と体重から消費カロリーと歩いた距離を計算します</p>
+      <p class="subtitle">歩数と体重から、消費カロリー・歩いた距離・脂肪燃焼量を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
@@ -212,6 +212,25 @@
     </div>
     <div class="ad-area">広告</div>
     <div class="article">
+      <h2>歩数別の距離・消費カロリー早見表</h2>
+      <p>歩数から距離を考えるときは、1歩あたりの歩幅を約70cmとして見るとイメージしやすくなります。消費カロリーは体重や歩く速さで変わりますが、体重60kgの場合は1,000歩あたり約30kcalが目安です。</p>
+      <div class="example-table">
+        <table>
+          <thead><tr><th>歩数</th><th>距離の目安</th><th>消費カロリー目安（体重60kg）</th><th>脂肪燃焼量の目安</th></tr></thead>
+          <tbody>
+            <tr><td>1,000歩</td><td>約0.7km</td><td>約30kcal</td><td>約4.2g</td></tr>
+            <tr><td>3,000歩</td><td>約2.1km</td><td>約90kcal</td><td>約12.5g</td></tr>
+            <tr><td>5,000歩</td><td>約3.5km</td><td>約150kcal</td><td>約20.8g</td></tr>
+            <tr><td>8,000歩</td><td>約5.6km</td><td>約240kcal</td><td>約33.3g</td></tr>
+            <tr><td>10,000歩</td><td>約7.0km</td><td>約300kcal</td><td>約41.7g</td></tr>
+            <tr><td>15,000歩</td><td>約10.5km</td><td>約450kcal</td><td>約62.5g</td></tr>
+            <tr><td>20,000歩</td><td>約14.0km</td><td>約600kcal</td><td>約83.3g</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="result-note">※ 距離は歩幅70cm、消費カロリーは体重60kgで計算した目安です。身長や歩幅、坂道、歩く速さによって変わります。</p>
+    </div>
+    <div class="article">
       <h2>ウォーキングのダイエット効果</h2>
       <p>ウォーキングは有酸素運動の代表格です。激しい運動が苦手な方でも無理なく続けられます。</p>
       <h3>1万歩歩くと何kcal消費する？</h3>
@@ -235,6 +254,18 @@
       <div class="faq-item">
         <div class="faq-q">Q. 1,000歩で消費カロリーはどのくらいですか？</div>
         <div class="faq-a">体重・歩幅・歩くスピードによりますが、体重60kgの人で約30〜40kcalが目安です。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q. 1万歩は何キロですか？</div>
+        <div class="faq-a">歩幅70cmで計算すると、1万歩は約7kmです。身長160cmの人は約7.2km、身長170cmの人は約7.7km前後になることが多く、このツールに身長を入力すると歩幅を反映した距離を計算できます。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q. 5000歩の消費カロリーはどのくらいですか？</div>
+        <div class="faq-a">体重60kgの人が5,000歩歩いた場合、消費カロリーは約150kcalが目安です。体重が重いほど消費カロリーは増え、軽いほど少なくなります。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q. 8000歩の消費カロリーはどのくらいですか？</div>
+        <div class="faq-a">体重60kgの人が8,000歩歩いた場合、消費カロリーは約240kcalが目安です。健康維持を目的にする場合、8,000歩前後を日々の目標にする人も多いです。</div>
       </div>
       <div class="faq-item">
         <div class="faq-q">Q. ウォーキングと速歩きではカロリー消費が違いますか？</div>
@@ -299,6 +330,7 @@ function calcSteps() {
   document.getElementById('res-fat').textContent = (fat * 1000).toFixed(1) + ' g';
   document.getElementById('res-per10k').textContent = Math.round(per10k) + ' kcal';
   document.getElementById('result').classList.add('show');
+  document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 </script>
 <script>
