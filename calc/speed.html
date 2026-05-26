@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>速さ・距離・時間計算｜3つの関係をかんたん無料計算｜はかるんツール</title>
-  <meta name="description" content="速さ・距離・時間の3つの関係をかんたん無料計算。求めたい項目を選んで残りを入力するだけで瞬時に計算できます。">
+  <title>速さ・距離・時間計算｜所要時間・時速・移動距離を無料計算｜はかるんツール</title>
+  <meta name="description" content="速さ・距離・時間の3つの関係を無料計算。所要時間、時速、移動距離を求められます。徒歩・自転車・車・ランニングの目安表も確認できます。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <link rel="canonical" href="https://hakarun.net/calc/speed">
@@ -133,7 +133,7 @@
     <div class="page-header">
       <div class="breadcrumb"><a href="../">トップ</a> &rsaquo; 速さ・距離・時間計算</div>
       <h1>🚗 速さ・距離・時間計算</h1>
-      <p class="subtitle">求めたい項目を選んで残りを入力するだけで計算します</p>
+      <p class="subtitle">所要時間・時速・移動距離を、速さ・距離・時間の関係から計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
@@ -154,6 +154,7 @@
         <div class="form-group">
           <label>時間</label>
           <div class="input-wrap"><input type="number" id="s-time" placeholder="2" min="0" step="any"><span class="unit">時間</span></div>
+          <p class="hint">30分は0.5、1時間30分は1.5と入力してください。</p>
         </div>
       </div>
 
@@ -165,6 +166,7 @@
         <div class="form-group">
           <label>時間</label>
           <div class="input-wrap"><input type="number" id="d-time" placeholder="2" min="0" step="any"><span class="unit">時間</span></div>
+          <p class="hint">30分は0.5、1時間30分は1.5と入力してください。</p>
         </div>
       </div>
 
@@ -179,7 +181,7 @@
         </div>
       </div>
 
-      <button class="btn btn-primary" onclick="calcSpeed()">計算する</button>
+      <button class="btn btn-primary" id="calc-button" onclick="calcSpeed()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
           <div class="label" id="res-label">結果</div>
@@ -191,6 +193,76 @@
       </div>
     </div>
     <div class="ad-area">広告</div>
+
+    <div class="article">
+      <h2>📊 よく使う速さ・距離・時間の計算例</h2>
+      <p>日常でよく使う移動の例をまとめました。車の所要時間、徒歩の時間、自転車通勤、ランニングペースの確認に使えます。</p>
+      <div class="example-table">
+        <table>
+          <thead>
+            <tr>
+              <th>場面</th>
+              <th>入力例</th>
+              <th>計算式</th>
+              <th>結果</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>車で100km移動</td><td>距離100km・時速60km</td><td>100 ÷ 60</td><td>約1時間40分</td></tr>
+            <tr><td>徒歩1km</td><td>距離1km・時速4km</td><td>1 ÷ 4</td><td>約15分</td></tr>
+            <tr><td>自転車10km</td><td>距離10km・時速20km</td><td>10 ÷ 20</td><td>約30分</td></tr>
+            <tr><td>5kmを30分で走る</td><td>距離5km・時間0.5時間</td><td>5 ÷ 0.5</td><td>時速10km</td></tr>
+            <tr><td>時速80kmで2時間</td><td>時速80km・時間2時間</td><td>80 × 2</td><td>160km</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="article">
+      <h2>🚶 移動手段別の速さの目安</h2>
+      <p>速さが分からない場合は、以下の目安を使うと所要時間を計算しやすくなります。信号、坂道、休憩、渋滞などで実際の時間は変わります。</p>
+      <div class="example-table">
+        <table>
+          <thead>
+            <tr>
+              <th>移動手段</th>
+              <th>速さの目安</th>
+              <th>1kmあたりの時間</th>
+              <th>10kmの所要時間</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>ゆっくり徒歩</td><td>時速3km</td><td>約20分</td><td>約3時間20分</td></tr>
+            <tr><td>普通の徒歩</td><td>時速4km</td><td>約15分</td><td>約2時間30分</td></tr>
+            <tr><td>早歩き</td><td>時速5km</td><td>約12分</td><td>約2時間</td></tr>
+            <tr><td>自転車</td><td>時速15〜20km</td><td>約3〜4分</td><td>約30〜40分</td></tr>
+            <tr><td>車（一般道）</td><td>時速30〜50km</td><td>約1.2〜2分</td><td>約12〜20分</td></tr>
+            <tr><td>車（高速道路）</td><td>時速80〜100km</td><td>約0.6〜0.75分</td><td>約6〜8分</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="article">
+      <h2>⏱️ 分を時間に直す早見表</h2>
+      <p>このツールの時間欄は「時間」で入力します。分で考えている場合は、以下のように小数に直して入力してください。</p>
+      <div class="example-table">
+        <table>
+          <thead>
+            <tr>
+              <th>分</th>
+              <th>時間で入力</th>
+              <th>例</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>15分</td><td>0.25時間</td><td>15 ÷ 60</td></tr>
+            <tr><td>30分</td><td>0.5時間</td><td>30 ÷ 60</td></tr>
+            <tr><td>45分</td><td>0.75時間</td><td>45 ÷ 60</td></tr>
+            <tr><td>60分</td><td>1時間</td><td>60 ÷ 60</td></tr>
+            <tr><td>90分</td><td>1.5時間</td><td>90 ÷ 60</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
     <div class="article">
       <h2>速さ・距離・時間の公式と活用例</h2>
@@ -265,6 +337,11 @@ document.querySelectorAll('input[name="mode"]').forEach(function(r) {
   });
 });
 function fmtN(n) { return parseFloat(n.toPrecision(6)).toLocaleString('ja-JP'); }
+function fmtTime(h, m) {
+  if (h === 0) return m + ' 分';
+  if (m === 0) return h + ' 時間';
+  return h + ' 時間 ' + m + ' 分';
+}
 function calcSpeed() {
   var mode = document.querySelector('input[name="mode"]:checked').value;
   var label, main, rows = [];
@@ -291,9 +368,11 @@ function calcSpeed() {
     var resH = dist / speed;
     var h = Math.floor(resH);
     var m = Math.round((resH - h) * 60);
+    if (m === 60) { h += 1; m = 0; }
+    var timeText = fmtTime(h, m);
     label = '時間';
-    main = h + ' 時間 ' + m + ' 分';
-    rows = [['距離', fmtN(dist) + ' km'], ['速さ', fmtN(speed) + ' km/h'], ['時間', h + ' 時間 ' + m + ' 分（約 ' + fmtN(resH) + ' 時間）']];
+    main = timeText;
+    rows = [['距離', fmtN(dist) + ' km'], ['速さ', fmtN(speed) + ' km/h'], ['時間', timeText + '（約 ' + fmtN(resH) + ' 時間）']];
   }
   document.getElementById('res-label').textContent = label;
   document.getElementById('res-main').textContent = main;
@@ -305,6 +384,15 @@ function calcSpeed() {
     tbody.appendChild(tr);
   });
   document.getElementById('result').classList.add('show');
+  scrollToSpeedResult();
+}
+function scrollToSpeedResult() {
+  const target = document.getElementById('calc-button');
+  if (!target) return;
+  const header = document.querySelector('header');
+  const headerHeight = header ? header.getBoundingClientRect().height : 0;
+  const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 24;
+  window.scrollTo({ top: y, behavior: 'smooth' });
 }
 </script>
 <script>
