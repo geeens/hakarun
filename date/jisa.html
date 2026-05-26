@@ -533,9 +533,10 @@ function getZoneParts(date, timeZone) {
   return map;
 }
 function getOffsetMinutes(date, timeZone) {
-  const p = getZoneParts(date, timeZone);
+  const normalizedDate = new Date(Math.floor(date.getTime() / 1000) * 1000);
+  const p = getZoneParts(normalizedDate, timeZone);
   const localAsUtc = Date.UTC(p.year, p.month - 1, p.day, p.hour, p.minute, p.second);
-  return (localAsUtc - date.getTime()) / 60000;
+  return Math.round((localAsUtc - normalizedDate.getTime()) / 60000);
 }
 function zonedTimeToUtc(dateStr, timeStr, timeZone) {
   const [year, month, day] = dateStr.split('-').map(Number);
