@@ -19,8 +19,9 @@
       background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 18px;
+      padding: 20px 18px;
       text-align: center;
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.06);
     }
     .timezone-clock-title {
       color: var(--text-secondary);
@@ -30,26 +31,43 @@
     }
     .analog-clock {
       position: relative;
-      width: 148px;
-      height: 148px;
+      width: 168px;
+      height: 168px;
       margin: 0 auto 14px;
-      border: 8px solid #e2e8f0;
       border-radius: 50%;
+      border: 8px solid #1e293b;
       background:
-        radial-gradient(circle at center, #ffffff 0 58%, #f1f5f9 59% 100%);
-      box-shadow: inset 0 0 0 1px #cbd5e1, 0 12px 24px rgba(15, 23, 42, 0.08);
+        radial-gradient(circle at center, #ffffff 0 56%, transparent 57%),
+        radial-gradient(circle at center, #e2e8f0 0 4px, transparent 5px),
+        repeating-conic-gradient(from 0deg, #334155 0deg 1.5deg, transparent 1.5deg 30deg),
+        repeating-conic-gradient(from 0deg, #cbd5e1 0deg 0.7deg, transparent 0.7deg 6deg),
+        radial-gradient(circle at center, #ffffff 0 69%, #f1f5f9 70% 100%);
+      box-shadow:
+        inset 0 0 0 3px #ffffff,
+        inset 0 0 0 6px #cbd5e1,
+        0 16px 32px rgba(15, 23, 42, 0.18);
+      overflow: hidden;
+    }
+    .analog-clock::before {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      border-radius: 50%;
+      pointer-events: none;
     }
     .clock-number {
       position: absolute;
-      color: var(--text-secondary);
+      z-index: 2;
+      color: #0f172a;
       font-size: 12px;
       font-weight: 800;
       line-height: 1;
     }
-    .clock-number.n12 { top: 10px; left: 50%; transform: translateX(-50%); }
-    .clock-number.n3 { top: 50%; right: 12px; transform: translateY(-50%); }
-    .clock-number.n6 { bottom: 10px; left: 50%; transform: translateX(-50%); }
-    .clock-number.n9 { top: 50%; left: 12px; transform: translateY(-50%); }
+    .clock-number.n12 { top: 18px; left: 50%; transform: translateX(-50%); }
+    .clock-number.n3 { top: 50%; right: 20px; transform: translateY(-50%); }
+    .clock-number.n6 { bottom: 18px; left: 50%; transform: translateX(-50%); }
+    .clock-number.n9 { top: 50%; left: 20px; transform: translateY(-50%); }
     .clock-hand {
       position: absolute;
       left: 50%;
@@ -57,33 +75,50 @@
       border-radius: 999px;
       transform-origin: bottom center;
       transform: translateX(-50%) rotate(0deg);
+      box-shadow: 0 2px 5px rgba(15, 23, 42, 0.28);
     }
     .clock-hand.hour {
-      width: 6px;
-      height: 40px;
-      background: var(--text-primary);
+      z-index: 4;
+      width: 8px;
+      height: 44px;
+      background: linear-gradient(180deg, #020617 0%, #334155 100%);
     }
     .clock-hand.minute {
-      width: 4px;
-      height: 54px;
-      background: #2563eb;
+      z-index: 5;
+      width: 5px;
+      height: 62px;
+      background: linear-gradient(180deg, #1d4ed8 0%, #60a5fa 100%);
     }
     .clock-hand.second {
+      z-index: 6;
       width: 2px;
-      height: 58px;
+      height: 68px;
       background: #ef4444;
+      box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.16), 0 2px 6px rgba(239, 68, 68, 0.35);
+    }
+    .clock-hand.second::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -18px;
+      width: 2px;
+      height: 18px;
+      background: #ef4444;
+      transform: translateX(-50%);
+      border-radius: 999px;
     }
     .clock-center {
       position: absolute;
+      z-index: 7;
       top: 50%;
       left: 50%;
-      width: 12px;
-      height: 12px;
-      background: var(--text-primary);
+      width: 16px;
+      height: 16px;
+      background: #0f172a;
       border: 3px solid #ffffff;
       border-radius: 50%;
       transform: translate(-50%, -50%);
-      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.22);
+      box-shadow: 0 0 0 2px #94a3b8, 0 3px 8px rgba(15, 23, 42, 0.28);
     }
     .digital-clock {
       color: var(--text-primary);
