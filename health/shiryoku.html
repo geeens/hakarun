@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>視力・度数変換｜視力と眼鏡度数を無料換算｜はかるんツール</title>
-  <meta name="description" content="視力を入力するだけで眼鏡・コンタクトの度数（ジオプトリー）に変換。度数から視力への逆算も可能です。">
+  <title>視力・度数変換｜視力換算表とジオプトリーの目安｜はかるんツール</title>
+  <meta name="description" content="視力と眼鏡・コンタクトの度数（ジオプトリー）を無料換算。視力0.1、0.3、0.5、1.0の度数目安や換算表も確認できます。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <link rel="canonical" href="https://hakarun.net/health/shiryoku">
@@ -14,7 +14,8 @@
   <script type="application/ld+json">
   { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "視力0.1は何度のメガネが必要？", "acceptedAnswer": { "@type": "Answer", "text": "視力0.1の場合、おおよそ−4.00D（ジオプトリー）程度の近視用レンズが必要とされています。ただし個人差があり、正確な度数は眼科での検査が必要です。" } },
     { "@type": "Question", "name": "視力と度数の違いは？", "acceptedAnswer": { "@type": "Answer", "text": "視力（1.0、0.5など）は「どれだけよく見えるか」を表す数値、度数（−3.00Dなど）は「レンズの屈折力」を表す数値です。どちらも目の見え方を表しますが異なる指標です。" } },
-    { "@type": "Question", "name": "コンタクトと眼鏡の度数は同じ？", "acceptedAnswer": { "@type": "Answer", "text": "コンタクトレンズと眼鏡では、目とレンズの距離が違うため同じ度数では見え方が異なります。一般的に強い近視の場合はコンタクトの方が眼鏡より度数が低くなります。" } }] }
+    { "@type": "Question", "name": "コンタクトと眼鏡の度数は同じ？", "acceptedAnswer": { "@type": "Answer", "text": "コンタクトレンズと眼鏡では、目とレンズの距離が違うため同じ度数では見え方が異なります。一般的に強い近視の場合はコンタクトの方が眼鏡より度数が低くなります。" } },
+    { "@type": "Question", "name": "視力と度数は換算表どおりに決まりますか？", "acceptedAnswer": { "@type": "Answer", "text": "視力と度数は完全に一対一ではありません。乱視、目の調節力、測定環境、眼鏡と目の距離などで変わるため、換算表はあくまで目安として使ってください。" } }] }
   </script>
 </head>
 <body>
@@ -131,7 +132,7 @@
     <div class="page-header">
       <div class="breadcrumb"><a href="../">トップ</a> &rsaquo; 健康・生活 &rsaquo; 👁️ 視力・度数変換</div>
       <h1>👁️ 視力・度数変換</h1>
-      <p class="subtitle">視力と眼鏡・コンタクトの度数（ジオプトリー）を相互変換します</p>
+      <p class="subtitle">視力換算表を見ながら、眼鏡・コンタクトの度数（ジオプトリー）を目安で確認できます</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
@@ -141,7 +142,7 @@
         <div class="input-wrap"><input type="number" id="vision" placeholder="0.3" min="0.01" max="3.0" step="0.01"></div>
         <p class="hint">裸眼視力（矯正なしで見えた視力）を入力してください。</p>
       </div>
-      <button class="btn btn-primary" onclick="visionToDeg()">度数に変換</button>
+      <button class="btn btn-primary" id="vision-button" onclick="visionToDeg()">度数に変換</button>
       <div id="res-v2d" style="margin:12px 0;font-size:1.1rem;font-weight:bold;color:#1a56db;min-height:24px"></div>
       <hr style="border:none;border-top:1px solid #e5e7eb;margin:20px 0">
       <p style="font-weight:bold;margin-bottom:12px">度数 → 視力に変換</p>
@@ -156,7 +157,7 @@
           <span class="unit">D</span>
         </div>
       </div>
-      <button class="btn btn-primary" onclick="degToVision()">視力に変換</button>
+      <button class="btn btn-primary" id="degree-button" onclick="degToVision()">視力に変換</button>
       <div id="res-d2v" style="margin:12px 0;font-size:1.1rem;font-weight:bold;color:#1a56db;min-height:24px"></div>
       <div class="result-area show" style="margin-top:24px">
         <div class="result-table">
@@ -173,15 +174,64 @@
       </div>
     </div>
     <div class="article">
+      <h2>📊 視力から度数への換算表</h2>
+      <p>視力から眼鏡・コンタクトの度数をざっくり確認したいときの目安です。実際の処方では、乱視や左右差、見え方の好みも考慮されます。</p>
+      <div class="example-table">
+        <table>
+          <thead>
+            <tr>
+              <th>裸眼視力</th>
+              <th>近視度数の目安</th>
+              <th>見え方の目安</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1.0以上</td><td>0〜−0.50D</td><td>遠くも比較的よく見える</td></tr>
+            <tr><td>0.7</td><td>約−0.75〜−1.00D</td><td>軽い近視の目安</td></tr>
+            <tr><td>0.5</td><td>約−1.50D</td><td>遠くの文字が見えにくい</td></tr>
+            <tr><td>0.3</td><td>約−2.50D</td><td>黒板や標識が見えにくい</td></tr>
+            <tr><td>0.1</td><td>約−4.00〜−5.00D</td><td>かなり近くないと見えにくい</td></tr>
+            <tr><td>0.05</td><td>約−7.00D以上</td><td>強い近視の目安</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>※ D（ジオプトリー）とは、レンズの強さを表す単位です。近視はマイナス、遠視・老眼はプラスで表します。</p>
+    </div>
+    <div class="article">
+      <h2>📋 度数から視力への換算表</h2>
+      <p>眼鏡やコンタクトの度数から、裸眼視力の目安を知りたいときの表です。度数が強いほど、裸眼では遠くが見えにくくなります。</p>
+      <div class="example-table">
+        <table>
+          <thead>
+            <tr>
+              <th>近視度数</th>
+              <th>視力の目安</th>
+              <th>近視の強さ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>−0.50D</td><td>約1.0</td><td>ごく軽い近視</td></tr>
+            <tr><td>−1.00D</td><td>約0.7〜0.8</td><td>軽度近視</td></tr>
+            <tr><td>−2.00D</td><td>約0.4〜0.5</td><td>中等度近視</td></tr>
+            <tr><td>−3.00D</td><td>約0.2〜0.3</td><td>中等度近視</td></tr>
+            <tr><td>−4.00D</td><td>約0.1〜0.2</td><td>強めの近視</td></tr>
+            <tr><td>−5.00D</td><td>約0.1</td><td>強度近視の目安</td></tr>
+            <tr><td>−6.00D以上</td><td>約0.1未満</td><td>強度近視</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="article">
       <h2>👁️ 視力と度数の関係</h2>
       <p>視力は「1.0」「0.5」などで表され、視力検査表（ランドルト環）でどのサイズの指標まで識別できるかで決まります。一方、度数（ジオプトリー、D）はレンズの屈折力を示す単位で、近視は「−（マイナス）」、遠視・老眼は「+（プラス）」で表します。</p>
-      <p>視力と度数の変換は完全に一対一で対応するわけではありませんが、目安として「度数＝−1÷視力の近似」という関係があります。たとえば視力0.1の場合は約−10D（実際はもう少し低い−4〜5D程度）と概算できます。個人差が大きいため、眼科での正確な検査が必要です。</p>
+      <p>視力と度数の変換は完全に一対一で対応するわけではありません。乱視の有無、目の調節力、検査環境、眼鏡と目の距離などによって、同じ視力でも必要な度数が変わります。このページの換算は、あくまで「だいたいどのくらいか」を知るための目安です。</p>
       <p>眼鏡とコンタクトレンズでは、目とレンズの距離が異なるため同じ視力でも使用する度数が違います。強度近視の場合、眼鏡よりコンタクトの方が度数が1〜2段階低くなることが多いです。オンラインでコンタクトを購入する際は、眼科で処方されたコンタクト用の処方箋を参考にしてください。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
       <div class="faq-item"><div class="faq-q">Q. 視力0.1は何度のメガネが必要？</div><div class="faq-a">視力0.1の場合、おおよそ−4.00D程度の近視用レンズが必要とされています。ただし個人差があり、正確な度数は眼科での検査が必要です。</div></div>
       <div class="faq-item"><div class="faq-q">Q. 視力と度数の違いは？</div><div class="faq-a">視力は「どれだけよく見えるか」の数値、度数は「レンズの屈折力」の数値です。どちらも目の見え方を表しますが異なる指標です。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 視力と度数は換算表どおりに決まりますか？</div><div class="faq-a">いいえ。視力と度数は完全に一対一ではありません。乱視、目の調節力、測定環境、眼鏡と目の距離などで変わるため、換算表はあくまで目安として使ってください。</div></div>
       <div class="faq-item"><div class="faq-q">Q. コンタクトと眼鏡の度数は同じ？</div><div class="faq-a">異なります。目とレンズの距離の違いから、強い近視の場合はコンタクトの方が眼鏡より度数が低くなります。</div></div>
       <div class="faq-item"><div class="faq-q">Q. 視力は何歳まで悪くなりますか？</div><div class="faq-a">近視は一般的に学童期〜20代前半にかけて進行し、成人以降は落ち着くことが多いです。ただし加齢とともに老眼（近くが見えにくくなる）が進む場合があります。</div></div>
       <div class="faq-item"><div class="faq-q">Q. 視力1.0と1.5の違いは何ですか？</div><div class="faq-a">視力1.0は視力検査表の上から8〜9段目まで読める状態を指します。1.5は1.0よりさらに細かい指標まで読める、非常によく見える視力です。日常生活では1.0以上あれば十分なことが多いです。</div></div>
@@ -236,6 +286,7 @@ function visionToDeg(){
   else if(v>=0.1)deg=-5.0;else if(v>=0.07)deg=-6.0;else if(v>=0.05)deg=-7.0;
   else deg=-8.0;
   document.getElementById('res-v2d').textContent='視力 '+v+' ≒ 約 '+deg.toFixed(2)+'D（目安）';
+  scrollToShiryokuResult('vision-button');
 }
 function degToVision(){
   const sign=document.getElementById('sign').value;
@@ -251,6 +302,15 @@ function degToVision(){
   else if(deg>=-6.0)v='約0.07〜0.1';else if(deg>=-7.0)v='約0.05〜0.07';
   else v='約0.05未満';
   document.getElementById('res-d2v').textContent=sign+d.toFixed(2)+'D ≒ 視力 '+v+'（目安）';
+  scrollToShiryokuResult('degree-button');
+}
+function scrollToShiryokuResult(buttonId) {
+  const target = document.getElementById(buttonId);
+  if (!target) return;
+  const header = document.querySelector('header');
+  const headerHeight = header ? header.getBoundingClientRect().height : 0;
+  const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 24;
+  window.scrollTo({ top: y, behavior: 'smooth' });
 }
 </script>
 </body>
