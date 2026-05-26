@@ -8,6 +8,110 @@
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <link rel="canonical" href="https://hakarun.net/date/jisa">
+  <style>
+    .timezone-clocks {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin: 16px 0;
+    }
+    .timezone-clock-card {
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      text-align: center;
+    }
+    .timezone-clock-title {
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .analog-clock {
+      position: relative;
+      width: 148px;
+      height: 148px;
+      margin: 0 auto 14px;
+      border: 8px solid #e2e8f0;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at center, #ffffff 0 58%, #f1f5f9 59% 100%);
+      box-shadow: inset 0 0 0 1px #cbd5e1, 0 12px 24px rgba(15, 23, 42, 0.08);
+    }
+    .clock-number {
+      position: absolute;
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .clock-number.n12 { top: 10px; left: 50%; transform: translateX(-50%); }
+    .clock-number.n3 { top: 50%; right: 12px; transform: translateY(-50%); }
+    .clock-number.n6 { bottom: 10px; left: 50%; transform: translateX(-50%); }
+    .clock-number.n9 { top: 50%; left: 12px; transform: translateY(-50%); }
+    .clock-hand {
+      position: absolute;
+      left: 50%;
+      bottom: 50%;
+      border-radius: 999px;
+      transform-origin: bottom center;
+      transform: translateX(-50%) rotate(0deg);
+    }
+    .clock-hand.hour {
+      width: 6px;
+      height: 40px;
+      background: var(--text-primary);
+    }
+    .clock-hand.minute {
+      width: 4px;
+      height: 54px;
+      background: #2563eb;
+    }
+    .clock-hand.second {
+      width: 2px;
+      height: 58px;
+      background: #ef4444;
+    }
+    .clock-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 12px;
+      height: 12px;
+      background: var(--text-primary);
+      border: 3px solid #ffffff;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.22);
+    }
+    .digital-clock {
+      color: var(--text-primary);
+      font-size: clamp(26px, 4vw, 34px);
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0;
+    }
+    .digital-date {
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
+    .clock-note {
+      color: var(--text-secondary);
+      font-size: 12px;
+      line-height: 1.6;
+      margin: 6px 0 0;
+      text-align: center;
+    }
+    @media (max-width: 640px) {
+      .timezone-clocks {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
@@ -159,6 +263,39 @@
           <div class="label" id="res-label">入力した時間</div>
           <div class="value" id="res-main">—</div>
         </div>
+        <div class="timezone-clocks" id="clock-compare">
+          <div class="timezone-clock-card">
+            <div class="timezone-clock-title" id="clock-japan-title">日本時間</div>
+            <div class="analog-clock" aria-hidden="true">
+              <span class="clock-number n12">12</span>
+              <span class="clock-number n3">3</span>
+              <span class="clock-number n6">6</span>
+              <span class="clock-number n9">9</span>
+              <span class="clock-hand hour" id="clock-japan-hour"></span>
+              <span class="clock-hand minute" id="clock-japan-minute"></span>
+              <span class="clock-hand second" id="clock-japan-second"></span>
+              <span class="clock-center"></span>
+            </div>
+            <div class="digital-clock" id="clock-japan-time">--:--:--</div>
+            <div class="digital-date" id="clock-japan-date">----</div>
+          </div>
+          <div class="timezone-clock-card">
+            <div class="timezone-clock-title" id="clock-city-title">比較対象の時間</div>
+            <div class="analog-clock" aria-hidden="true">
+              <span class="clock-number n12">12</span>
+              <span class="clock-number n3">3</span>
+              <span class="clock-number n6">6</span>
+              <span class="clock-number n9">9</span>
+              <span class="clock-hand hour" id="clock-city-hour"></span>
+              <span class="clock-hand minute" id="clock-city-minute"></span>
+              <span class="clock-hand second" id="clock-city-second"></span>
+              <span class="clock-center"></span>
+            </div>
+            <div class="digital-clock" id="clock-city-time">--:--:--</div>
+            <div class="digital-date" id="clock-city-date">----</div>
+          </div>
+        </div>
+        <p class="clock-note">※ 時計は計算した日時を起点に、ページを開いている間だけ秒単位で進みます。</p>
         <div class="result-table">
           <table id="city-table"><thead id="city-head"><tr><th>都市</th><th>現地日時</th><th>時差</th></tr></thead>
           <tbody id="city-rows"></tbody></table>
@@ -288,6 +425,10 @@ const CITIES = [
   {name:'シドニー（オーストラリア）', tz:'Australia/Sydney'},
   {name:'オークランド（NZ）', tz:'Pacific/Auckland'},
 ];
+let clockTimerId = null;
+let clockBaseInstantMs = 0;
+let clockBaseRealMs = 0;
+let clockZones = [];
 function getZoneParts(date, timeZone) {
   const parts = new Intl.DateTimeFormat('en-US', {
     timeZone,
@@ -296,6 +437,7 @@ function getZoneParts(date, timeZone) {
     day: '2-digit',
     hour: '2-digit',
     minute: '2-digit',
+    second: '2-digit',
     hourCycle: 'h23'
   }).formatToParts(date);
   const map = {};
@@ -362,6 +504,7 @@ function setCurrentTime() {
   document.getElementById('base-date').value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
   document.getElementById('base-time').value = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
   document.getElementById('result').classList.remove('show');
+  stopClockComparison();
 }
 function updateMode() {
   const mode = document.querySelector('input[name="mode"]:checked').value;
@@ -369,6 +512,44 @@ function updateMode() {
   document.getElementById('city-select-label').textContent = mode === 'to-japan' ? '基準にする都市' : '変換先の都市';
   document.getElementById('time-label').textContent = mode === 'to-japan' ? `${source.name}の現地時間` : '日本時間（JST）';
   document.getElementById('result').classList.remove('show');
+  stopClockComparison();
+}
+function stopClockComparison() {
+  if (clockTimerId) {
+    clearInterval(clockTimerId);
+    clockTimerId = null;
+  }
+}
+function startClockComparison(instant, city) {
+  stopClockComparison();
+  clockBaseInstantMs = instant.getTime();
+  clockBaseRealMs = Date.now();
+  clockZones = [
+    { key: 'japan', name: '日本時間', tz: JAPAN_TZ },
+    { key: 'city', name: city.name, tz: city.tz }
+  ];
+  document.getElementById('clock-japan-title').textContent = clockZones[0].name;
+  document.getElementById('clock-city-title').textContent = clockZones[1].name;
+  updateClockComparison();
+  clockTimerId = setInterval(updateClockComparison, 1000);
+}
+function updateClockComparison() {
+  if (!clockZones.length) return;
+  const instant = new Date(clockBaseInstantMs + Date.now() - clockBaseRealMs);
+  clockZones.forEach(zone => {
+    const p = getZoneParts(instant, zone.tz);
+    const hour = p.hour;
+    const minute = p.minute;
+    const second = p.second;
+    const hourDeg = ((hour % 12) + minute / 60 + second / 3600) * 30;
+    const minuteDeg = (minute + second / 60) * 6;
+    const secondDeg = second * 6;
+    document.getElementById(`clock-${zone.key}-hour`).style.transform = `translateX(-50%) rotate(${hourDeg}deg)`;
+    document.getElementById(`clock-${zone.key}-minute`).style.transform = `translateX(-50%) rotate(${minuteDeg}deg)`;
+    document.getElementById(`clock-${zone.key}-second`).style.transform = `translateX(-50%) rotate(${secondDeg}deg)`;
+    document.getElementById(`clock-${zone.key}-time`).textContent = `${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')}:${String(second).padStart(2,'0')}`;
+    document.getElementById(`clock-${zone.key}-date`).textContent = `${p.year}/${String(p.month).padStart(2,'0')}/${String(p.day).padStart(2,'0')}`;
+  });
 }
 function calc() {
   const dateStr = document.getElementById('base-date').value;
@@ -388,6 +569,7 @@ function calc() {
       tr.innerHTML = `<td>${c.name}</td><td><strong>${formatZoned(instant, c.tz)}</strong></td><td>${formatDiffFromJapan(instant, c.tz)}</td>`;
       tbody.appendChild(tr);
     });
+    startClockComparison(instant, selectedCity);
   } else {
     const source = CITIES[Number(document.getElementById('source-city').value)];
     const instant = zonedTimeToUtc(dateStr, timeStr, source.tz);
@@ -400,6 +582,7 @@ function calc() {
     const japanRow = document.createElement('tr');
     japanRow.innerHTML = `<td>日本</td><td><strong>${formatZoned(instant, JAPAN_TZ)}</strong></td><td>${formatDiffBetween(instant, source.tz, JAPAN_TZ, source.name)}</td>`;
     tbody.appendChild(japanRow);
+    startClockComparison(instant, source);
   }
   document.getElementById('result').classList.add('show');
   scrollToJisaResult();
