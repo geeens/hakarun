@@ -190,7 +190,7 @@
         </div>
         <p class="hint">入力すると歩幅をより正確に計算できます</p>
       </div>
-      <button class="btn btn-primary" onclick="calcSteps()">計算する</button>
+      <button class="btn btn-primary" id="calculate-button" onclick="calcSteps()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
           <div class="label">消費カロリー（概算）</div>
@@ -330,7 +330,7 @@ function calcSteps() {
   document.getElementById('res-fat').textContent = (fat * 1000).toFixed(1) + ' g';
   document.getElementById('res-per10k').textContent = Math.round(per10k) + ' kcal';
   document.getElementById('result').classList.add('show');
-  document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.getElementById('calculate-button').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 </script>
 <script>
