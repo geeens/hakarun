@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>値引き・割引計算｜割引後の金額を無料計算｜はかるんツール</title>
-  <meta name="description" content="定価と割引率を入力するだけで割引後の金額・割引額を即計算。セール価格や値引き交渉の確認に。">
+  <title>値引き・割引計算｜20%オフ・30%引き・割引後の金額を無料計算｜はかるんツール</title>
+  <meta name="description" content="定価と割引率から割引後の金額・割引額・税込価格を即計算。10%オフ、20%オフ、30%オフ、半額などの早見表も確認できます。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <link rel="canonical" href="https://hakarun.net/money/waribiki">
@@ -126,7 +126,7 @@
     <div class="page-header">
       <div class="breadcrumb"><a href="../">トップ</a> &rsaquo; お金・給与 &rsaquo; 🏷️ 値引き・割引計算</div>
       <h1>🏷️ 値引き・割引計算</h1>
-      <p class="subtitle">定価と割引率から割引後の金額を計算します</p>
+      <p class="subtitle">20%オフ・3割引・半額など、割引後の金額と税込価格を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
@@ -139,7 +139,7 @@
         <div class="input-wrap"><input type="number" id="discount" placeholder="20" min="0" max="100" step="0.1"><span class="unit">%</span></div>
         <p class="hint">例：20%オフなら「20」と入力</p>
       </div>
-      <button class="btn btn-primary" onclick="calc()">計算する</button>
+      <button class="btn btn-primary" id="calc-button" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
           <div class="label">割引後の金額</div>
@@ -155,10 +155,57 @@
     </div>
     <div class="ad-area">広告</div>
     <div class="article">
+      <h2>📊 よくある割引率の早見表</h2>
+      <p>定価1,000円、3,000円、5,000円、10,000円で、よく使われる割引率の「割引後の金額」をまとめました。セール品を見比べるときの目安にしてください。</p>
+      <div class="example-table">
+        <table>
+          <thead>
+            <tr>
+              <th>定価</th>
+              <th>10%オフ</th>
+              <th>20%オフ</th>
+              <th>30%オフ</th>
+              <th>50%オフ</th>
+              <th>70%オフ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1,000円</td><td>900円</td><td>800円</td><td>700円</td><td>500円</td><td>300円</td></tr>
+            <tr><td>3,000円</td><td>2,700円</td><td>2,400円</td><td>2,100円</td><td>1,500円</td><td>900円</td></tr>
+            <tr><td>5,000円</td><td>4,500円</td><td>4,000円</td><td>3,500円</td><td>2,500円</td><td>1,500円</td></tr>
+            <tr><td>10,000円</td><td>9,000円</td><td>8,000円</td><td>7,000円</td><td>5,000円</td><td>3,000円</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>※ 税込み価格を入力した場合は、割引後の金額も税込みとして見てください。税抜き価格を入力した場合は、計算結果の「税込み価格（10%）」を参考にできます。</p>
+    </div>
+    <div class="article">
+      <h2>💡 %オフ・割引・半額の見方</h2>
+      <p>「%オフ」と「割引」は表現が違うだけで、同じ意味で使われることがあります。1割は10%のことなので、3割引は30%オフです。</p>
+      <div class="example-table">
+        <table>
+          <thead>
+            <tr>
+              <th>表示</th>
+              <th>%で見ると</th>
+              <th>支払う金額の目安</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1割引</td><td>10%オフ</td><td>定価の90%</td></tr>
+            <tr><td>2割引</td><td>20%オフ</td><td>定価の80%</td></tr>
+            <tr><td>3割引</td><td>30%オフ</td><td>定価の70%</td></tr>
+            <tr><td>5割引・半額</td><td>50%オフ</td><td>定価の50%</td></tr>
+            <tr><td>7割引</td><td>70%オフ</td><td>定価の30%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="article">
       <h2>🏷️ 値引き・割引計算について</h2>
       <p>日常のショッピングやセール時に「何%オフ」「何割引」という表示をよく見かけます。10%オフや20%オフの計算は暗算でも何となくできますが、複数の商品を比較したり、税込み価格まで考えると複雑になりがちです。このツールなら定価と割引率を入れるだけで瞬時に計算できます。</p>
       <p>割引には「%オフ（パーセントオフ）」と「割引（わりびき）」の2種類の表現があります。日本では「割（わり）」という単位もよく使われます。1割は10%、2割は20%、半額は5割（50%）です。「20%オフ」と「2割引」は全く同じ意味なので、混乱しないよう覚えておきましょう。</p>
-      <p>買い物のときは割引後の金額だけでなく、消費税を含めた最終的な支払い金額も確認することが大切です。このツールでは割引後価格と税込み価格（10%）を同時に表示するので、レジに行く前に実際の支払い金額を把握できます。予算オーバーを防ぐために活用してください。</p>
+      <p>買い物のときは割引後の金額だけでなく、消費税を含めた最終的な支払い金額も確認することが大切です。このツールでは割引後価格と税込み価格（10%）を同時に表示するので、レジに行く前に実際の支払い金額を把握できます。元の価格が税込表示の場合は、割引後の金額も税込として見てください。</p>
       <p>セールや値引き交渉の場面では、複数の割引率を素早く比較することも重要です。例えば「A店は30%オフ・B店は25%オフ」という場合でも、元の定価が違えば実際の金額は変わります。このツールで両方を計算すれば、どちらが本当にお得かがすぐわかります。</p>
       <p>また、ネットショッピングではポイント還元と割引率が組み合わさることがよくあります。例えば「10%オフ＋5%ポイント還元」は合計15%お得になりますが、ポイントは次回購入時しか使えません。実質的な値引き額を正確に把握するために、まず割引後の金額を計算してから検討するのがおすすめです。</p>
       <p>値引き交渉の際にもこのツールは役立ちます。「この商品を5%引きにしてほしい」と交渉する前に、5%引きの金額を計算しておけば、自信を持って話し合いができます。家電量販店や不動産・車の購入など、まとまった金額の買い物では特に活用してみてください。</p>
@@ -175,8 +222,11 @@
     <div class="article">
       <h2>よくある質問</h2>
       <div class="faq-item"><div class="faq-q">Q. "3割引"は何%オフ？</div><div class="faq-a">3割引は30%オフです。「割」は10%を意味します。2割引=20%オフ、半額=50%オフになります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 20%オフはいくらになりますか？</div><div class="faq-a">20%オフは、元の価格の80%を支払うという意味です。たとえば10,000円の商品なら、10,000円×80%で8,000円になります。</div></div>
       <div class="faq-item"><div class="faq-q">Q. 税込み価格はどう計算する？</div><div class="faq-a">割引後の金額に1.1を掛けると消費税10%込みの価格になります。たとえば割引後8,000円なら税込み8,800円です。</div></div>
       <div class="faq-item"><div class="faq-q">Q. 「30%OFF」と「3割引」は同じ？</div><div class="faq-a">はい、同じです。どちらも元の価格の70%が支払い金額になります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 半額は何%オフですか？</div><div class="faq-a">半額は50%オフです。5割引とも同じ意味で、10,000円の商品なら5,000円になります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 税込価格から割引する場合はどう入力する？</div><div class="faq-a">税込価格をそのまま定価に入力してください。その場合、割引後の金額も税込みとして見ます。計算結果の「税込み価格（10%）」は、税抜価格を入力した場合の参考です。</div></div>
       <div class="faq-item"><div class="faq-q">Q. 割引率が100%を超えることはある？</div><div class="faq-a">通常の割引では0〜100%の範囲です。100%オフは無料（0円）を意味します。入力は0〜100の範囲で行ってください。</div></div>
       <div class="faq-item"><div class="faq-q">Q. ポイント還元と割引率、どちらがお得？</div><div class="faq-a">即時に値引きされる割引率の方が実質的にはお得です。ポイントは次回以降でないと使えず、有効期限がある場合もあります。ただし用途によっては同等の価値になります。</div></div>
       <div class="faq-item"><div class="faq-q">Q. 二重割引の計算は？</div><div class="faq-a">「20%オフのさらに10%オフ」は合計30%オフにはなりません。1,000円→20%オフ→800円→さらに10%オフ→720円となり、実質28%オフです。二重割引は順番に計算してください。</div></div>
@@ -225,6 +275,15 @@ function calc() {
   document.getElementById('res-final').textContent = fmt(final);
   document.getElementById('res-tax').textContent = fmt(taxed);
   document.getElementById('result').classList.add('show');
+  scrollToWaribikiResult();
+}
+function scrollToWaribikiResult() {
+  const target = document.getElementById('calc-button');
+  if (!target) return;
+  const header = document.querySelector('header');
+  const headerHeight = header ? header.getBoundingClientRect().height : 0;
+  const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 24;
+  window.scrollTo({ top: y, behavior: 'smooth' });
 }
 </script>
 <script>
