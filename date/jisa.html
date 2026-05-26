@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>時差計算｜日本時間から世界の現地時間を無料計算｜はかるんツール</title>
-  <meta name="description" content="日本時間を入力するだけでニューヨーク・ロンドン・パリ・ハワイなど世界の現地時間を無料計算。海外会議や旅行の時差確認に。">
+  <title>時差計算｜日本時間・世界主要都市の現地時間を相互変換｜はかるんツール</title>
+  <meta name="description" content="日本時間から世界の現地時間、世界主要都市の現地時間から日本時間を無料計算。ニューヨーク・ロンドン・パリなどのサマータイムにも対応。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <link rel="canonical" href="https://hakarun.net/date/jisa">
@@ -126,22 +126,40 @@
     <div class="page-header">
       <div class="breadcrumb"><a href="../">トップ</a> &rsaquo; 日付・時間 &rsaquo; ⏰ 時差計算</div>
       <h1>⏰ 時差計算</h1>
-      <p class="subtitle">日本時間からニューヨーク・ロンドン・パリ・ハワイなど世界の現地時間を計算します</p>
+      <p class="subtitle">日本時間から世界の現地時間、世界主要都市から日本時間への逆算ができます</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
-        <label>日本時間（JST）</label>
-        <div class="input-wrap"><input type="time" id="jst-time" value="12:00"></div>
+        <label>計算方向</label>
+        <div class="radio-group">
+          <label><input type="radio" name="mode" value="from-japan" checked> 日本時間から世界の時間</label>
+          <label><input type="radio" name="mode" value="to-japan"> 世界の時間から日本時間</label>
+        </div>
+      </div>
+      <div class="form-group" id="source-city-group" style="display:none">
+        <label>基準にする都市</label>
+        <div class="input-wrap">
+          <select id="source-city"></select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>日付</label>
+        <div class="input-wrap"><input type="date" id="base-date"></div>
+        <p class="hint">サマータイムは、この日付をもとに自動で反映します。</p>
+      </div>
+      <div class="form-group">
+        <label id="time-label">日本時間（JST）</label>
+        <div class="input-wrap"><input type="time" id="base-time" value="12:00"></div>
       </div>
       <button class="btn btn-primary" id="calc-button" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">入力した日本時間</div>
-          <div class="value" id="res-jst">—</div>
+          <div class="label" id="res-label">入力した時間</div>
+          <div class="value" id="res-main">—</div>
         </div>
         <div class="result-table">
-          <table id="city-table"><thead><tr><th>都市</th><th>現地時間</th><th>時差</th></tr></thead>
+          <table id="city-table"><thead id="city-head"><tr><th>都市</th><th>現地日時</th><th>時差</th></tr></thead>
           <tbody id="city-rows"></tbody></table>
         </div>
       </div>
@@ -174,7 +192,7 @@
           </tbody>
         </table>
       </div>
-      <p>※ この表は標準時間を基準にした目安です。サマータイム中は時差が1時間変わる地域があります。</p>
+      <p>※ この表は標準時間を基準にした目安です。実際の計算では、入力した日付に応じてサマータイムを反映します。</p>
     </div>
     <div class="article">
       <h2>💼 海外会議・電話に使いやすい日本時間の目安</h2>
@@ -204,11 +222,11 @@
       <h2>⏰ 時差計算について</h2>
       <p>海外出張・旅行・国際ビジネス・海外の友人との連絡など、時差を把握しなければならない場面は意外と多くあります。世界は24のタイムゾーンに分かれており、日本（JST＝UTC+9）を基準にして各都市との時差を計算します。</p>
       <p>時差計算で特に注意が必要なのは「日付をまたぐ」ケースです。たとえば日本が午前0時のとき、ロンドンは前日の午後3時、ニューヨークは前日の午前10時になります。海外の相手に連絡する際は、日付の違いにも注意が必要です。</p>
-      <p>また多くの欧米諸国では「サマータイム（夏時間）」を採用しており、春〜秋の期間は時計を1時間進めます。このため時差が季節によって変わることがあります。大切な会議やフライトの際は、必ず現地の正確な時刻を確認するようにしましょう。</p>
+      <p>また多くの欧米諸国では「サマータイム（夏時間）」を採用しており、春〜秋の期間は時計を1時間進めます。このツールでは入力した日付をもとに、ブラウザが持っているタイムゾーン情報でサマータイムを反映して計算します。</p>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
-      <div class="faq-item"><div class="faq-q">Q. サマータイムは考慮されますか？</div><div class="faq-a">このツールはサマータイムを考慮しない固定の時差で計算しています。サマータイム期間中（主に3〜11月）は1時間ずれる場合があります。正確な時刻は現地の情報をご確認ください。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. サマータイムは考慮されますか？</div><div class="faq-a">はい。入力した日付をもとに、各都市のタイムゾーン情報からサマータイムを反映して計算します。ただし国や地域の制度変更がある場合もあるため、重要な会議・フライトでは公式情報も確認してください。</div></div>
       <div class="faq-item"><div class="faq-q">Q. ニューヨークとの時差は？</div><div class="faq-a">日本との時差は標準時間（冬時間）で14時間、夏時間（サマータイム）では13時間です。日本が正午のとき、ニューヨークは前日の夜22時（冬）または23時（夏）になります。</div></div>
       <div class="faq-item"><div class="faq-q">Q. 海外への電話で気をつけることは？</div><div class="faq-a">相手の現地時間を確認し、深夜・早朝を避けることが礼儀です。ビジネス連絡は現地時間の朝9時〜夕方6時の範囲を目安にしましょう。</div></div>
       <div class="faq-item"><div class="faq-q">Q. ロンドン・パリとの時差は？</div><div class="faq-a">ロンドン（GMT）との時差は冬時間で9時間、サマータイム中は8時間です。パリなど中央ヨーロッパは冬時間で8時間、サマータイム中は7時間の時差があります。日本が午後9時のとき、ロンドンは同日の正午（冬）または午後1時（夏）です。</div></div>
@@ -242,50 +260,140 @@
   <p class="copyright" style="margin-top:8px">© 2024 はかるんツール</p>
 </footer>
 <script>
+const JAPAN_TZ = 'Asia/Tokyo';
 const CITIES = [
-  {name:'ソウル（韓国）', diff:0},
-  {name:'北京・上海（中国）', diff:-1},
-  {name:'香港', diff:-1},
-  {name:'バンコク（タイ）', diff:-2},
-  {name:'シンガポール', diff:-1},
-  {name:'ジャカルタ（インドネシア）', diff:-2},
-  {name:'ムンバイ（インド）', diff:-3.5},
-  {name:'ドバイ（UAE）', diff:-5},
-  {name:'モスクワ（ロシア）', diff:-6},
-  {name:'イスタンブール（トルコ）', diff:-6},
-  {name:'ナイロビ（ケニア）', diff:-6},
-  {name:'フランクフルト（ドイツ）', diff:-8},
-  {name:'パリ（フランス）', diff:-8},
-  {name:'ロンドン（イギリス）', diff:-9},
-  {name:'リスボン（ポルトガル）', diff:-9},
-  {name:'サンパウロ（ブラジル）', diff:-12},
-  {name:'ニューヨーク（アメリカ）', diff:-14},
-  {name:'シカゴ（アメリカ）', diff:-15},
-  {name:'デンバー（アメリカ）', diff:-16},
-  {name:'ロサンゼルス（アメリカ）', diff:-17},
-  {name:'ホノルル（ハワイ）', diff:-19},
-  {name:'シドニー（オーストラリア）', diff:1},
-  {name:'オークランド（NZ）', diff:3},
+  {name:'ソウル（韓国）', tz:'Asia/Seoul'},
+  {name:'北京・上海（中国）', tz:'Asia/Shanghai'},
+  {name:'香港', tz:'Asia/Hong_Kong'},
+  {name:'バンコク（タイ）', tz:'Asia/Bangkok'},
+  {name:'シンガポール', tz:'Asia/Singapore'},
+  {name:'ジャカルタ（インドネシア）', tz:'Asia/Jakarta'},
+  {name:'ムンバイ（インド）', tz:'Asia/Kolkata'},
+  {name:'ドバイ（UAE）', tz:'Asia/Dubai'},
+  {name:'モスクワ（ロシア）', tz:'Europe/Moscow'},
+  {name:'イスタンブール（トルコ）', tz:'Europe/Istanbul'},
+  {name:'ナイロビ（ケニア）', tz:'Africa/Nairobi'},
+  {name:'フランクフルト（ドイツ）', tz:'Europe/Berlin'},
+  {name:'パリ（フランス）', tz:'Europe/Paris'},
+  {name:'ロンドン（イギリス）', tz:'Europe/London'},
+  {name:'リスボン（ポルトガル）', tz:'Europe/Lisbon'},
+  {name:'サンパウロ（ブラジル）', tz:'America/Sao_Paulo'},
+  {name:'ニューヨーク（アメリカ）', tz:'America/New_York'},
+  {name:'シカゴ（アメリカ）', tz:'America/Chicago'},
+  {name:'デンバー（アメリカ）', tz:'America/Denver'},
+  {name:'ロサンゼルス（アメリカ）', tz:'America/Los_Angeles'},
+  {name:'ホノルル（ハワイ）', tz:'Pacific/Honolulu'},
+  {name:'グアム', tz:'Pacific/Guam'},
+  {name:'シドニー（オーストラリア）', tz:'Australia/Sydney'},
+  {name:'オークランド（NZ）', tz:'Pacific/Auckland'},
 ];
+function getZoneParts(date, timeZone) {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hourCycle: 'h23'
+  }).formatToParts(date);
+  const map = {};
+  parts.forEach(p => { if (p.type !== 'literal') map[p.type] = Number(p.value); });
+  return map;
+}
+function getOffsetMinutes(date, timeZone) {
+  const p = getZoneParts(date, timeZone);
+  const localAsUtc = Date.UTC(p.year, p.month - 1, p.day, p.hour, p.minute);
+  return (localAsUtc - date.getTime()) / 60000;
+}
+function zonedTimeToUtc(dateStr, timeStr, timeZone) {
+  const [year, month, day] = dateStr.split('-').map(Number);
+  const [hour, minute] = timeStr.split(':').map(Number);
+  const localAsUtc = Date.UTC(year, month - 1, day, hour, minute);
+  let utc = localAsUtc;
+  for (let i = 0; i < 4; i++) {
+    const offset = getOffsetMinutes(new Date(utc), timeZone);
+    utc = localAsUtc - offset * 60000;
+  }
+  return new Date(utc);
+}
+function formatZoned(date, timeZone) {
+  const p = getZoneParts(date, timeZone);
+  return `${p.year}/${String(p.month).padStart(2,'0')}/${String(p.day).padStart(2,'0')} ${String(p.hour).padStart(2,'0')}:${String(p.minute).padStart(2,'0')}`;
+}
+function formatHourDiff(hours) {
+  if (Number.isInteger(hours)) return `${hours}時間`;
+  const whole = Math.floor(hours);
+  const minutes = Math.round((hours - whole) * 60);
+  return whole === 0 ? `${minutes}分` : `${whole}時間${minutes}分`;
+}
+function formatDiffFromJapan(date, timeZone) {
+  const diffHours = (getOffsetMinutes(date, timeZone) - getOffsetMinutes(date, JAPAN_TZ)) / 60;
+  if (diffHours === 0) return '同じ';
+  const hours = formatHourDiff(Math.abs(diffHours));
+  return diffHours > 0 ? `日本より${hours}早い` : `日本より${hours}遅い`;
+}
+function formatDiffBetween(date, fromTz, toTz, fromName) {
+  const diffHours = (getOffsetMinutes(date, toTz) - getOffsetMinutes(date, fromTz)) / 60;
+  if (diffHours === 0) return `${fromName}と同じ`;
+  const hours = formatHourDiff(Math.abs(diffHours));
+  return diffHours > 0 ? `${fromName}より${hours}早い` : `${fromName}より${hours}遅い`;
+}
+function initJisa() {
+  const today = new Date();
+  document.getElementById('base-date').value = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+  const select = document.getElementById('source-city');
+  CITIES.forEach((city, index) => {
+    const option = document.createElement('option');
+    option.value = String(index);
+    option.textContent = city.name;
+    select.appendChild(option);
+  });
+  const nyIndex = CITIES.findIndex(c => c.tz === 'America/New_York');
+  if (nyIndex >= 0) select.value = String(nyIndex);
+  document.querySelectorAll('input[name="mode"]').forEach(radio => {
+    radio.addEventListener('change', updateMode);
+  });
+  select.addEventListener('change', updateMode);
+  updateMode();
+}
+function updateMode() {
+  const mode = document.querySelector('input[name="mode"]:checked').value;
+  const source = CITIES[Number(document.getElementById('source-city').value)] || CITIES[0];
+  document.getElementById('source-city-group').style.display = mode === 'to-japan' ? '' : 'none';
+  document.getElementById('time-label').textContent = mode === 'to-japan' ? `${source.name}の現地時間` : '日本時間（JST）';
+  document.getElementById('result').classList.remove('show');
+}
 function calc() {
-  const jst = document.getElementById('jst-time').value;
-  if (!jst) { alert('日本時間を入力してください'); return; }
-  const [h, m] = jst.split(':').map(Number);
-  const pad = n => String(n < 0 ? n + 24 : n >= 24 ? n - 24 : n).padStart(2, '0');
-  document.getElementById('res-jst').textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+  const dateStr = document.getElementById('base-date').value;
+  const timeStr = document.getElementById('base-time').value;
+  if (!dateStr || !timeStr) { alert('日付と時間を入力してください'); return; }
+  const mode = document.querySelector('input[name="mode"]:checked').value;
   const tbody = document.getElementById('city-rows');
   tbody.innerHTML = '';
-  CITIES.forEach(c => {
-    const totalMin = h * 60 + m + c.diff * 60;
-    let hh = Math.floor(totalMin / 60) % 24;
-    if (hh < 0) hh += 24;
-    const mm = ((totalMin % 60) + 60) % 60;
-    const sign = c.diff >= 0 ? '+' : '';
-    const diffStr = c.diff === 0 ? '同じ' : sign + c.diff + '時間';
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${c.name}</td><td><strong>${String(hh).padStart(2,'0')}:${String(mm).padStart(2,'0')}</strong></td><td>${diffStr}</td>`;
-    tbody.appendChild(tr);
-  });
+  if (mode === 'from-japan') {
+    const instant = zonedTimeToUtc(dateStr, timeStr, JAPAN_TZ);
+    document.getElementById('res-label').textContent = '入力した日本時間';
+    document.getElementById('res-main').textContent = formatZoned(instant, JAPAN_TZ);
+    document.getElementById('city-head').innerHTML = '<tr><th>都市</th><th>現地日時</th><th>日本との時差</th></tr>';
+    CITIES.forEach(c => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${c.name}</td><td><strong>${formatZoned(instant, c.tz)}</strong></td><td>${formatDiffFromJapan(instant, c.tz)}</td>`;
+      tbody.appendChild(tr);
+    });
+  } else {
+    const source = CITIES[Number(document.getElementById('source-city').value)];
+    const instant = zonedTimeToUtc(dateStr, timeStr, source.tz);
+    document.getElementById('res-label').textContent = '日本時間';
+    document.getElementById('res-main').textContent = formatZoned(instant, JAPAN_TZ);
+    document.getElementById('city-head').innerHTML = '<tr><th>地域</th><th>日時</th><th>メモ</th></tr>';
+    const sourceRow = document.createElement('tr');
+    sourceRow.innerHTML = `<td>${source.name}</td><td><strong>${formatZoned(instant, source.tz)}</strong></td><td>入力した現地時間</td>`;
+    tbody.appendChild(sourceRow);
+    const japanRow = document.createElement('tr');
+    japanRow.innerHTML = `<td>日本</td><td><strong>${formatZoned(instant, JAPAN_TZ)}</strong></td><td>${formatDiffBetween(instant, source.tz, JAPAN_TZ, source.name)}</td>`;
+    tbody.appendChild(japanRow);
+  }
   document.getElementById('result').classList.add('show');
   scrollToJisaResult();
 }
@@ -297,6 +405,7 @@ function scrollToJisaResult() {
   const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 24;
   window.scrollTo({ top: y, behavior: 'smooth' });
 }
+initJisa();
 </script>
 <script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
