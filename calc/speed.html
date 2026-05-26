@@ -140,13 +140,13 @@
       <div class="form-group">
         <label>求めるもの</label>
         <div class="radio-group">
-          <label><input type="radio" name="mode" value="speed" checked> 速さを求める</label>
+          <label><input type="radio" name="mode" value="time" checked> 所要時間を求める</label>
           <label><input type="radio" name="mode" value="dist"> 距離を求める</label>
-          <label><input type="radio" name="mode" value="time"> 時間を求める</label>
+          <label><input type="radio" name="mode" value="speed"> 速さを求める</label>
         </div>
       </div>
 
-      <div id="form-speed">
+      <div id="form-speed" style="display:none">
         <div class="form-group">
           <label>距離</label>
           <div class="input-wrap"><input type="number" id="s-dist" placeholder="100" min="0" step="any"><span class="unit">km</span></div>
@@ -170,7 +170,7 @@
         </div>
       </div>
 
-      <div id="form-time" style="display:none">
+      <div id="form-time">
         <div class="form-group">
           <label>距離</label>
           <div class="input-wrap"><input type="number" id="t-dist" placeholder="100" min="0" step="any"><span class="unit">km</span></div>
@@ -178,6 +178,19 @@
         <div class="form-group">
           <label>速さ</label>
           <div class="input-wrap"><input type="number" id="t-speed" placeholder="60" min="0" step="any"><span class="unit">km/h</span></div>
+          <p class="hint">下の移動手段を選ぶと、目安の速さが自動入力されます。</p>
+        </div>
+        <div class="form-group">
+          <label>移動手段の目安</label>
+          <div class="radio-group">
+            <label><input type="radio" name="speed-preset" value="3" onchange="setTravelSpeed(3)"> ゆっくり徒歩</label>
+            <label><input type="radio" name="speed-preset" value="4" onchange="setTravelSpeed(4)"> 普通の徒歩</label>
+            <label><input type="radio" name="speed-preset" value="5" onchange="setTravelSpeed(5)"> 早歩き</label>
+            <label><input type="radio" name="speed-preset" value="18" onchange="setTravelSpeed(18)"> 自転車</label>
+            <label><input type="radio" name="speed-preset" value="40" onchange="setTravelSpeed(40)"> 車（一般道）</label>
+            <label><input type="radio" name="speed-preset" value="90" onchange="setTravelSpeed(90)"> 車（高速道路）</label>
+          </div>
+          <p class="hint">自転車や車は幅があるため、代表値を入れています。必要に応じて速さ欄を調整してください。</p>
         </div>
       </div>
 
@@ -336,6 +349,10 @@ document.querySelectorAll('input[name="mode"]').forEach(function(r) {
     document.getElementById('result').classList.remove('show');
   });
 });
+function setTravelSpeed(speed) {
+  document.getElementById('t-speed').value = speed;
+  document.getElementById('result').classList.remove('show');
+}
 function fmtN(n) { return parseFloat(n.toPrecision(6)).toLocaleString('ja-JP'); }
 function fmtTime(h, m) {
   if (h === 0) return m + ' 分';
