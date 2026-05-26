@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>利益率・原価計算｜販売価格から利益率・粗利を無料計算｜はかるんツール</title>
-  <meta name="description" content="販売価格と原価を入力するだけで利益率・粗利・原価率を計算。逆算（目標利益率から販売価格を計算）も可能です。">
+  <title>利益率・原価計算｜粗利率・原価率・販売価格を逆算｜はかるんツール</title>
+  <meta name="description" content="販売価格と原価から利益率・粗利・原価率を無料計算。目標利益率から販売価格を逆算でき、値引き後の利益率や価格設定の早見表も確認できます。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <link rel="canonical" href="https://hakarun.net/calc/rieki">
@@ -14,7 +14,8 @@
   <script type="application/ld+json">
   { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "利益率と原価率の違いは？", "acceptedAnswer": { "@type": "Answer", "text": "利益率は「利益÷販売価格×100」、原価率は「原価÷販売価格×100」です。利益率＋原価率＝100%になります。飲食店の目安は原価率30〜35%（利益率65〜70%）です。" } },
     { "@type": "Question", "name": "粗利（粗利益）とは何ですか？", "acceptedAnswer": { "@type": "Answer", "text": "粗利（粗利益）とは売上から商品の原価（仕入れ費用）を差し引いた利益です。人件費・家賃・光熱費などの費用を引く前の段階の利益です。" } },
-    { "@type": "Question", "name": "目標利益率から販売価格を計算するには？", "acceptedAnswer": { "@type": "Answer", "text": "目標利益率30%にしたい場合、販売価格＝原価÷(1−0.30)で計算します。原価1,000円なら販売価格は約1,429円になります。" } }] }
+    { "@type": "Question", "name": "目標利益率から販売価格を計算するには？", "acceptedAnswer": { "@type": "Answer", "text": "目標利益率30%にしたい場合、販売価格＝原価÷(1−0.30)で計算します。原価1,000円なら販売価格は約1,429円になります。" } },
+    { "@type": "Question", "name": "値引きすると利益率はどれくらい下がりますか？", "acceptedAnswer": { "@type": "Answer", "text": "原価600円・販売価格1,000円の商品は利益率40%ですが、10%値引きして900円で売ると利益率は33.3%になります。値引きは売上だけでなく利益額も直接減らします。" } }] }
   </script>
 </head>
 <body>
@@ -131,7 +132,7 @@
     <div class="page-header">
       <div class="breadcrumb"><a href="../">トップ</a> &rsaquo; 計算・変換 &rsaquo; 💹 利益率・原価計算</div>
       <h1>💹 利益率・原価計算</h1>
-      <p class="subtitle">販売価格と原価から利益率・粗利を計算。目標利益率からの逆算も可能です</p>
+      <p class="subtitle">販売価格と原価から粗利率・原価率を計算。目標利益率から販売価格も逆算できます</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
@@ -144,7 +145,7 @@
         <label>原価（仕入れ価格・製造コスト）</label>
         <div class="input-wrap"><input type="number" id="cost" placeholder="500" min="0"><span class="unit">円</span></div>
       </div>
-      <button class="btn btn-primary" onclick="calcProfit()">計算する</button>
+      <button class="btn btn-primary" id="calc-profit-button" onclick="calcProfit()">計算する</button>
       <div class="result-area" id="result1">
         <div class="result-table"><table><tbody>
           <tr><td>粗利（利益額）</td><td id="r-profit">—</td></tr>
@@ -162,13 +163,86 @@
         <label>目標利益率</label>
         <div class="input-wrap"><input type="number" id="target" placeholder="60" min="0" max="99" step="0.1"><span class="unit">%</span></div>
       </div>
-      <button class="btn btn-primary" onclick="calcReverse()">販売価格を計算</button>
+      <button class="btn btn-primary" id="calc-reverse-button" onclick="calcReverse()">販売価格を計算</button>
       <div class="result-area" id="result2">
         <div class="result-table"><table><tbody>
           <tr><td>必要な販売価格</td><td id="r-price2">—</td></tr>
           <tr><td>粗利額</td><td id="r-profit2">—</td></tr>
         </tbody></table></div>
       </div>
+    </div>
+    <div class="article">
+      <h2>📊 利益率・原価率の計算例</h2>
+      <p>利益率は「売上のうち、どれくらいが利益として残るか」を見る数字です。たとえば1,000円で仕入れた商品を2,000円で売ると、粗利は1,000円、利益率は50%になります。</p>
+      <div class="example-table">
+        <table>
+          <thead>
+            <tr>
+              <th>販売価格</th>
+              <th>原価</th>
+              <th>粗利</th>
+              <th>利益率</th>
+              <th>原価率</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1,000円</td><td>600円</td><td>400円</td><td>40.0%</td><td>60.0%</td></tr>
+            <tr><td>1,500円</td><td>500円</td><td>1,000円</td><td>66.7%</td><td>33.3%</td></tr>
+            <tr><td>3,000円</td><td>1,200円</td><td>1,800円</td><td>60.0%</td><td>40.0%</td></tr>
+            <tr><td>10,000円</td><td>7,000円</td><td>3,000円</td><td>30.0%</td><td>70.0%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>利益率は「粗利 ÷ 販売価格 × 100」、原価率は「原価 ÷ 販売価格 × 100」で計算します。利益率と原価率を足すと100%になります。</p>
+    </div>
+    <div class="article">
+      <h2>📋 目標利益率から販売価格を逆算する早見表</h2>
+      <p>「原価は決まっているけれど、利益率をどれくらい確保すればよいか」を考えるときの目安です。送料・手数料・広告費などがある場合は、それらも原価に含めて考えると安全です。</p>
+      <div class="example-table">
+        <table>
+          <thead>
+            <tr>
+              <th>原価</th>
+              <th>利益率30%</th>
+              <th>利益率40%</th>
+              <th>利益率50%</th>
+              <th>利益率60%</th>
+              <th>利益率70%</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>500円</td><td>715円</td><td>834円</td><td>1,000円</td><td>1,250円</td><td>1,667円</td></tr>
+            <tr><td>1,000円</td><td>1,429円</td><td>1,667円</td><td>2,000円</td><td>2,500円</td><td>3,334円</td></tr>
+            <tr><td>3,000円</td><td>4,286円</td><td>5,000円</td><td>6,000円</td><td>7,500円</td><td>10,000円</td></tr>
+            <tr><td>5,000円</td><td>7,143円</td><td>8,334円</td><td>10,000円</td><td>12,500円</td><td>16,667円</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>計算式は「販売価格 = 原価 ÷ (1 - 目標利益率)」です。たとえば原価1,000円で利益率40%を確保したい場合は、1,000 ÷ 0.6 = 約1,667円になります。</p>
+    </div>
+    <div class="article">
+      <h2>⚠️ 値引きで利益率が下がる例</h2>
+      <p>値引きは売上だけでなく、利益額を直接減らします。原価600円・販売価格1,000円の商品を例にすると、10%値引きでも利益率は40%から33.3%まで下がります。</p>
+      <div class="example-table">
+        <table>
+          <thead>
+            <tr>
+              <th>販売条件</th>
+              <th>販売価格</th>
+              <th>原価</th>
+              <th>粗利</th>
+              <th>利益率</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>値引きなし</td><td>1,000円</td><td>600円</td><td>400円</td><td>40.0%</td></tr>
+            <tr><td>10%値引き</td><td>900円</td><td>600円</td><td>300円</td><td>33.3%</td></tr>
+            <tr><td>20%値引き</td><td>800円</td><td>600円</td><td>200円</td><td>25.0%</td></tr>
+            <tr><td>30%値引き</td><td>700円</td><td>600円</td><td>100円</td><td>14.3%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>値引きをする場合は、値引き後の販売価格で利益率を再計算してから判断するのがおすすめです。</p>
     </div>
     <div class="article">
       <h2>💹 利益率・原価率の基礎知識</h2>
@@ -237,7 +311,8 @@ document.querySelectorAll('input[type="number"]').forEach(function(input){
 function calcProfit(){
   const p=parseFloat(document.getElementById('price').value);
   const c=parseFloat(document.getElementById('cost').value);
-  if(!p||c===undefined){alert('販売価格と原価を入力してください');return;}
+  if(!p||isNaN(c)){alert('販売価格と原価を入力してください');return;}
+  if(c>p){alert('原価が販売価格を上回っています。入力内容を確認してください');return;}
   const profit=p-c;
   const prate=(profit/p*100).toFixed(1);
   const crate=(c/p*100).toFixed(1);
@@ -246,6 +321,7 @@ function calcProfit(){
   document.getElementById('r-prate').textContent=prate+'%';
   document.getElementById('r-crate').textContent=crate+'%';
   document.getElementById('result1').classList.add('show');
+  scrollToRiekiResult('calc-profit-button');
 }
 function calcReverse(){
   const c=parseFloat(document.getElementById('cost2').value);
@@ -257,6 +333,15 @@ function calcReverse(){
   document.getElementById('r-price2').textContent=fmt(price);
   document.getElementById('r-profit2').textContent=fmt(profit);
   document.getElementById('result2').classList.add('show');
+  scrollToRiekiResult('calc-reverse-button');
+}
+function scrollToRiekiResult(buttonId) {
+  const target = document.getElementById(buttonId);
+  if (!target) return;
+  const header = document.querySelector('header');
+  const headerHeight = header ? header.getBoundingClientRect().height : 0;
+  const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 24;
+  window.scrollTo({ top: y, behavior: 'smooth' });
 }
 </script>
 </body>
