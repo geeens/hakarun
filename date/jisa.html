@@ -339,7 +339,7 @@
       </div>
       <div class="form-group">
         <label id="time-label">日本時間（JST）</label>
-        <div class="input-wrap"><input type="time" id="base-time" value="12:00"></div>
+        <div class="input-wrap"><input type="time" id="base-time" value="12:00" step="1"></div>
       </div>
       <button class="btn btn-primary" id="calc-button" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
@@ -534,13 +534,13 @@ function getZoneParts(date, timeZone) {
 }
 function getOffsetMinutes(date, timeZone) {
   const p = getZoneParts(date, timeZone);
-  const localAsUtc = Date.UTC(p.year, p.month - 1, p.day, p.hour, p.minute);
+  const localAsUtc = Date.UTC(p.year, p.month - 1, p.day, p.hour, p.minute, p.second);
   return (localAsUtc - date.getTime()) / 60000;
 }
 function zonedTimeToUtc(dateStr, timeStr, timeZone) {
   const [year, month, day] = dateStr.split('-').map(Number);
-  const [hour, minute] = timeStr.split(':').map(Number);
-  const localAsUtc = Date.UTC(year, month - 1, day, hour, minute);
+  const [hour, minute, second = 0] = timeStr.split(':').map(Number);
+  const localAsUtc = Date.UTC(year, month - 1, day, hour, minute, second);
   let utc = localAsUtc;
   for (let i = 0; i < 4; i++) {
     const offset = getOffsetMinutes(new Date(utc), timeZone);
@@ -574,7 +574,7 @@ function formatInputDateTimeForZone(date, timeZone) {
   const p = getZoneParts(date, timeZone);
   return {
     date: `${p.year}-${String(p.month).padStart(2,'0')}-${String(p.day).padStart(2,'0')}`,
-    time: `${String(p.hour).padStart(2,'0')}:${String(p.minute).padStart(2,'0')}`
+    time: `${String(p.hour).padStart(2,'0')}:${String(p.minute).padStart(2,'0')}:${String(p.second).padStart(2,'0')}`
   };
 }
 function getDstInfo(date, city) {
@@ -617,7 +617,7 @@ function initJisa() {
 function setCurrentTime() {
   const now = new Date();
   document.getElementById('base-date').value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
-  document.getElementById('base-time').value = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  document.getElementById('base-time').value = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
   document.getElementById('result').classList.remove('show');
   stopClockComparison();
 }
