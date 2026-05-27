@@ -624,7 +624,7 @@ function stopClockComparison() {
     clockTimerId = null;
   }
 }
-function startClockComparison(instant, city) {
+function startClockComparison(instant, city, shouldAnimate) {
   stopClockComparison();
   clockBaseInstantMs = instant.getTime();
   clockBaseRealMs = Date.now();
@@ -635,7 +635,9 @@ function startClockComparison(instant, city) {
   document.getElementById('clock-japan-title').textContent = clockZones[0].name;
   document.getElementById('clock-city-title').textContent = clockZones[1].name;
   updateClockComparison();
-  clockTimerId = setInterval(updateClockComparison, 1000);
+  if (shouldAnimate) {
+    clockTimerId = setInterval(updateClockComparison, 1000);
+  }
 }
 function updateClockComparison() {
   if (!clockZones.length) return;
@@ -675,7 +677,7 @@ function calc() {
       tbody.appendChild(tr);
     });
     updateDstStatus(instant, selectedCity);
-    startClockComparison(instant, selectedCity);
+    startClockComparison(instant, selectedCity, displayMode === 'realtime');
   } else {
     const source = CITIES[Number(document.getElementById('source-city').value)];
     const instant = displayMode === 'realtime' ? new Date() : zonedTimeToUtc(dateStr, timeStr, source.tz);
@@ -690,11 +692,11 @@ function calc() {
     japanRow.innerHTML = `<td>日本</td><td><strong>${formatZoned(instant, JAPAN_TZ)}</strong></td><td>${formatDiffBetween(instant, source.tz, JAPAN_TZ, source.name)}</td>`;
     tbody.appendChild(japanRow);
     updateDstStatus(instant, source);
-    startClockComparison(instant, source);
+    startClockComparison(instant, source, displayMode === 'realtime');
   }
   document.getElementById('clock-note').textContent = displayMode === 'realtime'
     ? '※ リアルタイム表示はお使いの端末時刻を基準に、ページを開いている間だけ秒単位で進みます。'
-    : '※ 時計は計算した日時を起点に、ページを開いている間だけ秒単位で進みます。';
+    : '※ 指定時刻で確認モードでは、時計は計算した時点の時刻を静止表示します。';
   document.getElementById('result').classList.add('show');
   scrollToJisaResult();
 }
