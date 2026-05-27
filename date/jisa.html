@@ -134,25 +134,6 @@
       margin-top: 4px;
       font-variant-numeric: tabular-nums;
     }
-    .clock-toolbar {
-      display: flex;
-      justify-content: center;
-      margin: 14px 0 6px;
-    }
-    .realtime-button {
-      width: auto;
-      min-width: 180px;
-      padding: 10px 18px;
-      border-radius: 999px;
-      background: #0f172a;
-      color: #ffffff;
-      border: none;
-      font-weight: 800;
-      cursor: pointer;
-    }
-    .realtime-button:hover {
-      background: #1e293b;
-    }
     .dst-status {
       display: flex;
       align-items: center;
@@ -319,6 +300,13 @@
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
+        <label>表示モード</label>
+        <div class="radio-group">
+          <label><input type="radio" name="display-mode" value="fixed" checked> 指定時刻で確認</label>
+          <label><input type="radio" name="display-mode" value="realtime"> リアルタイムで表示</label>
+        </div>
+      </div>
+      <div class="form-group">
         <label>計算方向</label>
         <div class="radio-group">
           <label><input type="radio" name="mode" value="from-japan" checked> 日本時間から世界の時間</label>
@@ -331,24 +319,24 @@
           <select id="source-city"></select>
         </div>
       </div>
-      <button type="button" class="btn btn-secondary" onclick="setCurrentTime()">現在時刻をセット</button>
-      <div class="form-group">
-        <label>日付</label>
-        <div class="input-wrap"><input type="date" id="base-date"></div>
-        <p class="hint">サマータイムは、この日付をもとに自動で反映します。</p>
+      <div id="fixed-time-controls">
+        <button type="button" class="btn btn-secondary" onclick="setCurrentTime()">現在時刻をセット</button>
+        <div class="form-group">
+          <label>日付</label>
+          <div class="input-wrap"><input type="date" id="base-date"></div>
+          <p class="hint">サマータイムは、この日付をもとに自動で反映します。</p>
+        </div>
+        <div class="form-group">
+          <label id="time-label">日本時間（JST）</label>
+          <div class="input-wrap"><input type="time" id="base-time" value="12:00"></div>
+        </div>
       </div>
-      <div class="form-group">
-        <label id="time-label">日本時間（JST）</label>
-        <div class="input-wrap"><input type="time" id="base-time" value="12:00"></div>
-      </div>
+      <p class="hint" id="realtime-hint" style="display:none">現在の時刻をもとに、日本時間と選択した都市の現地時間をリアルタイム表示します。</p>
       <button class="btn btn-primary" id="calc-button" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
           <div class="label" id="res-label">入力した時間</div>
           <div class="value" id="res-main">—</div>
-        </div>
-        <div class="clock-toolbar">
-          <button type="button" class="realtime-button" onclick="setRealtimeDisplay()">リアルタイム表示</button>
         </div>
         <div class="dst-status" id="dst-status">サマータイム判定：—</div>
         <div class="timezone-clocks" id="clock-compare">
@@ -383,7 +371,7 @@
             <div class="digital-date" id="clock-city-date">----</div>
           </div>
         </div>
-        <p class="clock-note">※ 時計は計算した日時を起点に、ページを開いている間だけ秒単位で進みます。リアルタイム表示はお使いの端末時刻を基準にします。</p>
+        <p class="clock-note" id="clock-note">※ 時計は計算した日時を起点に、ページを開いている間だけ秒単位で進みます。</p>
         <div class="result-table">
           <table id="city-table"><thead id="city-head"><tr><th>都市</th><th>現地日時</th><th>時差</th></tr></thead>
           <tbody id="city-rows"></tbody></table>
@@ -571,13 +559,6 @@ function formatDiffBetween(date, fromTz, toTz, fromName) {
   const hours = formatHourDiff(Math.abs(diffHours));
   return diffHours > 0 ? `${fromName}より${hours}早い` : `${fromName}より${hours}遅い`;
 }
-function formatInputDateTimeForZone(date, timeZone) {
-  const p = getZoneParts(date, timeZone);
-  return {
-    date: `${p.year}-${String(p.month).padStart(2,'0')}-${String(p.day).padStart(2,'0')}`,
-    time: `${String(p.hour).padStart(2,'0')}:${String(p.minute).padStart(2,'0')}`
-  };
-}
 function getDstInfo(date, city) {
   const p = getZoneParts(date, city.tz);
   const jan = new Date(Date.UTC(p.year, 0, 1, 12, 0));
@@ -612,6 +593,9 @@ function initJisa() {
   document.querySelectorAll('input[name="mode"]').forEach(radio => {
     radio.addEventListener('change', updateMode);
   });
+  document.querySelectorAll('input[name="display-mode"]').forEach(radio => {
+    radio.addEventListener('change', updateMode);
+  });
   select.addEventListener('change', updateMode);
   updateMode();
 }
@@ -622,20 +606,15 @@ function setCurrentTime() {
   document.getElementById('result').classList.remove('show');
   stopClockComparison();
 }
-function setRealtimeDisplay() {
-  const mode = document.querySelector('input[name="mode"]:checked').value;
-  const selectedCity = CITIES[Number(document.getElementById('source-city').value)] || CITIES[0];
-  const now = new Date();
-  const input = formatInputDateTimeForZone(now, mode === 'to-japan' ? selectedCity.tz : JAPAN_TZ);
-  document.getElementById('base-date').value = input.date;
-  document.getElementById('base-time').value = input.time;
-  calc(now);
-}
 function updateMode() {
   const mode = document.querySelector('input[name="mode"]:checked').value;
+  const displayMode = document.querySelector('input[name="display-mode"]:checked').value;
   const source = CITIES[Number(document.getElementById('source-city').value)] || CITIES[0];
   document.getElementById('city-select-label').textContent = mode === 'to-japan' ? '基準にする都市' : '変換先の都市';
   document.getElementById('time-label').textContent = mode === 'to-japan' ? `${source.name}の現地時間` : '日本時間（JST）';
+  document.getElementById('fixed-time-controls').style.display = displayMode === 'fixed' ? '' : 'none';
+  document.getElementById('realtime-hint').style.display = displayMode === 'realtime' ? '' : 'none';
+  document.getElementById('calc-button').textContent = displayMode === 'realtime' ? 'リアルタイム表示する' : '計算する';
   document.getElementById('result').classList.remove('show');
   stopClockComparison();
 }
@@ -676,16 +655,17 @@ function updateClockComparison() {
     document.getElementById(`clock-${zone.key}-date`).textContent = `${p.year}/${String(p.month).padStart(2,'0')}/${String(p.day).padStart(2,'0')}`;
   });
 }
-function calc(realtimeInstant) {
+function calc() {
+  const displayMode = document.querySelector('input[name="display-mode"]:checked').value;
   const dateStr = document.getElementById('base-date').value;
   const timeStr = document.getElementById('base-time').value;
-  if (!dateStr || !timeStr) { alert('日付と時間を入力してください'); return; }
+  if (displayMode === 'fixed' && (!dateStr || !timeStr)) { alert('日付と時間を入力してください'); return; }
   const mode = document.querySelector('input[name="mode"]:checked').value;
   const tbody = document.getElementById('city-rows');
   tbody.innerHTML = '';
   if (mode === 'from-japan') {
     const selectedCity = CITIES[Number(document.getElementById('source-city').value)];
-    const instant = realtimeInstant || zonedTimeToUtc(dateStr, timeStr, JAPAN_TZ);
+    const instant = displayMode === 'realtime' ? new Date() : zonedTimeToUtc(dateStr, timeStr, JAPAN_TZ);
     document.getElementById('res-label').textContent = `${selectedCity.name}の現地時間`;
     document.getElementById('res-main').textContent = formatZoned(instant, selectedCity.tz);
     document.getElementById('city-head').innerHTML = '<tr><th>都市</th><th>現地日時</th><th>日本との時差</th></tr>';
@@ -698,12 +678,13 @@ function calc(realtimeInstant) {
     startClockComparison(instant, selectedCity);
   } else {
     const source = CITIES[Number(document.getElementById('source-city').value)];
-    const instant = realtimeInstant || zonedTimeToUtc(dateStr, timeStr, source.tz);
+    const instant = displayMode === 'realtime' ? new Date() : zonedTimeToUtc(dateStr, timeStr, source.tz);
     document.getElementById('res-label').textContent = '日本時間';
     document.getElementById('res-main').textContent = formatZoned(instant, JAPAN_TZ);
     document.getElementById('city-head').innerHTML = '<tr><th>地域</th><th>日時</th><th>メモ</th></tr>';
     const sourceRow = document.createElement('tr');
-    sourceRow.innerHTML = `<td>${source.name}</td><td><strong>${formatZoned(instant, source.tz)}</strong></td><td>入力した現地時間</td>`;
+    const sourceMemo = displayMode === 'realtime' ? '現在の現地時間' : '入力した現地時間';
+    sourceRow.innerHTML = `<td>${source.name}</td><td><strong>${formatZoned(instant, source.tz)}</strong></td><td>${sourceMemo}</td>`;
     tbody.appendChild(sourceRow);
     const japanRow = document.createElement('tr');
     japanRow.innerHTML = `<td>日本</td><td><strong>${formatZoned(instant, JAPAN_TZ)}</strong></td><td>${formatDiffBetween(instant, source.tz, JAPAN_TZ, source.name)}</td>`;
@@ -711,6 +692,9 @@ function calc(realtimeInstant) {
     updateDstStatus(instant, source);
     startClockComparison(instant, source);
   }
+  document.getElementById('clock-note').textContent = displayMode === 'realtime'
+    ? '※ リアルタイム表示はお使いの端末時刻を基準に、ページを開いている間だけ秒単位で進みます。'
+    : '※ 時計は計算した日時を起点に、ページを開いている間だけ秒単位で進みます。';
   document.getElementById('result').classList.add('show');
   scrollToJisaResult();
 }
