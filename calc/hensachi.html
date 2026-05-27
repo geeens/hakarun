@@ -3,14 +3,77 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>偏差値計算｜点数・平均点・標準偏差から偏差値を無料計算｜はかるんツール</title>
-  <meta name="description" content="点数・平均点・標準偏差を入力するだけで偏差値を計算。テストの点数リストから自動計算もできます。">
+  <title>偏差値計算｜点数・平均点から偏差値と上位何％を無料計算｜はかるんツール</title>
+  <meta name="description" content="点数・平均点・標準偏差から偏差値と上位何％を無料計算。1教科・5教科合計の点数や、点数リストからの自動計算にも対応しています。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <link rel="canonical" href="https://hakarun.net/calc/hensachi">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <style>
+    .example-buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 8px;
+      margin: 12px 0 18px;
+    }
+    .example-buttons button {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #f8fafc;
+      color: var(--text-primary);
+      cursor: pointer;
+      font-weight: 700;
+      padding: 10px 12px;
+      text-align: left;
+    }
+    .example-buttons button:hover {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+    .formula-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-weight: 700;
+      line-height: 1.7;
+      margin: 0 0 18px;
+      padding: 12px;
+    }
+    .hensachi-meter {
+      margin: 18px 0;
+      padding: 16px 4px 8px;
+    }
+    .hensachi-meter-track {
+      position: relative;
+      height: 14px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #60a5fa 0%, #93c5fd 35%, #22c55e 50%, #facc15 70%, #f97316 100%);
+    }
+    .hensachi-meter-pointer {
+      position: absolute;
+      top: -9px;
+      left: 50%;
+      width: 30px;
+      height: 30px;
+      border: 4px solid #fff;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 6px 14px rgba(15, 23, 42, 0.22);
+      transform: translateX(-50%);
+    }
+    .hensachi-meter-labels {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-secondary);
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-top: 10px;
+    }
+  </style>
   <script type="application/ld+json">
   { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "偏差値の計算方法は？", "acceptedAnswer": { "@type": "Answer", "text": "偏差値 = (自分の点数 − 平均点) ÷ 標準偏差 × 10 + 50 で計算します。平均点と同じなら偏差値は50、標準偏差1個分上なら60になります。" } },
     { "@type": "Question", "name": "偏差値50はどのくらいのレベル？", "acceptedAnswer": { "@type": "Answer", "text": "偏差値50はちょうど平均のレベルです。偏差値60以上は上位約16%、偏差値70以上は上位約2%に相当します。" } },
@@ -131,7 +194,7 @@
     <div class="page-header">
       <div class="breadcrumb"><a href="../">トップ</a> &rsaquo; 計算・変換 &rsaquo; 📊 偏差値計算</div>
       <h1>📊 偏差値計算</h1>
-      <p class="subtitle">点数・平均点・標準偏差から偏差値を計算します。点数リスト入力にも対応</p>
+      <p class="subtitle">点数・平均点・標準偏差から偏差値と上位何％を計算します。1教科・5教科合計どちらでも使えます。</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
@@ -143,6 +206,12 @@
         </select></div>
       </div>
       <div id="simpleMode">
+        <div class="formula-box">偏差値 = （自分の点数 − 平均点）÷ 標準偏差 × 10 + 50</div>
+        <div class="example-buttons" aria-label="入力例">
+          <button type="button" onclick="setSimpleExample(75,60,15)">1教科例：75点 / 平均60点</button>
+          <button type="button" onclick="setSimpleExample(70,50,10)">1教科例：70点 / 平均50点</button>
+          <button type="button" onclick="setSimpleExample(350,300,50)">5教科例：350点 / 平均300点</button>
+        </div>
         <div class="form-group">
           <label>自分の点数</label>
           <div class="input-wrap"><input type="number" id="myScore" placeholder="75"><span class="unit">点</span></div>
@@ -170,6 +239,12 @@
       <button class="btn btn-primary" onclick="calc()">偏差値を計算する</button>
       <div class="result-area" id="result">
         <div class="result-main"><div class="label">偏差値</div><div class="value" id="res-main">—</div></div>
+        <div class="hensachi-meter" aria-label="偏差値の位置">
+          <div class="hensachi-meter-track">
+            <div class="hensachi-meter-pointer" id="meter-pointer"></div>
+          </div>
+          <div class="hensachi-meter-labels"><span>30</span><span>40</span><span>50</span><span>60</span><span>70</span><span>80</span></div>
+        </div>
         <div class="result-table"><table><tbody>
           <tr><td>自分の点数</td><td id="r-my">—</td></tr>
           <tr><td>平均点</td><td id="r-avg">—</td></tr>
@@ -250,6 +325,14 @@ function switchMode(){
   document.getElementById('simpleMode').style.display=m==='simple'?'':'none';
   document.getElementById('listMode').style.display=m==='list'?'':'none';
 }
+function setSimpleExample(score, avg, sd){
+  document.getElementById('mode').value='simple';
+  switchMode();
+  document.getElementById('myScore').value=score;
+  document.getElementById('avg').value=avg;
+  document.getElementById('sd').value=sd;
+  calc();
+}
 function normalCDF(z){
   var t=1/(1+0.2316419*Math.abs(z));
   var d=0.3989423*Math.exp(-z*z/2);
@@ -291,6 +374,7 @@ function calc(){
   document.getElementById('r-rank').textContent='上位 '+upper.toFixed(1)+'%';
   document.getElementById('r-comment').textContent=comment;
   document.getElementById('res-main').textContent=hensachi.toFixed(1);
+  document.getElementById('meter-pointer').style.left=Math.max(0,Math.min(100,(hensachi-30)/50*100))+'%';
   document.getElementById('result').classList.add('show');
 }
 </script>
