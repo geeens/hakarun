@@ -666,6 +666,7 @@ function updateClockComparison() {
   });
   if (currentDisplayMode === 'realtime' && currentResultCity) {
     document.getElementById('res-main').textContent = formatZonedWithSeconds(instant, currentResultCity.tz);
+    updateDstStatus(instant, currentResultCity);
   }
 }
 function calc() {
