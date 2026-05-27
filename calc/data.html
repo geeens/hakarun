@@ -314,7 +314,11 @@ function calc(){
   const u=parseFloat(document.getElementById('unit').value);
   if(isNaN(v)||v<0){alert('容量を入力してください');return;}
   const bytes=v*u;
-  function fmt(n){if(n>=1e15)return (n/1e15).toPrecision(6)+' PB';if(n<0.001)return n.toExponential(3);return parseFloat(n.toPrecision(6)).toLocaleString('ja-JP');}
+  function fmt(n){
+    if(n===0)return '0';
+    const digits = n >= 1 ? 3 : 9;
+    return n.toLocaleString('ja-JP',{maximumFractionDigits:digits});
+  }
   document.getElementById('r-b').textContent=fmt(bytes)+' B';
   document.getElementById('r-kb').textContent=fmt(bytes/1024)+' KB';
   document.getElementById('r-mb').textContent=fmt(bytes/1048576)+' MB';
