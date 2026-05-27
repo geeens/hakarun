@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GB・MB変換｜1GBは何MB？KB・TBも無料換算｜はかるんツール</title>
-  <meta name="description" content="GB・MB・KB・TBなどのデータ容量を一括変換。1GBは何MB、3000MBは何GBなど、スマホ容量やファイルサイズの確認に便利です。">
+  <meta name="description" content="GB・MB・KB・TBなどのデータ容量を一括変換。1GBは何MBか、スマホ容量やファイルサイズを確認したいときに便利です。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <link rel="canonical" href="https://hakarun.net/calc/data">
@@ -16,7 +16,13 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 8px;
-      margin: 14px 0 18px;
+      margin: 8px 0 18px;
+    }
+    .quick-convert-title {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin: 0 0 6px;
     }
     .quick-convert button {
       border: 1px solid var(--border);
@@ -179,13 +185,12 @@
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
-      <p class="subtitle" style="margin-bottom:16px">GB・MB・KB・TBを一括変換します。1GBは何MB、3000MBは何GBなどの確認に使えます。</p>
-      <div class="quick-convert" aria-label="よく使う変換例">
+      <p class="subtitle" style="margin-bottom:16px">GB・MB・KB・TBを一括変換します。スマホ容量、通信量、写真・動画ファイルのサイズ確認に使えます。</p>
+      <p class="quick-convert-title">基本の換算を小さい単位から確認</p>
+      <div class="quick-convert" aria-label="基本の変換例">
+        <button type="button" onclick="setExample(1, 1024)">1KB → B</button>
+        <button type="button" onclick="setExample(1, 1048576)">1MB → KB</button>
         <button type="button" onclick="setExample(1, 1073741824)">1GB → MB</button>
-        <button type="button" onclick="setExample(3, 1073741824)">3GB → MB</button>
-        <button type="button" onclick="setExample(3000, 1048576)">3000MB → GB</button>
-        <button type="button" onclick="setExample(200, 1048576)">200MB → KB</button>
-        <button type="button" onclick="setExample(15000, 1024)">15000KB → MB</button>
         <button type="button" onclick="setExample(1, 1099511627776)">1TB → GB</button>
       </div>
       <div class="form-group">
@@ -229,8 +234,8 @@
         <p style="font-weight:bold;margin-bottom:8px">よく使う変換例</p>
         <div class="data-example-grid">
           <div class="data-example-card"><strong>1GB = 1,024MB</strong><span>スマホ通信量やクラウド容量でよく使う換算です</span></div>
-          <div class="data-example-card"><strong>3GB = 3,072MB</strong><span>小容量のスマホプランの目安確認に便利です</span></div>
-          <div class="data-example-card"><strong>3000MB = 約2.93GB</strong><span>2進数基準で計算した場合の目安です</span></div>
+          <div class="data-example-card"><strong>1MB = 1,024KB</strong><span>画像やPDFなど、小さめのファイルサイズ確認に使えます</span></div>
+          <div class="data-example-card"><strong>256GB = 0.25TB</strong><span>スマホやパソコンの保存容量を大きな単位で見るときに便利です</span></div>
           <div class="data-example-card"><strong>1TB = 1,024GB</strong><span>SSD・HDD・外付けストレージの容量確認に使えます</span></div>
         </div>
       </div>
