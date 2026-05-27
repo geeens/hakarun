@@ -79,6 +79,7 @@
   <url><loc>https://hakarun.net/money/fukugyo</loc><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/health/kintore</loc><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/health/running</loc><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/health/diet-walk</loc><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/health/ninkatu</loc><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/life/shokuhi</loc><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/date/eto</loc><priority>0.8</priority></url>
