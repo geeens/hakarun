@@ -164,6 +164,61 @@
       background: #ecfdf5;
       color: #047857;
     }
+    .clock-action-row {
+      display: none;
+      justify-content: center;
+      margin: 12px 0 4px;
+    }
+    .clock-action-row.show {
+      display: flex;
+    }
+    .fullscreen-button {
+      width: auto;
+      min-width: 160px;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 999px;
+      background: #0f172a;
+      color: #ffffff;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .fullscreen-button:hover {
+      background: #1e293b;
+    }
+    .clock-fullscreen-panel:fullscreen {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+      width: 100vw;
+      min-height: 100vh;
+      padding: 28px;
+      background: #f8fafc;
+    }
+    .clock-fullscreen-panel:fullscreen .clock-action-row {
+      display: flex;
+    }
+    .clock-fullscreen-panel:fullscreen .timezone-clocks {
+      width: min(1400px, 100%);
+      margin: 0 auto;
+    }
+    .clock-fullscreen-panel:fullscreen .timezone-clock-card {
+      padding: clamp(20px, 3vw, 40px);
+    }
+    .clock-fullscreen-panel:fullscreen .analog-clock {
+      width: clamp(220px, 26vw, 360px);
+      height: clamp(220px, 26vw, 360px);
+    }
+    .clock-fullscreen-panel:fullscreen .digital-clock {
+      font-size: clamp(46px, 7vw, 86px);
+    }
+    .clock-fullscreen-panel:fullscreen .digital-date {
+      font-size: clamp(18px, 2vw, 28px);
+    }
+    .clock-fullscreen-panel:fullscreen .timezone-clock-title {
+      font-size: clamp(20px, 2.2vw, 34px);
+    }
     .clock-note {
       color: var(--text-secondary);
       font-size: 12px;
@@ -339,36 +394,41 @@
           <div class="value" id="res-main">—</div>
         </div>
         <div class="dst-status" id="dst-status">サマータイム判定：—</div>
-        <div class="timezone-clocks" id="clock-compare">
-          <div class="timezone-clock-card">
-            <div class="timezone-clock-title" id="clock-japan-title">日本時間</div>
-            <div class="analog-clock" aria-hidden="true">
-              <span class="clock-number n12">12</span>
-              <span class="clock-number n3">3</span>
-              <span class="clock-number n6">6</span>
-              <span class="clock-number n9">9</span>
-              <span class="clock-hand hour" id="clock-japan-hour"></span>
-              <span class="clock-hand minute" id="clock-japan-minute"></span>
-              <span class="clock-hand second" id="clock-japan-second"></span>
-              <span class="clock-center"></span>
-            </div>
-            <div class="digital-clock" id="clock-japan-time">--:--:--</div>
-            <div class="digital-date" id="clock-japan-date">----</div>
+        <div class="clock-fullscreen-panel" id="clock-fullscreen-panel">
+          <div class="clock-action-row" id="clock-action-row">
+            <button type="button" class="fullscreen-button" id="fullscreen-button" onclick="toggleClockFullscreen()">全画面表示</button>
           </div>
-          <div class="timezone-clock-card">
-            <div class="timezone-clock-title" id="clock-city-title">比較対象の時間</div>
-            <div class="analog-clock" aria-hidden="true">
-              <span class="clock-number n12">12</span>
-              <span class="clock-number n3">3</span>
-              <span class="clock-number n6">6</span>
-              <span class="clock-number n9">9</span>
-              <span class="clock-hand hour" id="clock-city-hour"></span>
-              <span class="clock-hand minute" id="clock-city-minute"></span>
-              <span class="clock-hand second" id="clock-city-second"></span>
-              <span class="clock-center"></span>
+          <div class="timezone-clocks" id="clock-compare">
+            <div class="timezone-clock-card">
+              <div class="timezone-clock-title" id="clock-japan-title">日本時間</div>
+              <div class="analog-clock" aria-hidden="true">
+                <span class="clock-number n12">12</span>
+                <span class="clock-number n3">3</span>
+                <span class="clock-number n6">6</span>
+                <span class="clock-number n9">9</span>
+                <span class="clock-hand hour" id="clock-japan-hour"></span>
+                <span class="clock-hand minute" id="clock-japan-minute"></span>
+                <span class="clock-hand second" id="clock-japan-second"></span>
+                <span class="clock-center"></span>
+              </div>
+              <div class="digital-clock" id="clock-japan-time">--:--:--</div>
+              <div class="digital-date" id="clock-japan-date">----</div>
             </div>
-            <div class="digital-clock" id="clock-city-time">--:--:--</div>
-            <div class="digital-date" id="clock-city-date">----</div>
+            <div class="timezone-clock-card">
+              <div class="timezone-clock-title" id="clock-city-title">比較対象の時間</div>
+              <div class="analog-clock" aria-hidden="true">
+                <span class="clock-number n12">12</span>
+                <span class="clock-number n3">3</span>
+                <span class="clock-number n6">6</span>
+                <span class="clock-number n9">9</span>
+                <span class="clock-hand hour" id="clock-city-hour"></span>
+                <span class="clock-hand minute" id="clock-city-minute"></span>
+                <span class="clock-hand second" id="clock-city-second"></span>
+                <span class="clock-center"></span>
+              </div>
+              <div class="digital-clock" id="clock-city-time">--:--:--</div>
+              <div class="digital-date" id="clock-city-date">----</div>
+            </div>
           </div>
         </div>
         <p class="clock-note" id="clock-note">※ 時計は計算した日時を起点に、ページを開いている間だけ秒単位で進みます。</p>
@@ -622,6 +682,7 @@ function updateMode() {
   document.getElementById('fixed-time-controls').style.display = displayMode === 'fixed' ? '' : 'none';
   document.getElementById('realtime-hint').style.display = displayMode === 'realtime' ? '' : 'none';
   document.getElementById('calc-button').textContent = displayMode === 'realtime' ? 'リアルタイム表示する' : '計算する';
+  document.getElementById('clock-action-row').classList.remove('show');
   document.getElementById('result').classList.remove('show');
   stopClockComparison();
 }
@@ -669,6 +730,18 @@ function updateClockComparison() {
     updateDstStatus(instant, currentResultCity);
   }
 }
+function toggleClockFullscreen() {
+  const panel = document.getElementById('clock-fullscreen-panel');
+  if (!document.fullscreenElement) {
+    if (panel.requestFullscreen) panel.requestFullscreen();
+  } else if (document.exitFullscreen) {
+    document.exitFullscreen();
+  }
+}
+document.addEventListener('fullscreenchange', function() {
+  const button = document.getElementById('fullscreen-button');
+  if (button) button.textContent = document.fullscreenElement ? '全画面を終了' : '全画面表示';
+});
 function calc() {
   const displayMode = document.querySelector('input[name="display-mode"]:checked').value;
   currentDisplayMode = displayMode;
@@ -691,6 +764,7 @@ function calc() {
     });
     updateDstStatus(instant, selectedCity);
     startClockComparison(instant, selectedCity, true);
+    document.getElementById('clock-action-row').classList.add('show');
   } else if (mode === 'from-japan') {
     const selectedCity = CITIES[Number(document.getElementById('source-city').value)];
     const instant = zonedTimeToUtc(dateStr, timeStr, JAPAN_TZ);
@@ -704,6 +778,7 @@ function calc() {
     });
     updateDstStatus(instant, selectedCity);
     startClockComparison(instant, selectedCity, false);
+    document.getElementById('clock-action-row').classList.remove('show');
   } else {
     const source = CITIES[Number(document.getElementById('source-city').value)];
     const instant = zonedTimeToUtc(dateStr, timeStr, source.tz);
@@ -719,6 +794,7 @@ function calc() {
     tbody.appendChild(japanRow);
     updateDstStatus(instant, source);
     startClockComparison(instant, source, displayMode === 'realtime');
+    document.getElementById('clock-action-row').classList.remove('show');
   }
   document.getElementById('clock-note').textContent = displayMode === 'realtime'
     ? '※ リアルタイム表示はお使いの端末時刻を基準に、ページを開いている間だけ秒単位で進みます。'
