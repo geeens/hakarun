@@ -33,16 +33,20 @@
         linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
       overflow: hidden;
     }
-    .weight-line {
+    .weight-graph-svg {
       position: absolute;
-      left: 8%;
-      top: 28%;
-      width: 94.85%;
-      height: 4px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, #0ea5e9, #22c55e);
-      transform-origin: left center;
-      box-shadow: 0 8px 18px rgba(34, 197, 94, 0.18);
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .weight-graph-line {
+      fill: none;
+      stroke: url(#weightLineGradient);
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 8px 8px rgba(34, 197, 94, 0.16));
     }
     .weight-point {
       position: absolute;
@@ -76,6 +80,14 @@
       font-size: 0.75rem;
       font-weight: 700;
     }
+    #label-start {
+      text-align: left;
+      transform: translateX(0);
+    }
+    #label-goal {
+      text-align: right;
+      transform: translateX(-100%);
+    }
     .weight-axis {
       position: absolute;
       left: 8%;
@@ -91,6 +103,18 @@
       font-size: 0.75rem;
       font-weight: 700;
       transform: translateX(-50%);
+      white-space: nowrap;
+    }
+    .plan-progress-table table {
+      min-width: 720px;
+    }
+    .plan-progress-table th,
+    .plan-progress-table td {
+      text-align: center;
+    }
+    .plan-progress-table th:first-child,
+    .plan-progress-table td:first-child {
+      text-align: left;
       white-space: nowrap;
     }
     @media (max-width: 640px) {
@@ -313,15 +337,35 @@
         </tbody></table></div>
         <div class="diet-plan-section">
           <h2 class="diet-plan-title">減量計画の目安</h2>
-          <div class="result-table">
+          <div class="result-table wide-table sticky-first plan-progress-table">
             <table>
-              <thead><tr><th>タイミング</th><th>経過日数</th><th>体重目安</th><th>減量目安</th></tr></thead>
+              <thead>
+                <tr>
+                  <th>項目</th>
+                  <th id="p-start-day">0日目</th>
+                  <th id="p-q1-day">—</th>
+                  <th id="p-mid-day">—</th>
+                  <th id="p-q3-day">—</th>
+                  <th id="p-goal-day">—</th>
+                </tr>
+              </thead>
               <tbody>
-                <tr><td>スタート</td><td id="p-start-day">—</td><td id="p-start-weight">—</td><td id="p-start-loss">—</td></tr>
-                <tr><td>25%地点</td><td id="p-q1-day">—</td><td id="p-q1-weight">—</td><td id="p-q1-loss">—</td></tr>
-                <tr><td>中間</td><td id="p-mid-day">—</td><td id="p-mid-weight">—</td><td id="p-mid-loss">—</td></tr>
-                <tr><td>75%地点</td><td id="p-q3-day">—</td><td id="p-q3-weight">—</td><td id="p-q3-loss">—</td></tr>
-                <tr><td>ゴール</td><td id="p-goal-day">—</td><td id="p-goal-weight">—</td><td id="p-goal-loss">—</td></tr>
+                <tr>
+                  <td>体重目安</td>
+                  <td id="p-start-weight">—</td>
+                  <td id="p-q1-weight">—</td>
+                  <td id="p-mid-weight">—</td>
+                  <td id="p-q3-weight">—</td>
+                  <td id="p-goal-weight">—</td>
+                </tr>
+                <tr>
+                  <td>減量目安</td>
+                  <td id="p-start-loss">—</td>
+                  <td id="p-q1-loss">—</td>
+                  <td id="p-mid-loss">—</td>
+                  <td id="p-q3-loss">—</td>
+                  <td id="p-goal-loss">—</td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -329,7 +373,15 @@
         <div class="diet-plan-section">
           <h2 class="diet-plan-title">体重推移グラフ</h2>
           <div class="weight-graph" aria-label="スタートからゴールまでの体重推移">
-            <div class="weight-line" id="weight-line"></div>
+            <svg class="weight-graph-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="weightLineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#0ea5e9"></stop>
+                  <stop offset="100%" stop-color="#22c55e"></stop>
+                </linearGradient>
+              </defs>
+              <polyline class="weight-graph-line" id="weight-line" points="8,28 29,39 50,50 71,61 92,72"></polyline>
+            </svg>
             <div class="weight-axis">
               <span class="weight-axis-label" id="axis-start">0日目</span>
               <span class="weight-axis-label" id="axis-mid">—</span>
@@ -462,16 +514,27 @@ function setPlanRow(prefix, point) {
   document.getElementById(prefix + '-weight').textContent = point.weight.toFixed(1) + ' kg';
   document.getElementById(prefix + '-loss').textContent = point.loss.toFixed(1) + ' kg';
 }
-function setGraphPoint(prefix, point, top, bottom) {
+function graphCoordinates(point, top, bottom) {
   const left = 8 + point.ratio * 84;
   const y = top + point.ratio * (bottom - top);
+  return { left, y };
+}
+function setGraphPoint(prefix, point, top, bottom) {
+  const position = graphCoordinates(point, top, bottom);
   const pointEl = document.getElementById('point-' + prefix);
   const labelEl = document.getElementById('label-' + prefix);
-  pointEl.style.left = left + '%';
-  pointEl.style.top = y + '%';
-  labelEl.style.left = left + '%';
-  labelEl.style.top = (y - 15) + '%';
+  pointEl.style.left = position.left + '%';
+  pointEl.style.top = position.y + '%';
+  labelEl.style.left = position.left + '%';
+  labelEl.style.top = (position.y - 15) + '%';
   labelEl.innerHTML = point.weight.toFixed(1) + 'kg<span>' + point.day + '日目 / -' + point.loss.toFixed(1) + 'kg</span>';
+}
+function setGraphLine(plan, top, bottom) {
+  const points = [plan.start, plan.q1, plan.mid, plan.q3, plan.goal].map(function(point) {
+    const position = graphCoordinates(point, top, bottom);
+    return position.left.toFixed(2) + ',' + position.y.toFixed(2);
+  }).join(' ');
+  document.getElementById('weight-line').setAttribute('points', points);
 }
 function calcDietWalk() {
   const targetKg = parseFloat(document.getElementById('target-kg').value);
@@ -535,9 +598,7 @@ function calcDietWalk() {
   setGraphPoint('mid', plan.mid, 28, 72);
   setGraphPoint('q3', plan.q3, 28, 72);
   setGraphPoint('goal', plan.goal, 28, 72);
-  document.getElementById('weight-line').style.top = '28%';
-  document.getElementById('weight-line').style.width = Math.sqrt(84 * 84 + 44 * 44).toFixed(2) + '%';
-  document.getElementById('weight-line').style.transform = 'rotate(' + Math.atan2(44, 84) + 'rad)';
+  setGraphLine(plan, 28, 72);
   document.getElementById('axis-start').style.left = '0%';
   document.getElementById('axis-mid').style.left = '50%';
   document.getElementById('axis-goal').style.left = '100%';
