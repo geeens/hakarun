@@ -11,6 +11,66 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <style>
+    .diet-plan-section {
+      margin-top: 18px;
+    }
+    .diet-plan-title {
+      color: var(--text-primary);
+      font-size: 1rem;
+      font-weight: 800;
+      margin: 0 0 10px;
+    }
+    .diet-chart {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .diet-bar-row {
+      display: grid;
+      grid-template-columns: minmax(110px, 150px) 1fr minmax(84px, auto);
+      gap: 10px;
+      align-items: center;
+    }
+    .diet-bar-label {
+      color: var(--text-secondary);
+      font-weight: 700;
+    }
+    .diet-bar-track {
+      height: 18px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e2e8f0;
+    }
+    .diet-bar-fill {
+      height: 100%;
+      min-width: 0;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #22c55e, #16a34a);
+      transition: width 0.3s ease;
+    }
+    .diet-bar-fill.food {
+      background: linear-gradient(90deg, #38bdf8, #2563eb);
+    }
+    .diet-bar-fill.exercise {
+      background: linear-gradient(90deg, #f97316, #ea580c);
+    }
+    .diet-bar-value {
+      color: var(--text-primary);
+      font-weight: 800;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+    @media (max-width: 640px) {
+      .diet-bar-row {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+      .diet-bar-value {
+        text-align: left;
+      }
+    }
+  </style>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -21,7 +81,7 @@
       "name": "1kg痩せるには何歩歩けばよいですか？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "脂肪1kgを減らすには約7,200kcalの赤字が必要です。体重60kgの人が歩く場合、1万歩で約300kcal消費する目安なので、運動だけなら約24万歩が必要です。"
+        "text": "脂肪1kgを減らすには約7,200kcal分の消費カロリーが目安です。体重60kgの人が歩く場合、1万歩で約300kcal消費する目安なので、運動だけなら約24万歩が必要です。"
       }
     },
     {
@@ -210,24 +270,57 @@
         </div>
         <div class="result-table"><table><tbody>
           <tr><td>目標減量</td><td id="r-target">—</td></tr>
-          <tr><td>必要な総カロリー赤字</td><td id="r-total">—</td></tr>
-          <tr><td>1日あたり必要なカロリー赤字</td><td id="r-daily">—</td></tr>
+          <tr><td>目標に必要な消費カロリー</td><td id="r-total">—</td></tr>
+          <tr><td>1日あたりの目標消費カロリー</td><td id="r-daily">—</td></tr>
           <tr><td>食事で減らす分</td><td id="r-food">—</td></tr>
-          <tr><td>運動で消費したい分</td><td id="r-exercise">—</td></tr>
+          <tr><td>運動で追加したい消費カロリー</td><td id="r-exercise">—</td></tr>
           <tr><td>1日あたりの距離</td><td id="r-distance">—</td></tr>
           <tr><td>1日あたりの時間</td><td id="r-time">—</td></tr>
           <tr><td>現実度の目安</td><td id="r-level">—</td></tr>
         </tbody></table></div>
+        <div class="diet-plan-section">
+          <h2 class="diet-plan-title">減量計画の目安</h2>
+          <div class="result-table">
+            <table>
+              <thead><tr><th>タイミング</th><th>経過日数</th><th>減量目安</th><th>残り目標</th></tr></thead>
+              <tbody>
+                <tr><td>スタート</td><td id="p-start-day">—</td><td id="p-start-loss">—</td><td id="p-start-remain">—</td></tr>
+                <tr><td>中間</td><td id="p-mid-day">—</td><td id="p-mid-loss">—</td><td id="p-mid-remain">—</td></tr>
+                <tr><td>ゴール</td><td id="p-goal-day">—</td><td id="p-goal-loss">—</td><td id="p-goal-remain">—</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="diet-plan-section">
+          <h2 class="diet-plan-title">1日あたりのカロリー内訳</h2>
+          <div class="diet-chart">
+            <div class="diet-bar-row">
+              <div class="diet-bar-label">目標</div>
+              <div class="diet-bar-track"><div class="diet-bar-fill" id="bar-daily"></div></div>
+              <div class="diet-bar-value" id="bar-daily-value">—</div>
+            </div>
+            <div class="diet-bar-row">
+              <div class="diet-bar-label">食事で調整</div>
+              <div class="diet-bar-track"><div class="diet-bar-fill food" id="bar-food"></div></div>
+              <div class="diet-bar-value" id="bar-food-value">—</div>
+            </div>
+            <div class="diet-bar-row">
+              <div class="diet-bar-label">運動で消費</div>
+              <div class="diet-bar-track"><div class="diet-bar-fill exercise" id="bar-exercise"></div></div>
+              <div class="diet-bar-value" id="bar-exercise-value">—</div>
+            </div>
+          </div>
+        </div>
         <div class="info-box" id="result-note">脂肪1kgを約7,200kcalとして計算しています。体重の変化には個人差があり、食事・睡眠・筋肉量・体調によって実際の結果は変わります。</div>
       </div>
     </div>
     <div class="ad-area">広告</div>
     <div class="article">
       <h2>何kg痩せるには何歩歩く？目安表</h2>
-      <p>体重60kgの人が普通に歩く場合、1万歩で約300kcalを消費する目安です。脂肪1kgを減らすには約7,200kcalの赤字が必要なため、運動だけで達成するにはかなりの歩数が必要になります。</p>
+      <p>体重60kgの人が普通に歩く場合、1万歩で約300kcalを消費する目安です。脂肪1kgを減らすには約7,200kcal分の消費カロリーが目安になるため、運動だけで達成するにはかなりの歩数が必要になります。</p>
       <div class="example-table">
         <table>
-          <thead><tr><th>目標</th><th>必要な赤字</th><th>歩数の目安</th><th>30日で割ると</th></tr></thead>
+          <thead><tr><th>目標</th><th>必要な消費カロリー</th><th>歩数の目安</th><th>30日で割ると</th></tr></thead>
           <tbody>
             <tr><td>1kg痩せる</td><td>約7,200kcal</td><td>約24万歩</td><td>1日約8,000歩</td></tr>
             <tr><td>2kg痩せる</td><td>約14,400kcal</td><td>約48万歩</td><td>1日約16,000歩</td></tr>
@@ -240,7 +333,7 @@
     </div>
     <div class="article">
       <h2>ダイエット目標を歩数・距離に直す考え方</h2>
-      <p>「何日で何kg痩せたいか」を考えるときは、まず目標体重ではなく必要なカロリー赤字に直すと分かりやすくなります。脂肪1kgは約7,200kcalなので、1kg痩せたい場合は合計で約7,200kcal、2kgなら約14,400kcalの赤字が目安です。</p>
+      <p>「何日で何kg痩せたいか」を考えるときは、まず目標体重ではなく必要な消費カロリーに直すと分かりやすくなります。脂肪1kgは約7,200kcalなので、1kg痩せたい場合は合計で約7,200kcal、2kgなら約14,400kcalの消費が目安です。</p>
       <p>ただし、すべてを運動だけで消費しようとすると、1日あたりの歩数や距離がかなり大きくなることがあります。現実的には、食事で少し減らす分と、歩く・走るなどの運動で消費する分を組み合わせるほうが続けやすくなります。</p>
       <p>急に運動量を増やしすぎると、膝や足首を痛めたり、疲労がたまったりすることがあります。まずは1日あたりプラス2,000〜5,000歩程度から始め、慣れてきたら少しずつ距離や時間を増やすのがおすすめです。</p>
     </div>
@@ -250,7 +343,7 @@
       <div class="faq-item"><div class="faq-q">Q. 1日何歩歩けば痩せますか？</div><div class="faq-a">体重や食事量によりますが、まずは現在の歩数にプラス2,000〜5,000歩を目標にすると続けやすいです。体重60kgなら追加5,000歩で約150kcalの消費が目安です。</div></div>
       <div class="faq-item"><div class="faq-q">Q. 走る場合は何km走れば痩せますか？</div><div class="faq-a">体重60kgの人が時速8〜10kmで走る場合、1kmあたり約60〜70kcalが目安です。1kg分の7,200kcalを運動だけで消費するなら、おおよそ100km前後になります。</div></div>
       <div class="faq-item"><div class="faq-q">Q. 食事制限も入れて計算できますか？</div><div class="faq-a">はい。1日あたり食事で減らすカロリーを入力すると、その分を差し引いて、運動で必要な歩数・距離・時間を計算します。</div></div>
-      <div class="faq-item"><div class="faq-q">Q. 短期間で大きく痩せる計画は危険ですか？</div><div class="faq-a">急激な減量は体調不良や筋肉量の低下につながることがあります。1日あたりの赤字が500kcalを大きく超える場合は、期間を長くする、食事と運動のバランスを見直すなど、無理のない計画に調整しましょう。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 短期間で大きく痩せる計画は危険ですか？</div><div class="faq-a">急激な減量は体調不良や筋肉量の低下につながることがあります。1日あたりの追加消費カロリーが500kcalを大きく超える場合は、期間を長くする、食事と運動のバランスを見直すなど、無理のない計画に調整しましょう。</div></div>
     </div>
     <div class="article">
       <h2>関連ツール</h2>
@@ -318,6 +411,10 @@ function judgeLevel(exerciseKcal, activity, distance, minutes, steps) {
   if (distance <= 10) return 'やや多め';
   return 'かなり多め。休養日も含めて調整がおすすめ';
 }
+function setBar(id, value, max) {
+  const width = max > 0 ? Math.min(100, Math.max(0, value / max * 100)) : 0;
+  document.getElementById(id).style.width = width + '%';
+}
 function calcDietWalk() {
   const targetKg = parseFloat(document.getElementById('target-kg').value);
   const days = parseFloat(document.getElementById('days').value);
@@ -353,6 +450,9 @@ function calcDietWalk() {
     summaryText = '約' + formatMinutes(minutes) + '走る目安です';
   }
   const level = judgeLevel(exerciseKcal, activity, distance, minutes, steps);
+  const midDay = Math.max(1, Math.round(days / 2));
+  const midLoss = targetKg * midDay / days;
+  const maxBar = Math.max(dailyDeficit, foodCut, exerciseKcal, 1);
   document.getElementById('res-main').textContent = mainText;
   document.getElementById('res-summary').textContent = exerciseKcal <= 0 ? '食事で減らす分だけで目標に届く計算です' : summaryText;
   document.getElementById('r-target').textContent = targetKg.toFixed(1) + ' kgを' + Math.round(days) + '日で減らす';
@@ -363,6 +463,21 @@ function calcDietWalk() {
   document.getElementById('r-distance').textContent = exerciseKcal <= 0 ? '0 km' : distance.toFixed(2) + ' km/日';
   document.getElementById('r-time').textContent = exerciseKcal <= 0 ? '0分' : formatMinutes(minutes) + '/日';
   document.getElementById('r-level').textContent = level;
+  document.getElementById('p-start-day').textContent = '0日目';
+  document.getElementById('p-start-loss').textContent = '0.0 kg';
+  document.getElementById('p-start-remain').textContent = targetKg.toFixed(1) + ' kg';
+  document.getElementById('p-mid-day').textContent = midDay + '日目';
+  document.getElementById('p-mid-loss').textContent = midLoss.toFixed(1) + ' kg';
+  document.getElementById('p-mid-remain').textContent = Math.max(0, targetKg - midLoss).toFixed(1) + ' kg';
+  document.getElementById('p-goal-day').textContent = Math.round(days) + '日目';
+  document.getElementById('p-goal-loss').textContent = targetKg.toFixed(1) + ' kg';
+  document.getElementById('p-goal-remain').textContent = '0.0 kg';
+  setBar('bar-daily', dailyDeficit, maxBar);
+  setBar('bar-food', foodCut, maxBar);
+  setBar('bar-exercise', exerciseKcal, maxBar);
+  document.getElementById('bar-daily-value').textContent = Math.round(dailyDeficit).toLocaleString('ja-JP') + ' kcal/日';
+  document.getElementById('bar-food-value').textContent = Math.round(foodCut).toLocaleString('ja-JP') + ' kcal/日';
+  document.getElementById('bar-exercise-value').textContent = Math.round(exerciseKcal).toLocaleString('ja-JP') + ' kcal/日';
   document.getElementById('result-note').textContent = '脂肪1kg＝約7,200kcalとして計算しています。無理な減量にならないよう、体調に合わせて日数や食事調整量を見直してください。';
   document.getElementById('result').classList.add('show');
   scrollToDietWalkResult();
