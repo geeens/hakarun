@@ -32,6 +32,42 @@
       border-color: var(--primary);
       background: #eff6ff;
     }
+    .mode-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .mode-button {
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      background: #f8fafc;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-weight: 800;
+      line-height: 1.5;
+      padding: 12px;
+      text-align: left;
+    }
+    .mode-button span {
+      display: block;
+      color: var(--text-primary);
+      font-size: 0.98rem;
+    }
+    .mode-button small {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+    .mode-button.active {
+      border-color: var(--primary);
+      background: #eff6ff;
+      color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+    .mode-button.active span {
+      color: var(--primary);
+    }
     .formula-box {
       background: #f8fafc;
       border: 1px solid var(--border);
@@ -72,6 +108,11 @@
       font-size: 0.78rem;
       font-weight: 700;
       margin-top: 10px;
+    }
+    @media (max-width: 640px) {
+      .mode-buttons {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
   <script type="application/ld+json">
@@ -200,10 +241,17 @@
     <div class="calc-card">
       <div class="form-group">
         <label>計算モード</label>
-        <div class="input-wrap"><select id="mode" onchange="switchMode()">
-          <option value="simple">かんたん入力（平均・標準偏差がわかる場合）</option>
-          <option value="list">点数リスト入力（自動で平均・標準偏差を計算）</option>
-        </select></div>
+        <input type="hidden" id="mode" value="simple">
+        <div class="mode-buttons" role="group" aria-label="計算モード">
+          <button type="button" class="mode-button active" id="mode-simple" onclick="setMode('simple')">
+            <span>かんたん入力</span>
+            <small>平均点・標準偏差がわかる場合</small>
+          </button>
+          <button type="button" class="mode-button" id="mode-list" onclick="setMode('list')">
+            <span>点数リスト入力</span>
+            <small>点数一覧から自動計算</small>
+          </button>
+        </div>
       </div>
       <div id="simpleMode">
         <div class="formula-box">偏差値 = （自分の点数 − 平均点）÷ 標準偏差 × 10 + 50</div>
@@ -324,10 +372,15 @@ function switchMode(){
   var m=document.getElementById('mode').value;
   document.getElementById('simpleMode').style.display=m==='simple'?'':'none';
   document.getElementById('listMode').style.display=m==='list'?'':'none';
+  document.getElementById('mode-simple').classList.toggle('active',m==='simple');
+  document.getElementById('mode-list').classList.toggle('active',m==='list');
+}
+function setMode(mode){
+  document.getElementById('mode').value=mode;
+  switchMode();
 }
 function setSimpleExample(score, avg, sd){
-  document.getElementById('mode').value='simple';
-  switchMode();
+  setMode('simple');
   document.getElementById('myScore').value=score;
   document.getElementById('avg').value=avg;
   document.getElementById('sd').value=sd;
