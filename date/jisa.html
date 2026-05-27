@@ -306,7 +306,7 @@
           <label><input type="radio" name="display-mode" value="realtime"> リアルタイムで表示</label>
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group" id="direction-group">
         <label>計算方向</label>
         <div class="radio-group">
           <label><input type="radio" name="mode" value="from-japan" checked> 日本時間から世界の時間</label>
@@ -505,6 +505,8 @@ let clockTimerId = null;
 let clockBaseInstantMs = 0;
 let clockBaseRealMs = 0;
 let clockZones = [];
+let currentResultCity = null;
+let currentDisplayMode = 'fixed';
 function getZoneParts(date, timeZone) {
   const parts = new Intl.DateTimeFormat('en-US', {
     timeZone,
@@ -540,6 +542,10 @@ function zonedTimeToUtc(dateStr, timeStr, timeZone) {
 function formatZoned(date, timeZone) {
   const p = getZoneParts(date, timeZone);
   return `${p.year}/${String(p.month).padStart(2,'0')}/${String(p.day).padStart(2,'0')} ${String(p.hour).padStart(2,'0')}:${String(p.minute).padStart(2,'0')}`;
+}
+function formatZonedWithSeconds(date, timeZone) {
+  const p = getZoneParts(date, timeZone);
+  return `${p.year}/${String(p.month).padStart(2,'0')}/${String(p.day).padStart(2,'0')} ${String(p.hour).padStart(2,'0')}:${String(p.minute).padStart(2,'0')}:${String(p.second).padStart(2,'0')}`;
 }
 function formatHourDiff(hours) {
   if (Number.isInteger(hours)) return `${hours}時間`;
@@ -610,7 +616,8 @@ function updateMode() {
   const mode = document.querySelector('input[name="mode"]:checked').value;
   const displayMode = document.querySelector('input[name="display-mode"]:checked').value;
   const source = CITIES[Number(document.getElementById('source-city').value)] || CITIES[0];
-  document.getElementById('city-select-label').textContent = mode === 'to-japan' ? '基準にする都市' : '変換先の都市';
+  document.getElementById('direction-group').style.display = displayMode === 'fixed' ? '' : 'none';
+  document.getElementById('city-select-label').textContent = displayMode === 'realtime' ? '表示する都市' : (mode === 'to-japan' ? '基準にする都市' : '変換先の都市');
   document.getElementById('time-label').textContent = mode === 'to-japan' ? `${source.name}の現地時間` : '日本時間（JST）';
   document.getElementById('fixed-time-controls').style.display = displayMode === 'fixed' ? '' : 'none';
   document.getElementById('realtime-hint').style.display = displayMode === 'realtime' ? '' : 'none';
@@ -628,6 +635,7 @@ function startClockComparison(instant, city, shouldAnimate) {
   stopClockComparison();
   clockBaseInstantMs = instant.getTime();
   clockBaseRealMs = Date.now();
+  currentResultCity = city;
   clockZones = [
     { key: 'japan', name: '日本時間', tz: JAPAN_TZ },
     { key: 'city', name: city.name, tz: city.tz }
@@ -656,18 +664,35 @@ function updateClockComparison() {
     document.getElementById(`clock-${zone.key}-time`).textContent = `${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')}:${String(second).padStart(2,'0')}`;
     document.getElementById(`clock-${zone.key}-date`).textContent = `${p.year}/${String(p.month).padStart(2,'0')}/${String(p.day).padStart(2,'0')}`;
   });
+  if (currentDisplayMode === 'realtime' && currentResultCity) {
+    document.getElementById('res-main').textContent = formatZonedWithSeconds(instant, currentResultCity.tz);
+  }
 }
 function calc() {
   const displayMode = document.querySelector('input[name="display-mode"]:checked').value;
+  currentDisplayMode = displayMode;
   const dateStr = document.getElementById('base-date').value;
   const timeStr = document.getElementById('base-time').value;
   if (displayMode === 'fixed' && (!dateStr || !timeStr)) { alert('日付と時間を入力してください'); return; }
   const mode = document.querySelector('input[name="mode"]:checked').value;
   const tbody = document.getElementById('city-rows');
   tbody.innerHTML = '';
-  if (mode === 'from-japan') {
+  if (displayMode === 'realtime') {
     const selectedCity = CITIES[Number(document.getElementById('source-city').value)];
-    const instant = displayMode === 'realtime' ? new Date() : zonedTimeToUtc(dateStr, timeStr, JAPAN_TZ);
+    const instant = new Date();
+    document.getElementById('res-label').textContent = `${selectedCity.name}の現地時間`;
+    document.getElementById('res-main').textContent = formatZonedWithSeconds(instant, selectedCity.tz);
+    document.getElementById('city-head').innerHTML = '<tr><th>都市</th><th>現地日時</th><th>日本との時差</th></tr>';
+    CITIES.forEach(c => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${c.name}</td><td><strong>${formatZoned(instant, c.tz)}</strong></td><td>${formatDiffFromJapan(instant, c.tz)}</td>`;
+      tbody.appendChild(tr);
+    });
+    updateDstStatus(instant, selectedCity);
+    startClockComparison(instant, selectedCity, true);
+  } else if (mode === 'from-japan') {
+    const selectedCity = CITIES[Number(document.getElementById('source-city').value)];
+    const instant = zonedTimeToUtc(dateStr, timeStr, JAPAN_TZ);
     document.getElementById('res-label').textContent = `${selectedCity.name}の現地時間`;
     document.getElementById('res-main').textContent = formatZoned(instant, selectedCity.tz);
     document.getElementById('city-head').innerHTML = '<tr><th>都市</th><th>現地日時</th><th>日本との時差</th></tr>';
@@ -677,10 +702,10 @@ function calc() {
       tbody.appendChild(tr);
     });
     updateDstStatus(instant, selectedCity);
-    startClockComparison(instant, selectedCity, displayMode === 'realtime');
+    startClockComparison(instant, selectedCity, false);
   } else {
     const source = CITIES[Number(document.getElementById('source-city').value)];
-    const instant = displayMode === 'realtime' ? new Date() : zonedTimeToUtc(dateStr, timeStr, source.tz);
+    const instant = zonedTimeToUtc(dateStr, timeStr, source.tz);
     document.getElementById('res-label').textContent = '日本時間';
     document.getElementById('res-main').textContent = formatZoned(instant, JAPAN_TZ);
     document.getElementById('city-head').innerHTML = '<tr><th>地域</th><th>日時</th><th>メモ</th></tr>';
