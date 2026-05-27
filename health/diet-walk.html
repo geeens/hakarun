@@ -21,53 +21,86 @@
       font-weight: 800;
       margin: 0 0 10px;
     }
-    .diet-chart {
-      display: grid;
-      gap: 10px;
+    .weight-graph {
+      position: relative;
+      min-height: 260px;
       margin-top: 12px;
+      padding: 28px 18px 40px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(to bottom, rgba(148, 163, 184, 0.18) 1px, transparent 1px) 0 28px / 100% 48px,
+        linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      overflow: hidden;
     }
-    .diet-bar-row {
-      display: grid;
-      grid-template-columns: minmax(110px, 150px) 1fr minmax(84px, auto);
-      gap: 10px;
-      align-items: center;
+    .weight-line {
+      position: absolute;
+      left: 8%;
+      top: 28%;
+      width: 94.85%;
+      height: 4px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #0ea5e9, #22c55e);
+      transform-origin: left center;
+      box-shadow: 0 8px 18px rgba(34, 197, 94, 0.18);
     }
-    .diet-bar-label {
+    .weight-point {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border: 3px solid #ffffff;
+      border-radius: 50%;
+      background: #0f766e;
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2), 0 8px 16px rgba(15, 23, 42, 0.16);
+      transform: translate(-50%, -50%);
+    }
+    .weight-point.start {
+      background: #0ea5e9;
+    }
+    .weight-point.goal {
+      background: #22c55e;
+    }
+    .weight-label {
+      position: absolute;
+      width: 120px;
+      color: var(--text-primary);
+      font-size: 0.82rem;
+      font-weight: 800;
+      line-height: 1.35;
+      text-align: center;
+      transform: translateX(-50%);
+    }
+    .weight-label span {
+      display: block;
       color: var(--text-secondary);
+      font-size: 0.75rem;
       font-weight: 700;
     }
-    .diet-bar-track {
-      height: 18px;
-      overflow: hidden;
-      border-radius: 999px;
-      background: #e2e8f0;
+    .weight-axis {
+      position: absolute;
+      left: 8%;
+      right: 8%;
+      bottom: 22px;
+      height: 2px;
+      background: #cbd5e1;
     }
-    .diet-bar-fill {
-      height: 100%;
-      min-width: 0;
-      border-radius: 999px;
-      background: linear-gradient(90deg, #22c55e, #16a34a);
-      transition: width 0.3s ease;
-    }
-    .diet-bar-fill.food {
-      background: linear-gradient(90deg, #38bdf8, #2563eb);
-    }
-    .diet-bar-fill.exercise {
-      background: linear-gradient(90deg, #f97316, #ea580c);
-    }
-    .diet-bar-value {
-      color: var(--text-primary);
-      font-weight: 800;
-      text-align: right;
-      font-variant-numeric: tabular-nums;
+    .weight-axis-label {
+      position: absolute;
+      bottom: -4px;
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      font-weight: 700;
+      transform: translateX(-50%);
+      white-space: nowrap;
     }
     @media (max-width: 640px) {
-      .diet-bar-row {
-        grid-template-columns: 1fr;
-        gap: 6px;
+      .weight-graph {
+        min-height: 240px;
+        padding-inline: 10px;
       }
-      .diet-bar-value {
-        text-align: left;
+      .weight-label {
+        width: 96px;
+        font-size: 0.74rem;
       }
     }
   </style>
@@ -282,33 +315,36 @@
           <h2 class="diet-plan-title">減量計画の目安</h2>
           <div class="result-table">
             <table>
-              <thead><tr><th>タイミング</th><th>経過日数</th><th>減量目安</th><th>残り目標</th></tr></thead>
+              <thead><tr><th>タイミング</th><th>経過日数</th><th>体重目安</th><th>減量目安</th></tr></thead>
               <tbody>
-                <tr><td>スタート</td><td id="p-start-day">—</td><td id="p-start-loss">—</td><td id="p-start-remain">—</td></tr>
-                <tr><td>中間</td><td id="p-mid-day">—</td><td id="p-mid-loss">—</td><td id="p-mid-remain">—</td></tr>
-                <tr><td>ゴール</td><td id="p-goal-day">—</td><td id="p-goal-loss">—</td><td id="p-goal-remain">—</td></tr>
+                <tr><td>スタート</td><td id="p-start-day">—</td><td id="p-start-weight">—</td><td id="p-start-loss">—</td></tr>
+                <tr><td>25%地点</td><td id="p-q1-day">—</td><td id="p-q1-weight">—</td><td id="p-q1-loss">—</td></tr>
+                <tr><td>中間</td><td id="p-mid-day">—</td><td id="p-mid-weight">—</td><td id="p-mid-loss">—</td></tr>
+                <tr><td>75%地点</td><td id="p-q3-day">—</td><td id="p-q3-weight">—</td><td id="p-q3-loss">—</td></tr>
+                <tr><td>ゴール</td><td id="p-goal-day">—</td><td id="p-goal-weight">—</td><td id="p-goal-loss">—</td></tr>
               </tbody>
             </table>
           </div>
         </div>
         <div class="diet-plan-section">
-          <h2 class="diet-plan-title">1日あたりのカロリー内訳</h2>
-          <div class="diet-chart">
-            <div class="diet-bar-row">
-              <div class="diet-bar-label">目標</div>
-              <div class="diet-bar-track"><div class="diet-bar-fill" id="bar-daily"></div></div>
-              <div class="diet-bar-value" id="bar-daily-value">—</div>
+          <h2 class="diet-plan-title">体重推移グラフ</h2>
+          <div class="weight-graph" aria-label="スタートからゴールまでの体重推移">
+            <div class="weight-line" id="weight-line"></div>
+            <div class="weight-axis">
+              <span class="weight-axis-label" id="axis-start">0日目</span>
+              <span class="weight-axis-label" id="axis-mid">—</span>
+              <span class="weight-axis-label" id="axis-goal">—</span>
             </div>
-            <div class="diet-bar-row">
-              <div class="diet-bar-label">食事で調整</div>
-              <div class="diet-bar-track"><div class="diet-bar-fill food" id="bar-food"></div></div>
-              <div class="diet-bar-value" id="bar-food-value">—</div>
-            </div>
-            <div class="diet-bar-row">
-              <div class="diet-bar-label">運動で消費</div>
-              <div class="diet-bar-track"><div class="diet-bar-fill exercise" id="bar-exercise"></div></div>
-              <div class="diet-bar-value" id="bar-exercise-value">—</div>
-            </div>
+            <div class="weight-point start" id="point-start"></div>
+            <div class="weight-point" id="point-q1"></div>
+            <div class="weight-point" id="point-mid"></div>
+            <div class="weight-point" id="point-q3"></div>
+            <div class="weight-point goal" id="point-goal"></div>
+            <div class="weight-label" id="label-start">—</div>
+            <div class="weight-label" id="label-q1">—</div>
+            <div class="weight-label" id="label-mid">—</div>
+            <div class="weight-label" id="label-q3">—</div>
+            <div class="weight-label" id="label-goal">—</div>
           </div>
         </div>
         <div class="info-box" id="result-note">脂肪1kgを約7,200kcalとして計算しています。体重の変化には個人差があり、食事・睡眠・筋肉量・体調によって実際の結果は変わります。</div>
@@ -411,9 +447,31 @@ function judgeLevel(exerciseKcal, activity, distance, minutes, steps) {
   if (distance <= 10) return 'やや多め';
   return 'かなり多め。休養日も含めて調整がおすすめ';
 }
-function setBar(id, value, max) {
-  const width = max > 0 ? Math.min(100, Math.max(0, value / max * 100)) : 0;
-  document.getElementById(id).style.width = width + '%';
+function planPoint(days, targetKg, weight, ratio) {
+  const day = Math.round(days * ratio);
+  const loss = targetKg * ratio;
+  return {
+    day,
+    loss,
+    weight: weight - loss,
+    ratio
+  };
+}
+function setPlanRow(prefix, point) {
+  document.getElementById(prefix + '-day').textContent = point.day + '日目';
+  document.getElementById(prefix + '-weight').textContent = point.weight.toFixed(1) + ' kg';
+  document.getElementById(prefix + '-loss').textContent = point.loss.toFixed(1) + ' kg';
+}
+function setGraphPoint(prefix, point, top, bottom) {
+  const left = 8 + point.ratio * 84;
+  const y = top + point.ratio * (bottom - top);
+  const pointEl = document.getElementById('point-' + prefix);
+  const labelEl = document.getElementById('label-' + prefix);
+  pointEl.style.left = left + '%';
+  pointEl.style.top = y + '%';
+  labelEl.style.left = left + '%';
+  labelEl.style.top = (y - 15) + '%';
+  labelEl.innerHTML = point.weight.toFixed(1) + 'kg<span>' + point.day + '日目 / -' + point.loss.toFixed(1) + 'kg</span>';
 }
 function calcDietWalk() {
   const targetKg = parseFloat(document.getElementById('target-kg').value);
@@ -450,9 +508,13 @@ function calcDietWalk() {
     summaryText = '約' + formatMinutes(minutes) + '走る目安です';
   }
   const level = judgeLevel(exerciseKcal, activity, distance, minutes, steps);
-  const midDay = Math.max(1, Math.round(days / 2));
-  const midLoss = targetKg * midDay / days;
-  const maxBar = Math.max(dailyDeficit, foodCut, exerciseKcal, 1);
+  const plan = {
+    start: planPoint(days, targetKg, weight, 0),
+    q1: planPoint(days, targetKg, weight, 0.25),
+    mid: planPoint(days, targetKg, weight, 0.5),
+    q3: planPoint(days, targetKg, weight, 0.75),
+    goal: planPoint(days, targetKg, weight, 1)
+  };
   document.getElementById('res-main').textContent = mainText;
   document.getElementById('res-summary').textContent = exerciseKcal <= 0 ? '食事で減らす分だけで目標に届く計算です' : summaryText;
   document.getElementById('r-target').textContent = targetKg.toFixed(1) + ' kgを' + Math.round(days) + '日で減らす';
@@ -463,21 +525,25 @@ function calcDietWalk() {
   document.getElementById('r-distance').textContent = exerciseKcal <= 0 ? '0 km' : distance.toFixed(2) + ' km/日';
   document.getElementById('r-time').textContent = exerciseKcal <= 0 ? '0分' : formatMinutes(minutes) + '/日';
   document.getElementById('r-level').textContent = level;
-  document.getElementById('p-start-day').textContent = '0日目';
-  document.getElementById('p-start-loss').textContent = '0.0 kg';
-  document.getElementById('p-start-remain').textContent = targetKg.toFixed(1) + ' kg';
-  document.getElementById('p-mid-day').textContent = midDay + '日目';
-  document.getElementById('p-mid-loss').textContent = midLoss.toFixed(1) + ' kg';
-  document.getElementById('p-mid-remain').textContent = Math.max(0, targetKg - midLoss).toFixed(1) + ' kg';
-  document.getElementById('p-goal-day').textContent = Math.round(days) + '日目';
-  document.getElementById('p-goal-loss').textContent = targetKg.toFixed(1) + ' kg';
-  document.getElementById('p-goal-remain').textContent = '0.0 kg';
-  setBar('bar-daily', dailyDeficit, maxBar);
-  setBar('bar-food', foodCut, maxBar);
-  setBar('bar-exercise', exerciseKcal, maxBar);
-  document.getElementById('bar-daily-value').textContent = Math.round(dailyDeficit).toLocaleString('ja-JP') + ' kcal/日';
-  document.getElementById('bar-food-value').textContent = Math.round(foodCut).toLocaleString('ja-JP') + ' kcal/日';
-  document.getElementById('bar-exercise-value').textContent = Math.round(exerciseKcal).toLocaleString('ja-JP') + ' kcal/日';
+  setPlanRow('p-start', plan.start);
+  setPlanRow('p-q1', plan.q1);
+  setPlanRow('p-mid', plan.mid);
+  setPlanRow('p-q3', plan.q3);
+  setPlanRow('p-goal', plan.goal);
+  setGraphPoint('start', plan.start, 28, 72);
+  setGraphPoint('q1', plan.q1, 28, 72);
+  setGraphPoint('mid', plan.mid, 28, 72);
+  setGraphPoint('q3', plan.q3, 28, 72);
+  setGraphPoint('goal', plan.goal, 28, 72);
+  document.getElementById('weight-line').style.top = '28%';
+  document.getElementById('weight-line').style.width = Math.sqrt(84 * 84 + 44 * 44).toFixed(2) + '%';
+  document.getElementById('weight-line').style.transform = 'rotate(' + Math.atan2(44, 84) + 'rad)';
+  document.getElementById('axis-start').style.left = '0%';
+  document.getElementById('axis-mid').style.left = '50%';
+  document.getElementById('axis-goal').style.left = '100%';
+  document.getElementById('axis-start').textContent = '0日目';
+  document.getElementById('axis-mid').textContent = Math.round(days / 2) + '日目';
+  document.getElementById('axis-goal').textContent = Math.round(days) + '日目';
   document.getElementById('result-note').textContent = '脂肪1kg＝約7,200kcalとして計算しています。無理な減量にならないよう、体調に合わせて日数や食事調整量を見直してください。';
   document.getElementById('result').classList.add('show');
   scrollToDietWalkResult();
