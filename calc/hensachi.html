@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>偏差値計算｜点数・平均点から偏差値と上位何％を無料計算｜はかるんツール</title>
-  <meta name="description" content="点数・平均点・標準偏差から偏差値と上位何％を無料計算。1教科・5教科合計の点数や、点数リストからの自動計算にも対応しています。">
+  <title>偏差値計算・逆算｜必要な点数や上位何％も無料計算｜はかるんツール</title>
+  <meta name="description" content="点数・平均点・標準偏差から偏差値と上位何％を無料計算。目標偏差値に必要な点数、平均点、標準偏差の逆算にも対応しています。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <link rel="canonical" href="https://hakarun.net/calc/hensachi">
@@ -34,7 +34,7 @@
     }
     .mode-buttons {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
       gap: 8px;
     }
     .mode-button {
@@ -234,31 +234,43 @@
   <div class="container">
     <div class="page-header">
       <div class="breadcrumb"><a href="../">トップ</a> &rsaquo; 計算・変換 &rsaquo; 📊 偏差値計算</div>
-      <h1>📊 偏差値計算</h1>
-      <p class="subtitle">点数・平均点・標準偏差から偏差値と上位何％を計算します。1教科・5教科合計どちらでも使えます。</p>
+      <h1>📊 偏差値計算・逆算</h1>
+      <p class="subtitle">偏差値を求めるだけでなく、目標偏差値に必要な点数、平均点、標準偏差も逆算できます。</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
       <div class="form-group">
         <label>計算モード</label>
-        <input type="hidden" id="mode" value="simple">
+        <input type="hidden" id="mode" value="deviation">
         <div class="mode-buttons" role="group" aria-label="計算モード">
-          <button type="button" class="mode-button active" id="mode-simple" onclick="setMode('simple')">
-            <span>かんたん入力</span>
-            <small>平均点・標準偏差がわかる場合</small>
+          <button type="button" class="mode-button active" id="mode-deviation" onclick="setMode('deviation')">
+            <span>偏差値を計算</span>
+            <small>点数・平均点・標準偏差から計算</small>
+          </button>
+          <button type="button" class="mode-button" id="mode-target" onclick="setMode('target')">
+            <span>必要な点数を計算</span>
+            <small>目標偏差値に何点必要か</small>
           </button>
           <button type="button" class="mode-button" id="mode-list" onclick="setMode('list')">
             <span>点数リスト入力</span>
             <small>点数一覧から自動計算</small>
           </button>
+          <button type="button" class="mode-button" id="mode-average" onclick="setMode('average')">
+            <span>平均点を逆算</span>
+            <small>点数・偏差値・標準偏差から計算</small>
+          </button>
+          <button type="button" class="mode-button" id="mode-sd" onclick="setMode('sd')">
+            <span>標準偏差を逆算</span>
+            <small>点数・平均点・偏差値から計算</small>
+          </button>
         </div>
       </div>
-      <div id="simpleMode">
+      <div id="deviationMode">
         <div class="formula-box">偏差値 = （自分の点数 − 平均点）÷ 標準偏差 × 10 + 50</div>
         <div class="example-buttons" aria-label="入力例">
-          <button type="button" onclick="setSimpleExample(75,60,15)">1教科例：75点 / 平均60点</button>
-          <button type="button" onclick="setSimpleExample(70,50,10)">1教科例：70点 / 平均50点</button>
-          <button type="button" onclick="setSimpleExample(350,300,50)">5教科例：350点 / 平均300点</button>
+          <button type="button" onclick="setDeviationExample(75,60,15)">1教科例：75点 / 平均60点</button>
+          <button type="button" onclick="setDeviationExample(70,50,10)">1教科例：70点 / 平均50点</button>
+          <button type="button" onclick="setDeviationExample(350,300,50)">5教科例：350点 / 平均300点</button>
         </div>
         <div class="form-group">
           <label>自分の点数</label>
@@ -274,6 +286,27 @@
           <p class="hint">模試の成績表や先生から教えてもらった値を入力してください</p>
         </div>
       </div>
+      <div id="targetMode" style="display:none">
+        <div class="formula-box">必要な点数 = 平均点 + （目標偏差値 − 50）÷ 10 × 標準偏差</div>
+        <div class="example-buttons" aria-label="入力例">
+          <button type="button" onclick="setTargetExample(60,60,15)">偏差値60に必要な点数</button>
+          <button type="button" onclick="setTargetExample(65,60,15)">偏差値65に必要な点数</button>
+          <button type="button" onclick="setTargetExample(60,300,50)">5教科で偏差値60</button>
+        </div>
+        <div class="form-group">
+          <label>目標偏差値</label>
+          <div class="input-wrap"><input type="number" id="targetHensachi" placeholder="60"><span class="unit"></span></div>
+        </div>
+        <div class="form-group">
+          <label>平均点</label>
+          <div class="input-wrap"><input type="number" id="targetAvg" placeholder="60"><span class="unit">点</span></div>
+        </div>
+        <div class="form-group">
+          <label>標準偏差</label>
+          <div class="input-wrap"><input type="number" id="targetSd" placeholder="15"><span class="unit"></span></div>
+          <p class="hint">標準偏差が不明な場合は、100点満点の1教科なら15、5教科500点満点なら60前後を目安にしてください</p>
+        </div>
+      </div>
       <div id="listMode" style="display:none">
         <div class="form-group">
           <label>自分の点数</label>
@@ -284,9 +317,40 @@
           <textarea id="scoreList" rows="5" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:1rem;" placeholder="75, 60, 85, 45, 70, 55, 90, 65, 80, 50"></textarea>
         </div>
       </div>
-      <button class="btn btn-primary" onclick="calc()">偏差値を計算する</button>
+      <div id="averageMode" style="display:none">
+        <div class="formula-box">平均点 = 点数 − （偏差値 − 50）÷ 10 × 標準偏差</div>
+        <div class="form-group">
+          <label>自分の点数</label>
+          <div class="input-wrap"><input type="number" id="avgScore" placeholder="75"><span class="unit">点</span></div>
+        </div>
+        <div class="form-group">
+          <label>偏差値</label>
+          <div class="input-wrap"><input type="number" id="avgHensachi" placeholder="60"><span class="unit"></span></div>
+        </div>
+        <div class="form-group">
+          <label>標準偏差</label>
+          <div class="input-wrap"><input type="number" id="avgSd" placeholder="15"><span class="unit"></span></div>
+        </div>
+      </div>
+      <div id="sdMode" style="display:none">
+        <div class="formula-box">標準偏差 = （点数 − 平均点）÷ ｛（偏差値 − 50）÷ 10｝</div>
+        <div class="form-group">
+          <label>自分の点数</label>
+          <div class="input-wrap"><input type="number" id="sdScore" placeholder="75"><span class="unit">点</span></div>
+        </div>
+        <div class="form-group">
+          <label>平均点</label>
+          <div class="input-wrap"><input type="number" id="sdAvg" placeholder="60"><span class="unit">点</span></div>
+        </div>
+        <div class="form-group">
+          <label>偏差値</label>
+          <div class="input-wrap"><input type="number" id="sdHensachi" placeholder="60"><span class="unit"></span></div>
+          <p class="hint">点数が平均点と同じ場合、偏差値は50になるため標準偏差は一意に逆算できません</p>
+        </div>
+      </div>
+      <button class="btn btn-primary" id="calc-button" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
-        <div class="result-main"><div class="label">偏差値</div><div class="value" id="res-main">—</div></div>
+        <div class="result-main"><div class="label" id="result-label">偏差値</div><div class="value" id="res-main">—</div></div>
         <div class="hensachi-meter" aria-label="偏差値の位置">
           <div class="hensachi-meter-track">
             <div class="hensachi-meter-pointer" id="meter-pointer"></div>
@@ -294,11 +358,11 @@
           <div class="hensachi-meter-labels"><span>30</span><span>40</span><span>50</span><span>60</span><span>70</span><span>80</span></div>
         </div>
         <div class="result-table"><table><tbody>
-          <tr><td>自分の点数</td><td id="r-my">—</td></tr>
-          <tr><td>平均点</td><td id="r-avg">—</td></tr>
-          <tr><td>標準偏差</td><td id="r-sd">—</td></tr>
-          <tr><td>偏差値</td><td id="r-hensachi">—</td></tr>
-          <tr><td>上位何%？</td><td id="r-rank">—</td></tr>
+          <tr><td id="r-row1-label">自分の点数</td><td id="r-row1">—</td></tr>
+          <tr><td id="r-row2-label">平均点</td><td id="r-row2">—</td></tr>
+          <tr><td id="r-row3-label">標準偏差</td><td id="r-row3">—</td></tr>
+          <tr><td id="r-row4-label">偏差値</td><td id="r-row4">—</td></tr>
+          <tr id="r-rank-row"><td>上位何%？</td><td id="r-rank">—</td></tr>
         </tbody></table></div>
         <div class="info-box" id="r-comment">—</div>
       </div>
@@ -310,6 +374,7 @@
       <p>偏差値の計算式は「（自分の点数 − 平均点）÷ 標準偏差 × 10 + 50」です。標準偏差とはデータのばらつきの大きさを示す値で、模試の成績表に記載されていることがほとんどです。平均点と標準偏差がわかれば、このツールで偏差値を瞬時に計算できます。</p>
       <p>偏差値は「受験した母集団のレベル」によって大きく変わります。難関大学を目指す受験生が多く集まる模試での偏差値60と、一般的な学力テストでの偏差値60は意味が異なります。どの模試・テストでの偏差値かを必ず確認するようにしましょう。</p>
       <p>偏差値だけを目標にするのではなく、志望校の合格ラインや自分の得意・不得意科目の分析も合わせて行うことが受験対策の基本です。このツールで現在の偏差値を把握した上で、どのくらい点数を上げれば目標偏差値に届くかを逆算してみましょう。</p>
+      <p>目標偏差値が決まっている場合は、「必要な点数を計算」モードを使うと、平均点と標準偏差から必要な点数を逆算できます。たとえば平均点60点・標準偏差15のテストで偏差値60を目指す場合、必要な点数は75点です。</p>
       <p>点数リスト入力モードでは、クラス・模試の全員の点数を入力することで平均点・標準偏差を自動計算した上で偏差値を算出できます。担任の先生やクラス委員など、クラス全体の成績を管理する立場の方にも便利な機能です。</p>
       <p>偏差値は正規分布（bell curve）を前提とした指標です。受験者が少ない場合や点数の分布が偏っている場合は、偏差値の信頼性が下がることがあります。クラス内の数人で計算した場合は参考程度にとどめ、模試などの大規模なテストの偏差値を基準にしましょう。</p>
     </div>
@@ -329,6 +394,7 @@
       <div class="faq-item"><div class="faq-q">Q. 偏差値50はどのくらいの成績？</div><div class="faq-a">偏差値50はちょうど平均点に相当します。受験者全体の真ん中の成績です。偏差値60なら上位約16%、70なら上位約2.3%に位置します。</div></div>
       <div class="faq-item"><div class="faq-q">Q. 標準偏差はどこで確認できますか？</div><div class="faq-a">模試や学校のテストの成績表に記載されていることが多いです。ない場合は「点数リスト入力」モードで全員の点数を入力すると自動計算されます。</div></div>
       <div class="faq-item"><div class="faq-q">Q. 偏差値を10上げるには何点必要？</div><div class="faq-a">標準偏差の値によって異なります。標準偏差が15の場合、偏差値を10上げるには15点分の上乗せが必要です（標準偏差×1＝偏差値10の差）。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 目標偏差値に必要な点数も計算できますか？</div><div class="faq-a">はい。「必要な点数を計算」モードで、目標偏差値・平均点・標準偏差を入力すると、必要な点数を逆算できます。</div></div>
       <div class="faq-item"><div class="faq-q">Q. 偏差値は科目によって違う？</div><div class="faq-a">同じ点数でも科目によって平均点や標準偏差が異なるため、偏差値は変わります。数学が難しいテストでは平均点が低くなり、同じ点数でも偏差値が高くなります。</div></div>
       <div class="faq-item"><div class="faq-q">Q. 全員が満点を取ったら偏差値は？</div><div class="faq-a">全員が同じ点数（標準偏差が0）の場合、偏差値は計算できません（÷0になるため）。このツールでは全員同点の場合はエラーになります。</div></div>
       <div class="faq-item"><div class="faq-q">Q. 大学受験の合格ライン偏差値の目安は？</div><div class="faq-a">難関国立大（東大・京大等）は偏差値70〜75以上、地方国立大・有名私立は偏差値55〜65程度が目安です。ただし模試の種類（河合・駿台・進研など）によって数値が異なります。</div></div>
@@ -370,20 +436,27 @@ document.querySelectorAll('input[type="number"]').forEach(function(input){
 <script>
 function switchMode(){
   var m=document.getElementById('mode').value;
-  document.getElementById('simpleMode').style.display=m==='simple'?'':'none';
-  document.getElementById('listMode').style.display=m==='list'?'':'none';
-  document.getElementById('mode-simple').classList.toggle('active',m==='simple');
-  document.getElementById('mode-list').classList.toggle('active',m==='list');
+  ['deviation','target','list','average','sd'].forEach(function(mode){
+    document.getElementById(mode+'Mode').style.display=m===mode?'':'none';
+    document.getElementById('mode-'+mode).classList.toggle('active',m===mode);
+  });
 }
 function setMode(mode){
   document.getElementById('mode').value=mode;
   switchMode();
 }
-function setSimpleExample(score, avg, sd){
-  setMode('simple');
+function setDeviationExample(score, avg, sd){
+  setMode('deviation');
   document.getElementById('myScore').value=score;
   document.getElementById('avg').value=avg;
   document.getElementById('sd').value=sd;
+  calc();
+}
+function setTargetExample(hensachi, avg, sd){
+  setMode('target');
+  document.getElementById('targetHensachi').value=hensachi;
+  document.getElementById('targetAvg').value=avg;
+  document.getElementById('targetSd').value=sd;
   calc();
 }
 function normalCDF(z){
@@ -394,13 +467,25 @@ function normalCDF(z){
 }
 function calc(){
   var mode=document.getElementById('mode').value;
-  var my,avg,sd;
-  if(mode==='simple'){
+  var my,avg,sd,hensachi,mainLabel,mainValue,comment;
+  if(mode==='deviation'){
     my=parseFloat(document.getElementById('myScore').value);
     avg=parseFloat(document.getElementById('avg').value);
     sd=parseFloat(document.getElementById('sd').value);
     if(isNaN(my)||isNaN(avg)||isNaN(sd)||sd<=0){alert('すべての値を正しく入力してください（標準偏差は0より大きい値）');return;}
+    hensachi=(my-avg)/sd*10+50;
+    mainLabel='偏差値';
+    mainValue=hensachi.toFixed(1);
   } else {
+    if(mode==='target'){
+      hensachi=parseFloat(document.getElementById('targetHensachi').value);
+      avg=parseFloat(document.getElementById('targetAvg').value);
+      sd=parseFloat(document.getElementById('targetSd').value);
+      if(isNaN(hensachi)||isNaN(avg)||isNaN(sd)||sd<=0){alert('目標偏差値・平均点・標準偏差を正しく入力してください');return;}
+      my=avg+(hensachi-50)/10*sd;
+      mainLabel='必要な点数';
+      mainValue=my.toFixed(1)+'点';
+    } else if(mode==='list'){
     my=parseFloat(document.getElementById('myScore2').value);
     var raw=document.getElementById('scoreList').value.split(/[,\n\s]+/).map(Number).filter(function(n){return !isNaN(n)&&n!==null;});
     if(isNaN(my)||raw.length<2){alert('自分の点数と2つ以上の点数リストを入力してください');return;}
@@ -408,11 +493,32 @@ function calc(){
     var variance=raw.reduce(function(s,x){return s+(x-avg)*(x-avg);},0)/raw.length;
     sd=Math.sqrt(variance);
     if(sd===0){alert('点数がすべて同じため標準偏差が0です。異なる点数を入力してください');return;}
+      hensachi=(my-avg)/sd*10+50;
+      mainLabel='偏差値';
+      mainValue=hensachi.toFixed(1);
+    } else if(mode==='average'){
+      my=parseFloat(document.getElementById('avgScore').value);
+      hensachi=parseFloat(document.getElementById('avgHensachi').value);
+      sd=parseFloat(document.getElementById('avgSd').value);
+      if(isNaN(my)||isNaN(hensachi)||isNaN(sd)||sd<=0){alert('点数・偏差値・標準偏差を正しく入力してください');return;}
+      avg=my-(hensachi-50)/10*sd;
+      mainLabel='平均点';
+      mainValue=avg.toFixed(1)+'点';
+    } else if(mode==='sd'){
+      my=parseFloat(document.getElementById('sdScore').value);
+      avg=parseFloat(document.getElementById('sdAvg').value);
+      hensachi=parseFloat(document.getElementById('sdHensachi').value);
+      if(isNaN(my)||isNaN(avg)||isNaN(hensachi)){alert('点数・平均点・偏差値を正しく入力してください');return;}
+      var deviationUnit=(hensachi-50)/10;
+      if(deviationUnit===0){alert('偏差値50の場合、標準偏差は一意に逆算できません');return;}
+      sd=(my-avg)/deviationUnit;
+      if(sd<=0){alert('点数と偏差値の関係が矛盾しています。平均点より高い点数なら偏差値は50より大きく、低い点数なら50より小さくなります。');return;}
+      mainLabel='標準偏差';
+      mainValue=sd.toFixed(2);
+    }
   }
-  var hensachi=(my-avg)/sd*10+50;
   var z=(my-avg)/sd;
   var upper=(1-normalCDF(z))*100;
-  var comment;
   if(hensachi>=70) comment='偏差値70以上！上位約2%の優秀なスコアです。';
   else if(hensachi>=65) comment='偏差値65以上。上位約7%で、難関校も射程圏内です。';
   else if(hensachi>=60) comment='偏差値60以上。上位約16%で、平均より大きく上回っています。';
@@ -420,13 +526,18 @@ function calc(){
   else if(hensachi>=45) comment='偏差値45〜55。平均的なスコアです。';
   else if(hensachi>=40) comment='偏差値40〜45。平均よりやや下です。得意分野を伸ばしましょう。';
   else comment='偏差値40未満。まず基礎をしっかり固めることをおすすめします。';
-  document.getElementById('r-my').textContent=my+'点';
-  document.getElementById('r-avg').textContent=avg.toFixed(1)+'点';
-  document.getElementById('r-sd').textContent=sd.toFixed(2);
-  document.getElementById('r-hensachi').textContent=hensachi.toFixed(1);
+  document.getElementById('result-label').textContent=mainLabel;
+  document.getElementById('res-main').textContent=mainValue;
+  document.getElementById('r-row1-label').textContent='点数';
+  document.getElementById('r-row1').textContent=my.toFixed(1)+'点';
+  document.getElementById('r-row2-label').textContent='平均点';
+  document.getElementById('r-row2').textContent=avg.toFixed(1)+'点';
+  document.getElementById('r-row3-label').textContent='標準偏差';
+  document.getElementById('r-row3').textContent=sd.toFixed(2);
+  document.getElementById('r-row4-label').textContent='偏差値';
+  document.getElementById('r-row4').textContent=hensachi.toFixed(1);
   document.getElementById('r-rank').textContent='上位 '+upper.toFixed(1)+'%';
   document.getElementById('r-comment').textContent=comment;
-  document.getElementById('res-main').textContent=hensachi.toFixed(1);
   document.getElementById('meter-pointer').style.left=Math.max(0,Math.min(100,(hensachi-30)/50*100))+'%';
   document.getElementById('result').classList.add('show');
 }
