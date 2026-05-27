@@ -3,14 +3,59 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>データ容量変換｜MB・GB・TB・KBを無料換算｜はかるんツール</title>
-  <meta name="description" content="データ容量をB・KB・MB・GB・TB・PBに相互変換。スマホの容量・ファイルサイズの確認に便利。">
+  <title>GB・MB変換｜1GBは何MB？KB・TBも無料換算｜はかるんツール</title>
+  <meta name="description" content="GB・MB・KB・TBなどのデータ容量を一括変換。1GBは何MB、3000MBは何GBなど、スマホ容量やファイルサイズの確認に便利です。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <link rel="canonical" href="https://hakarun.net/calc/data">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <style>
+    .quick-convert {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 8px;
+      margin: 14px 0 18px;
+    }
+    .quick-convert button {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #f8fafc;
+      color: var(--text-primary);
+      cursor: pointer;
+      font-weight: 700;
+      padding: 10px 12px;
+      text-align: left;
+    }
+    .quick-convert button:hover {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+    .data-example-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .data-example-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+      padding: 12px;
+    }
+    .data-example-card strong {
+      display: block;
+      color: var(--text-primary);
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+    .data-example-card span {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+  </style>
   <script type="application/ld+json">
   { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "1GBは何MBですか？", "acceptedAnswer": { "@type": "Answer", "text": "1GB（ギガバイト）は1,024MB（メガバイト）です。ただしハードディスクなどのメーカーは1GB＝1,000MBで計算することが多く、実際の容量と表示が異なる場合があります。" } },
     { "@type": "Question", "name": "1TBは何GBですか？", "acceptedAnswer": { "@type": "Answer", "text": "1TB（テラバイト）は1,024GB（ギガバイト）です。外付けHDDや大容量SSDによく使われる単位です。" } },
@@ -129,12 +174,20 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../">トップ</a> &rsaquo; 計算・変換 &rsaquo; 💾 データ容量変換</div>
-      <h1>💾 データ容量変換</h1>
+      <div class="breadcrumb"><a href="../">トップ</a> &rsaquo; 計算・変換 &rsaquo; 💾 GB・MB変換</div>
+      <h1>💾 GB・MB変換・データ容量計算</h1>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
-      <p class="subtitle" style="margin-bottom:16px">データ容量をすべての単位に一括変換します</p>
+      <p class="subtitle" style="margin-bottom:16px">GB・MB・KB・TBを一括変換します。1GBは何MB、3000MBは何GBなどの確認に使えます。</p>
+      <div class="quick-convert" aria-label="よく使う変換例">
+        <button type="button" onclick="setExample(1, 1073741824)">1GB → MB</button>
+        <button type="button" onclick="setExample(3, 1073741824)">3GB → MB</button>
+        <button type="button" onclick="setExample(3000, 1048576)">3000MB → GB</button>
+        <button type="button" onclick="setExample(200, 1048576)">200MB → KB</button>
+        <button type="button" onclick="setExample(15000, 1024)">15000KB → MB</button>
+        <button type="button" onclick="setExample(1, 1099511627776)">1TB → GB</button>
+      </div>
       <div class="form-group">
         <label>変換したい容量</label>
         <div class="input-wrap">
@@ -171,6 +224,15 @@
           <tr><td>映画1本（フルHD）</td><td>約4〜8GB</td></tr>
           <tr><td>スマホ本体（256GB）</td><td>256GB</td></tr>
         </tbody></table></div>
+      </div>
+      <div style="margin-top:24px">
+        <p style="font-weight:bold;margin-bottom:8px">よく使う変換例</p>
+        <div class="data-example-grid">
+          <div class="data-example-card"><strong>1GB = 1,024MB</strong><span>スマホ通信量やクラウド容量でよく使う換算です</span></div>
+          <div class="data-example-card"><strong>3GB = 3,072MB</strong><span>小容量のスマホプランの目安確認に便利です</span></div>
+          <div class="data-example-card"><strong>3000MB = 約2.93GB</strong><span>2進数基準で計算した場合の目安です</span></div>
+          <div class="data-example-card"><strong>1TB = 1,024GB</strong><span>SSD・HDD・外付けストレージの容量確認に使えます</span></div>
+        </div>
       </div>
     </div>
     <div class="article">
@@ -237,6 +299,11 @@ document.querySelectorAll('input[type="number"]').forEach(function(input){
 </script>
 <script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 <script>
+function setExample(value, unit){
+  document.getElementById('val').value=value;
+  document.getElementById('unit').value=unit;
+  calc();
+}
 function calc(){
   const v=parseFloat(document.getElementById('val').value);
   const u=parseFloat(document.getElementById('unit').value);
