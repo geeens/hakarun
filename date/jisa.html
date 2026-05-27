@@ -210,6 +210,44 @@
       width: clamp(220px, 26vw, 360px);
       height: clamp(220px, 26vw, 360px);
     }
+    .clock-fullscreen-panel:fullscreen .clock-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3;
+      width: 1.8em;
+      height: 1.8em;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.86);
+      font-size: clamp(16px, 1.45vw, 22px);
+    }
+    .clock-fullscreen-panel:fullscreen .clock-number.n12 { top: 11%; }
+    .clock-fullscreen-panel:fullscreen .clock-number.n3 { right: 12%; }
+    .clock-fullscreen-panel:fullscreen .clock-number.n6 { bottom: 11%; }
+    .clock-fullscreen-panel:fullscreen .clock-number.n9 { left: 12%; }
+    .clock-fullscreen-panel:fullscreen .clock-hand.hour {
+      width: clamp(10px, 0.85vw, 14px);
+      height: 29%;
+    }
+    .clock-fullscreen-panel:fullscreen .clock-hand.minute {
+      width: clamp(7px, 0.55vw, 10px);
+      height: 39%;
+    }
+    .clock-fullscreen-panel:fullscreen .clock-hand.second {
+      width: clamp(3px, 0.22vw, 4px);
+      height: 43%;
+    }
+    .clock-fullscreen-panel:fullscreen .clock-hand.second::after {
+      width: clamp(3px, 0.22vw, 4px);
+      height: 13%;
+      bottom: -13%;
+    }
+    .clock-fullscreen-panel:fullscreen .clock-center {
+      width: clamp(22px, 1.8vw, 30px);
+      height: clamp(22px, 1.8vw, 30px);
+      border-width: 4px;
+      box-shadow: 0 0 0 3px #94a3b8, 0 4px 12px rgba(15, 23, 42, 0.28);
+    }
     .clock-fullscreen-panel:fullscreen .digital-clock {
       font-size: clamp(46px, 7vw, 86px);
     }
