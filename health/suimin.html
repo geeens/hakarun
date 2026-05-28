@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>睡眠時間計算｜90分サイクルで就寝・起床時間を無料計算｜はかるんツール</title>
-  <meta name="description" content="起床時間または就寝時間から、90分の睡眠サイクルに合わせた就寝・起床時間を無料計算。レム睡眠の切れ目や寝付くまでの時間も考慮します。">
+  <title>睡眠時間計算｜起きる時間から寝る時間を90分サイクルで計算｜はかるんツール</title>
+  <meta name="description" content="起きる時間から寝る時間を、寝る時間から起きる時間を90分の睡眠サイクルで無料計算。寝付くまで約15分を考慮し、5・6サイクルの目安も確認できます。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <link rel="canonical" href="https://hakarun.net/health/suimin">
@@ -78,6 +78,23 @@
       margin-bottom: 16px;
       padding: 12px;
     }
+    .sleep-guide {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .sleep-guide-item {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      line-height: 1.7;
+      padding: 12px;
+    }
+    .sleep-guide-item strong {
+      color: var(--text-primary);
+      display: block;
+      margin-bottom: 2px;
+    }
     @media (max-width: 640px) {
       .mode-buttons {
         grid-template-columns: 1fr;
@@ -88,7 +105,14 @@
   { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
     { "@type": "Question", "name": "理想の睡眠時間は何時間ですか？", "acceptedAnswer": { "@type": "Answer", "text": "成人は7〜9時間が理想とされています。ただし個人差があり、6時間で十分な人もいれば9時間必要な人もいます。" } },
     { "@type": "Question", "name": "睡眠の90分サイクルとは？", "acceptedAnswer": { "@type": "Answer", "text": "睡眠はノンレム睡眠とレム睡眠が約90分ごとに繰り返されます。このサイクルの切れ目に起きると目覚めがスッキリしやすいと言われています。" } },
-    { "@type": "Question", "name": "寝付くまでの時間はどのくらい？", "acceptedAnswer": { "@type": "Answer", "text": "平均的には横になってから15分程度で眠りに落ちると言われています。この計算ツールでも15分を考慮して就寝時間を算出しています。" } }
+    { "@type": "Question", "name": "寝付くまでの時間はどのくらい？", "acceptedAnswer": { "@type": "Answer", "text": "平均的には横になってから15分程度で眠りに落ちると言われています。この計算ツールでも15分を考慮して就寝時間を算出しています。" } },
+    { "@type": "Question", "name": "6時間睡眠では足りませんか？", "acceptedAnswer": { "@type": "Answer", "text": "成人の推奨睡眠時間は7〜9時間とされており、6時間では慢性的な睡眠不足になりやすいです。6サイクルが難しい場合は5サイクルを目標にしましょう。" } },
+    { "@type": "Question", "name": "昼寝はどのくらいの時間が理想ですか？", "acceptedAnswer": { "@type": "Answer", "text": "15〜20分程度の短い昼寝が効果的とされています。30分以上の昼寝は、起きた後の眠気や夜の睡眠への影響が出やすくなります。" } },
+    { "@type": "Question", "name": "寝る前にスマホを使うとなぜ眠れなくなるの？", "acceptedAnswer": { "@type": "Answer", "text": "スマートフォンの画面から出るブルーライトが、睡眠を促すホルモンであるメラトニンの分泌を抑えてしまうためです。" } },
+    { "@type": "Question", "name": "7時に起きるなら何時に寝ればいいですか？", "acceptedAnswer": { "@type": "Answer", "text": "寝付くまで約15分かかる前提では、5サイクルなら23:15、6サイクルなら21:45が目安です。毎日続けやすい時間を選びましょう。" } },
+    { "@type": "Question", "name": "90分サイクルは本当に正確ですか？", "acceptedAnswer": { "@type": "Answer", "text": "90分サイクルは目安です。実際の睡眠周期は体調や年齢、生活習慣によって変わるため、計算結果は自分に合う時間を探すための参考として使ってください。" } },
+    { "@type": "Question", "name": "5サイクルと6サイクルはどちらがおすすめですか？", "acceptedAnswer": { "@type": "Answer", "text": "迷う場合は5サイクルの7時間30分を現実的な目安にし、しっかり眠れる日は6サイクルの9時間を目指すのがおすすめです。" } },
+    { "@type": "Question", "name": "寝る時間は固定した方がいいですか？", "acceptedAnswer": { "@type": "Answer", "text": "できるだけ寝る時間と起きる時間をそろえると体内リズムが整いやすくなります。休日も大きくずらしすぎないことが大切です。" } }
   ] }
   </script>
 </head>
@@ -262,7 +286,7 @@
           </table>
         </div>
         <div class="info-box">
-          睡眠は約90分のサイクルで繰り返されます。サイクルの切れ目に起きると目覚めがスッキリしやすくなります。寝付くまでの時間（約15分）も考慮しています。
+          <strong>結果の見方：</strong>5サイクル（7時間30分）は毎日続けやすい目安、6サイクル（9時間）はしっかり眠りたい日向け、4サイクル（6時間）は短めの睡眠です。寝付くまでの時間（約15分）も考慮しています。
         </div>
       </div>
     </div>
@@ -273,6 +297,28 @@
       <p>人の睡眠はノンレム睡眠（深い眠り）とレム睡眠（浅い眠り）を交互に繰り返しています。この1サイクルは約90分で、一晩に4〜6回繰り返されます。目覚めの良い朝を迎えるには、眠りが浅いレム睡眠のタイミングで起きるのが理想的です。</p>
       <p>このツールでは90分サイクルをもとに、目覚めやすい就寝時間・起床時間を計算します。眠りにつくまでに平均15分かかるとされているため、その分も考慮しています。ただし個人差があるため、自分に合ったサイクルを見つけることが大切です。</p>
       <p>質の良い睡眠のために、就寝1〜2時間前にスマートフォンやパソコンの画面を見るのを控える・カフェインを夕方以降に摂らない・室温を18〜22℃に保つといった工夫が有効です。睡眠時間は大人の場合1日7〜9時間が推奨されています。</p>
+    </div>
+    <div class="article">
+      <h2>起きる時間別・おすすめ就寝時間の早見表</h2>
+      <p>「7時に起きるなら何時に寝る？」のように、起きたい時間が決まっている場合は、5サイクルまたは6サイクルを目安にすると考えやすくなります。下の表は、寝付くまで約15分かかる前提で計算しています。</p>
+      <div class="result-table">
+        <table>
+          <thead>
+            <tr><th>起きたい時間</th><th>5サイクルの就寝目安</th><th>6サイクルの就寝目安</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>6:00</td><td>22:15</td><td>20:45</td></tr>
+            <tr><td>6:30</td><td>22:45</td><td>21:15</td></tr>
+            <tr><td>7:00</td><td>23:15</td><td>21:45</td></tr>
+            <tr><td>7:30</td><td>23:45</td><td>22:15</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sleep-guide">
+        <div class="sleep-guide-item"><strong>5サイクル（7時間30分）</strong>仕事や学校がある日でも取り入れやすい、現実的な睡眠時間の目安です。</div>
+        <div class="sleep-guide-item"><strong>6サイクル（9時間）</strong>疲れがたまっている日や、翌朝すっきり起きたい日に向いています。</div>
+        <div class="sleep-guide-item"><strong>4サイクル（6時間）</strong>短めの睡眠です。連日続く場合は、昼間の眠気や集中力の低下に注意しましょう。</div>
+      </div>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
@@ -299,6 +345,22 @@
       <div class="faq-item">
         <div class="faq-q">Q. 寝る前にスマホを使うとなぜ眠れなくなるの？</div>
         <div class="faq-a">スマートフォンの画面から出るブルーライトが、睡眠を促すホルモン「メラトニン」の分泌を抑えてしまうためです。就寝1〜2時間前からは画面の明るさを落とすか使用を控えると眠りにつきやすくなります。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q. 7時に起きるなら何時に寝ればいいですか？</div>
+        <div class="faq-a">寝付くまで約15分かかる前提では、5サイクルなら23:15、6サイクルなら21:45が目安です。毎日続けやすい時間を選びましょう。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q. 90分サイクルは本当に正確ですか？</div>
+        <div class="faq-a">90分サイクルはあくまで目安です。実際の睡眠周期は体調や年齢、生活習慣によって変わるため、計算結果は自分に合う時間を探すための参考として使ってください。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q. 5サイクルと6サイクルはどちらがおすすめですか？</div>
+        <div class="faq-a">迷う場合は5サイクルの7時間30分を現実的な目安にし、しっかり眠れる日は6サイクルの9時間を目指すのがおすすめです。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q. 寝る時間は固定した方がいいですか？</div>
+        <div class="faq-a">できるだけ寝る時間と起きる時間をそろえると体内リズムが整いやすくなります。休日も大きくずらしすぎないことが大切です。</div>
       </div>
     </div>
     <div class="article">
