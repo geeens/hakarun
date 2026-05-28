@@ -95,6 +95,10 @@
       display: block;
       margin-bottom: 2px;
     }
+    .sleep-result-table td:last-child {
+      text-align: left;
+      font-weight: inherit;
+    }
     @media (max-width: 640px) {
       .mode-buttons {
         grid-template-columns: 1fr;
@@ -279,7 +283,7 @@
           <div class="label" id="res-label">おすすめの就寝時間</div>
           <div class="value" id="res-main">—</div>
         </div>
-        <div class="result-table">
+        <div class="result-table sleep-result-table">
           <table>
             <thead><tr><th id="col-header">就寝時間</th><th>睡眠時間</th><th>サイクル数</th></tr></thead>
             <tbody id="res-tbody"></tbody>
@@ -301,7 +305,7 @@
     <div class="article">
       <h2>起きる時間別・おすすめ就寝時間の早見表</h2>
       <p>「7時に起きるなら何時に寝る？」のように、起きたい時間が決まっている場合は、5サイクルまたは6サイクルを目安にすると考えやすくなります。下の表は、寝付くまで約15分かかる前提で計算しています。</p>
-      <div class="result-table">
+      <div class="result-table sleep-result-table">
         <table>
           <thead>
             <tr><th>起きたい時間</th><th>5サイクルの就寝目安</th><th>6サイクルの就寝目安</th></tr>
