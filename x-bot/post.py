@@ -339,6 +339,7 @@ def main():
     group.add_argument('--send', type=int, metavar='番号', help='指定した下書きをXに投稿する（例: --send 3）')
     group.add_argument('--delete', type=int, metavar='番号', help='指定した下書きを削除する（例: --delete 3）')
     group.add_argument('--auto', action='store_true', help='自動生成して即投稿する（確認なし）')
+    group.add_argument('--clear', action='store_true', help='未投稿の下書きをすべて削除する')
     args = parser.parse_args()
 
     if args.draft:
@@ -351,6 +352,8 @@ def main():
         delete_draft(args.delete)
     elif args.auto:
         auto_post()
+    elif args.clear:
+        clear_drafts()
 
 
 if __name__ == '__main__':
