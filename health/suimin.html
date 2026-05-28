@@ -3,14 +3,87 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>睡眠時間計算｜起床時間から最適な就寝時間を無料計算｜はかるんツール</title>
-  <meta name="description" content="起床時間または就寝時間を入力するだけで、90分の睡眠サイクルに合わせた最適な就寝・起床時間を無料計算します。">
+  <title>睡眠時間計算｜90分サイクルで就寝・起床時間を無料計算｜はかるんツール</title>
+  <meta name="description" content="起床時間または就寝時間から、90分の睡眠サイクルに合わせた就寝・起床時間を無料計算。レム睡眠の切れ目や寝付くまでの時間も考慮します。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <link rel="canonical" href="https://hakarun.net/health/suimin">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <style>
+    .mode-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .mode-button {
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      background: #f8fafc;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-weight: 800;
+      line-height: 1.5;
+      padding: 12px;
+      text-align: left;
+    }
+    .mode-button span {
+      display: block;
+      color: var(--text-primary);
+      font-size: 0.98rem;
+    }
+    .mode-button small {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+    .mode-button.active {
+      border-color: var(--primary);
+      background: #eff6ff;
+      color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+    .mode-button.active span {
+      color: var(--primary);
+    }
+    .quick-time-buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .quick-time-buttons button {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #f8fafc;
+      color: var(--text-primary);
+      cursor: pointer;
+      font-weight: 700;
+      padding: 9px 10px;
+    }
+    .quick-time-buttons button:hover {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+    .cycle-note {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-weight: 700;
+      line-height: 1.7;
+      margin-bottom: 16px;
+      padding: 12px;
+    }
+    @media (max-width: 640px) {
+      .mode-buttons {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
   <script type="application/ld+json">
   { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
     { "@type": "Question", "name": "理想の睡眠時間は何時間ですか？", "acceptedAnswer": { "@type": "Answer", "text": "成人は7〜9時間が理想とされています。ただし個人差があり、6時間で十分な人もいれば9時間必要な人もいます。" } },
@@ -132,16 +205,24 @@
   <div class="container">
     <div class="page-header">
       <div class="breadcrumb"><a href="../">トップ</a> &rsaquo; 睡眠時間計算</div>
-      <h1>😴 睡眠時間計算</h1>
-      <p class="subtitle">90分の睡眠サイクルに合わせた最適な時間を計算します</p>
+      <h1>😴 睡眠時間計算・睡眠サイクル計算</h1>
+      <p class="subtitle">起きたい時間・寝る時間から、90分サイクルに合わせた目覚めやすい時間を計算します</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
+      <div class="cycle-note">睡眠は約90分周期で浅い眠りと深い眠りを繰り返します。このツールでは、寝付くまでの時間を約14分として、起きやすい就寝・起床時間を候補で表示します。</div>
       <div class="form-group">
         <label>計算モード</label>
-        <div class="radio-group">
-          <label><input type="radio" name="mode" value="wake_to_bed" checked> 起床時間から就寝時間を計算</label>
-          <label><input type="radio" name="mode" value="bed_to_wake"> 就寝時間から起床時間を計算</label>
+        <input type="hidden" id="mode" value="wake_to_bed">
+        <div class="mode-buttons" role="group" aria-label="計算モード">
+          <button type="button" class="mode-button active" id="mode-wake_to_bed" onclick="setMode('wake_to_bed')">
+            <span>起きる時間から計算</span>
+            <small>何時に寝るとよいか</small>
+          </button>
+          <button type="button" class="mode-button" id="mode-bed_to_wake" onclick="setMode('bed_to_wake')">
+            <span>寝る時間から計算</span>
+            <small>何時に起きるとよいか</small>
+          </button>
         </div>
       </div>
       <div class="form-group" id="wake-group">
@@ -149,14 +230,26 @@
         <div class="input-wrap">
           <input type="time" id="wake-time" value="07:00">
         </div>
+        <div class="quick-time-buttons" aria-label="よく使う起床時間">
+          <button type="button" onclick="setWakeExample('06:00')">6:00に起きる</button>
+          <button type="button" onclick="setWakeExample('06:30')">6:30に起きる</button>
+          <button type="button" onclick="setWakeExample('07:00')">7:00に起きる</button>
+          <button type="button" onclick="setWakeExample('07:30')">7:30に起きる</button>
+        </div>
       </div>
       <div class="form-group" id="bed-group" style="display:none">
         <label>就寝する時間</label>
         <div class="input-wrap">
           <input type="time" id="bed-time" value="23:00">
         </div>
+        <div class="quick-time-buttons" aria-label="よく使う就寝時間">
+          <button type="button" onclick="setBedExample('22:00')">22:00に寝る</button>
+          <button type="button" onclick="setBedExample('22:30')">22:30に寝る</button>
+          <button type="button" onclick="setBedExample('23:00')">23:00に寝る</button>
+          <button type="button" onclick="setBedExample('23:30')">23:30に寝る</button>
+        </div>
       </div>
-      <button class="btn btn-primary" onclick="calcSuimin()">計算する</button>
+      <button class="btn btn-primary" id="calc-button" onclick="calcSuimin()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
           <div class="label" id="res-label">おすすめの就寝時間</div>
@@ -238,13 +331,23 @@
   <p class="copyright" style="margin-top:8px">© 2024 はかるんツール</p>
 </footer>
 <script>
-document.querySelectorAll('input[name="mode"]').forEach(function(r) {
-  r.addEventListener('change', function() {
-    var mode = document.querySelector('input[name="mode"]:checked').value;
-    document.getElementById('wake-group').style.display = mode === 'wake_to_bed' ? '' : 'none';
-    document.getElementById('bed-group').style.display = mode === 'bed_to_wake' ? '' : 'none';
-  });
-});
+function setMode(mode) {
+  document.getElementById('mode').value = mode;
+  document.getElementById('wake-group').style.display = mode === 'wake_to_bed' ? '' : 'none';
+  document.getElementById('bed-group').style.display = mode === 'bed_to_wake' ? '' : 'none';
+  document.getElementById('mode-wake_to_bed').classList.toggle('active', mode === 'wake_to_bed');
+  document.getElementById('mode-bed_to_wake').classList.toggle('active', mode === 'bed_to_wake');
+}
+function setWakeExample(time) {
+  setMode('wake_to_bed');
+  document.getElementById('wake-time').value = time;
+  calcSuimin();
+}
+function setBedExample(time) {
+  setMode('bed_to_wake');
+  document.getElementById('bed-time').value = time;
+  calcSuimin();
+}
 function fmtTime(totalMin) {
   totalMin = ((totalMin % 1440) + 1440) % 1440;
   var h = Math.floor(totalMin / 60);
@@ -252,7 +355,7 @@ function fmtTime(totalMin) {
   return (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m;
 }
 function calcSuimin() {
-  var mode = document.querySelector('input[name="mode"]:checked').value;
+  var mode = document.getElementById('mode').value;
   var timeVal, baseMin;
   if (mode === 'wake_to_bed') {
     timeVal = document.getElementById('wake-time').value;
