@@ -369,7 +369,7 @@ function calcSuimin() {
   var tbody = document.getElementById('res-tbody');
   tbody.innerHTML = '';
   var bestTime = null;
-  for (var cycles = 6; cycles >= 2; cycles--) {
+  for (var cycles = 7; cycles >= 2; cycles--) {
     var sleepMin = cycles * 90 + 15;
     var resultMin;
     if (mode === 'wake_to_bed') {
@@ -382,7 +382,7 @@ function calcSuimin() {
     var sleepM = (cycles * 90) % 60;
     var sleepStr = sleepH + '時間' + (sleepM > 0 ? sleepM + '分' : '');
     var tr = document.createElement('tr');
-    if (cycles === 5 || cycles === 4) tr.style.fontWeight = 'bold';
+    if (cycles === 6 || cycles === 5 || cycles === 4) tr.style.fontWeight = 'bold';
     tr.innerHTML = '<td>' + timeStr + '</td><td>' + sleepStr + '</td><td>' + cycles + 'サイクル</td>';
     tbody.appendChild(tr);
     if (cycles === 5) bestTime = timeStr;
