@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>個人事業主・法人・マイクロ法人二刀流 節税比較シミュレーター｜はかるんツール</title>
+  <meta name="description" content="個人事業主のまま・法人化・マイクロ法人二刀流の3パターンで所得税・住民税・社会保険料・法人税を比較シミュレーション。小規模企業共済・iDeCoの効果も反映。">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="canonical" href="https://hakarun.net/tax/micro-hojin">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+    { "@type": "Question", "name": "マイクロ法人とは何ですか？", "acceptedAnswer": { "@type": "Answer", "text": "マイクロ法人とは、1人（または少人数）で設立・運営する小規模な法人のことです。個人事業主がマイクロ法人を設立して個人事業と両立する「二刀流」戦略では、役員報酬を低く設定して厚生年金・協会けんぽに切り替えることで、社会保険料を大幅に削減できる場合があります。" } },
+    { "@type": "Question", "name": "マイクロ法人二刀流で節税できるのはなぜ？", "acceptedAnswer": { "@type": "Answer", "text": "個人事業主は国民健康保険・国民年金に加入しますが、マイクロ法人を設立すると社長として厚生年金・協会けんぽに加入できます。役員報酬を低く設定することで保険料の計算基礎を下げ、社会保険料を大幅に削減できます。また小規模企業共済やiDeCoと組み合わせることでさらなる節税が可能です。" } },
+    { "@type": "Question", "name": "法人化とマイクロ法人二刀流の違いは何ですか？", "acceptedAnswer": { "@type": "Answer", "text": "法人化はすべての事業を法人に移行することです。マイクロ法人二刀流は個人事業（フリーランス等）はそのまま続けながら、別の事業をマイクロ法人で行う戦略です。二刀流では消費税の免税期間を活用できるメリットや、個人事業の自由度を保てるメリットもあります。" } },
+    { "@type": "Question", "name": "この計算結果は正確ですか？", "acceptedAnswer": { "@type": "Answer", "text": "概算シミュレーションです。国民健康保険料は市区町村によって大きく異なるため全国平均値を使用しており、実際の金額と差が出る場合があります。正確な金額は税理士・社会保険労務士にご確認ください。" } },
+    { "@type": "Question", "name": "小規模企業共済はどのような節税効果がありますか？", "acceptedAnswer": { "@type": "Answer", "text": "小規模企業共済の掛金は全額所得控除になります。月額1,000円〜70,000円（年間最大84万円）まで積み立てでき、所得が高いほど節税効果が大きくなります。廃業・退職時には退職金として受け取れるため、節税と老後資金の両立ができます。" } }
+  ] }
+  </script>
+  <style>
+    .tool-sections { display: flex; flex-direction: column; gap: 20px; }
+    .tool-section { background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; }
+    .tool-section h3 { margin: 0 0 16px 0; font-size: 1rem; color: #333; border-left: 4px solid #4a90d9; padding-left: 10px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+    .form-row { display: flex; flex-direction: column; gap: 4px; }
+    .form-row label { font-size: 0.85rem; color: #555; font-weight: 500; }
+    .form-row input, .form-row select {
+      padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px;
+      font-size: 0.95rem; width: 100%; box-sizing: border-box;
+    }
+    .form-row .unit { font-size: 0.8rem; color: #888; margin-top: 2px; }
+    .calc-btn {
+      display: block; width: 100%; padding: 16px;
+      background: linear-gradient(135deg, #4a90d9, #357abd);
+      color: #fff; font-size: 1.1rem; font-weight: bold;
+      border: none; border-radius: 10px; cursor: pointer; margin-top: 10px;
+    }
+    .calc-btn:hover { background: linear-gradient(135deg, #357abd, #2a6099); }
+    /* 結果テーブル */
+    #result-area { display: none; margin-top: 24px; }
+    .result-table-wrap { overflow-x: auto; }
+    .result-table {
+      width: 100%; border-collapse: collapse; font-size: 0.9rem;
+      min-width: 560px;
+    }
+    .result-table th {
+      background: #4a90d9; color: #fff; padding: 10px 12px;
+      text-align: center; font-weight: bold;
+    }
+    .result-table th:first-child { text-align: left; min-width: 140px; }
+    .result-table td {
+      padding: 9px 12px; border-bottom: 1px solid #eee;
+      text-align: right;
+    }
+    .result-table td:first-child { text-align: left; color: #444; font-size: 0.85rem; }
+    .result-table tr:nth-child(even) { background: #f8f9fc; }
+    .result-table .subtotal td {
+      font-weight: bold; background: #f0f4ff; border-top: 2px solid #4a90d9;
+      font-size: 0.95rem;
+    }
+    .result-table .total-row td {
+      font-weight: bold; background: #e8f0fe; border-top: 2px solid #2a6099;
+      font-size: 1rem; color: #2a6099;
+    }
+    .result-table .saving-row td { font-weight: bold; background: #fff8e1; font-size: 0.95rem; }
+    .saving-plus { color: #e53935; }
+    .saving-minus { color: #27ae60; }
+    .na-cell { color: #bbb; font-size: 0.8rem; }
+    /* 推奨バッジ */
+    .badge-best { display: inline-block; background: #27ae60; color: #fff; font-size: 0.7rem; padding: 2px 7px; border-radius: 10px; margin-left: 6px; vertical-align: middle; }
+    /* 注記 */
+    .note-box { background: #fff8e1; border-left: 4px solid #f5a623; padding: 12px 16px; border-radius: 6px; font-size: 0.82rem; color: #555; margin-top: 16px; line-height: 1.7; }
+    .note-box strong { color: #333; }
+    /* サマリーカード */
+    .summary-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 20px; }
+    @media (max-width: 600px) { .summary-cards { grid-template-columns: 1fr; } }
+    .summary-card {
+      background: #fff; border: 2px solid #e0e0e0; border-radius: 10px;
+      padding: 16px 12px; text-align: center;
+    }
+    .summary-card.best { border-color: #27ae60; background: #f0fff4; }
+    .summary-card .card-title { font-size: 0.78rem; color: #666; margin-bottom: 6px; }
+    .summary-card .card-tedori { font-size: 1.5rem; font-weight: bold; color: #2a6099; }
+    .summary-card .card-saving { font-size: 0.82rem; color: #555; margin-top: 4px; }
+    .summary-card.best .card-tedori { color: #27ae60; }
+  </style>
+</head>
+<body>
+<header>
+  <div class="container">
+    <a href="../" class="logo">📐 はかるんツール</a>
+    <nav>
+      <div class="nav-item">
+        <a href="../money/" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../money/tedori">💴 手取り計算</a>
+          <a href="../money/zangyo">⏰ 残業代計算</a>
+          <a href="../money/bonus">🎁 ボーナス手取り計算</a>
+          <a href="../money/nenshu">📈 年収→月収・時給計算</a>
+          <a href="../money/shakaihoken">🏥 社会保険料計算</a>
+          <a href="../money/taisyokukin">👴 退職金手取り計算</a>
+          <a href="../money/shohizei">🛒 消費税計算</a>
+          <a href="../money/warikan">👥 割り勘計算</a>
+          <a href="../money/" class="dropdown-all">▶ すべて見る（20ツール）</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="../health/" class="nav-link">健康・医療 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../health/bmi">⚖️ BMI計算</a>
+          <a href="../health/metabolism">🔥 基礎代謝計算</a>
+          <a href="../health/calorie">🍱 消費カロリー計算</a>
+          <a href="../health/idealweight">👗 理想体重・モデル体重計算</a>
+          <a href="../health/alcohol">🍺 飲酒カロリー計算</a>
+          <a href="../health/steps">🚶 歩数→消費カロリー計算</a>
+          <a href="../health/taishibo">📊 体脂肪率計算</a>
+          <a href="../health/ninshin">🤰 妊娠週数計算</a>
+          <a href="../health/" class="dropdown-all">▶ すべて見る（19ツール）</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="../life/" class="nav-link">暮らし・節約 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../life/hikkoshi">🚚 引越し費用計算</a>
+          <a href="../life/denki">💡 電気代計算</a>
+          <a href="../life/gas">🔥 ガス代計算</a>
+          <a href="../life/suido">🚿 水道代計算</a>
+          <a href="../life/hituyokehi">💰 生活費計算</a>
+          <a href="../life/kakeibocheck">📊 家計簿チェッカー</a>
+          <a href="../life/saving">🐷 貯金シミュレーション</a>
+          <a href="../life/loan">🏦 ローン返済計算</a>
+          <a href="../life/" class="dropdown-all">▶ すべて見る（18ツール）</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="../date/" class="nav-link">日付・時間 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../date/age">🎂 年齢計算</a>
+          <a href="../date/dayscount">📅 日数計算</a>
+          <a href="../date/bizday">💼 営業日計算</a>
+          <a href="../date/countdown">⏳ カウントダウン計算</a>
+          <a href="../date/worktime">⏰ 労働時間計算</a>
+          <a href="../date/timezone">🌍 時差計算</a>
+          <a href="../date/nengappi">📅 和暦・西暦変換</a>
+          <a href="../date/cycle">🌙 生理周期・排卵日計算</a>
+          <a href="../date/" class="dropdown-all">▶ すべて見る（12ツール）</a>
+        </div>
+      </div>
+      <div class="nav-item active">
+        <a href="../tax/" class="nav-link">節税 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../tax/furusato">🎎 ふるさと納税 上限額・あといくら計算</a>
+          <a href="../tax/setsuzei">📊 節税シミュレーション</a>
+          <a href="../tax/jutaku">🏠 住宅ローン控除・還付金計算</a>
+          <a href="../tax/iryouhi">🏥 医療費控除・還付金計算</a>
+          <a href="../health/kougaku">🏥 高額療養費計算</a>
+          <a href="../tax/kanpu">💰 確定申告 還付金計算</a>
+          <a href="../tax/haigusha">👫 配偶者控除計算</a>
+          <a href="../tax/ideco">💎 iDeCo節税計算</a>
+          <a href="../tax/gift">🎁 贈与税計算</a>
+          <a href="../tax/micro-hojin">🏢 個人・法人・二刀流 節税比較</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="../calc/" class="nav-link">計算・変換 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../calc/percent">🔢 パーセント計算</a>
+          <a href="../calc/unit">📐 単位変換</a>
+          <a href="../calc/wariai">➗ 比率計算</a>
+          <a href="../calc/speed">🚗 速さ・距離・時間計算</a>
+          <a href="../calc/ondo">🌡️ 温度変換</a>
+          <a href="../calc/gaika">💱 外貨換算</a>
+          <a href="../calc/menseki">📐 面積計算</a>
+          <a href="../calc/tsubo">🏠 坪・平米変換</a>
+          <a href="../calc/" class="dropdown-all">▶ すべて見る（11ツール）</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="../invest/" class="nav-link">投資・資産 <span class="nav-arrow">▾</span></a>
+        <div class="dropdown">
+          <a href="../invest/fukuri">📈 複利計算</a>
+          <a href="../invest/nisa">💹 NISA枠・積立シミュレーション</a>
+          <a href="../invest/tsumitate">💰 投資シミュレーション（初期元本＋毎月積立）</a>
+          <a href="../invest/soneki">📉 損益計算</a>
+          <a href="../invest/rimawari">🏠 不動産利回り計算</a>
+          <a href="../invest/teiki">🏦 定期預金計算</a>
+          <a href="../invest/rogo">👴 老後資金計算</a>
+          <a href="../invest/seimei">🛡️ 生命保険必要額計算</a>
+          <a href="../money/nenkin">🏛️ 年金受給額シミュレーション</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="../blog/" class="nav-link">📝 ブログ</a>
+      </div>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="container">
+    <div class="tool-header">
+      <h1>🏢 個人事業主・法人・マイクロ法人二刀流<br>節税比較シミュレーター</h1>
+      <p class="tool-desc">3つの働き方パターンで<strong>税金・社会保険料・手取り</strong>を自動比較。<br>iDeCo・小規模企業共済の節税効果も反映します。</p>
+    </div>
+
+    <div class="tool-sections">
+
+      <!-- SECTION 1: 事業情報 -->
+      <div class="tool-section">
+        <h3>① 事業の収入・経費</h3>
+        <div class="form-grid">
+          <div class="form-row">
+            <label for="uriage">年間売上（事業収入）</label>
+            <input type="number" id="uriage" value="800" min="0" max="100000">
+            <span class="unit">万円</span>
+          </div>
+          <div class="form-row">
+            <label for="keihiKojin">個人事業の年間経費</label>
+            <input type="number" id="keihiKojin" value="100" min="0">
+            <span class="unit">万円（売上から引ける経費）</span>
+          </div>
+          <div class="form-row">
+            <label for="aoiro">青色申告特別控除</label>
+            <select id="aoiro">
+              <option value="650000">65万円（e-Tax提出）</option>
+              <option value="100000">10万円</option>
+              <option value="0">なし（白色申告）</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 2: 個人情報 -->
+      <div class="tool-section">
+        <h3>② 個人情報・家族構成</h3>
+        <div class="form-grid">
+          <div class="form-row">
+            <label for="age">年齢区分</label>
+            <select id="age">
+              <option value="under40">39歳以下</option>
+              <option value="40to64" selected>40〜64歳</option>
+              <option value="over65">65歳以上</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="haigusha">配偶者の状況</label>
+            <select id="haigusha">
+              <option value="none">配偶者なし</option>
+              <option value="under103" selected>配偶者あり（年収103万以下）</option>
+              <option value="under201">配偶者あり（年収103〜201万）</option>
+              <option value="over201">配偶者あり（年収201万超）</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="fuyouIppan">一般扶養人数（16歳以上）</label>
+            <select id="fuyouIppan">
+              <option value="0" selected>0人</option>
+              <option value="1">1人</option>
+              <option value="2">2人</option>
+              <option value="3">3人</option>
+              <option value="4">4人</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="fuyouTokutei">特定扶養（19〜23歳）</label>
+            <select id="fuyouTokutei">
+              <option value="0" selected>0人</option>
+              <option value="1">1人</option>
+              <option value="2">2人</option>
+              <option value="3">3人</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="fuyouRoujin">老人扶養（70歳以上・同居）</label>
+            <select id="fuyouRoujin">
+              <option value="0" selected>0人</option>
+              <option value="1">1人</option>
+              <option value="2">2人</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="hitorioya">ひとり親・寡婦控除</label>
+            <select id="hitorioya">
+              <option value="0" selected>なし</option>
+              <option value="350000">ひとり親控除（35万円）</option>
+              <option value="270000">寡婦控除（27万円）</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="shougai">障害者控除</label>
+            <select id="shougai">
+              <option value="0" selected>なし</option>
+              <option value="270000">一般障害者（27万円）</option>
+              <option value="400000">特別障害者（40万円）</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 3: 保険・節税 -->
+      <div class="tool-section">
+        <h3>③ 保険・節税制度</h3>
+        <div class="form-grid">
+          <div class="form-row">
+            <label for="nenkin">国民年金の支払い状況</label>
+            <select id="nenkin">
+              <option value="full" selected>支払い中（月16,980円）</option>
+              <option value="menjo">全額免除</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="ideco">iDeCo 掛金（月額）</label>
+            <input type="number" id="ideco" value="0" min="0" max="68000" step="1000">
+            <span class="unit">円（個人事業主の上限：月68,000円）</span>
+          </div>
+          <div class="form-row">
+            <label for="kyosai">小規模企業共済 掛金（月額）</label>
+            <input type="number" id="kyosai" value="0" min="0" max="70000" step="1000">
+            <span class="unit">円（上限：月70,000円）</span>
+          </div>
+          <div class="form-row">
+            <label for="seimei">生命保険料 年額</label>
+            <input type="number" id="seimei" value="0" min="0">
+            <span class="unit">円（新契約・一般生命保険）</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 4: 法人設定 -->
+      <div class="tool-section">
+        <h3>④ 法人・マイクロ法人の設定</h3>
+        <p style="font-size:0.83rem;color:#666;margin:-4px 0 12px 0;">
+          ※「法人化」は全売上を法人に移す前提で計算します。<br>
+          ※「マイクロ法人二刀流」は個人事業＋法人の両立です。下記で法人側の売上を設定してください。
+        </p>
+        <div class="form-grid">
+          <div class="form-row">
+            <label for="hojinUriage">法人売上（二刀流のみ）</label>
+            <input type="number" id="hojinUriage" value="200" min="0">
+            <span class="unit">万円（全売上のうち法人に移す分）</span>
+          </div>
+          <div class="form-row">
+            <label for="yakuinHoshu">役員報酬（月額）</label>
+            <input type="number" id="yakuinHoshu" value="6" min="0">
+            <span class="unit">万円（社会保険料の計算基礎になります）</span>
+          </div>
+          <div class="form-row">
+            <label for="hojinKeihi">法人経費（年間）</label>
+            <input type="number" id="hojinKeihi" value="50" min="0">
+            <span class="unit">万円（役員報酬以外の経費）</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /tool-sections -->
+
+    <button class="calc-btn" onclick="calcAll()">▶ 3パターンを比較する</button>
+
+    <!-- 結果エリア -->
+    <div id="result-area">
+      <h2 style="margin:28px 0 16px;font-size:1.2rem;color:#333;">📊 シミュレーション結果</h2>
+
+      <!-- サマリーカード -->
+      <div class="summary-cards" id="summary-cards"></div>
+
+      <!-- 比較テーブル -->
+      <div class="result-table-wrap">
+        <table class="result-table" id="result-table">
+          <thead>
+            <tr>
+              <th>項目</th>
+              <th id="th1">① 個人事業主のみ</th>
+              <th id="th2">② 法人化</th>
+              <th id="th3">③ マイクロ法人二刀流</th>
+            </tr>
+          </thead>
+          <tbody id="result-tbody"></tbody>
+        </table>
+      </div>
+
+      <div class="note-box" id="note-area"></div>
+    </div>
+
+  </div><!-- /container -->
+</main>
+
+<footer>
+  <div class="container">
+    <p>© 2024 はかるんツール ｜ <a href="../privacy">プライバシーポリシー</a> ｜ <a href="../contact">お問い合わせ</a></p>
+    <p style="font-size:0.8rem;color:#999;margin-top:4px;">本ツールの計算結果は概算であり、正確な金額は税理士・社会保険労務士にご確認ください。</p>
+  </div>
+</footer>
+
+<script>
+// ========== ユーティリティ ==========
+function man(yen) {
+  if (yen < 0) return '<span style="color:#e53935">-' + Math.abs(Math.round(yen / 10000)).toLocaleString() + '万円</span>';
+  return Math.round(yen / 10000).toLocaleString() + '万円';
+}
+function manPlain(yen) { return Math.round(yen / 10000).toLocaleString(); }
+function yen(v) { return Math.round(v).toLocaleString() + '円'; }
+
+// ========== 所得税計算 ==========
+function calcIncomeTax(taxableIncome) {
+  if (taxableIncome <= 0) return 0;
+  let tax;
+  if      (taxableIncome <= 1950000)  tax = taxableIncome * 0.05;
+  else if (taxableIncome <= 3300000)  tax = taxableIncome * 0.10 - 97500;
+  else if (taxableIncome <= 6950000)  tax = taxableIncome * 0.20 - 427500;
+  else if (taxableIncome <= 9000000)  tax = taxableIncome * 0.23 - 636000;
+  else if (taxableIncome <= 18000000) tax = taxableIncome * 0.33 - 1536000;
+  else if (taxableIncome <= 40000000) tax = taxableIncome * 0.40 - 2796000;
+  else                                tax = taxableIncome * 0.45 - 4796000;
+  return Math.floor(tax * 1.021); // 復興特別所得税込み
+}
+
+// ========== 住民税計算 ==========
+function calcResidentTax(taxableIncome) {
+  if (taxableIncome <= 450000) return 5000; // 均等割のみ
+  return Math.floor(taxableIncome * 0.10) + 5000;
+}
+
+// ========== 給与所得控除 ==========
+function kyuyoShotokuKojo(salary) {
+  if (salary <= 1625000)  return 550000;
+  if (salary <= 1800000)  return Math.floor(salary * 0.4) - 100000;
+  if (salary <= 3600000)  return Math.floor(salary * 0.3) + 80000;
+  if (salary <= 6600000)  return Math.floor(salary * 0.2) + 440000;
+  if (salary <= 8500000)  return Math.floor(salary * 0.1) + 1100000;
+  return 1950000;
+}
+
+// ========== 生命保険料控除 ==========
+function seimeiKojo(nenkin) {
+  if (nenkin <= 0) return 0;
+  if (nenkin <= 20000)  return nenkin;
+  if (nenkin <= 40000)  return Math.floor(nenkin * 0.5) + 10000;
+  if (nenkin <= 80000)  return Math.floor(nenkin * 0.25) + 20000;
+  return 40000;
+}
+
+// ========== 国民健康保険（全国平均概算） ==========
+function calcKokuho(shotoku, ageKey) {
+  // 賦課基準額 = 所得 - 43万（基礎控除相当）
+  const base = Math.max(0, shotoku - 430000);
+  // 医療分
+  let iryo = Math.min(base * 0.075 + 28000, 650000);
+  // 支援金分
+  let shien = Math.min(base * 0.024 + 9600, 240000);
+  // 介護分（40〜64歳のみ）
+  let kaigo = 0;
+  if (ageKey === '40to64') {
+    kaigo = Math.min(base * 0.020 + 12000, 170000);
+  }
+  return Math.round(iryo + shien + kaigo);
+}
+
+// ========== 国民年金 ==========
+function calcKokunenkin(nenkinOption) {
+  return nenkinOption === 'full' ? 203760 : 0; // 2025年度 月16,980円×12
+}
+
+// ========== 厚生年金（本人負担） ==========
+function calcKoseiNenkin(hoshuTsuki) {
+  // 標準報酬月額 ≈ 役員報酬月額（簡略化）
+  // 上限 65万円
+  const hyojun = Math.min(hoshuTsuki, 650000);
+  return Math.round(hyojun * 0.0915 * 12);
+}
+
+// ========== 健康保険・協会けんぽ（本人負担・東京都） ==========
+function calcKenpo(hoshuTsuki, ageKey) {
+  const hyojun = Math.min(hoshuTsuki, 1390000);
+  let rate;
+  if (ageKey === '40to64') {
+    rate = 0.05885; // 介護保険含む
+  } else {
+    rate = 0.04985;
+  }
+  return Math.round(hyojun * rate * 12);
+}
+
+// ========== 個人事業税 ==========
+function calcJigyozei(jigyoShotoku) {
+  // 第3種事業（IT系）5%、事業主控除290万円
+  const taxable = Math.max(0, jigyoShotoku - 2900000);
+  return Math.round(taxable * 0.05);
+}
+
+// ========== 法人税等（実効税率） ==========
+function calcHojinzei(rieki) {
+  // 均等割（赤字でも発生）
+  const kintozei = 70000;
+  if (rieki <= 0) return kintozei;
+  // 800万以下:約21%、超え:約34%
+  let tax;
+  if (rieki <= 8000000) {
+    tax = rieki * 0.21;
+  } else {
+    tax = 8000000 * 0.21 + (rieki - 8000000) * 0.34;
+  }
+  return Math.round(tax + kintozei);
+}
+
+// ========== 所得控除の合計（共通） ==========
+function calcShotokuKojo(params) {
+  const {
+    shakaihokenKojo, // 社会保険料控除（国保+年金 or 厚生+健保）
+    shotoku,          // 合計所得（所得税基礎控除の判定用）
+    haigusha,
+    fuyouIppan, fuyouTokutei, fuyouRoujin,
+    hitorioya, shougai,
+    idecoNen, kyosaiNen, seimeiNen
+  } = params;
+
+  // 基礎控除
+  let kiso = 480000;
+  if (shotoku > 25000000) kiso = 0;
+  else if (shotoku > 24500000) kiso = 160000;
+  else if (shotoku > 24000000) kiso = 320000;
+
+  // 配偶者控除
+  let haigushaKojo = 0;
+  if (haigusha === 'under103') {
+    if (shotoku <= 9000000)      haigushaKojo = 380000;
+    else if (shotoku <= 9500000) haigushaKojo = 260000;
+    else if (shotoku <= 10000000)haigushaKojo = 130000;
+  } else if (haigusha === 'under201') {
+    // 配偶者特別控除（簡略化：収入150万以下として38万を適用）
+    if (shotoku <= 9000000)      haigushaKojo = 380000;
+    else if (shotoku <= 9500000) haigushaKojo = 260000;
+    else if (shotoku <= 10000000)haigushaKojo = 130000;
+  }
+
+  // 扶養控除
+  const fuyouKojo = fuyouIppan * 380000 + fuyouTokutei * 630000 + fuyouRoujin * 580000;
+
+  // 生命保険料控除
+  const seimeiKojoAmt = seimeiKojo(seimeiNen);
+
+  const total = shakaihokenKojo + kiso + haigushaKojo + fuyouKojo
+    + Number(hitorioya) + Number(shougai)
+    + idecoNen + kyosaiNen + seimeiKojoAmt;
+
+  return total;
+}
+
+// ========== パターン1：個人事業主のみ ==========
+function calcPattern1(inputs) {
+  const {
+    uriage, keihiKojin, aoiro, ageKey,
+    haigusha, fuyouIppan, fuyouTokutei, fuyouRoujin,
+    hitorioya, shougai, nenkin,
+    idecoTsuki, kyosaiTsuki, seimeiNen
+  } = inputs;
+
+  const idecoNen = idecoTsuki * 12;
+  const kyosaiNen = Math.min(kyosaiTsuki * 12, 840000); // 年間上限84万
+
+  // 事業所得
+  const jigyoShotoku = Math.max(0, uriage - keihiKojin - aoiro);
+
+  // 社会保険料
+  const kokuho = calcKokuho(jigyoShotoku, ageKey);
+  const kokunenkin = calcKokunenkin(nenkin);
+  const shakaihoken = kokuho + kokunenkin;
+
+  // 所得控除
+  const kojo = calcShotokuKojo({
+    shakaihokenKojo: shakaihoken,
+    shotoku: jigyoShotoku,
+    haigusha, fuyouIppan, fuyouTokutei, fuyouRoujin,
+    hitorioya, shougai, idecoNen, kyosaiNen, seimeiNen
+  });
+
+  const kazei1 = Math.max(0, jigyoShotoku - kojo); // 所得税課税所得
+  const kazei2 = Math.max(0, jigyoShotoku - (kojo - 50000)); // 住民税は基礎控除5万低い
+
+  const shotokuze = calcIncomeTax(kazei1);
+  const juuminze = calcResidentTax(kazei2);
+  const jigyozei = calcJigyozei(jigyoShotoku);
+
+  const totalTax = shotokuze + juuminze + jigyozei + kokuho + kokunenkin;
+  const tedori = uriage - keihiKojin - totalTax;
+
+  return {
+    jigyoShotoku,
+    shotokuze, juuminze, jigyozei,
+    kokuho, kokunenkin,
+    koseiNenkin: 0, kenpo: 0, hojinzei: 0,
+    totalTax, tedori,
+    kazei1
+  };
+}
+
+// ========== パターン2：法人化（全売上を法人に） ==========
+function calcPattern2(inputs) {
+  const {
+    uriage, hojinKeihi, yakuinHoshuTsuki, ageKey,
+    haigusha, fuyouIppan, fuyouTokutei, fuyouRoujin,
+    hitorioya, shougai,
+    idecoTsuki, kyosaiTsuki, seimeiNen
+  } = inputs;
+
+  const idecoNen = Math.min(idecoTsuki, 23000) * 12; // 法人役員は月2.3万が上限
+  const kyosaiNen = Math.min(kyosaiTsuki * 12, 840000);
+  const yakuinHoshuNen = yakuinHoshuTsuki * 12;
+
+  // 厚生年金・健康保険（法人加入）
+  const koseiNenkin = calcKoseiNenkin(yakuinHoshuTsuki);
+  const kenpo = calcKenpo(yakuinHoshuTsuki, ageKey);
+  const shakaihoken = koseiNenkin + kenpo;
+
+  // 個人の給与所得
+  const kyuyoShotoku = Math.max(0, yakuinHoshuNen - kyuyoShotokuKojo(yakuinHoshuNen));
+
+  // 所得控除
+  const kojo = calcShotokuKojo({
+    shakaihokenKojo: shakaihoken,
+    shotoku: kyuyoShotoku,
+    haigusha, fuyouIppan, fuyouTokutei, fuyouRoujin,
+    hitorioya, shougai, idecoNen, kyosaiNen, seimeiNen
+  });
+
+  const kazei1 = Math.max(0, kyuyoShotoku - kojo);
+  const kazei2 = Math.max(0, kyuyoShotoku - (kojo - 50000));
+
+  const shotokuze = calcIncomeTax(kazei1);
+  const juuminze = calcResidentTax(kazei2);
+
+  // 法人税
+  const hojinRieki = Math.max(-1, uriage - hojinKeihi - yakuinHoshuNen - shakaihoken); // 法人の社保は損金算入
+  const hojinzei = calcHojinzei(hojinRieki);
+
+  const totalTax = shotokuze + juuminze + koseiNenkin + kenpo + hojinzei;
+  const tedori = uriage - hojinKeihi - totalTax - shakaihoken + yakuinHoshuNen - shotokuze - juuminze;
+  // 正確に計算
+  const tedori2 = uriage - hojinKeihi - hojinzei - shakaihoken - shotokuze - juuminze;
+
+  return {
+    jigyoShotoku: kyuyoShotoku,
+    shotokuze, juuminze, jigyozei: 0,
+    kokuho: 0, kokunenkin: 0,
+    koseiNenkin, kenpo, hojinzei,
+    totalTax: shotokuze + juuminze + koseiNenkin + kenpo + hojinzei,
+    tedori: tedori2,
+    kazei1
+  };
+}
+
+// ========== パターン3：マイクロ法人二刀流 ==========
+function calcPattern3(inputs) {
+  const {
+    uriage, keihiKojin, aoiro, hojinUriage, hojinKeihi,
+    yakuinHoshuTsuki, ageKey,
+    haigusha, fuyouIppan, fuyouTokutei, fuyouRoujin,
+    hitorioya, shougai, nenkin,
+    idecoTsuki, kyosaiTsuki, seimeiNen
+  } = inputs;
+
+  const idecoNen = Math.min(idecoTsuki, 23000) * 12; // 法人役員扱いで上限2.3万
+  const kyosaiNen = Math.min(kyosaiTsuki * 12, 840000);
+  const yakuinHoshuNen = yakuinHoshuTsuki * 12;
+
+  // 個人事業売上 = 全売上 - 法人売上
+  const kojinUriage = Math.max(0, uriage - hojinUriage);
+  // 個人事業経費は売上比で按分（簡略化）
+  const keihiRatio = uriage > 0 ? keihiKojin / uriage : 0;
+  const kojinKeihi = Math.round(kojinUriage * keihiRatio);
+
+  // 個人事業所得
+  const jigyoShotoku = Math.max(0, kojinUriage - kojinKeihi - aoiro);
+
+  // 厚生年金・健康保険（法人から加入）
+  const koseiNenkin = calcKoseiNenkin(yakuinHoshuTsuki);
+  const kenpo = calcKenpo(yakuinHoshuTsuki, ageKey);
+  const shakaihoken = koseiNenkin + kenpo;
+  // 国保・国民年金は不要になる
+
+  // 個人の給与所得（役員報酬）
+  const kyuyoShotoku = Math.max(0, yakuinHoshuNen - kyuyoShotokuKojo(yakuinHoshuNen));
+
+  // 合計所得
+  const totalShotoku = jigyoShotoku + kyuyoShotoku;
+
+  // 所得控除
+  const kojo = calcShotokuKojo({
+    shakaihokenKojo: shakaihoken,
+    shotoku: totalShotoku,
+    haigusha, fuyouIppan, fuyouTokutei, fuyouRoujin,
+    hitorioya, shougai, idecoNen, kyosaiNen, seimeiNen
+  });
+
+  const kazei1 = Math.max(0, totalShotoku - kojo);
+  const kazei2 = Math.max(0, totalShotoku - (kojo - 50000));
+
+  const shotokuze = calcIncomeTax(kazei1);
+  const juuminze = calcResidentTax(kazei2);
+  const jigyozei = calcJigyozei(jigyoShotoku);
+
+  // 法人税
+  const hojinRieki = Math.max(-1, hojinUriage - hojinKeihi - yakuinHoshuNen - shakaihoken);
+  const hojinzei = calcHojinzei(hojinRieki);
+
+  const totalTax = shotokuze + juuminze + jigyozei + koseiNenkin + kenpo + hojinzei;
+  const tedori = uriage - kojinKeihi - (hojinKeihi + hojinUriage - kojinUriage) - hojinzei
+    - shakaihoken - shotokuze - juuminze - jigyozei;
+
+  // より直接的な計算
+  const totalKeihiAll = keihiKojin + hojinKeihi;
+  const tedori2 = uriage - totalKeihiAll - hojinzei - shakaihoken - shotokuze - juuminze - jigyozei;
+
+  return {
+    jigyoShotoku, kyuyoShotoku,
+    shotokuze, juuminze, jigyozei,
+    kokuho: 0, kokunenkin: 0,
+    koseiNenkin, kenpo, hojinzei,
+    totalTax,
+    tedori: tedori2,
+    kazei1
+  };
+}
+
+// ========== メイン計算 ==========
+function calcAll() {
+  const inputs = {
+    uriage:          Number(document.getElementById('uriage').value) * 10000,
+    keihiKojin:      Number(document.getElementById('keihiKojin').value) * 10000,
+    aoiro:           Number(document.getElementById('aoiro').value),
+    ageKey:          document.getElementById('age').value,
+    haigusha:        document.getElementById('haigusha').value,
+    fuyouIppan:      Number(document.getElementById('fuyouIppan').value),
+    fuyouTokutei:    Number(document.getElementById('fuyouTokutei').value),
+    fuyouRoujin:     Number(document.getElementById('fuyouRoujin').value),
+    hitorioya:       Number(document.getElementById('hitorioya').value),
+    shougai:         Number(document.getElementById('shougai').value),
+    nenkin:          document.getElementById('nenkin').value,
+    idecoTsuki:      Number(document.getElementById('ideco').value),
+    kyosaiTsuki:     Number(document.getElementById('kyosai').value),
+    seimeiNen:       Number(document.getElementById('seimei').value),
+    hojinUriage:     Number(document.getElementById('hojinUriage').value) * 10000,
+    yakuinHoshuTsuki:Number(document.getElementById('yakuinHoshu').value) * 10000,
+    hojinKeihi:      Number(document.getElementById('hojinKeihi').value) * 10000,
+  };
+
+  const p1 = calcPattern1(inputs);
+  const p2 = calcPattern2(inputs);
+  const p3 = calcPattern3(inputs);
+
+  // 一番手取りが多いパターンを判定
+  const maxTedori = Math.max(p1.tedori, p2.tedori, p3.tedori);
+  const bestIdx = [p1.tedori, p2.tedori, p3.tedori].indexOf(maxTedori);
+
+  // サマリーカード
+  const cardTitles = ['① 個人事業主のみ', '② 法人化', '③ マイクロ法人二刀流'];
+  const patterns = [p1, p2, p3];
+  const saving = [0, p2.tedori - p1.tedori, p3.tedori - p1.tedori];
+  let cardsHTML = '';
+  for (let i = 0; i < 3; i++) {
+    const isBest = i === bestIdx;
+    cardsHTML += `<div class="summary-card${isBest ? ' best' : ''}">
+      <div class="card-title">${cardTitles[i]}${isBest ? '<span class="badge-best">おすすめ</span>' : ''}</div>
+      <div class="card-tedori">${manPlain(patterns[i].tedori)}<span style="font-size:0.85rem;font-weight:normal">万円</span></div>
+      <div class="card-saving">${i === 0 ? '（基準）' : (saving[i] >= 0 ? '<span class="saving-minus">+' + manPlain(saving[i]) + '万円 節税</span>' : '<span class="saving-plus">' + manPlain(saving[i]) + '万円</span>')}</div>
+    </div>`;
+  }
+  document.getElementById('summary-cards').innerHTML = cardsHTML;
+
+  // 比較テーブル
+  const rows = [
+    { label: '【個人】事業所得',          v: [p1.jigyoShotoku, null, p3.jigyoShotoku] },
+    { label: '【個人】所得税（復興税込）', v: [p1.shotokuze, p2.shotokuze, p3.shotokuze], minus: true },
+    { label: '【個人】住民税',             v: [p1.juuminze,  p2.juuminze,  p3.juuminze],  minus: true },
+    { label: '【個人】個人事業税',         v: [p1.jigyozei,  0,            p3.jigyozei],  minus: true },
+    { label: '【社保】国民健康保険',       v: [p1.kokuho,    0,            0],            minus: true },
+    { label: '【社保】国民年金',           v: [p1.kokunenkin,0,            0],            minus: true },
+    { label: '【社保】健康保険（協会けんぽ）', v: [0, p2.kenpo, p3.kenpo], minus: true },
+    { label: '【社保】厚生年金',           v: [0, p2.koseiNenkin, p3.koseiNenkin], minus: true },
+    { label: '【法人】法人税等',           v: [0, p2.hojinzei, p3.hojinzei], minus: true },
+  ];
+
+  let tbody = '';
+  for (const row of rows) {
+    tbody += '<tr>';
+    tbody += `<td>${row.label}</td>`;
+    for (let i = 0; i < 3; i++) {
+      const v = row.v[i];
+      if (v === null) {
+        tbody += `<td class="na-cell">−</td>`;
+      } else if (v === 0 && row.minus) {
+        tbody += `<td class="na-cell">−</td>`;
+      } else {
+        tbody += `<td>${man(v)}</td>`;
+      }
+    }
+    tbody += '</tr>';
+  }
+
+  // 税・保険料合計
+  tbody += `<tr class="subtotal">
+    <td>税金・保険料 合計</td>
+    <td>${man(p1.totalTax)}</td>
+    <td>${man(p2.totalTax)}</td>
+    <td>${man(p3.totalTax)}</td>
+  </tr>`;
+
+  // 手取り
+  tbody += `<tr class="total-row">
+    <td>💰 手取り合計</td>
+    <td>${man(p1.tedori)}</td>
+    <td>${man(p2.tedori)}</td>
+    <td>${man(p3.tedori)}</td>
+  </tr>`;
+
+  // 節税額
+  const savingRow = saving.map((s, i) => {
+    if (i === 0) return '<td class="saving-row" style="color:#999">基準</td>';
+    if (s > 0) return `<td class="saving-minus">+${manPlain(s)}万円 お得</td>`;
+    if (s < 0) return `<td class="saving-plus">${manPlain(s)}万円</td>`;
+    return '<td>変わらず</td>';
+  });
+  tbody += `<tr class="saving-row">
+    <td>①比 節税額</td>
+    ${savingRow.join('')}
+  </tr>`;
+
+  document.getElementById('result-tbody').innerHTML = tbody;
+
+  // 注記
+  const yakuinNen = inputs.yakuinHoshuTsuki * 12;
+  const hojin2Rieki = Math.max(0, inputs.uriage - inputs.hojinKeihi - yakuinNen);
+  const hojin3Rieki = Math.max(0, inputs.hojinUriage - inputs.hojinKeihi - yakuinNen);
+  document.getElementById('note-area').innerHTML = `
+    <strong>📌 計算の前提・注意点</strong><br>
+    • 国民健康保険料は<strong>全国平均の概算値</strong>です。市区町村によって大きく異なります（目安±20%程度）。<br>
+    • 協会けんぽ保険料は<strong>東京都・2025年度の料率</strong>で計算しています。<br>
+    • 法人税等は<strong>実効税率の概算</strong>です（利益800万以下：約21%、超え：約34%、均等割7万円含む）。<br>
+    • ②法人化：法人利益の概算 = <strong>${man(hojin2Rieki)}</strong> / ③二刀流：法人利益の概算 = <strong>${man(hojin3Rieki)}</strong><br>
+    • iDeCo掛金は②③では法人役員として<strong>月23,000円が上限</strong>のため、入力値が超える場合は上限で計算しています。<br>
+    • 小規模企業共済は年間<strong>最大84万円</strong>を上限として控除に反映しています。<br>
+    • 結果はあくまで目安です。正確な試算は<strong>税理士・社会保険労務士</strong>にご相談ください。
+  `;
+
+  document.getElementById('result-area').style.display = 'block';
+  document.getElementById('result-area').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+</script>
+
+<script>
+document.querySelectorAll('.nav-item').forEach(function(n){
+  var link=n.querySelector('.nav-link');
+  var dropdown=n.querySelector('.dropdown');
+  if(!link)return;
+  link.addEventListener('click',function(e){
+    if(!dropdown)return;
+    if(!window.matchMedia('(hover:hover)').matches){
+      e.preventDefault();
+      n.classList.toggle('open');
+      document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});
+    }
+  });
+});
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});
+});
+</script>
+</body>
+</html>
