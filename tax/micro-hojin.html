@@ -421,7 +421,7 @@
         </table>
       </div>
 
-      <p class="result-note" id="note-area"></p>
+      <p class="result-note" id="note-area" style="margin-top:20px"></p>
     </div>
 
   </div>
@@ -741,6 +741,7 @@ function calcAll() {
       : `<span class="saving-down">${manPlain(saving[i])}万円</span>`;
     return `<div class="summary-card${isBest ? ' best' : ''}">
       <div class="card-title">${t}${isBest ? '<span class="badge-best">おすすめ</span>' : ''}</div>
+      <div style="font-size:11px;color:var(--text-secondary);margin-bottom:2px">利益合計</div>
       <div class="card-tedori">${manPlain(patterns[i].tedori)}<span style="font-size:16px;font-weight:400">万円</span></div>
       <div class="card-saving">${savingTxt}</div>
     </div>`;
@@ -846,7 +847,8 @@ function calcAll() {
   </tr>`;
 
   tbody += `<tr class="row-subtotal"><td>税金・保険料 合計</td>${patterns.map(p => `<td>${man(p.totalTax)}</td>`).join('')}</tr>`;
-  // 手取り内訳
+  // 利益合計（旧：手取り合計）→ 内訳をその下に表示
+  tbody += `<tr class="row-total"><td>💰 利益合計</td>${patterns.map(p => `<td>${man(p.tedori)}</td>`).join('')}</tr>`;
   tbody += `<tr class="row-breakdown">
     <td>　└ 個人の手取り</td>
     ${patterns.map(p => `<td>${man(p.kojinTedori)}</td>`).join('')}
@@ -855,7 +857,6 @@ function calcAll() {
     <td>　└ 法人に残る利益（税引後）</td>
     ${patterns.map((p, i) => i === 0 ? '<td class="na-cell">−</td>' : `<td>${man(p.hojinRyuho)}</td>`).join('')}
   </tr>`;
-  tbody += `<tr class="row-total"><td>💰 手取り合計</td>${patterns.map(p => `<td>${man(p.tedori)}</td>`).join('')}</tr>`;
 
   const savingCells = saving.map((s, i) => {
     if (i === 0) return `<td style="color:var(--text-secondary)">基準</td>`;
