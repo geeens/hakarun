@@ -210,15 +210,15 @@
         <div class="form-group">
           <label for="uriage">年間売上（事業収入）</label>
           <div class="input-wrap">
-            <input type="number" id="uriage" value="800" min="0" max="100000">
-            <span class="unit">万円</span>
+            <input type="number" id="uriage" value="8000000" min="0">
+            <span class="unit">円</span>
           </div>
         </div>
         <div class="form-group">
           <label for="keihiKojin">個人事業の年間経費</label>
           <div class="input-wrap">
-            <input type="number" id="keihiKojin" value="100" min="0">
-            <span class="unit">万円</span>
+            <input type="number" id="keihiKojin" value="1000000" min="0">
+            <span class="unit">円</span>
           </div>
         </div>
         <div class="form-group">
@@ -364,32 +364,32 @@
         <div class="form-group">
           <label for="hojinUriage">法人売上（③二刀流のみ）</label>
           <div class="input-wrap">
-            <input type="number" id="hojinUriage" value="200" min="0">
-            <span class="unit">万円</span>
+            <input type="number" id="hojinUriage" value="2000000" min="0">
+            <span class="unit">円</span>
           </div>
           <p class="hint">全売上のうち法人に移す金額</p>
         </div>
         <div class="form-group">
           <label for="yakuinHoshu2">②法人化の役員報酬（月額）</label>
           <div class="input-wrap">
-            <input type="number" id="yakuinHoshu2" value="50" min="0">
-            <span class="unit">万円/月</span>
+            <input type="number" id="yakuinHoshu2" value="500000" min="0">
+            <span class="unit">円/月</span>
           </div>
           <p class="hint">法人化の場合は売上に応じた報酬を設定します</p>
         </div>
         <div class="form-group">
           <label for="yakuinHoshu3">③二刀流の役員報酬（月額）</label>
           <div class="input-wrap">
-            <input type="number" id="yakuinHoshu3" value="6" min="0">
-            <span class="unit">万円/月</span>
+            <input type="number" id="yakuinHoshu3" value="60000" min="0">
+            <span class="unit">円/月</span>
           </div>
           <p class="hint">二刀流は低く設定するほど社会保険料が下がります</p>
         </div>
         <div class="form-group">
           <label for="hojinKeihi">法人経費（年間）</label>
           <div class="input-wrap">
-            <input type="number" id="hojinKeihi" value="50" min="0">
-            <span class="unit">万円</span>
+            <input type="number" id="hojinKeihi" value="500000" min="0">
+            <span class="unit">円</span>
           </div>
           <p class="hint">役員報酬以外の経費（家賃・通信費等）</p>
         </div>
@@ -678,8 +678,8 @@ function calcPattern3(inputs) {
 // ========== メイン計算 ==========
 function calcAll() {
   const inputs = {
-    uriage:           Number(document.getElementById('uriage').value) * 10000,
-    keihiKojin:       Number(document.getElementById('keihiKojin').value) * 10000,
+    uriage:           Number(document.getElementById('uriage').value),
+    keihiKojin:       Number(document.getElementById('keihiKojin').value),
     aoiro:            Number(document.getElementById('aoiro').value),
     jigyozeiAri:      Number(document.getElementById('jigyozeiAri').value),
     ageKey:           document.getElementById('age').value,
@@ -693,10 +693,10 @@ function calcAll() {
     idecoTsuki:       Number(document.getElementById('ideco').value),
     kyosaiTsuki:      Number(document.getElementById('kyosai').value),
     seimeiNen:        Number(document.getElementById('seimei').value),
-    hojinUriage:       Number(document.getElementById('hojinUriage').value) * 10000,
-    yakuinHoshuTsuki2: Number(document.getElementById('yakuinHoshu2').value) * 10000,
-    yakuinHoshuTsuki3: Number(document.getElementById('yakuinHoshu3').value) * 10000,
-    hojinKeihi:        Number(document.getElementById('hojinKeihi').value) * 10000,
+    hojinUriage:       Number(document.getElementById('hojinUriage').value),
+    yakuinHoshuTsuki2: Number(document.getElementById('yakuinHoshu2').value),
+    yakuinHoshuTsuki3: Number(document.getElementById('yakuinHoshu3').value),
+    hojinKeihi:        Number(document.getElementById('hojinKeihi').value),
   };
 
   const p1 = calcPattern1(inputs);
