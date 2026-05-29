@@ -28,6 +28,8 @@
     @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
     .form-row { display: flex; flex-direction: column; gap: 4px; }
     .form-row label { font-size: 0.85rem; color: #555; font-weight: 500; }
+    /* スクロールで数値が変わらないように */
+    .form-row input[type=number] { -moz-appearance: textfield; }
     .form-row input, .form-row select {
       padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px;
       font-size: 0.95rem; width: 100%; box-sizing: border-box;
@@ -845,11 +847,19 @@ function calcAll() {
   `;
 
   document.getElementById('result-area').style.display = 'block';
-  document.getElementById('result-area').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // ボタンの直下（結果エリアの上端）が見えるようにスクロール
+  const btn = document.querySelector('.calc-btn');
+  const btnBottom = btn.getBoundingClientRect().bottom + window.scrollY;
+  window.scrollTo({ top: btnBottom - 16, behavior: 'smooth' });
 }
 </script>
 
 <script>
+// 数値入力欄でスクロールしても値が変わらないようにする
+document.querySelectorAll('input[type=number]').forEach(function(el){
+  el.addEventListener('wheel', function(e){ e.preventDefault(); }, { passive: false });
+});
+
 document.querySelectorAll('.nav-item').forEach(function(n){
   var link=n.querySelector('.nav-link');
   var dropdown=n.querySelector('.dropdown');
