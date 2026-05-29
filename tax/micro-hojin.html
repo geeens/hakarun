@@ -571,7 +571,7 @@ function calcPattern1(inputs) {
 
   return {
     jigyoShotoku, shotokuze, juuminze, jigyozei, kokuho, kokunenkin,
-    koseiNenkin: 0, kenpo: 0, hojinzei: 0, totalTax,
+    koseiNenkin: 0, kenpo: 0, shakaihokenJigyo: 0, hojinzei: 0, totalTax,
     tedori: uriage - keihiKojin - totalTax,
     // 計算式用
     _uriage: uriage, _kojinUriage: uriage, _hojinUriage: 0,
@@ -591,7 +591,8 @@ function calcPattern2(inputs) {
 
   const koseiNenkin = calcKoseiNenkin(yakuinHoshuTsuki);
   const kenpo       = calcKenpo(yakuinHoshuTsuki, ageKey);
-  const shakaihoken = koseiNenkin + kenpo;
+  const shakaihoken    = koseiNenkin + kenpo;          // 本人負担分
+  const shakaihokenJigyo = shakaihoken;                 // 事業主負担分（労使折半で同額）
 
   const kyuyoShotoku = Math.max(0, yakuinHoshuNen - kyuyoShotokuKojo(yakuinHoshuNen));
   const kojo   = calcShotokuKojo({ shakaihokenKojo: shakaihoken, shotoku: kyuyoShotoku, haigusha, fuyouIppan, fuyouTokutei, fuyouRoujin, hitorioya, shougai, idecoNen, kyosaiNen, seimeiNen });
@@ -600,15 +601,16 @@ function calcPattern2(inputs) {
 
   const shotokuze  = calcIncomeTax(kazei1);
   const juuminze   = calcResidentTax(kazei2);
-  const hojinRieki = Math.max(-1, uriage - hojinKeihi - yakuinHoshuNen - shakaihoken);
+  // 法人利益：役員報酬（税引前）＋事業主負担社保 を損金算入
+  const hojinRieki = Math.max(-1, uriage - hojinKeihi - yakuinHoshuNen - shakaihokenJigyo);
   const hojinzei   = calcHojinzei(hojinRieki);
-  const totalTax   = shotokuze + juuminze + koseiNenkin + kenpo + hojinzei;
+  const totalTax   = shotokuze + juuminze + koseiNenkin + kenpo + shakaihokenJigyo + hojinzei;
 
-  const _hojinRieki = Math.max(0, uriage - hojinKeihi - yakuinHoshuNen - shakaihoken);
+  const _hojinRieki = Math.max(0, uriage - hojinKeihi - yakuinHoshuNen - shakaihokenJigyo);
   return {
     jigyoShotoku: kyuyoShotoku, shotokuze, juuminze, jigyozei: 0,
-    kokuho: 0, kokunenkin: 0, koseiNenkin, kenpo, hojinzei, totalTax,
-    tedori: uriage - hojinKeihi - hojinzei - shakaihoken - shotokuze - juuminze,
+    kokuho: 0, kokunenkin: 0, koseiNenkin, kenpo, shakaihokenJigyo, hojinzei, totalTax,
+    tedori: uriage - hojinKeihi - hojinzei - shakaihoken - shakaihokenJigyo - shotokuze - juuminze,
     // 計算式用
     _uriage: uriage, _kojinUriage: 0, _hojinUriage: uriage,
     _keihiKojin: hojinKeihi, _aoiro: 0,
@@ -633,7 +635,8 @@ function calcPattern3(inputs) {
 
   const koseiNenkin = calcKoseiNenkin(yakuinHoshuTsuki);
   const kenpo       = calcKenpo(yakuinHoshuTsuki, ageKey);
-  const shakaihoken = koseiNenkin + kenpo;
+  const shakaihoken    = koseiNenkin + kenpo;          // 本人負担分
+  const shakaihokenJigyo = shakaihoken;                 // 事業主負担分（労使折半で同額）
 
   const kyuyoShotoku = Math.max(0, yakuinHoshuNen - kyuyoShotokuKojo(yakuinHoshuNen));
   const totalShotoku = jigyoShotoku + kyuyoShotoku;
@@ -644,15 +647,16 @@ function calcPattern3(inputs) {
   const shotokuze  = calcIncomeTax(kazei1);
   const juuminze   = calcResidentTax(kazei2);
   const jigyozei   = calcJigyozei(jigyoShotoku);
-  const hojinRieki = Math.max(-1, hojinUriage - hojinKeihi - yakuinHoshuNen - shakaihoken);
+  // 法人利益：役員報酬（税引前）＋事業主負担社保 を損金算入
+  const hojinRieki = Math.max(-1, hojinUriage - hojinKeihi - yakuinHoshuNen - shakaihokenJigyo);
   const hojinzei   = calcHojinzei(hojinRieki);
-  const totalTax   = shotokuze + juuminze + jigyozei + koseiNenkin + kenpo + hojinzei;
+  const totalTax   = shotokuze + juuminze + jigyozei + koseiNenkin + kenpo + shakaihokenJigyo + hojinzei;
 
-  const _hojinRieki = Math.max(0, hojinUriage - hojinKeihi - yakuinHoshuNen - shakaihoken);
+  const _hojinRieki = Math.max(0, hojinUriage - hojinKeihi - yakuinHoshuNen - shakaihokenJigyo);
   return {
     jigyoShotoku, shotokuze, juuminze, jigyozei,
-    kokuho: 0, kokunenkin: 0, koseiNenkin, kenpo, hojinzei, totalTax,
-    tedori: uriage - keihiKojin - hojinKeihi - hojinzei - shakaihoken - shotokuze - juuminze - jigyozei,
+    kokuho: 0, kokunenkin: 0, koseiNenkin, kenpo, shakaihokenJigyo, hojinzei, totalTax,
+    tedori: uriage - keihiKojin - hojinKeihi - hojinzei - shakaihoken - shakaihokenJigyo - shotokuze - juuminze - jigyozei,
     // 計算式用
     _uriage: uriage, _kojinUriage: kojinUriage, _hojinUriage: hojinUriage,
     _keihiKojin: kojinKeihi, _aoiro: aoiro,
@@ -785,6 +789,14 @@ function calcAll() {
     <td class="na-cell">−</td>
     ${cell(p2.koseiNenkin, `役員報酬 ${m(p2._yakuinHoshu)}万 × 9.15% × 12ヶ月`, true)}
     ${cell(p3.koseiNenkin, `役員報酬 ${m(p3._yakuinHoshu)}万 × 9.15% × 12ヶ月`, true)}
+  </tr>`;
+
+  // ── 社会保険料（事業主負担） ──
+  tbody += `<tr>
+    <td>【法人】社会保険料（事業主負担）</td>
+    <td class="na-cell">−</td>
+    ${cell(p2.shakaihokenJigyo, `役員報酬 ${m(p2._yakuinHoshu)}万 × (9.15%+${kenpoRate2}%) × 12ヶ月`)}
+    ${cell(p3.shakaihokenJigyo, `役員報酬 ${m(p3._yakuinHoshu)}万 × (9.15%+${kenpoRate3}%) × 12ヶ月`)}
   </tr>`;
 
   // ── 法人税 ──
