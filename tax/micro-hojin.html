@@ -362,12 +362,20 @@
           <p class="hint">全売上のうち法人に移す金額</p>
         </div>
         <div class="form-group">
-          <label for="yakuinHoshu">役員報酬（月額）</label>
+          <label for="yakuinHoshu2">②法人化の役員報酬（月額）</label>
           <div class="input-wrap">
-            <input type="number" id="yakuinHoshu" value="6" min="0">
+            <input type="number" id="yakuinHoshu2" value="50" min="0">
             <span class="unit">万円/月</span>
           </div>
-          <p class="hint">社会保険料の計算基礎。低いほど保険料が下がります</p>
+          <p class="hint">法人化の場合は売上に応じた報酬を設定します</p>
+        </div>
+        <div class="form-group">
+          <label for="yakuinHoshu3">③二刀流の役員報酬（月額）</label>
+          <div class="input-wrap">
+            <input type="number" id="yakuinHoshu3" value="6" min="0">
+            <span class="unit">万円/月</span>
+          </div>
+          <p class="hint">二刀流は低く設定するほど社会保険料が下がります</p>
         </div>
         <div class="form-group">
           <label for="hojinKeihi">法人経費（年間）</label>
@@ -672,14 +680,15 @@ function calcAll() {
     idecoTsuki:       Number(document.getElementById('ideco').value),
     kyosaiTsuki:      Number(document.getElementById('kyosai').value),
     seimeiNen:        Number(document.getElementById('seimei').value),
-    hojinUriage:      Number(document.getElementById('hojinUriage').value) * 10000,
-    yakuinHoshuTsuki: Number(document.getElementById('yakuinHoshu').value) * 10000,
-    hojinKeihi:       Number(document.getElementById('hojinKeihi').value) * 10000,
+    hojinUriage:       Number(document.getElementById('hojinUriage').value) * 10000,
+    yakuinHoshuTsuki2: Number(document.getElementById('yakuinHoshu2').value) * 10000,
+    yakuinHoshuTsuki3: Number(document.getElementById('yakuinHoshu3').value) * 10000,
+    hojinKeihi:        Number(document.getElementById('hojinKeihi').value) * 10000,
   };
 
   const p1 = calcPattern1(inputs);
-  const p2 = calcPattern2(inputs);
-  const p3 = calcPattern3(inputs);
+  const p2 = calcPattern2({ ...inputs, yakuinHoshuTsuki: inputs.yakuinHoshuTsuki2 });
+  const p3 = calcPattern3({ ...inputs, yakuinHoshuTsuki: inputs.yakuinHoshuTsuki3 });
 
   const patterns  = [p1, p2, p3];
   const saving    = [0, p2.tedori - p1.tedori, p3.tedori - p1.tedori];
