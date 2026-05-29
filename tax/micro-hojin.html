@@ -27,9 +27,15 @@
 
     /* セクション見出し */
     .section-lead {
-      font-size: 14px; font-weight: 700; color: var(--primary);
-      border-left: 3px solid var(--primary); padding-left: 10px;
+      display: flex; align-items: center; gap: 10px;
+      font-size: 15px; font-weight: 700; color: var(--text);
       margin-bottom: 16px;
+    }
+    .section-lead .step-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 24px; height: 24px; border-radius: 50%;
+      background: var(--primary); color: #fff;
+      font-size: 13px; font-weight: 700; flex-shrink: 0;
     }
 
     /* サマリーカード */
@@ -210,7 +216,7 @@
 
     <!-- ① 事業の収入・経費 -->
     <div class="calc-card">
-      <p class="section-lead">① 事業の収入・経費</p>
+      <p class="section-lead"><span class="step-num">1</span>事業の収入・経費</p>
       <div class="form-grid-2">
         <div class="form-group">
           <label for="uriage">年間売上（事業収入）</label>
@@ -247,7 +253,7 @@
 
     <!-- ② 個人情報・家族構成 -->
     <div class="calc-card">
-      <p class="section-lead">② 個人情報・家族構成</p>
+      <p class="section-lead"><span class="step-num">2</span>個人情報・家族構成</p>
       <div class="form-grid-2">
         <div class="form-group">
           <label for="age">年齢区分</label>
@@ -324,7 +330,7 @@
 
     <!-- ③ 保険・節税制度 -->
     <div class="calc-card">
-      <p class="section-lead">③ 保険・節税制度</p>
+      <p class="section-lead"><span class="step-num">3</span>保険・節税制度</p>
       <div class="form-grid-2">
         <div class="form-group">
           <label for="nenkin">国民年金の支払い状況</label>
@@ -363,7 +369,7 @@
 
     <!-- ④ 法人・マイクロ法人の設定 -->
     <div class="calc-card">
-      <p class="section-lead">④ 法人・マイクロ法人の設定</p>
+      <p class="section-lead"><span class="step-num">4</span>法人・マイクロ法人の設定</p>
       <p class="form-lead">「法人化②」は全売上を法人に移す前提で計算します。「マイクロ法人二刀流③」は下記で法人側の売上を個別に設定してください。</p>
       <div class="form-grid-2">
         <div class="form-group">
@@ -854,7 +860,7 @@ function calcAll() {
     ${patterns.map(p => `<td>${man(p.kojinTedori)}</td>`).join('')}
   </tr>`;
   tbody += `<tr class="row-hojin">
-    <td>　└ 法人に残る利益（税引後）</td>
+    <td>　法人に残る利益（税引後）</td>
     ${patterns.map((p, i) => i === 0 ? '<td class="na-cell">−</td>' : `<td>${man(p.hojinRyuho)}</td>`).join('')}
   </tr>`;
 
@@ -882,7 +888,7 @@ function calcAll() {
     • 小規模企業共済は年間<strong>最大84万円</strong>を上限として控除に反映しています。<br>
     <br>
     <strong>💡「法人に残る利益」について</strong><br>
-    • 上の表の「└ 法人に残る利益（税引後）」は、<strong>法人の口座に残るお金</strong>のことです。個人の銀行口座に入るわけではなく、すぐに自由に使えるお金ではありません。<br>
+    • 上の表の「法人に残る利益（税引後）」は、<strong>法人の口座に残るお金</strong>のことです。個人の銀行口座に入るわけではなく、すぐに自由に使えるお金ではありません。<br>
     • 法人のお金を個人に移す主な方法は①役員報酬を増やす（所得税・社会保険料がかかる）、②配当として受け取る（約20%課税）、③将来、<strong>役員退職金</strong>として受け取る、の3つです。<br>
     • このうち最も税効率が高いのが<strong>③役員退職金</strong>です。退職金は「退職所得控除（勤続年数×40万円など）」を引いた後、さらに<strong>半額にしてから課税</strong>されるため、実質的な税負担がとても低くなります。<br>
     • たとえば10年運営して退職金1,000万円を受け取る場合、課税対象は (1,000万−400万)÷2＝<strong>300万円</strong>のみです。<br>
