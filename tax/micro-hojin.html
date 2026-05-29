@@ -81,6 +81,11 @@
     /* 売上行 */
     .cmp-table .row-uriage td { background: #F8FAFC; font-weight: 600; }
     .cmp-table .row-uriage td:first-child { color: var(--text); font-size: 13px; }
+    /* 手取り内訳行 */
+    .cmp-table .row-breakdown td { background: #F0FDF4; font-size: 13px; padding-left: 20px; }
+    .cmp-table .row-breakdown td:first-child { color: var(--text-secondary); padding-left: 20px; }
+    .cmp-table .row-hojin td { background: #EFF6FF; font-size: 13px; }
+    .cmp-table .row-hojin td:first-child { color: var(--text-secondary); padding-left: 20px; }
   </style>
 </head>
 <body>
@@ -576,11 +581,14 @@ function calcPattern1(inputs) {
   const juuminze  = calcResidentTax(kazei2);
   const jigyozei  = jigyozeiAri ? calcJigyozei(jigyoShotoku) : 0;
   const totalTax  = shotokuze + juuminze + jigyozei + kokuho + kokunenkin;
+  const tedori    = uriage - keihiKojin - totalTax;
 
   return {
     jigyoShotoku, shotokuze, juuminze, jigyozei, kokuho, kokunenkin,
     koseiNenkin: 0, kenpo: 0, shakaihokenJigyo: 0, hojinzei: 0, totalTax,
-    tedori: uriage - keihiKojin - totalTax,
+    tedori,
+    kojinTedori: tedori, // 個人事業主のみなので全額が個人の手取り
+    hojinRyuho: 0,
     // 計算式用
     _uriage: uriage, _kojinUriage: uriage, _hojinUriage: 0,
     _keihiKojin: keihiKojin, _aoiro: aoiro,
@@ -617,10 +625,17 @@ function calcPattern2(inputs) {
   const totalTax   = shotokuze + juuminze + koseiNenkin + kenpo + shakaihokenJigyo + hojinzei;
 
   const _hojinRieki = Math.max(0, uriage - totalHojinKeihi - yakuinHoshuNen - shakaihokenJigyo);
+  const tedori2 = uriage - totalHojinKeihi - hojinzei - shakaihoken - shakaihokenJigyo - shotokuze - juuminze;
+  // 個人の手取り = 役員報酬 - 本人社保 - 所得税 - 住民税
+  const kojinTedori2 = yakuinHoshuNen - shakaihoken - shotokuze - juuminze;
+  // 法人留保 = 売上 - 全経費 - 役員報酬 - 事業主社保 - 法人税
+  const hojinRyuho2 = uriage - totalHojinKeihi - yakuinHoshuNen - shakaihokenJigyo - hojinzei;
   return {
     jigyoShotoku: kyuyoShotoku, shotokuze, juuminze, jigyozei: 0,
     kokuho: 0, kokunenkin: 0, koseiNenkin, kenpo, shakaihokenJigyo, hojinzei, totalTax,
-    tedori: uriage - totalHojinKeihi - hojinzei - shakaihoken - shakaihokenJigyo - shotokuze - juuminze,
+    tedori: tedori2,
+    kojinTedori: kojinTedori2,
+    hojinRyuho:  hojinRyuho2,
     // 計算式用
     _uriage: uriage, _kojinUriage: 0, _hojinUriage: uriage,
     _keihiKojin: totalHojinKeihi, _aoiro: 0,
@@ -663,10 +678,17 @@ function calcPattern3(inputs) {
   const totalTax   = shotokuze + juuminze + jigyozei + koseiNenkin + kenpo + shakaihokenJigyo + hojinzei;
 
   const _hojinRieki = Math.max(0, hojinUriage - hojinKeihi - yakuinHoshuNen - shakaihokenJigyo);
+  const tedori3 = uriage - keihiKojin - hojinKeihi - hojinzei - shakaihoken - shakaihokenJigyo - shotokuze - juuminze - jigyozei;
+  // 個人の手取り = 個人事業純収入 + 役員報酬 - 本人社保 - 所得税 - 住民税 - 個人事業税
+  const kojinTedori3 = (kojinUriage - kojinKeihi) + yakuinHoshuNen - shakaihoken - shotokuze - juuminze - jigyozei;
+  // 法人留保 = 法人売上 - 法人経費 - 役員報酬 - 事業主社保 - 法人税
+  const hojinRyuho3 = hojinUriage - hojinKeihi - yakuinHoshuNen - shakaihokenJigyo - hojinzei;
   return {
     jigyoShotoku, shotokuze, juuminze, jigyozei,
     kokuho: 0, kokunenkin: 0, koseiNenkin, kenpo, shakaihokenJigyo, hojinzei, totalTax,
-    tedori: uriage - keihiKojin - hojinKeihi - hojinzei - shakaihoken - shakaihokenJigyo - shotokuze - juuminze - jigyozei,
+    tedori: tedori3,
+    kojinTedori: kojinTedori3,
+    hojinRyuho:  hojinRyuho3,
     // 計算式用
     _uriage: uriage, _kojinUriage: kojinUriage, _hojinUriage: hojinUriage,
     _keihiKojin: kojinKeihi, _aoiro: aoiro,
@@ -824,6 +846,15 @@ function calcAll() {
   </tr>`;
 
   tbody += `<tr class="row-subtotal"><td>税金・保険料 合計</td>${patterns.map(p => `<td>${man(p.totalTax)}</td>`).join('')}</tr>`;
+  // 手取り内訳
+  tbody += `<tr class="row-breakdown">
+    <td>　└ 個人の手取り</td>
+    ${patterns.map(p => `<td>${man(p.kojinTedori)}</td>`).join('')}
+  </tr>`;
+  tbody += `<tr class="row-hojin">
+    <td>　└ 法人に残る利益（税引後）</td>
+    ${patterns.map((p, i) => i === 0 ? '<td class="na-cell">−</td>' : `<td>${man(p.hojinRyuho)}</td>`).join('')}
+  </tr>`;
   tbody += `<tr class="row-total"><td>💰 手取り合計</td>${patterns.map(p => `<td>${man(p.tedori)}</td>`).join('')}</tr>`;
 
   const savingCells = saving.map((s, i) => {
