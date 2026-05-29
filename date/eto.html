@@ -197,7 +197,7 @@
   <p class="copyright">※ 計算結果はあくまで目安です。</p>
   <p class="copyright" style="margin-top:8px">© 2024 はかるんツール</p>
 </footer>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){n.querySelector('.nav-link').addEventListener('click',function(e){if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});}); document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
+<script>document.querySelectorAll('.nav-item').forEach(function(n){var link=n.querySelector('.nav-link');var dropdown=n.querySelector('.dropdown');if(!link)return;link.addEventListener('click',function(e){if(!dropdown)return;if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 <script>
 const etos=['子（ネズミ）🐭','丑（ウシ）🐮','寅（トラ）🐯','卯（ウサギ）🐰','辰（龍）🐲','巳（ヘビ）🐍','午（ウマ）🐴','未（ヒツジ）🐑','申（サル）🐵','酉（トリ）🐔','戌（イヌ）🐶','亥（イノシシ）🐗'];
 const seiza=[['山羊座♑',12,22],['水瓶座♒',1,20],['魚座♓',2,19],['牡羊座♈',3,21],['牡牛座♉',4,20],['双子座♊',5,21],['蟹座♋',6,22],['獅子座♌',7,23],['乙女座♍',8,23],['天秤座♎',9,23],['蠍座♏',10,24],['射手座♐',11,23],['山羊座♑',12,22]];
