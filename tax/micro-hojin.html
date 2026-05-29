@@ -46,7 +46,7 @@
       border-radius: var(--radius); padding: 18px 12px; text-align: center;
     }
     .summary-card.best { border-color: var(--success); background: var(--success-light); }
-    .summary-card .card-title { font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; font-weight: 600; }
+    .summary-card .card-title { display:flex; align-items:center; justify-content:center; font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; font-weight: 600; }
     .summary-card .card-tedori { font-size: 28px; font-weight: 800; color: var(--primary); }
     .summary-card.best .card-tedori { color: var(--success); }
     .summary-card .card-saving { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
@@ -79,6 +79,14 @@
       font-weight: 700; background: var(--warning-light) !important; font-size: 14px;
     }
     .na-cell { color: #CBD5E1; }
+    /* テーブルヘッダー内の番号バッジ */
+    .th-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: rgba(255,255,255,0.25); color: #fff;
+      font-size: 11px; font-weight: 700; margin-right: 6px;
+      vertical-align: middle; flex-shrink: 0;
+    }
     .saving-up { color: var(--success); }
     .saving-down { color: var(--danger); }
 
@@ -418,9 +426,9 @@
           <thead>
             <tr>
               <th>項目</th>
-              <th>① 個人事業主のみ</th>
-              <th>② 法人化</th>
-              <th>③ マイクロ法人二刀流</th>
+              <th><span class="th-num">1</span>個人事業主のみ</th>
+              <th><span class="th-num">2</span>法人化</th>
+              <th><span class="th-num">3</span>マイクロ法人二刀流</th>
             </tr>
           </thead>
           <tbody id="result-tbody"></tbody>
@@ -739,7 +747,8 @@ function calcAll() {
   const bestIdx   = patterns.map(p => p.tedori).indexOf(maxTedori);
 
   // サマリーカード
-  const titles = ['① 個人事業主のみ', '② 法人化', '③ マイクロ法人二刀流'];
+  const numBadge = n => `<span class="step-num" style="width:18px;height:18px;font-size:11px;margin-right:5px">${n}</span>`;
+  const titles = [numBadge(1)+'個人事業主のみ', numBadge(2)+'法人化', numBadge(3)+'マイクロ法人二刀流'];
   document.getElementById('summary-cards').innerHTML = titles.map((t, i) => {
     const isBest = i === bestIdx;
     const savingTxt = i === 0 ? '（基準）'
@@ -870,7 +879,7 @@ function calcAll() {
     if (s < 0)   return `<td class="saving-down">${manPlain(s)}万円</td>`;
     return `<td>変わらず</td>`;
   }).join('');
-  tbody += `<tr class="row-saving"><td>①比 節税額</td>${savingCells}</tr>`;
+  tbody += `<tr class="row-saving"><td><span class="step-num" style="width:18px;height:18px;font-size:11px;margin-right:5px">1</span>比 節税額</td>${savingCells}</tr>`;
 
   document.getElementById('result-tbody').innerHTML = tbody;
 
