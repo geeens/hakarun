@@ -28,9 +28,7 @@
     @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
     .form-row { display: flex; flex-direction: column; gap: 4px; }
     .form-row label { font-size: 0.85rem; color: #555; font-weight: 500; }
-    /* スクロールで数値が変わらないように */
-    .form-row input[type=number] { -moz-appearance: textfield; }
-    .form-row input, .form-row select {
+.form-row input, .form-row select {
       padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px;
       font-size: 0.95rem; width: 100%; box-sizing: border-box;
     }
@@ -359,7 +357,7 @@
 
     </div><!-- /tool-sections -->
 
-    <button class="calc-btn" onclick="calcAll()">▶ 3パターンを比較する</button>
+    <button class="calc-btn" id="calc-button" onclick="calcAll()">▶ 3パターンを比較する</button>
 
     <!-- 結果エリア -->
     <div id="result-area">
@@ -847,17 +845,21 @@ function calcAll() {
   `;
 
   document.getElementById('result-area').style.display = 'block';
-  // ボタンの直下（結果エリアの上端）が見えるようにスクロール
-  const btn = document.querySelector('.calc-btn');
-  const btnBottom = btn.getBoundingClientRect().bottom + window.scrollY;
-  window.scrollTo({ top: btnBottom - 16, behavior: 'smooth' });
+  // ボタンが見える位置までスクロール（NISAツールと同じ方式）
+  const target = document.getElementById('calc-button');
+  const header = document.querySelector('header');
+  const headerHeight = header ? header.getBoundingClientRect().height : 0;
+  const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 24;
+  window.scrollTo({ top: y, behavior: 'smooth' });
 }
 </script>
 
 <script>
-// 数値入力欄でスクロールしても値が変わらないようにする
-document.querySelectorAll('input[type=number]').forEach(function(el){
-  el.addEventListener('wheel', function(e){ e.preventDefault(); }, { passive: false });
+// 数値入力欄でスクロールしても値が変わらないようにする（NISAツールと同じ方式）
+document.querySelectorAll('input[type="number"]').forEach(function(input){
+  input.addEventListener('wheel', function(){
+    if(document.activeElement === input) input.blur();
+  });
 });
 
 document.querySelectorAll('.nav-item').forEach(function(n){
