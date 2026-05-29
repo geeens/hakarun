@@ -592,10 +592,12 @@ function calcPattern1(inputs) {
 
 // ========== パターン2：法人化（全売上を法人に） ==========
 function calcPattern2(inputs) {
-  const { uriage, hojinKeihi, yakuinHoshuTsuki, ageKey, haigusha, fuyouIppan, fuyouTokutei, fuyouRoujin, hitorioya, shougai, idecoTsuki, kyosaiTsuki, seimeiNen } = inputs;
+  const { uriage, keihiKojin, hojinKeihi, yakuinHoshuTsuki, ageKey, haigusha, fuyouIppan, fuyouTokutei, fuyouRoujin, hitorioya, shougai, idecoTsuki, kyosaiTsuki, seimeiNen } = inputs;
   const idecoNen       = Math.min(idecoTsuki, 23000) * 12;
   const kyosaiNen      = Math.min(kyosaiTsuki * 12, 840000);
   const yakuinHoshuNen = yakuinHoshuTsuki * 12;
+  // 法人化すると個人事業の経費もすべて法人経費になる
+  const totalHojinKeihi = keihiKojin + hojinKeihi;
 
   const koseiNenkin = calcKoseiNenkin(yakuinHoshuTsuki);
   const kenpo       = calcKenpo(yakuinHoshuTsuki, ageKey);
@@ -609,19 +611,19 @@ function calcPattern2(inputs) {
 
   const shotokuze  = calcIncomeTax(kazei1);
   const juuminze   = calcResidentTax(kazei2);
-  // 法人利益：役員報酬（税引前）＋事業主負担社保 を損金算入
-  const hojinRieki = Math.max(-1, uriage - hojinKeihi - yakuinHoshuNen - shakaihokenJigyo);
+  // 法人利益：個人経費＋法人経費＋役員報酬＋事業主社保 を損金算入
+  const hojinRieki = Math.max(-1, uriage - totalHojinKeihi - yakuinHoshuNen - shakaihokenJigyo);
   const hojinzei   = calcHojinzei(hojinRieki);
   const totalTax   = shotokuze + juuminze + koseiNenkin + kenpo + shakaihokenJigyo + hojinzei;
 
-  const _hojinRieki = Math.max(0, uriage - hojinKeihi - yakuinHoshuNen - shakaihokenJigyo);
+  const _hojinRieki = Math.max(0, uriage - totalHojinKeihi - yakuinHoshuNen - shakaihokenJigyo);
   return {
     jigyoShotoku: kyuyoShotoku, shotokuze, juuminze, jigyozei: 0,
     kokuho: 0, kokunenkin: 0, koseiNenkin, kenpo, shakaihokenJigyo, hojinzei, totalTax,
-    tedori: uriage - hojinKeihi - hojinzei - shakaihoken - shakaihokenJigyo - shotokuze - juuminze,
+    tedori: uriage - totalHojinKeihi - hojinzei - shakaihoken - shakaihokenJigyo - shotokuze - juuminze,
     // 計算式用
     _uriage: uriage, _kojinUriage: 0, _hojinUriage: uriage,
-    _keihiKojin: hojinKeihi, _aoiro: 0,
+    _keihiKojin: totalHojinKeihi, _aoiro: 0,
     _kazei1: kazei1, _kazei2: kazei2,
     _kokuhoBase: 0,
     _yakuinHoshu: yakuinHoshuTsuki, _hojinRieki,
@@ -732,7 +734,7 @@ function calcAll() {
   tbody += `<tr class="row-uriage">
     <td>売上</td>
     ${cell(p1._uriage, '個人事業売上')}
-    ${cell(p2._uriage, `全額法人化`)}
+    ${cell(p2._uriage, `全額法人化（個人経費 ${m(inputs.keihiKojin)}万＋法人経費 ${m(inputs.hojinKeihi)}万 を法人経費に統合）`)}
     <td>${man(p3._uriage)}<div class="formula">個人 ${m(p3._kojinUriage)}万 ＋ 法人 ${m(p3._hojinUriage)}万</div></td>
   </tr>`;
 
@@ -813,10 +815,11 @@ function calcAll() {
   </tr>`;
 
   // ── 法人税 ──
+  const p2KeihibNote = `個人経費 ${m(inputs.keihiKojin)}万＋法人経費 ${m(inputs.hojinKeihi)}万 = ${m(inputs.keihiKojin + inputs.hojinKeihi)}万を損金算入 → 法人利益 ${m(p2._hojinRieki)}万`;
   tbody += `<tr>
     <td>【法人】法人税等</td>
     <td class="na-cell">−</td>
-    ${cell(p2.hojinzei, `法人利益 ${m(p2._hojinRieki)}万 × 21%(≦800万)/34%(超) ＋ 均等割7万`, true)}
+    ${cell(p2.hojinzei, `${p2KeihibNote} × 21%(≦800万)/34%(超) ＋ 均等割7万`, true)}
     ${cell(p3.hojinzei, `法人利益 ${m(p3._hojinRieki)}万 × 21%(≦800万)/34%(超) ＋ 均等割7万`, true)}
   </tr>`;
 
