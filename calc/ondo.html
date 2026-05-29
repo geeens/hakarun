@@ -3,14 +3,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>温度変換計算｜摂氏・華氏・ケルビンを無料変換｜はかるんツール</title>
-  <meta name="description" content="温度を入力するだけで摂氏（℃）・華氏（℉）・ケルビン（K）を無料変換。海外旅行・料理・科学の温度計算に。">
+  <title>温度変換｜摂氏・華氏・ケルビンを無料換算｜℃・℉・K｜はかるんツール</title>
+  <meta name="description" content="摂氏（℃）・華氏（℉）・ケルビン（K）を無料変換。350°Fは何℃、37℃は何°F、300Kは何℃など、海外レシピ・天気・体温・理科の温度換算に使えます。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <link rel="canonical" href="https://hakarun.net/calc/ondo">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <style>
+    .ondo-note {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-weight: 700;
+      line-height: 1.7;
+      margin-bottom: 16px;
+      padding: 12px;
+    }
+    .quick-temp-buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .quick-temp-buttons button {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #f8fafc;
+      color: var(--text-primary);
+      cursor: pointer;
+      font-weight: 700;
+      padding: 9px 10px;
+    }
+    .quick-temp-buttons button:hover {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+    .ondo-table td:last-child {
+      text-align: left;
+      font-weight: inherit;
+    }
+  </style>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+    { "@type": "Question", "name": "摂氏と華氏の違いは？", "acceptedAnswer": { "@type": "Answer", "text": "摂氏は水の凝固点を0度、沸点を100度とする温度単位です。華氏は主にアメリカで使われ、水の凝固点が32度、沸点が212度です。" } },
+    { "@type": "Question", "name": "華氏から摂氏への変換式は？", "acceptedAnswer": { "@type": "Answer", "text": "華氏から摂氏へは「℃ = (℉ - 32) × 5 ÷ 9」で計算します。たとえば350°Fは約176.67℃です。" } },
+    { "@type": "Question", "name": "摂氏から華氏への変換式は？", "acceptedAnswer": { "@type": "Answer", "text": "摂氏から華氏へは「℉ = ℃ × 9 ÷ 5 + 32」で計算します。たとえば37℃は98.6°Fです。" } },
+    { "@type": "Question", "name": "ケルビンとは何ですか？", "acceptedAnswer": { "@type": "Answer", "text": "ケルビンは絶対温度の単位です。0Kは-273.15℃で、主に科学や工学の分野で使われます。" } },
+    { "@type": "Question", "name": "体温37℃は華氏で何度？", "acceptedAnswer": { "@type": "Answer", "text": "37℃は98.6°Fです。アメリカの医療では98.6°Fが平熱の目安としてよく使われます。" } },
+    { "@type": "Question", "name": "海外レシピのオーブン温度350°Fは何℃？", "acceptedAnswer": { "@type": "Answer", "text": "350°Fは約177℃です。ケーキやクッキーなどの海外レシピでよく使われる温度です。" } },
+    { "@type": "Question", "name": "300Kは何℃ですか？", "acceptedAnswer": { "@type": "Answer", "text": "300Kは約26.85℃です。ケルビンから摂氏へは273.15を引いて計算します。" } },
+    { "@type": "Question", "name": "摂氏と華氏を暗算で換算するコツは？", "acceptedAnswer": { "@type": "Answer", "text": "大まかな目安として、摂氏から華氏は「℃×2+30」で近い値を出せます。正確な換算には計算ツールを使うのがおすすめです。" } }
+  ] }
+  </script>
 </head>
 <body>
 <header>
@@ -130,9 +178,17 @@
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
+      <div class="ondo-note">海外の天気予報やレシピで出てくる華氏（°F）、理科で使うケルビン（K）を、ふだん使う摂氏（℃）にすばやく換算できます。</div>
       <div class="form-group">
         <label>変換する温度</label>
         <div class="input-wrap"><input type="number" id="temp" placeholder="100" step="0.1"></div>
+        <div class="quick-temp-buttons" aria-label="よく使う温度">
+          <button type="button" onclick="setTempExample(37, 'c')">37℃（体温）</button>
+          <button type="button" onclick="setTempExample(100, 'c')">100℃（沸騰）</button>
+          <button type="button" onclick="setTempExample(350, 'f')">350°F（レシピ）</button>
+          <button type="button" onclick="setTempExample(400, 'f')">400°F（オーブン）</button>
+          <button type="button" onclick="setTempExample(300, 'k')">300K（理科）</button>
+        </div>
       </div>
       <div class="form-group">
         <label>単位</label>
@@ -168,21 +224,49 @@
     </div>
     <div class="article">
       <h2>💡 よく使われる温度の換算目安</h2>
-      <ul style="padding-left:1.4em;line-height:2">
-        <li><strong>0℃（32°F）</strong>：水の凝固点・冬の真夜中の寒さ</li>
-        <li><strong>20℃（68°F）</strong>：快適な室温・春秋の気温</li>
-        <li><strong>30℃（86°F）</strong>：夏の暑い日・熱中症に注意</li>
-        <li><strong>36〜37℃（96.8〜98.6°F）</strong>：人の平熱</li>
-        <li><strong>100℃（212°F）</strong>：水の沸点・お湯が沸く温度</li>
-        <li><strong>180℃（356°F）</strong>：オーブン調理の標準温度</li>
-      </ul>
+      <p>日常でよく出てくる温度を、摂氏・華氏・ケルビンでまとめました。アメリカの天気や体温表示を見るときの目安になります。</p>
+      <div class="result-table ondo-table">
+        <table>
+          <thead>
+            <tr><th>摂氏（℃）</th><th>華氏（°F）</th><th>ケルビン（K）</th><th>目安</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>0℃</td><td>32°F</td><td>273.15K</td><td>水が凍る温度</td></tr>
+            <tr><td>20℃</td><td>68°F</td><td>293.15K</td><td>過ごしやすい室温</td></tr>
+            <tr><td>30℃</td><td>86°F</td><td>303.15K</td><td>暑い日・熱中症に注意</td></tr>
+            <tr><td>37℃</td><td>98.6°F</td><td>310.15K</td><td>人の平熱の目安</td></tr>
+            <tr><td>100℃</td><td>212°F</td><td>373.15K</td><td>水が沸騰する温度</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="article">
+      <h2>海外レシピのオーブン温度早見表</h2>
+      <p>海外レシピでは、オーブン温度が華氏（°F）で書かれていることがよくあります。日本のオーブンで設定しやすいように、近い摂氏の目安をまとめました。</p>
+      <div class="result-table ondo-table">
+        <table>
+          <thead>
+            <tr><th>華氏（°F）</th><th>摂氏（℃）</th><th>使われやすい料理</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>300°F</td><td>約149℃</td><td>低温でじっくり焼く料理</td></tr>
+            <tr><td>325°F</td><td>約163℃</td><td>ケーキ・焼き菓子</td></tr>
+            <tr><td>350°F</td><td>約177℃</td><td>クッキー・ケーキの定番</td></tr>
+            <tr><td>375°F</td><td>約191℃</td><td>パン・グラタン</td></tr>
+            <tr><td>400°F</td><td>約204℃</td><td>ピザ・ロースト料理</td></tr>
+            <tr><td>425°F</td><td>約218℃</td><td>高温で焼き色をつける料理</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     <div class="article">
       <h2>よくある質問</h2>
       <div class="faq-item"><div class="faq-q">Q. 摂氏と華氏の違いは？</div><div class="faq-a">摂氏（℃）は水の凝固点を0度、沸点を100度とした温度単位です。華氏（℉）は主にアメリカで使われ、水の凝固点が32度、沸点が212度です。日本では摂氏が一般的です。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 華氏から摂氏への変換式は？</div><div class="faq-a">華氏から摂氏へは「℃ = (℉ - 32) × 5 ÷ 9」で計算します。たとえば350°Fは約176.67℃です。</div></div>
       <div class="faq-item"><div class="faq-q">Q. ケルビンとは何ですか？</div><div class="faq-a">絶対温度の単位です。-273.15℃（絶対零度）を0Kとします。主に科学・工学の分野で使われます。日常生活での使用は少ないですが、摂氏にマイナスがないため計算に便利です。</div></div>
       <div class="faq-item"><div class="faq-q">Q. 体温37℃は華氏で何度？</div><div class="faq-a">37℃ × 9/5 + 32 = 98.6℉ です。アメリカの医療では「98.6°F」が平熱の目安とされています。</div></div>
       <div class="faq-item"><div class="faq-q">Q. 海外レシピのオーブン温度350°Fは何℃？</div><div class="faq-a">（350 - 32）× 5/9 = 約177℃です。ケーキやクッキーの標準的な焼き温度です。400°Fは約204℃、425°Fは約218℃になります。</div></div>
+      <div class="faq-item"><div class="faq-q">Q. 300Kは何℃ですか？</div><div class="faq-a">300Kは約26.85℃です。ケルビンから摂氏へは273.15を引いて計算します。</div></div>
       <div class="faq-item"><div class="faq-q">Q. 気温の「体感温度」はどう計算する？</div><div class="faq-a">体感温度は気温・湿度・風速から計算されます。一般的に湿度が高いと同じ気温でも暑く感じます。熱中症計算ツール（WBGT）などを活用してください。</div></div>
       <div class="faq-item"><div class="faq-q">Q. 摂氏と華氏を暗算で換算するコツは？</div><div class="faq-a">大まかな目安として「℃×2+30≒℉」で覚えると便利です。正確ではありませんが日常会話での目安に使えます（例：20℃→40+30=70°F、実際は68°F）。</div></div>
     </div>
@@ -214,6 +298,11 @@
   <p class="copyright" style="margin-top:8px">© 2024 はかるんツール</p>
 </footer>
 <script>
+function setTempExample(value, unit) {
+  document.getElementById('temp').value = value;
+  document.querySelector('input[name="unit"][value="' + unit + '"]').checked = true;
+  calc();
+}
 function calc() {
   const temp = parseFloat(document.getElementById('temp').value);
   const unit = document.querySelector('input[name="unit"]:checked').value;
