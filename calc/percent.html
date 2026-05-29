@@ -3,19 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>パーセント計算｜割引・増税・比率をかんたん無料計算｜はかるんツール</title>
-  <meta name="description" content="パーセント（%）の計算を3つのモードで無料計算。AのB%を求める・AはBの何%か・B%増減後の金額を簡単に計算できます。">
+  <title>パーセント計算｜何パーセント・割引率・増減率を無料計算｜はかるんツール</title>
+  <meta name="description" content="パーセント（%）を無料計算。AのB%はいくつか、AはBの何%、10%OFF・30%OFFなどの割引、増減率や前年比をかんたんに計算できます。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../style.css">
   <link rel="canonical" href="https://hakarun.net/calc/percent">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <style>
+    .percent-pattern-table td:last-child,
+    .percent-pattern-table td:nth-child(2),
+    .percent-quick-table td:last-child,
+    .percent-discount-table td:last-child {
+      text-align: left;
+      font-weight: inherit;
+    }
+    .percent-note {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-weight: 700;
+      line-height: 1.7;
+      margin-bottom: 16px;
+      padding: 12px;
+    }
+  </style>
   <script type="application/ld+json">
   { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
     { "@type": "Question", "name": "パーセントの計算方法は？", "acceptedAnswer": { "@type": "Answer", "text": "AのB%を求めるには「A × B ÷ 100」で計算します。例えば1000円の20%は「1000 × 20 ÷ 100 = 200円」です。" } },
     { "@type": "Question", "name": "割引率の計算方法は？", "acceptedAnswer": { "@type": "Answer", "text": "元の値段から割引後の値段を引いて、元の値段で割り100をかけます。例えば1000円が800円になった場合、(1000-800)÷1000×100=20%引きです。" } },
-    { "@type": "Question", "name": "消費税10%の計算方法は？", "acceptedAnswer": { "@type": "Answer", "text": "税抜き価格に1.1をかけると税込み価格になります。税込みから税抜きを求めるには税込み価格を1.1で割ります。" } }
+    { "@type": "Question", "name": "消費税10%の計算方法は？", "acceptedAnswer": { "@type": "Answer", "text": "税抜き価格に1.1をかけると税込み価格になります。税込みから税抜きを求めるには税込み価格を1.1で割ります。" } },
+    { "@type": "Question", "name": "30%OFFの計算方法は？", "acceptedAnswer": { "@type": "Answer", "text": "元の価格に0.7をかければ30%引きの価格が出ます。例えば5,000円の30%OFFは3,500円です。" } },
+    { "@type": "Question", "name": "何パーセント増えたかはどう計算しますか？", "acceptedAnswer": { "@type": "Answer", "text": "増えた割合は「増えた金額 ÷ 元の金額 × 100」で計算します。100から120に増えた場合は20%増です。" } },
+    { "@type": "Question", "name": "前年比のパーセントはどう計算しますか？", "acceptedAnswer": { "@type": "Answer", "text": "前年比は「今年の値 ÷ 前年の値 × 100」で計算します。100万円から120万円になった場合は前年比120%、20%増です。" } },
+    { "@type": "Question", "name": "パーセントポイントとパーセントの違いは？", "acceptedAnswer": { "@type": "Answer", "text": "パーセントポイントは%同士の差、パーセントは基準値に対する割合です。40%から50%なら10ポイント増、前の40%に対しては25%増です。" } }
   ] }
   </script>
 </head>
@@ -137,6 +161,7 @@
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
+      <div class="percent-note">割引価格、消費税、前年比、増減率など、日常でよく使うパーセント計算を3つのモードでまとめて計算できます。</div>
       <div class="form-group">
         <label>計算モード</label>
         <div class="radio-group">
@@ -209,6 +234,58 @@
       <p>割引計算では「定価×（1−割引率÷100）」、値上がり後の価格は「元の価格×（1＋値上率÷100）」で求められます。消費税の計算・給与の昇給率・投資の利回り計算など、ビジネスや家計管理でも頻繁に使う計算です。</p>
     </div>
     <div class="article">
+      <h2>計算パターン別の使い方</h2>
+      <p>パーセント計算は、何を基準にするかで使う式が変わります。迷ったときは、下の表を見て近いパターンを選んでください。</p>
+      <div class="result-table percent-pattern-table">
+        <table>
+          <thead>
+            <tr><th>知りたいこと</th><th>計算式</th><th>例</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>AのB%はいくつ？</td><td>A × B ÷ 100</td><td>5,000円の30% = 1,500円</td></tr>
+            <tr><td>AはBの何%？</td><td>A ÷ B × 100</td><td>300人は1,000人の30%</td></tr>
+            <tr><td>B%増やす</td><td>A × (1 + B ÷ 100)</td><td>1,000円を10%増 = 1,100円</td></tr>
+            <tr><td>B%減らす</td><td>A × (1 - B ÷ 100)</td><td>5,000円を30%OFF = 3,500円</td></tr>
+            <tr><td>何%増えた？</td><td>増えた分 ÷ 元の数 × 100</td><td>100から120 = 20%増</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="article">
+      <h2>よく使うパーセント早見表</h2>
+      <p>買い物の割引、家計管理、資料作成などで使いやすい金額をまとめました。「5,000円の20%はいくら？」のような計算をすぐ確認できます。</p>
+      <div class="result-table percent-quick-table">
+        <table>
+          <thead>
+            <tr><th>元の金額</th><th>10%</th><th>20%</th><th>30%</th><th>50%</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1,000円</td><td>100円</td><td>200円</td><td>300円</td><td>500円</td></tr>
+            <tr><td>3,000円</td><td>300円</td><td>600円</td><td>900円</td><td>1,500円</td></tr>
+            <tr><td>5,000円</td><td>500円</td><td>1,000円</td><td>1,500円</td><td>2,500円</td></tr>
+            <tr><td>10,000円</td><td>1,000円</td><td>2,000円</td><td>3,000円</td><td>5,000円</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="article">
+      <h2>割引後の価格早見表</h2>
+      <p>セール価格を確認したいときは、割引後に実際いくら払うかを見る方が便利です。30%OFFなら元の価格の70%、50%OFFなら半額になります。</p>
+      <div class="result-table percent-discount-table">
+        <table>
+          <thead>
+            <tr><th>元の価格</th><th>10%OFF</th><th>20%OFF</th><th>30%OFF</th><th>50%OFF</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1,000円</td><td>900円</td><td>800円</td><td>700円</td><td>500円</td></tr>
+            <tr><td>3,000円</td><td>2,700円</td><td>2,400円</td><td>2,100円</td><td>1,500円</td></tr>
+            <tr><td>5,000円</td><td>4,500円</td><td>4,000円</td><td>3,500円</td><td>2,500円</td></tr>
+            <tr><td>10,000円</td><td>9,000円</td><td>8,000円</td><td>7,000円</td><td>5,000円</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="article">
       <h2>よくある質問</h2>
       <div class="faq-item">
         <div class="faq-q">Q. パーセントの計算方法は？</div>
@@ -225,6 +302,10 @@
       <div class="faq-item">
         <div class="faq-q">Q. 30%OFFの計算方法は？</div>
         <div class="faq-a">元の価格に0.7をかければ30%引きの価格が出ます。計算式は「元の価格×（1−0.30）＝割引後の価格」です。例えば5,000円の30%OFF＝5,000×0.7＝3,500円です。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q. 何パーセント増えたかはどう計算しますか？</div>
+        <div class="faq-a">増えた割合は「増えた金額 ÷ 元の金額 × 100」で計算します。例えば100から120に増えた場合、増えた分は20なので、20÷100×100＝20%増です。</div>
       </div>
       <div class="faq-item">
         <div class="faq-q">Q. 昨年比・前年比のパーセントはどう計算しますか？</div>
