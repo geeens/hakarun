@@ -229,6 +229,14 @@
             <option value="0">なし（白色申告）</option>
           </select>
         </div>
+        <div class="form-group">
+          <label for="jigyozeiAri">個人事業税</label>
+          <select id="jigyozeiAri">
+            <option value="1">かかる（第3種事業・IT系など 5%）</option>
+            <option value="0">かからない（請負・委任契約など）</option>
+          </select>
+          <p class="hint">請負・委任契約メインの場合はかからないケースがあります</p>
+        </div>
       </div>
     </div>
 
@@ -551,7 +559,7 @@ function calcShotokuKojo({ shakaihokenKojo, shotoku, haigusha, fuyouIppan, fuyou
 
 // ========== パターン1：個人事業主のみ ==========
 function calcPattern1(inputs) {
-  const { uriage, keihiKojin, aoiro, ageKey, haigusha, fuyouIppan, fuyouTokutei, fuyouRoujin, hitorioya, shougai, nenkin, idecoTsuki, kyosaiTsuki, seimeiNen } = inputs;
+  const { uriage, keihiKojin, aoiro, ageKey, haigusha, fuyouIppan, fuyouTokutei, fuyouRoujin, hitorioya, shougai, nenkin, idecoTsuki, kyosaiTsuki, seimeiNen, jigyozeiAri } = inputs;
   const idecoNen  = idecoTsuki * 12;
   const kyosaiNen = Math.min(kyosaiTsuki * 12, 840000);
 
@@ -566,7 +574,7 @@ function calcPattern1(inputs) {
 
   const shotokuze = calcIncomeTax(kazei1);
   const juuminze  = calcResidentTax(kazei2);
-  const jigyozei  = calcJigyozei(jigyoShotoku);
+  const jigyozei  = jigyozeiAri ? calcJigyozei(jigyoShotoku) : 0;
   const totalTax  = shotokuze + juuminze + jigyozei + kokuho + kokunenkin;
 
   return {
@@ -623,7 +631,7 @@ function calcPattern2(inputs) {
 
 // ========== パターン3：マイクロ法人二刀流 ==========
 function calcPattern3(inputs) {
-  const { uriage, keihiKojin, aoiro, hojinUriage, hojinKeihi, yakuinHoshuTsuki, ageKey, haigusha, fuyouIppan, fuyouTokutei, fuyouRoujin, hitorioya, shougai, idecoTsuki, kyosaiTsuki, seimeiNen } = inputs;
+  const { uriage, keihiKojin, aoiro, hojinUriage, hojinKeihi, yakuinHoshuTsuki, ageKey, haigusha, fuyouIppan, fuyouTokutei, fuyouRoujin, hitorioya, shougai, idecoTsuki, kyosaiTsuki, seimeiNen, jigyozeiAri } = inputs;
   const idecoNen       = Math.min(idecoTsuki, 23000) * 12;
   const kyosaiNen      = Math.min(kyosaiTsuki * 12, 840000);
   const yakuinHoshuNen = yakuinHoshuTsuki * 12;
@@ -646,7 +654,7 @@ function calcPattern3(inputs) {
 
   const shotokuze  = calcIncomeTax(kazei1);
   const juuminze   = calcResidentTax(kazei2);
-  const jigyozei   = calcJigyozei(jigyoShotoku);
+  const jigyozei   = jigyozeiAri ? calcJigyozei(jigyoShotoku) : 0;
   // 法人利益：役員報酬（税引前）＋事業主負担社保 を損金算入
   const hojinRieki = Math.max(-1, hojinUriage - hojinKeihi - yakuinHoshuNen - shakaihokenJigyo);
   const hojinzei   = calcHojinzei(hojinRieki);
@@ -673,6 +681,7 @@ function calcAll() {
     uriage:           Number(document.getElementById('uriage').value) * 10000,
     keihiKojin:       Number(document.getElementById('keihiKojin').value) * 10000,
     aoiro:            Number(document.getElementById('aoiro').value),
+    jigyozeiAri:      Number(document.getElementById('jigyozeiAri').value),
     ageKey:           document.getElementById('age').value,
     haigusha:         document.getElementById('haigusha').value,
     fuyouIppan:       Number(document.getElementById('fuyouIppan').value),
@@ -752,11 +761,15 @@ function calcAll() {
   </tr>`;
 
   // ── 個人事業税 ──
+  const jigyozeiFormula1 = inputs.jigyozeiAri
+    ? `(事業所得 ${m(p1.jigyoShotoku)}万 − 290万) × 5%` : 'かからない（請負等）';
+  const jigyozeiFormula3 = inputs.jigyozeiAri
+    ? `(事業所得 ${m(p3.jigyoShotoku)}万 − 290万) × 5%` : 'かからない（請負等）';
   tbody += `<tr>
     <td>【個人】個人事業税</td>
-    ${cell(p1.jigyozei, `(事業所得 ${m(p1.jigyoShotoku)}万 − 290万) × 5%`)}
+    ${cell(p1.jigyozei, jigyozeiFormula1, false)}
     <td class="na-cell">−</td>
-    ${cell(p3.jigyozei, `(事業所得 ${m(p3.jigyoShotoku)}万 − 290万) × 5%`, true)}
+    ${cell(p3.jigyozei, jigyozeiFormula3, false)}
   </tr>`;
 
   // ── 国民健康保険 ──
