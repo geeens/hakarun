@@ -75,6 +75,12 @@
     .na-cell { color: #CBD5E1; }
     .saving-up { color: var(--success); }
     .saving-down { color: var(--danger); }
+
+    /* 計算式 */
+    .formula { font-size: 11px; color: var(--text-secondary); margin-top: 3px; font-weight: 400; line-height: 1.5; }
+    /* 売上行 */
+    .cmp-table .row-uriage td { background: #F8FAFC; font-weight: 600; }
+    .cmp-table .row-uriage td:first-child { color: var(--text); font-size: 13px; }
   </style>
 </head>
 <body>
@@ -414,6 +420,26 @@ function man(v) {
   return Math.round(v / 10000).toLocaleString() + '万円';
 }
 function manPlain(v) { return Math.round(v / 10000).toLocaleString(); }
+const m = v => Math.round(v / 10000).toLocaleString(); // 計算式用（万円数値のみ）
+
+// 所得税の計算式文字列
+function shotokuzeFormula(kazei1) {
+  if (kazei1 <= 0)         return '課税所得なし';
+  if (kazei1 <= 1950000)   return `課税所得 ${m(kazei1)}万 × 5%`;
+  if (kazei1 <= 3300000)   return `課税所得 ${m(kazei1)}万 × 10% − 9.75万`;
+  if (kazei1 <= 6950000)   return `課税所得 ${m(kazei1)}万 × 20% − 42.75万`;
+  if (kazei1 <= 9000000)   return `課税所得 ${m(kazei1)}万 × 23% − 63.6万`;
+  if (kazei1 <= 18000000)  return `課税所得 ${m(kazei1)}万 × 33% − 153.6万`;
+  if (kazei1 <= 40000000)  return `課税所得 ${m(kazei1)}万 × 40% − 279.6万`;
+  return                          `課税所得 ${m(kazei1)}万 × 45% − 479.6万`;
+}
+
+// セル生成（値 + 計算式）
+function cell(v, formula, isNaIfZero) {
+  if (v === null || (isNaIfZero && v === 0)) return '<td class="na-cell">−</td>';
+  const fHtml = formula ? `<div class="formula">${formula}</div>` : '';
+  return `<td>${man(v)}${fHtml}</td>`;
+}
 
 // ========== 所得税計算 ==========
 function calcIncomeTax(taxableIncome) {
@@ -535,7 +561,17 @@ function calcPattern1(inputs) {
   const jigyozei  = calcJigyozei(jigyoShotoku);
   const totalTax  = shotokuze + juuminze + jigyozei + kokuho + kokunenkin;
 
-  return { jigyoShotoku, shotokuze, juuminze, jigyozei, kokuho, kokunenkin, koseiNenkin: 0, kenpo: 0, hojinzei: 0, totalTax, tedori: uriage - keihiKojin - totalTax };
+  return {
+    jigyoShotoku, shotokuze, juuminze, jigyozei, kokuho, kokunenkin,
+    koseiNenkin: 0, kenpo: 0, hojinzei: 0, totalTax,
+    tedori: uriage - keihiKojin - totalTax,
+    // 計算式用
+    _uriage: uriage, _kojinUriage: uriage, _hojinUriage: 0,
+    _keihiKojin: keihiKojin, _aoiro: aoiro,
+    _kazei1: kazei1, _kazei2: kazei2,
+    _kokuhoBase: Math.max(0, jigyoShotoku - 430000),
+    _yakuinHoshu: 0, _hojinRieki: 0,
+  };
 }
 
 // ========== パターン2：法人化（全売上を法人に） ==========
@@ -560,7 +596,19 @@ function calcPattern2(inputs) {
   const hojinzei   = calcHojinzei(hojinRieki);
   const totalTax   = shotokuze + juuminze + koseiNenkin + kenpo + hojinzei;
 
-  return { jigyoShotoku: kyuyoShotoku, shotokuze, juuminze, jigyozei: 0, kokuho: 0, kokunenkin: 0, koseiNenkin, kenpo, hojinzei, totalTax, tedori: uriage - hojinKeihi - hojinzei - shakaihoken - shotokuze - juuminze };
+  const _hojinRieki = Math.max(0, uriage - hojinKeihi - yakuinHoshuNen - shakaihoken);
+  return {
+    jigyoShotoku: kyuyoShotoku, shotokuze, juuminze, jigyozei: 0,
+    kokuho: 0, kokunenkin: 0, koseiNenkin, kenpo, hojinzei, totalTax,
+    tedori: uriage - hojinKeihi - hojinzei - shakaihoken - shotokuze - juuminze,
+    // 計算式用
+    _uriage: uriage, _kojinUriage: 0, _hojinUriage: uriage,
+    _keihiKojin: hojinKeihi, _aoiro: 0,
+    _kazei1: kazei1, _kazei2: kazei2,
+    _kokuhoBase: 0,
+    _yakuinHoshu: yakuinHoshuTsuki, _hojinRieki,
+    _ageKey: ageKey,
+  };
 }
 
 // ========== パターン3：マイクロ法人二刀流 ==========
@@ -592,7 +640,19 @@ function calcPattern3(inputs) {
   const hojinzei   = calcHojinzei(hojinRieki);
   const totalTax   = shotokuze + juuminze + jigyozei + koseiNenkin + kenpo + hojinzei;
 
-  return { jigyoShotoku, shotokuze, juuminze, jigyozei, kokuho: 0, kokunenkin: 0, koseiNenkin, kenpo, hojinzei, totalTax, tedori: uriage - keihiKojin - hojinKeihi - hojinzei - shakaihoken - shotokuze - juuminze - jigyozei };
+  const _hojinRieki = Math.max(0, hojinUriage - hojinKeihi - yakuinHoshuNen - shakaihoken);
+  return {
+    jigyoShotoku, shotokuze, juuminze, jigyozei,
+    kokuho: 0, kokunenkin: 0, koseiNenkin, kenpo, hojinzei, totalTax,
+    tedori: uriage - keihiKojin - hojinKeihi - hojinzei - shakaihoken - shotokuze - juuminze - jigyozei,
+    // 計算式用
+    _uriage: uriage, _kojinUriage: kojinUriage, _hojinUriage: hojinUriage,
+    _keihiKojin: kojinKeihi, _aoiro: aoiro,
+    _kazei1: kazei1, _kazei2: kazei2,
+    _kokuhoBase: 0,
+    _yakuinHoshu: yakuinHoshuTsuki, _hojinRieki,
+    _ageKey: ageKey,
+  };
 }
 
 // ========== メイン計算 ==========
@@ -641,25 +701,90 @@ function calcAll() {
   }).join('');
 
   // 比較テーブル
-  const rows = [
-    { label: '【個人】事業所得',              v: [p1.jigyoShotoku, null, p3.jigyoShotoku] },
-    { label: '【個人】所得税（復興税込）',     v: [p1.shotokuze,   p2.shotokuze,   p3.shotokuze],   minus: true },
-    { label: '【個人】住民税',                v: [p1.juuminze,    p2.juuminze,    p3.juuminze],    minus: true },
-    { label: '【個人】個人事業税',             v: [p1.jigyozei,    0,              p3.jigyozei],    minus: true },
-    { label: '【社保】国民健康保険',           v: [p1.kokuho,      0,              0],              minus: true },
-    { label: '【社保】国民年金',              v: [p1.kokunenkin,  0,              0],              minus: true },
-    { label: '【社保】健康保険（協会けんぽ）', v: [0, p2.kenpo,        p3.kenpo],       minus: true },
-    { label: '【社保】厚生年金',              v: [0, p2.koseiNenkin,  p3.koseiNenkin], minus: true },
-    { label: '【法人】法人税等',              v: [0, p2.hojinzei,     p3.hojinzei],    minus: true },
-  ];
+  const kenpoRate2 = p2._ageKey === '40to64' ? '5.885' : '4.985';
+  const kenpoRate3 = p3._ageKey === '40to64' ? '5.885' : '4.985';
 
-  let tbody = rows.map(row => {
-    const cells = row.v.map(v => {
-      if (v === null || (v === 0 && row.minus)) return `<td class="na-cell">−</td>`;
-      return `<td>${man(v)}</td>`;
-    }).join('');
-    return `<tr><td>${row.label}</td>${cells}</tr>`;
-  }).join('');
+  let tbody = '';
+
+  // ── 売上行 ──
+  tbody += `<tr class="row-uriage">
+    <td>売上</td>
+    ${cell(p1._uriage, '個人事業売上')}
+    ${cell(p2._uriage, `全額法人化`)}
+    <td>${man(p3._uriage)}<div class="formula">個人 ${m(p3._kojinUriage)}万 ＋ 法人 ${m(p3._hojinUriage)}万</div></td>
+  </tr>`;
+
+  // ── 事業所得 ──
+  tbody += `<tr>
+    <td>【個人】事業所得</td>
+    ${cell(p1.jigyoShotoku, `売上 ${m(p1._uriage)}万 − 経費 ${m(p1._keihiKojin)}万 − 青色 ${m(p1._aoiro)}万`)}
+    <td class="na-cell">−</td>
+    ${cell(p3.jigyoShotoku, `個人売上 ${m(p3._kojinUriage)}万 − 経費 ${m(p3._keihiKojin)}万 − 青色 ${m(p3._aoiro)}万`)}
+  </tr>`;
+
+  // ── 所得税 ──
+  tbody += `<tr>
+    <td>【個人】所得税（復興税込）</td>
+    ${cell(p1.shotokuze, shotokuzeFormula(p1._kazei1) + ' ×1.021')}
+    ${cell(p2.shotokuze, shotokuzeFormula(p2._kazei1) + ' ×1.021')}
+    ${cell(p3.shotokuze, shotokuzeFormula(p3._kazei1) + ' ×1.021')}
+  </tr>`;
+
+  // ── 住民税 ──
+  tbody += `<tr>
+    <td>【個人】住民税</td>
+    ${cell(p1.juuminze, `課税所得 ${m(p1._kazei2)}万 × 10% ＋ 均等割`)}
+    ${cell(p2.juuminze, `課税所得 ${m(p2._kazei2)}万 × 10% ＋ 均等割`)}
+    ${cell(p3.juuminze, `課税所得 ${m(p3._kazei2)}万 × 10% ＋ 均等割`)}
+  </tr>`;
+
+  // ── 個人事業税 ──
+  tbody += `<tr>
+    <td>【個人】個人事業税</td>
+    ${cell(p1.jigyozei, `(事業所得 ${m(p1.jigyoShotoku)}万 − 290万) × 5%`)}
+    <td class="na-cell">−</td>
+    ${cell(p3.jigyozei, `(事業所得 ${m(p3.jigyoShotoku)}万 − 290万) × 5%`, true)}
+  </tr>`;
+
+  // ── 国民健康保険 ──
+  tbody += `<tr>
+    <td>【社保】国民健康保険</td>
+    ${cell(p1.kokuho, `(所得 ${m(p1.jigyoShotoku)}万 − 43万) × 9.9% ＋ 均等割`)}
+    <td class="na-cell">−</td>
+    <td class="na-cell">−</td>
+  </tr>`;
+
+  // ── 国民年金 ──
+  tbody += `<tr>
+    <td>【社保】国民年金</td>
+    ${cell(p1.kokunenkin, '月16,980円 × 12ヶ月', true)}
+    <td class="na-cell">−</td>
+    <td class="na-cell">−</td>
+  </tr>`;
+
+  // ── 健康保険 ──
+  tbody += `<tr>
+    <td>【社保】健康保険（協会けんぽ）</td>
+    <td class="na-cell">−</td>
+    ${cell(p2.kenpo, `役員報酬 ${m(p2._yakuinHoshu)}万 × ${kenpoRate2}% × 12ヶ月`, true)}
+    ${cell(p3.kenpo, `役員報酬 ${m(p3._yakuinHoshu)}万 × ${kenpoRate3}% × 12ヶ月`, true)}
+  </tr>`;
+
+  // ── 厚生年金 ──
+  tbody += `<tr>
+    <td>【社保】厚生年金</td>
+    <td class="na-cell">−</td>
+    ${cell(p2.koseiNenkin, `役員報酬 ${m(p2._yakuinHoshu)}万 × 9.15% × 12ヶ月`, true)}
+    ${cell(p3.koseiNenkin, `役員報酬 ${m(p3._yakuinHoshu)}万 × 9.15% × 12ヶ月`, true)}
+  </tr>`;
+
+  // ── 法人税 ──
+  tbody += `<tr>
+    <td>【法人】法人税等</td>
+    <td class="na-cell">−</td>
+    ${cell(p2.hojinzei, `法人利益 ${m(p2._hojinRieki)}万 × 21%(≦800万)/34%(超) ＋ 均等割7万`, true)}
+    ${cell(p3.hojinzei, `法人利益 ${m(p3._hojinRieki)}万 × 21%(≦800万)/34%(超) ＋ 均等割7万`, true)}
+  </tr>`;
 
   tbody += `<tr class="row-subtotal"><td>税金・保険料 合計</td>${patterns.map(p => `<td>${man(p.totalTax)}</td>`).join('')}</tr>`;
   tbody += `<tr class="row-total"><td>💰 手取り合計</td>${patterns.map(p => `<td>${man(p.tedori)}</td>`).join('')}</tr>`;
