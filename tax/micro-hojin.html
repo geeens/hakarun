@@ -254,6 +254,16 @@
           </select>
         </div>
         <div class="form-group">
+          <label for="shohizeiRateKojin">個人事業の消費税負担</label>
+          <select id="shohizeiRateKojin">
+            <option value="0" selected>計算しない・免税</option>
+            <option value="0.02">売上の2%（2割特例の目安）</option>
+            <option value="0.05">売上の5%（簡易課税の目安）</option>
+            <option value="0.10">売上の10%（粗い上限目安）</option>
+          </select>
+          <p class="hint">①と③の個人事業側に反映します</p>
+        </div>
+        <div class="form-group">
           <label for="jigyozeiAri">個人事業税</label>
           <select id="jigyozeiAri">
             <option value="1">かかる（第3種事業・IT系など 5%）</option>
@@ -264,26 +274,26 @@
       </div>
     </div>
 
-    <!-- ② 法人・マイクロ法人の設定 -->
+    <!-- ② 法人（完全法人化）の設定 -->
     <div class="calc-card">
-      <p class="section-lead"><span class="step-num">2</span>法人・マイクロ法人の設定</p>
-      <p class="form-lead">②法人化は、上の「事業の収入・経費」をそのまま法人に移す前提です。③二刀流は、そのうちマイクロ法人側へ移す収入・経費を入力してください。</p>
+      <p class="section-lead"><span class="step-num">2</span>法人（完全法人化）の設定</p>
+      <p class="form-lead">②法人化（完全法人化）は、上の「年間売上」と「年間経費」をそのまま法人に移す前提で計算します。</p>
       <div class="form-grid-2">
         <div class="form-group">
-          <label for="hojinUriage">③マイクロ法人に移す売上</label>
+          <label>②法人売上</label>
           <div class="input-wrap">
-            <input type="number" id="hojinUriage" value="2000000" min="0">
+            <input type="text" value="上の年間売上を転記" readonly>
             <span class="unit">円</span>
           </div>
-          <p class="hint">個人事業と別実態の事業がある前提で設定してください</p>
+          <p class="hint">「年間売上（事業収入）」と同じ金額で計算します</p>
         </div>
         <div class="form-group">
-          <label for="hojinKeihi">③マイクロ法人に移す経費</label>
+          <label>②法人経費</label>
           <div class="input-wrap">
-            <input type="number" id="hojinKeihi" value="250000" min="0">
+            <input type="text" value="上の年間経費を転記" readonly>
             <span class="unit">円</span>
           </div>
-          <p class="hint">上の個人事業の年間経費のうち法人側に移す金額</p>
+          <p class="hint">「個人事業の年間経費」と同じ金額で計算します</p>
         </div>
         <div class="form-group">
           <label for="yakuinHoshu2">②法人化の役員報酬（月額）</label>
@@ -294,30 +304,12 @@
           <p class="hint">法人化の場合は売上に応じた報酬を設定します</p>
         </div>
         <div class="form-group">
-          <label for="yakuinHoshu3">③二刀流の役員報酬（月額）</label>
-          <div class="input-wrap">
-            <input type="number" id="yakuinHoshu3" value="60000" min="0">
-            <span class="unit">円/月</span>
-          </div>
-          <p class="hint">低くしすぎると生活費・将来年金にも影響します</p>
-        </div>
-        <div class="form-group">
           <label for="hojinIjihi">法人維持費（年間）</label>
           <div class="input-wrap">
             <input type="number" id="hojinIjihi" value="200000" min="0">
             <span class="unit">円</span>
           </div>
-          <p class="hint">税理士・会計ソフト・登記などの概算コスト</p>
-        </div>
-        <div class="form-group">
-          <label for="shohizeiRateKojin">個人事業の消費税負担</label>
-          <select id="shohizeiRateKojin">
-            <option value="0" selected>計算しない・免税</option>
-            <option value="0.02">売上の2%（2割特例の目安）</option>
-            <option value="0.05">売上の5%（簡易課税の目安）</option>
-            <option value="0.10">売上の10%（粗い上限目安）</option>
-          </select>
-          <p class="hint">①と③の個人事業側に反映します</p>
+          <p class="hint">税理士・会計ソフトなどの概算コスト</p>
         </div>
         <div class="form-group">
           <label for="shohizeiRateHojin">法人・マイクロ法人の消費税負担</label>
@@ -332,9 +324,41 @@
       </div>
     </div>
 
-    <!-- ③ 個人情報・家族構成 -->
+    <!-- ③ マイクロ法人（二刀流）の設定 -->
     <div class="calc-card">
-      <p class="section-lead"><span class="step-num">3</span>個人情報・家族構成</p>
+      <p class="section-lead"><span class="step-num">3</span>マイクロ法人（二刀流）の設定</p>
+      <p class="form-lead">③二刀流は、個人事業のうちマイクロ法人側へ移す収入・経費を入力してください。個人事業と別実態の事業がある前提で設定します。</p>
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label for="hojinUriage">③マイクロ法人に移す売上</label>
+          <div class="input-wrap">
+            <input type="number" id="hojinUriage" value="2000000" min="0">
+            <span class="unit">円</span>
+          </div>
+          <p class="hint">上の年間売上のうち、法人側に移す金額</p>
+        </div>
+        <div class="form-group">
+          <label for="hojinKeihi">③マイクロ法人に移す経費</label>
+          <div class="input-wrap">
+            <input type="number" id="hojinKeihi" value="250000" min="0">
+            <span class="unit">円</span>
+          </div>
+          <p class="hint">上の年間経費のうち、法人側に移す金額</p>
+        </div>
+        <div class="form-group">
+          <label for="yakuinHoshu3">③二刀流の役員報酬（月額）</label>
+          <div class="input-wrap">
+            <input type="number" id="yakuinHoshu3" value="60000" min="0">
+            <span class="unit">円/月</span>
+          </div>
+          <p class="hint">低くしすぎると生活費・将来年金にも影響します</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ④ 個人情報・家族構成 -->
+    <div class="calc-card">
+      <p class="section-lead"><span class="step-num">4</span>個人情報・家族構成</p>
       <div class="form-grid-2">
         <div class="form-group">
           <label for="age">年齢区分</label>
@@ -409,9 +433,9 @@
       </div>
     </div>
 
-    <!-- ④ 保険・節税制度 -->
+    <!-- ⑤ 保険・節税制度 -->
     <div class="calc-card">
-      <p class="section-lead"><span class="step-num">4</span>保険・節税制度</p>
+      <p class="section-lead"><span class="step-num">5</span>保険・節税制度</p>
       <div class="form-grid-2">
         <div class="form-group">
           <label for="nenkin">国民年金の支払い状況</label>
