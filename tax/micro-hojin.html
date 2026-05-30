@@ -37,6 +37,11 @@
       background: var(--primary); color: #fff;
       font-size: 13px; font-weight: 700; flex-shrink: 0;
     }
+    .readonly-input {
+      background: #F1F5F9 !important;
+      color: var(--text-secondary);
+      cursor: not-allowed;
+    }
 
     /* サマリーカード */
     .summary-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 20px; }
@@ -280,23 +285,23 @@
       <p class="form-lead">②法人化（完全法人化）は、上の「年間売上」と「年間経費」をそのまま法人に移す前提で計算します。</p>
       <div class="form-grid-2">
         <div class="form-group">
-          <label>②法人売上</label>
+          <label>法人売上</label>
           <div class="input-wrap">
-            <input type="text" value="上の年間売上を転記" readonly>
+            <input type="text" id="hojinUriage2Display" value="8,000,000" readonly class="readonly-input">
             <span class="unit">円</span>
           </div>
           <p class="hint">「年間売上（事業収入）」と同じ金額で計算します</p>
         </div>
         <div class="form-group">
-          <label>②法人経費</label>
+          <label>法人経費</label>
           <div class="input-wrap">
-            <input type="text" value="上の年間経費を転記" readonly>
+            <input type="text" id="hojinKeihi2Display" value="1,000,000" readonly class="readonly-input">
             <span class="unit">円</span>
           </div>
           <p class="hint">「個人事業の年間経費」と同じ金額で計算します</p>
         </div>
         <div class="form-group">
-          <label for="yakuinHoshu2">②法人化の役員報酬（月額）</label>
+          <label for="yakuinHoshu2">役員報酬（月額）</label>
           <div class="input-wrap">
             <input type="number" id="yakuinHoshu2" value="500000" min="0">
             <span class="unit">円/月</span>
@@ -312,7 +317,7 @@
           <p class="hint">税理士・会計ソフトなどの概算コスト</p>
         </div>
         <div class="form-group">
-          <label for="shohizeiRateHojin">法人・マイクロ法人の消費税負担</label>
+          <label for="shohizeiRateHojin">法人の消費税負担</label>
           <select id="shohizeiRateHojin">
             <option value="0" selected>計算しない・免税</option>
             <option value="0.02">売上の2%（2割特例の目安）</option>
@@ -330,7 +335,7 @@
       <p class="form-lead">③二刀流は、個人事業のうちマイクロ法人側へ移す収入・経費を入力してください。個人事業と別実態の事業がある前提で設定します。</p>
       <div class="form-grid-2">
         <div class="form-group">
-          <label for="hojinUriage">③マイクロ法人に移す売上</label>
+          <label for="hojinUriage">マイクロ法人に移す売上</label>
           <div class="input-wrap">
             <input type="number" id="hojinUriage" value="2000000" min="0">
             <span class="unit">円</span>
@@ -338,7 +343,7 @@
           <p class="hint">上の年間売上のうち、法人側に移す金額</p>
         </div>
         <div class="form-group">
-          <label for="hojinKeihi">③マイクロ法人に移す経費</label>
+          <label for="hojinKeihi">マイクロ法人に移す経費</label>
           <div class="input-wrap">
             <input type="number" id="hojinKeihi" value="250000" min="0">
             <span class="unit">円</span>
@@ -346,12 +351,30 @@
           <p class="hint">上の年間経費のうち、法人側に移す金額</p>
         </div>
         <div class="form-group">
-          <label for="yakuinHoshu3">③二刀流の役員報酬（月額）</label>
+          <label for="yakuinHoshu3">役員報酬（月額）</label>
           <div class="input-wrap">
             <input type="number" id="yakuinHoshu3" value="60000" min="0">
             <span class="unit">円/月</span>
           </div>
           <p class="hint">低くしすぎると生活費・将来年金にも影響します</p>
+        </div>
+        <div class="form-group">
+          <label for="microHojinIjihi">マイクロ法人維持費（年間）</label>
+          <div class="input-wrap">
+            <input type="number" id="microHojinIjihi" value="200000" min="0">
+            <span class="unit">円</span>
+          </div>
+          <p class="hint">税理士・会計ソフトなどの概算コスト</p>
+        </div>
+        <div class="form-group">
+          <label for="shohizeiRateMicro">マイクロ法人の消費税負担</label>
+          <select id="shohizeiRateMicro">
+            <option value="0" selected>計算しない・免税</option>
+            <option value="0.02">売上の2%（2割特例の目安）</option>
+            <option value="0.05">売上の5%（簡易課税の目安）</option>
+            <option value="0.10">売上の10%（粗い上限目安）</option>
+          </select>
+          <p class="hint">③のマイクロ法人側に反映します</p>
         </div>
       </div>
     </div>
@@ -784,7 +807,7 @@ function calcPattern2(inputs) {
 
 // ========== パターン3：マイクロ法人二刀流 ==========
 function calcPattern3(inputs) {
-  const { uriage, keihiKojin, aoiro, hojinUriage, hojinKeihi, hojinIjihi, yakuinHoshuTsuki, ageKey, haigusha, fuyouIppan, fuyouTokutei, fuyouRoujin, hitorioya, shougai, idecoTsuki, kyosaiTsuki, seimeiNen, jigyozeiAri, shohizeiRateKojin, shohizeiRateHojin } = inputs;
+  const { uriage, keihiKojin, aoiro, hojinUriage, hojinKeihi, microHojinIjihi, yakuinHoshuTsuki, ageKey, haigusha, fuyouIppan, fuyouTokutei, fuyouRoujin, hitorioya, shougai, idecoTsuki, kyosaiTsuki, seimeiNen, jigyozeiAri, shohizeiRateKojin, shohizeiRateMicro } = inputs;
   const idecoNen       = Math.min(idecoTsuki, 23000) * 12;
   const kyosaiNen      = Math.min(kyosaiTsuki * 12, 840000);
   const tsumitate      = idecoNen + kyosaiNen + seimeiNen;
@@ -794,7 +817,7 @@ function calcPattern3(inputs) {
   const kojinUriage = uriage - hojinUriageUsed;
   const kojinKeihi  = keihiKojin - hojinKeihiUsed;
   const kojinShohizei = Math.round(kojinUriage * shohizeiRateKojin);
-  const hojinShohizei = Math.round(hojinUriageUsed * shohizeiRateHojin);
+  const hojinShohizei = Math.round(hojinUriageUsed * shohizeiRateMicro);
   const shohizei       = kojinShohizei + hojinShohizei;
 
   const jigyoShotoku = Math.max(0, kojinUriage - kojinKeihi - aoiro);
@@ -815,15 +838,15 @@ function calcPattern3(inputs) {
   const juuminze   = calcResidentTax(kazei2);
   const jigyozei   = jigyozeiAri ? calcJigyozei(jigyoShotoku, aoiro) : 0;
   // 法人利益：役員報酬（税引前）＋事業主負担社保 を損金算入
-  const hojinRieki = Math.max(-1, hojinUriageUsed - hojinKeihiUsed - hojinIjihi - yakuinHoshuNen - shakaihokenJigyo - hojinShohizei);
+  const hojinRieki = Math.max(-1, hojinUriageUsed - hojinKeihiUsed - microHojinIjihi - yakuinHoshuNen - shakaihokenJigyo - hojinShohizei);
   const hojinzei   = calcHojinzei(hojinRieki);
   const totalTax   = shotokuze + juuminze + jigyozei + koseiNenkin + kenpo + shakaihokenJigyo + hojinzei + shohizei;
 
-  const _hojinRieki = Math.max(0, hojinUriageUsed - hojinKeihiUsed - hojinIjihi - yakuinHoshuNen - shakaihokenJigyo - hojinShohizei);
+  const _hojinRieki = Math.max(0, hojinUriageUsed - hojinKeihiUsed - microHojinIjihi - yakuinHoshuNen - shakaihokenJigyo - hojinShohizei);
   // 個人の手取り = 個人事業純収入 + 役員報酬 - 本人社保 - 所得税 - 住民税 - 個人事業税
   const kojinTedori3 = (kojinUriage - kojinKeihi) + yakuinHoshuNen - shakaihoken - shotokuze - juuminze - jigyozei - kojinShohizei - tsumitate;
   // 法人留保 = 法人売上 - 法人経費 - 役員報酬 - 事業主社保 - 法人税
-  const hojinRyuho3 = hojinUriageUsed - hojinKeihiUsed - hojinIjihi - yakuinHoshuNen - shakaihokenJigyo - hojinShohizei - hojinzei;
+  const hojinRyuho3 = hojinUriageUsed - hojinKeihiUsed - microHojinIjihi - yakuinHoshuNen - shakaihokenJigyo - hojinShohizei - hojinzei;
   const tedori3 = kojinTedori3 + hojinRyuho3;
   return {
     jigyoShotoku, shotokuze, juuminze, jigyozei,
@@ -864,9 +887,13 @@ function calcAll() {
     yakuinHoshuTsuki3: Number(document.getElementById('yakuinHoshu3').value),
     hojinKeihi:        Number(document.getElementById('hojinKeihi').value),
     hojinIjihi:        Number(document.getElementById('hojinIjihi').value),
+    microHojinIjihi:   Number(document.getElementById('microHojinIjihi').value),
     shohizeiRateKojin: Number(document.getElementById('shohizeiRateKojin').value),
     shohizeiRateHojin: Number(document.getElementById('shohizeiRateHojin').value),
+    shohizeiRateMicro: Number(document.getElementById('shohizeiRateMicro').value),
   };
+  document.getElementById('hojinUriage2Display').value = inputs.uriage.toLocaleString();
+  document.getElementById('hojinKeihi2Display').value = inputs.keihiKojin.toLocaleString();
 
   const p1 = calcPattern1(inputs);
   const p2 = calcPattern2({ ...inputs, yakuinHoshuTsuki: inputs.yakuinHoshuTsuki2 });
@@ -989,14 +1016,14 @@ function calcAll() {
     <td>【法人】法人税等</td>
     <td class="na-cell">−</td>
     ${cell(p2.hojinzei, `${p2KeihibNote} × 21%(≦800万)/34%(超) ＋ 均等割7万`, true)}
-    ${cell(p3.hojinzei, `法人売上 ${m(p3._hojinUriage)}万 − 法人経費 ${m(p3._hojinKeihi)}万 − 法人維持費 ${m(inputs.hojinIjihi)}万 → 法人利益 ${m(p3._hojinRieki)}万 × 21%(≦800万)/34%(超) ＋ 均等割7万`, true)}
+    ${cell(p3.hojinzei, `法人売上 ${m(p3._hojinUriage)}万 − 法人経費 ${m(p3._hojinKeihi)}万 − 法人維持費 ${m(inputs.microHojinIjihi)}万 → 法人利益 ${m(p3._hojinRieki)}万 × 21%(≦800万)/34%(超) ＋ 均等割7万`, true)}
   </tr>`;
 
   tbody += `<tr>
     <td>【税】消費税（概算）</td>
     ${cell(p1.shohizei, `個人売上 ${m(p1._uriage)}万 × ${(inputs.shohizeiRateKojin * 100).toFixed(0)}%`, true)}
     ${cell(p2.shohizei, `法人売上 ${m(p2._uriage)}万 × ${(inputs.shohizeiRateHojin * 100).toFixed(0)}%`, true)}
-    ${cell(p3.shohizei, `個人 ${m(p3._kojinUriage)}万×${(inputs.shohizeiRateKojin * 100).toFixed(0)}% ＋ 法人 ${m(p3._hojinUriage)}万×${(inputs.shohizeiRateHojin * 100).toFixed(0)}%`, true)}
+    ${cell(p3.shohizei, `個人 ${m(p3._kojinUriage)}万×${(inputs.shohizeiRateKojin * 100).toFixed(0)}% ＋ 法人 ${m(p3._hojinUriage)}万×${(inputs.shohizeiRateMicro * 100).toFixed(0)}%`, true)}
   </tr>`;
 
   tbody += `<tr class="row-subtotal"><td>税金・保険料 合計</td>${patterns.map(p => `<td>${man(p.totalTax)}</td>`).join('')}</tr>`;
@@ -1026,7 +1053,7 @@ function calcAll() {
   const p2YakuinNen = inputs.yakuinHoshuTsuki2 * 12;
   const p3YakuinNen = inputs.yakuinHoshuTsuki3 * 12;
   const p2Rieki = Math.max(0, inputs.uriage - inputs.keihiKojin - inputs.hojinIjihi - p2YakuinNen - p2.shakaihokenJigyo - p2.shohizei);
-  const p3Rieki = Math.max(0, p3._hojinUriage - p3._hojinKeihi - inputs.hojinIjihi - p3YakuinNen - p3.shakaihokenJigyo - Math.round(p3._hojinUriage * inputs.shohizeiRateHojin));
+  const p3Rieki = Math.max(0, p3._hojinUriage - p3._hojinKeihi - inputs.microHojinIjihi - p3YakuinNen - p3.shakaihokenJigyo - Math.round(p3._hojinUriage * inputs.shohizeiRateMicro));
   document.getElementById('note-area').innerHTML = `
     <strong>📌 計算の前提・注意点</strong><br>
     • 国民健康保険料は<strong>全国平均の概算値</strong>です。市区町村によって大きく異なります（目安±20%程度）。<br>
@@ -1067,6 +1094,17 @@ document.querySelectorAll('input[type="number"]').forEach(function(input){
     if(document.activeElement === input) input.blur();
   });
 });
+
+function updateHojinTransferDisplay(){
+  const uriage = Number(document.getElementById('uriage').value || 0);
+  const keihi = Number(document.getElementById('keihiKojin').value || 0);
+  document.getElementById('hojinUriage2Display').value = uriage.toLocaleString();
+  document.getElementById('hojinKeihi2Display').value = keihi.toLocaleString();
+}
+['uriage', 'keihiKojin'].forEach(function(id){
+  document.getElementById(id).addEventListener('input', updateHojinTransferDisplay);
+});
+updateHojinTransferDisplay();
 
 document.querySelectorAll('.nav-item').forEach(function(n){
   var link=n.querySelector('.nav-link');
