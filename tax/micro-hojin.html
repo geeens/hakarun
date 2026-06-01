@@ -229,12 +229,12 @@
 
     <div class="calc-card">
       <p class="section-lead">比較する3パターン</p>
-      <p class="form-lead">①個人事業主のみ、②法人化（完全法人化）、③個人事業主＋マイクロ法人（二刀流）を同じ条件で比較します。</p>
+      <p class="form-lead">①個人事業主、②法人（完全法人化）、③マイクロ法人（二刀流）を同じ条件で比較します。</p>
     </div>
 
-    <!-- ① 事業の収入・経費 -->
+    <!-- ① 個人事業の収入・経費 -->
     <div class="calc-card">
-      <p class="section-lead"><span class="step-num">1</span>事業の収入・経費</p>
+      <p class="section-lead"><span class="step-num">1</span>個人事業の収入・経費</p>
       <div class="form-grid-2">
         <div class="form-group">
           <label for="uriage">年間売上（事業収入）</label>
@@ -282,7 +282,7 @@
     <!-- ② 法人（完全法人化）の設定 -->
     <div class="calc-card">
       <p class="section-lead"><span class="step-num">2</span>法人（完全法人化）の設定</p>
-      <p class="form-lead">②法人化（完全法人化）は、上の「年間売上」と「年間経費」をそのまま法人に移す前提で計算します。</p>
+      <p class="form-lead">②法人（完全法人化）は、①で入力した売上と経費をそのまま法人に移す前提で計算します。</p>
       <div class="form-grid-2">
         <div class="form-group">
           <label>法人売上</label>
@@ -290,7 +290,7 @@
             <input type="text" id="hojinUriage2Display" value="8,000,000" readonly class="readonly-input">
             <span class="unit">円</span>
           </div>
-          <p class="hint">「年間売上（事業収入）」と同じ金額で計算します</p>
+          <p class="hint">①の「年間売上（事業収入）」と同じ金額で計算します</p>
         </div>
         <div class="form-group">
           <label>法人経費</label>
@@ -298,7 +298,7 @@
             <input type="text" id="hojinKeihi2Display" value="1,000,000" readonly class="readonly-input">
             <span class="unit">円</span>
           </div>
-          <p class="hint">「個人事業の年間経費」と同じ金額で計算します</p>
+          <p class="hint">①の「個人事業の年間経費」と同じ金額で計算します</p>
         </div>
         <div class="form-group">
           <label for="yakuinHoshu2">役員報酬（月額）</label>
@@ -324,7 +324,7 @@
             <option value="0.05">売上の5%（簡易課税の目安）</option>
             <option value="0.10">売上の10%（粗い上限目安）</option>
           </select>
-          <p class="hint">②と③の法人側に反映します</p>
+          <p class="hint">②の法人側に反映します</p>
         </div>
       </div>
     </div>
@@ -332,7 +332,7 @@
     <!-- ③ マイクロ法人（二刀流）の設定 -->
     <div class="calc-card">
       <p class="section-lead"><span class="step-num">3</span>マイクロ法人（二刀流）の設定</p>
-      <p class="form-lead">③二刀流は、個人事業のうちマイクロ法人側へ移す収入・経費を入力してください。個人事業と別実態の事業がある前提で設定します。</p>
+      <p class="form-lead">③マイクロ法人（二刀流）は、①の個人事業のうちマイクロ法人側へ移す収入・経費を入力してください。個人事業と別実態の事業がある前提で設定します。</p>
       <div class="form-grid-2">
         <div class="form-group">
           <label for="hojinUriage">マイクロ法人に移す売上</label>
@@ -340,7 +340,7 @@
             <input type="number" id="hojinUriage" value="2000000" min="0">
             <span class="unit">円</span>
           </div>
-          <p class="hint">上の年間売上のうち、法人側に移す金額</p>
+          <p class="hint">①の年間売上のうち、法人側に移す金額</p>
         </div>
         <div class="form-group">
           <label for="hojinKeihi">マイクロ法人に移す経費</label>
@@ -348,7 +348,7 @@
             <input type="number" id="hojinKeihi" value="250000" min="0">
             <span class="unit">円</span>
           </div>
-          <p class="hint">上の年間経費のうち、法人側に移す金額</p>
+          <p class="hint">①の年間経費のうち、法人側に移す金額</p>
         </div>
         <div class="form-group">
           <label for="yakuinHoshu3">役員報酬（月額）</label>
@@ -379,9 +379,9 @@
       </div>
     </div>
 
-    <!-- ④ 個人情報・家族構成 -->
+    <!-- A 個人情報・家族構成 -->
     <div class="calc-card">
-      <p class="section-lead"><span class="step-num">4</span>個人情報・家族構成</p>
+      <p class="section-lead"><span class="step-num">A</span>個人情報・家族構成</p>
       <div class="form-grid-2">
         <div class="form-group">
           <label for="age">年齢区分</label>
@@ -413,7 +413,7 @@
               <option value="6">6人</option>
             </select>
           </div>
-          <p class="hint">①個人事業主のみの国保計算に使用。16歳未満の子どもも含めます</p>
+          <p class="hint">①個人事業主の国保計算に使用。16歳未満の子どもも含めます</p>
         </div>
         <div class="form-group">
           <label for="kokuhoKaigoNinzu">うち40〜64歳の人数</label>
@@ -483,9 +483,9 @@
       </div>
     </div>
 
-    <!-- ⑤ 保険・節税制度 -->
+    <!-- B 保険・節税制度 -->
     <div class="calc-card">
-      <p class="section-lead"><span class="step-num">5</span>保険・節税制度</p>
+      <p class="section-lead"><span class="step-num">B</span>保険・節税制度</p>
       <div class="form-grid-2">
         <div class="form-group">
           <label for="nenkin">国民年金の支払い状況</label>
@@ -533,9 +533,9 @@
           <thead>
             <tr>
               <th>項目</th>
-              <th><span class="th-num">1</span>個人事業主のみ</th>
-              <th><span class="th-num">2</span>法人化（完全法人化）</th>
-              <th><span class="th-num">3</span>マイクロ法人二刀流</th>
+              <th><span class="th-num">1</span>個人事業主</th>
+              <th><span class="th-num">2</span>法人（完全法人化）</th>
+              <th><span class="th-num">3</span>マイクロ法人（二刀流）</th>
             </tr>
           </thead>
           <tbody id="result-tbody"></tbody>
@@ -939,7 +939,7 @@ function calcAll() {
 
   // サマリーカード
   const numBadge = n => `<span class="step-num" style="width:18px;height:18px;font-size:11px;margin-right:5px">${n}</span>`;
-  const titles = [numBadge(1)+'個人事業主のみ', numBadge(2)+'法人化（完全法人化）', numBadge(3)+'マイクロ法人二刀流'];
+  const titles = [numBadge(1)+'個人事業主', numBadge(2)+'法人（完全法人化）', numBadge(3)+'マイクロ法人（二刀流）'];
   document.getElementById('summary-cards').innerHTML = titles.map((t, i) => {
     const isBest = i === bestIdx;
     const savingTxt = i === 0 ? '（基準）'
