@@ -1268,15 +1268,27 @@ function setSummaryYakuinHoshu(pattern, value, shouldRecalc){
   summaryInput.value = safeValue;
   if (shouldRecalc && isResultShown()) calcAll({ scroll: false });
 }
+function commitSummaryYakuinInput(input){
+  const pattern = Number(input.id.replace('summaryYakuin', ''));
+  setSummaryYakuinHoshu(pattern, input.value, true);
+}
 function changeYakuinHoshu(pattern, delta){
   const summaryInput = document.getElementById(`summaryYakuin${pattern}`);
   setSummaryYakuinHoshu(pattern, Number(summaryInput.value || 0) + delta, true);
 }
 function bindYakuinSummaryControls(){
   document.querySelectorAll('[id^="summaryYakuin"]').forEach(function(input){
-    input.addEventListener('input', function(){
-      const pattern = Number(input.id.replace('summaryYakuin', ''));
-      setSummaryYakuinHoshu(pattern, input.value, true);
+    input.addEventListener('wheel', function(){
+      if(document.activeElement === input) input.blur();
+    });
+    input.addEventListener('keydown', function(e){
+      if(e.key === 'Enter'){
+        e.preventDefault();
+        commitSummaryYakuinInput(input);
+      }
+    });
+    input.addEventListener('blur', function(){
+      commitSummaryYakuinInput(input);
     });
   });
   document.querySelectorAll('.yakuin-step-btn').forEach(function(button){
