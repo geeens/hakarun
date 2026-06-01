@@ -982,6 +982,7 @@ function calcPattern3(inputs) {
 // ========== メイン計算 ==========
 function calcAll(options) {
   const shouldScroll = !options || options.scroll !== false;
+  const useSummaryYakuin = options && options.useSummaryYakuin === true;
   const summaryYakuin2 = document.getElementById('summaryYakuin2');
   const summaryYakuin3 = document.getElementById('summaryYakuin3');
   const inputs = {
@@ -1006,8 +1007,8 @@ function calcAll(options) {
     kyosaiTsuki:      Number(document.getElementById('kyosai').value),
     seimeiNen:        Number(document.getElementById('seimei').value),
     hojinUriage:       Number(document.getElementById('hojinUriage').value),
-    yakuinHoshuTsuki2: Number((summaryYakuin2 && isResultShown()) ? summaryYakuin2.value : document.getElementById('yakuinHoshu2').value),
-    yakuinHoshuTsuki3: Number((summaryYakuin3 && isResultShown()) ? summaryYakuin3.value : document.getElementById('yakuinHoshu3').value),
+    yakuinHoshuTsuki2: Number((useSummaryYakuin && summaryYakuin2) ? summaryYakuin2.value : document.getElementById('yakuinHoshu2').value),
+    yakuinHoshuTsuki3: Number((useSummaryYakuin && summaryYakuin3) ? summaryYakuin3.value : document.getElementById('yakuinHoshu3').value),
     hojinKeihi:        Number(document.getElementById('hojinKeihi').value),
     hojinIjihi:        Number(document.getElementById('hojinIjihi').value),
     microHojinIjihi:   Number(document.getElementById('microHojinIjihi').value),
@@ -1266,7 +1267,7 @@ function setSummaryYakuinHoshu(pattern, value, shouldRecalc){
   const summaryInput = document.getElementById(`summaryYakuin${pattern}`);
   const safeValue = Math.max(0, Math.round(Number(value || 0)));
   summaryInput.value = safeValue;
-  if (shouldRecalc && isResultShown()) calcAll({ scroll: false });
+  if (shouldRecalc && isResultShown()) calcAll({ scroll: false, useSummaryYakuin: true });
 }
 function commitSummaryYakuinInput(input){
   const pattern = Number(input.id.replace('summaryYakuin', ''));
