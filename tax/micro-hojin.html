@@ -55,10 +55,10 @@
     .summary-card .card-label { font-size: 11px; color: var(--text-secondary); margin-bottom: 2px; font-weight: 600; }
     .summary-card .card-tedori { font-size: 28px; font-weight: 800; color: var(--primary); }
     .summary-card.best .card-tedori { color: var(--success); }
+    .summary-card .card-breakdown-label { max-width: 230px; margin: 8px auto 0; padding-top: 8px; border-top: 1px solid var(--border); text-align: left; font-size: 11px; font-weight: 700; color: var(--text-secondary); }
     .summary-card .card-detail { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; color: var(--text-secondary); margin: 6px auto 0; max-width: 230px; }
     .summary-card .card-detail strong { color: var(--text); }
-    .summary-card .card-detail:first-of-type { border-top: 1px solid var(--border); padding-top: 8px; margin-top: 8px; }
-    .summary-card .card-saving { font-size: 15px; font-weight: 700; color: var(--text-secondary); margin: 5px 0 8px; }
+    .summary-card .card-saving { font-size: 15px; font-weight: 700; color: var(--text-secondary); margin: 1px 0 6px; }
     .badge-best {
       display: inline-block; background: var(--success); color: #fff;
       font-size: 11px; font-weight: 700; padding: 2px 8px;
@@ -1032,7 +1032,7 @@ function calcAll(options) {
   const titles = ['① 個人事業主', '② 法人（完全法人化）', '③ マイクロ法人（二刀流）'];
   document.getElementById('summary-cards').innerHTML = titles.map((t, i) => {
     const isBest = i === bestIdx;
-    const savingTxt = i === 0 ? '（基準）'
+    const savingTxt = i === 0 ? '基準'
       : saving[i] > 0 ? `<span class="saving-up">+${manPlain(saving[i])}万円</span>`
       : `<span class="saving-down">${manPlain(saving[i])}万円</span>`;
     const hojinRyuhoText = i === 0 ? '−' : `${manPlain(patterns[i].hojinRyuho)}万円`;
@@ -1042,6 +1042,7 @@ function calcAll(options) {
       <div class="card-label">税引後合計</div>
       <div class="card-tedori">${manPlain(summaryTotals[i])}<span style="font-size:16px;font-weight:400">万円</span></div>
       <div class="card-saving">${savingTxt}</div>
+      <div class="card-breakdown-label">内訳</div>
       <div class="card-detail"><span>現金手取り</span><strong>${manPlain(patterns[i].kojinTedori)}万円</strong></div>
       <div class="card-detail"><span>法人に残る利益</span><strong>${hojinRyuhoText}</strong></div>
       <div class="card-detail"><span>iDeCo・共済の積立</span><strong>${manPlain(patterns[i].assetTsumitate)}万円</strong></div>
