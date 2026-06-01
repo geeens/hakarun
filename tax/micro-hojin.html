@@ -643,7 +643,12 @@ function calcResidentTax(taxableIncome) {
 
 // ========== 給与所得控除 ==========
 function kyuyoShotokuKojo(salary) {
-  if (salary <= 1900000)  return 650000;
+  // 令和8・9年分の所得税: 低額給与は最低74万円控除（給与収入が74万円以下なら給与所得0円）
+  if (salary < 741000)    return salary;
+  if (salary < 2191000)   return 740000;
+  if (salary < 2193000)   return salary - 1451000;
+  if (salary < 2196000)   return salary - 1453000;
+  if (salary < 2200000)   return salary - 1456000;
   if (salary <= 3600000)  return Math.floor(salary * 0.3) + 80000;
   if (salary <= 6600000)  return Math.floor(salary * 0.2) + 440000;
   if (salary <= 8500000)  return Math.floor(salary * 0.1) + 1100000;
@@ -760,17 +765,15 @@ function calcHojinzei(rieki) {
 // ========== 所得控除の合計（共通） ==========
 function calcShotokuKojo({ shakaihokenKojo, shotoku, haigusha, fuyouIppan, fuyouTokutei, fuyouRoujin, hitorioya, shougai, idecoNen, kyosaiNen, seimeiNen, taxType }) {
   const isResident = taxType === 'resident';
-  // 住民税基礎控除は43万円固定（令和7年改正対象外）
+  // 住民税基礎控除は43万円固定
   let kiso = 430000;
   if (!isResident) {
-    // 令和7年(2025年)分以後の所得税基礎控除
-    // 合計所得 132万以下→95万、336万以下→88万、489万以下→68万、655万以下→63万、2350万以下→58万
-    // 参照: 国税庁「令和7年分以後の基礎控除の改正」
-    if      (shotoku <= 1320000)  kiso = 950000;
-    else if (shotoku <= 3360000)  kiso = 880000;
-    else if (shotoku <= 4890000)  kiso = 680000;
-    else if (shotoku <= 6550000)  kiso = 630000;
-    else if (shotoku <= 23500000) kiso = 580000;
+    // 令和8・9年分の所得税基礎控除
+    // 合計所得489万以下→104万、655万以下→67万、2350万以下→62万
+    // 参照: 国税庁「源泉所得税の改正のあらまし（令和8年4月）」
+    if      (shotoku <= 4890000)  kiso = 1040000;
+    else if (shotoku <= 6550000)  kiso = 670000;
+    else if (shotoku <= 23500000) kiso = 620000;
     else if (shotoku <= 24000000) kiso = 480000;
     else if (shotoku <= 24500000) kiso = 320000;
     else if (shotoku <= 25000000) kiso = 160000;
@@ -1169,7 +1172,8 @@ function calcAll() {
     • iDeCoは②③では法人役員として<strong>月23,000円が上限</strong>のため、超える場合は上限で計算し、掛金は現金手取りから差し引いています。<br>
     • 小規模企業共済は年間<strong>最大84万円</strong>を上限として控除し、掛金は現金手取りから差し引いています。<br>
     • 個人事業税は、青色申告特別控除を足し戻して概算しています。<br>
-    • 所得税の基礎控除は<strong>令和7年（2025年）分以後の改正値</strong>（132万以下→95万、336万以下→88万、489万以下→68万、655万以下→63万、2,350万以下→58万）で計算しています。住民税の基礎控除は43万円（改正対象外）です。<br>
+    • 所得税の基礎控除は<strong>令和8・9年分の改正値</strong>（489万以下→104万、655万以下→67万、2,350万以下→62万）で計算しています。住民税の基礎控除は43万円です。<br>
+    • 給与所得控除は<strong>令和8・9年分の低額給与向け改正</strong>を反映し、給与収入74.1万円未満は給与所得0円として計算しています。<br>
     • 消費税は売上に対する概算率です。実際は仕入の消費税（入力税額控除）を引いた額が納税額になるため、ここより少なくなる場合があります。インボイス登録・簡易課税・2割特例・経費の内容でも変わります。<br>
     • マイクロ法人二刀流は、個人事業と法人事業に<strong>別々の実態</strong>がある前提です。同じ仕事の売上を都合よく分ける前提ではありません。<br>
     <br>
