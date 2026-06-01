@@ -16,7 +16,7 @@
     { "@type": "Question", "name": "マイクロ法人とは何ですか？", "acceptedAnswer": { "@type": "Answer", "text": "マイクロ法人とは、1人（または少人数）で設立・運営する小規模な法人のことです。個人事業主がマイクロ法人を設立して個人事業と両立する「二刀流」戦略では、役員報酬を低く設定して厚生年金・協会けんぽに切り替えることで、社会保険料を大幅に削減できる場合があります。" } },
     { "@type": "Question", "name": "マイクロ法人二刀流で節税できるのはなぜ？", "acceptedAnswer": { "@type": "Answer", "text": "個人事業主は国民健康保険・国民年金に加入しますが、マイクロ法人を設立すると社長として厚生年金・協会けんぽに加入できます。役員報酬を低く設定することで保険料の計算基礎を下げ、社会保険料を大幅に削減できます。また小規模企業共済やiDeCoと組み合わせることでさらなる節税が可能です。" } },
     { "@type": "Question", "name": "法人化とマイクロ法人二刀流の違いは何ですか？", "acceptedAnswer": { "@type": "Answer", "text": "法人化はすべての事業を法人に移行することです。マイクロ法人二刀流は個人事業（フリーランス等）はそのまま続けながら、別の事業をマイクロ法人で行う戦略です。二刀流では消費税の免税期間を活用できるメリットや、個人事業の自由度を保てるメリットもあります。" } },
-    { "@type": "Question", "name": "この計算結果は正確ですか？", "acceptedAnswer": { "@type": "Answer", "text": "概算シミュレーションです。国民健康保険料は市区町村によって大きく異なるため全国平均値を使用しており、実際の金額と差が出る場合があります。正確な金額は税理士・社会保険労務士にご確認ください。" } },
+    { "@type": "Question", "name": "この計算結果は正確ですか？", "acceptedAnswer": { "@type": "Answer", "text": "概算シミュレーションです。国民健康保険料は市区町村によって大きく異なるため標準モデルで計算しており、実際の金額と差が出る場合があります。正確な金額は税理士・社会保険労務士にご確認ください。" } },
     { "@type": "Question", "name": "小規模企業共済はどのような節税効果がありますか？", "acceptedAnswer": { "@type": "Answer", "text": "小規模企業共済の掛金は全額所得控除になります。月額1,000円〜70,000円（年間最大84万円）まで積み立てでき、所得が高いほど節税効果が大きくなります。廃業・退職時には退職金として受け取れるため、節税と老後資金の両立ができます。" } }
   ] }
   </script>
@@ -429,6 +429,37 @@
           <p class="hint">介護保険料の人数分を概算します</p>
         </div>
         <div class="form-group">
+          <label for="kokuhoKodomoNinzu">子育て分の対象人数</label>
+          <div class="input-wrap">
+            <select id="kokuhoKodomoNinzu">
+              <option value="0">0人</option>
+              <option value="1" selected>1人</option>
+              <option value="2">2人</option>
+              <option value="3">3人</option>
+              <option value="4">4人</option>
+              <option value="5">5人</option>
+              <option value="6">6人</option>
+            </select>
+          </div>
+          <p class="hint">国保の子育て支援分を概算。18歳未満は0円として扱います</p>
+        </div>
+        <div class="form-group">
+          <label for="kokuhoMode">国民健康保険の計算方法</label>
+          <select id="kokuhoMode">
+            <option value="standard" selected>標準モデルで計算</option>
+            <option value="manual">年間保険料を直接入力</option>
+          </select>
+          <p class="hint">自治体の試算額が分かる場合は直接入力できます</p>
+        </div>
+        <div class="form-group">
+          <label for="kokuhoManual">国民健康保険料（年間）</label>
+          <div class="input-wrap">
+            <input type="number" id="kokuhoManual" value="0" min="0">
+            <span class="unit">円</span>
+          </div>
+          <p class="hint">「年間保険料を直接入力」を選んだ場合のみ使用します</p>
+        </div>
+        <div class="form-group">
           <label for="fuyouIppan">一般扶養人数（16歳以上）</label>
           <div class="input-wrap">
             <select id="fuyouIppan">
@@ -630,15 +661,34 @@ function seimeiKojoResident(premium) {
   return 28000;
 }
 
-// ========== 国民健康保険（全国平均概算） ==========
-function calcKokuho(shotoku, kokuhoNinzu, kokuhoKaigoNinzu) {
+// ========== 国民健康保険（標準モデル概算） ==========
+const KOKUHO_STANDARD = {
+  iryo:   { rate: 0.0869, perPerson: 49100, cap: 670000 },
+  shien:  { rate: 0.0280, perPerson: 16500, cap: 260000 },
+  kaigo:  { rate: 0.0236, perPerson: 16500, cap: 170000 },
+  kodomo: { rate: 0.0027, perPerson: 1870,  cap: 30000 },
+};
+function floorHundred(amount) {
+  return Math.floor(amount / 100) * 100;
+}
+function calcKokuho(shotoku, kokuhoNinzu, kokuhoKaigoNinzu, kokuhoKodomoNinzu) {
   const base = Math.max(0, shotoku - 430000);
   const insuredCount = Math.max(1, kokuhoNinzu);
   const kaigoCount = Math.max(0, Math.min(kokuhoKaigoNinzu, insuredCount));
-  const iryo  = Math.min(base * 0.075 + 28000 * insuredCount, 650000);
-  const shien = Math.min(base * 0.024 + 9600 * insuredCount,  240000);
-  const kaigo = kaigoCount > 0 ? Math.min(base * 0.020 + 12000 * kaigoCount, 170000) : 0;
-  return Math.round(iryo + shien + kaigo);
+  const kodomoCount = Math.max(0, Math.min(kokuhoKodomoNinzu, insuredCount));
+  const iryo  = floorHundred(Math.min(base * KOKUHO_STANDARD.iryo.rate + KOKUHO_STANDARD.iryo.perPerson * insuredCount, KOKUHO_STANDARD.iryo.cap));
+  const shien = floorHundred(Math.min(base * KOKUHO_STANDARD.shien.rate + KOKUHO_STANDARD.shien.perPerson * insuredCount, KOKUHO_STANDARD.shien.cap));
+  const kaigo = kaigoCount > 0
+    ? floorHundred(Math.min(base * KOKUHO_STANDARD.kaigo.rate + KOKUHO_STANDARD.kaigo.perPerson * kaigoCount, KOKUHO_STANDARD.kaigo.cap))
+    : 0;
+  const kodomo = kodomoCount > 0
+    ? floorHundred(Math.min(base * KOKUHO_STANDARD.kodomo.rate + KOKUHO_STANDARD.kodomo.perPerson * kodomoCount, KOKUHO_STANDARD.kodomo.cap))
+    : 0;
+  return {
+    iryo, shien, kaigo, kodomo,
+    total: iryo + shien + kaigo + kodomo,
+    base, insuredCount, kaigoCount, kodomoCount,
+  };
 }
 
 // ========== 国民年金 ==========
@@ -746,14 +796,15 @@ function calcShotokuKojo({ shakaihokenKojo, shotoku, haigusha, fuyouIppan, fuyou
 
 // ========== パターン1：個人事業主のみ ==========
 function calcPattern1(inputs) {
-  const { uriage, keihiKojin, aoiro, kokuhoNinzu, kokuhoKaigoNinzu, haigusha, fuyouIppan, fuyouTokutei, fuyouRoujin, hitorioya, shougai, nenkin, idecoTsuki, kyosaiTsuki, seimeiNen, jigyozeiAri, shohizeiRateKojin } = inputs;
+  const { uriage, keihiKojin, aoiro, kokuhoNinzu, kokuhoKaigoNinzu, kokuhoKodomoNinzu, kokuhoMode, kokuhoManual, haigusha, fuyouIppan, fuyouTokutei, fuyouRoujin, hitorioya, shougai, nenkin, idecoTsuki, kyosaiTsuki, seimeiNen, jigyozeiAri, shohizeiRateKojin } = inputs;
   const idecoNen  = idecoTsuki * 12;
   const kyosaiNen = Math.min(kyosaiTsuki * 12, 840000);
   const tsumitate = idecoNen + kyosaiNen + seimeiNen;
   const shohizei  = Math.round(uriage * shohizeiRateKojin);
 
   const jigyoShotoku = Math.max(0, uriage - keihiKojin - aoiro);
-  const kokuho     = calcKokuho(jigyoShotoku, kokuhoNinzu, kokuhoKaigoNinzu);
+  const kokuhoBreakdown = calcKokuho(jigyoShotoku, kokuhoNinzu, kokuhoKaigoNinzu, kokuhoKodomoNinzu);
+  const kokuho     = kokuhoMode === 'manual' ? Math.max(0, kokuhoManual) : kokuhoBreakdown.total;
   const kokunenkin = calcKokunenkin(nenkin);
   const shakaihoken = kokuho + kokunenkin;
 
@@ -781,6 +832,10 @@ function calcPattern1(inputs) {
     _kokuhoBase: Math.max(0, jigyoShotoku - 430000),
     _kokuhoNinzu: Math.max(1, kokuhoNinzu),
     _kokuhoKaigoNinzu: Math.max(0, Math.min(kokuhoKaigoNinzu, Math.max(1, kokuhoNinzu))),
+    _kokuhoKodomoNinzu: kokuhoBreakdown.kodomoCount,
+    _kokuhoBreakdown: kokuhoBreakdown,
+    _kokuhoMode: kokuhoMode,
+    _kokuhoManual: Math.max(0, kokuhoManual),
     _yakuinHoshu: 0, _hojinRieki: 0,
   };
 }
@@ -906,6 +961,9 @@ function calcAll() {
     haigusha:         document.getElementById('haigusha').value,
     kokuhoNinzu:      Number(document.getElementById('kokuhoNinzu').value),
     kokuhoKaigoNinzu: Number(document.getElementById('kokuhoKaigoNinzu').value),
+    kokuhoKodomoNinzu: Number(document.getElementById('kokuhoKodomoNinzu').value),
+    kokuhoMode:       document.getElementById('kokuhoMode').value,
+    kokuhoManual:     Number(document.getElementById('kokuhoManual').value),
     fuyouIppan:       Number(document.getElementById('fuyouIppan').value),
     fuyouTokutei:     Number(document.getElementById('fuyouTokutei').value),
     fuyouRoujin:      Number(document.getElementById('fuyouRoujin').value),
@@ -1004,9 +1062,12 @@ function calcAll() {
   </tr>`;
 
   // ── 国民健康保険 ──
+  const kokuhoFormula = p1._kokuhoMode === 'manual'
+    ? `直接入力 ${m(p1._kokuhoManual)}万`
+    : `基準額 ${m(p1._kokuhoBase)}万｜医療 ${m(p1._kokuhoBreakdown.iryo)}万 ＋ 支援 ${m(p1._kokuhoBreakdown.shien)}万 ＋ 介護 ${m(p1._kokuhoBreakdown.kaigo)}万 ＋ 子育て ${m(p1._kokuhoBreakdown.kodomo)}万`;
   tbody += `<tr>
     <td>【社保】国民健康保険</td>
-    ${cell(p1.kokuho, `(所得 ${m(p1.jigyoShotoku)}万 − 43万) × 9.9% ＋ 均等割 ${p1._kokuhoNinzu}人分 ＋ 介護 ${p1._kokuhoKaigoNinzu}人分`)}
+    ${cell(p1.kokuho, kokuhoFormula)}
     <td class="na-cell">−</td>
     <td class="na-cell">−</td>
   </tr>`;
@@ -1089,7 +1150,7 @@ function calcAll() {
   const p3Rieki = Math.max(0, p3._hojinUriage - p3._hojinKeihi - inputs.microHojinIjihi - p3YakuinNen - p3.shakaihokenJigyo - Math.round(p3._hojinUriage * inputs.shohizeiRateMicro));
   document.getElementById('note-area').innerHTML = `
     <strong>📌 計算の前提・注意点</strong><br>
-    • 国民健康保険料は<strong>全国平均の概算値</strong>です。加入人数（16歳未満を含む）と40〜64歳人数を反映しますが、市区町村によって大きく異なります（目安±20%程度）。<br>
+    • 国民健康保険料は、医療分・支援分・介護分・子育て分を分けた<strong>標準モデルの概算値</strong>です。自治体の試算額が分かる場合は年間保険料を直接入力できます。<br>
     • 協会けんぽ保険料は<strong>東京都・2026年度の料率</strong>で、標準報酬月額に当てはめて計算しています。<br>
     • 国民年金は<strong>2026年度（月17,920円）</strong>で計算しています。<br>
     • 法人税等は<strong>実効税率の概算</strong>（利益800万以下：約21%、超え：約34%、均等割7万円含む）です。<br>
