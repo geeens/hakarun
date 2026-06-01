@@ -52,8 +52,13 @@
     }
     .summary-card.best { border-color: var(--success); background: var(--success-light); }
     .summary-card .card-title { display:flex; align-items:center; justify-content:center; font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; font-weight: 600; }
+    .summary-card .card-label { font-size: 11px; color: var(--text-secondary); margin-bottom: 2px; font-weight: 600; }
     .summary-card .card-tedori { font-size: 28px; font-weight: 800; color: var(--primary); }
     .summary-card.best .card-tedori { color: var(--success); }
+    .summary-card .card-detail { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; color: var(--text-secondary); margin: 6px auto 0; max-width: 230px; }
+    .summary-card .card-detail strong { color: var(--text); }
+    .summary-card .card-detail.total { border-top: 1px solid var(--border); padding-top: 7px; margin-top: 8px; font-weight: 700; }
+    .summary-card.best .card-detail.total strong { color: var(--success); }
     .summary-card .card-saving { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
     .badge-best {
       display: inline-block; background: var(--success); color: #fff;
@@ -800,6 +805,7 @@ function calcPattern1(inputs) {
   const idecoNen  = idecoTsuki * 12;
   const kyosaiNen = Math.min(kyosaiTsuki * 12, 840000);
   const tsumitate = idecoNen + kyosaiNen + seimeiNen;
+  const assetTsumitate = idecoNen + kyosaiNen;
   const shohizei  = Math.round(uriage * shohizeiRateKojin);
 
   const jigyoShotoku = Math.max(0, uriage - keihiKojin - aoiro);
@@ -824,7 +830,7 @@ function calcPattern1(inputs) {
     koseiNenkin: 0, kenpo: 0, kodomo: 0, shakaihokenJigyo: 0, hojinzei: 0, shohizei, totalTax,
     tedori,
     kojinTedori: tedori, // 個人事業主のみなので全額が個人の手取り
-    hojinRyuho: 0, tsumitate,
+    hojinRyuho: 0, tsumitate, assetTsumitate,
     // 計算式用
     _uriage: uriage, _kojinUriage: uriage, _hojinUriage: 0,
     _keihiKojin: keihiKojin, _aoiro: aoiro,
@@ -846,6 +852,7 @@ function calcPattern2(inputs) {
   const idecoNen       = Math.min(idecoTsuki, 23000) * 12;
   const kyosaiNen      = Math.min(kyosaiTsuki * 12, 840000);
   const tsumitate      = idecoNen + kyosaiNen + seimeiNen;
+  const assetTsumitate = idecoNen + kyosaiNen;
   const yakuinHoshuNen = yakuinHoshuTsuki * 12;
   const shohizei       = Math.round(uriage * shohizeiRateHojin);
   // 法人化すると個人事業の経費もすべて法人経費になる
@@ -872,7 +879,7 @@ function calcPattern2(inputs) {
   const _hojinRieki = Math.max(0, uriage - totalHojinKeihi - yakuinHoshuNen - shakaihokenJigyo - shohizei);
   // 個人の手取り = 役員報酬 - 本人社保 - 所得税 - 住民税
   const kojinTedori2 = yakuinHoshuNen - shakaihoken - shotokuze - juuminze - tsumitate;
-  // 法人留保 = 売上 - 全経費 - 役員報酬 - 事業主社保 - 法人税
+  // 法人に残る利益 = 売上 - 全経費 - 役員報酬 - 事業主社保 - 法人税
   const hojinRyuho2 = uriage - totalHojinKeihi - yakuinHoshuNen - shakaihokenJigyo - shohizei - hojinzei;
   const tedori2 = kojinTedori2 + hojinRyuho2;
   return {
@@ -880,7 +887,7 @@ function calcPattern2(inputs) {
     kokuho: 0, kokunenkin: 0, koseiNenkin, kenpo, shakaihokenJigyo, hojinzei, shohizei, totalTax,
     tedori: tedori2,
     kojinTedori: kojinTedori2,
-    hojinRyuho:  hojinRyuho2, tsumitate,
+    hojinRyuho:  hojinRyuho2, tsumitate, assetTsumitate,
     // 計算式用
     _uriage: uriage, _kojinUriage: 0, _hojinUriage: uriage,
     _keihiKojin: totalHojinKeihi, _aoiro: 0,
@@ -897,6 +904,7 @@ function calcPattern3(inputs) {
   const idecoNen       = Math.min(idecoTsuki, 23000) * 12;
   const kyosaiNen      = Math.min(kyosaiTsuki * 12, 840000);
   const tsumitate      = idecoNen + kyosaiNen + seimeiNen;
+  const assetTsumitate = idecoNen + kyosaiNen;
   const yakuinHoshuNen = yakuinHoshuTsuki * 12;
   const hojinUriageUsed = Math.min(Math.max(0, hojinUriage), uriage);
   const hojinKeihiUsed = Math.min(Math.max(0, hojinKeihi), keihiKojin);
@@ -931,7 +939,7 @@ function calcPattern3(inputs) {
   const _hojinRieki = Math.max(0, hojinUriageUsed - hojinKeihiUsed - microHojinIjihi - yakuinHoshuNen - shakaihokenJigyo - hojinShohizei);
   // 個人の手取り = 個人事業純収入 + 役員報酬 - 本人社保 - 所得税 - 住民税 - 個人事業税
   const kojinTedori3 = (kojinUriage - kojinKeihi) + yakuinHoshuNen - shakaihoken - shotokuze - juuminze - jigyozei - kojinShohizei - tsumitate;
-  // 法人留保 = 法人売上 - 法人経費 - 役員報酬 - 事業主社保 - 法人税
+  // 法人に残る利益 = 法人売上 - 法人経費 - 役員報酬 - 事業主社保 - 法人税
   const hojinRyuho3 = hojinUriageUsed - hojinKeihiUsed - microHojinIjihi - yakuinHoshuNen - shakaihokenJigyo - hojinShohizei - hojinzei;
   const tedori3 = kojinTedori3 + hojinRyuho3;
   return {
@@ -939,7 +947,7 @@ function calcPattern3(inputs) {
     kokuho: 0, kokunenkin: 0, koseiNenkin, kenpo, shakaihokenJigyo, hojinzei, shohizei, totalTax,
     tedori: tedori3,
     kojinTedori: kojinTedori3,
-    hojinRyuho:  hojinRyuho3, tsumitate,
+    hojinRyuho:  hojinRyuho3, tsumitate, assetTsumitate,
     // 計算式用
     _uriage: uriage, _kojinUriage: kojinUriage, _hojinUriage: hojinUriageUsed,
     _keihiKojin: kojinKeihi, _hojinKeihi: hojinKeihiUsed, _aoiro: aoiro,
@@ -991,22 +999,25 @@ function calcAll() {
   const p3 = calcPattern3({ ...inputs, yakuinHoshuTsuki: inputs.yakuinHoshuTsuki3 });
 
   const patterns  = [p1, p2, p3];
-  const saving    = [0, p2.tedori - p1.tedori, p3.tedori - p1.tedori];
-  const maxTedori = Math.max(p1.tedori, p2.tedori, p3.tedori);
-  const bestIdx   = patterns.map(p => p.tedori).indexOf(maxTedori);
+  const summaryTotals = patterns.map(p => p.tedori + p.assetTsumitate);
+  const saving    = summaryTotals.map(total => total - summaryTotals[0]);
+  const maxSummaryTotal = Math.max(...summaryTotals);
+  const bestIdx   = summaryTotals.indexOf(maxSummaryTotal);
 
   // サマリーカード
-  const numBadge = n => `<span class="step-num" style="width:18px;height:18px;font-size:11px;margin-right:5px">${n}</span>`;
-  const titles = [numBadge(1)+'個人事業主', numBadge(2)+'法人（完全法人化）', numBadge(3)+'マイクロ法人（二刀流）'];
+  const titles = ['① 個人事業主', '② 法人（完全法人化）', '③ マイクロ法人（二刀流）'];
   document.getElementById('summary-cards').innerHTML = titles.map((t, i) => {
     const isBest = i === bestIdx;
     const savingTxt = i === 0 ? '（基準）'
       : saving[i] > 0 ? `<span class="saving-up">+${manPlain(saving[i])}万円</span>`
       : `<span class="saving-down">${manPlain(saving[i])}万円</span>`;
+    const mainLabel = i === 0 ? '現金手取り' : '現金手取り＋法人に残る利益';
     return `<div class="summary-card${isBest ? ' best' : ''}">
       <div class="card-title">${t}${isBest ? '<span class="badge-best">金額最大</span>' : ''}</div>
-      <div style="font-size:11px;color:var(--text-secondary);margin-bottom:2px">現金＋法人留保</div>
+      <div class="card-label">${mainLabel}</div>
       <div class="card-tedori">${manPlain(patterns[i].tedori)}<span style="font-size:16px;font-weight:400">万円</span></div>
+      <div class="card-detail"><span>iDeCo・共済の積立</span><strong>${manPlain(patterns[i].assetTsumitate)}万円</strong></div>
+      <div class="card-detail total"><span>合計</span><strong>${manPlain(summaryTotals[i])}万円</strong></div>
       <div class="card-saving">${savingTxt}</div>
     </div>`;
   }).join('');
@@ -1123,7 +1134,7 @@ function calcAll() {
   tbody += `<tr class="row-subtotal"><td>税金・保険料 合計</td>${patterns.map(p => `<td>${man(p.totalTax)}</td>`).join('')}</tr>`;
   tbody += `<tr><td>iDeCo・共済・生命保険の支出<div class="formula">②③はiDeCo上限が月23,000円のため①と異なる場合があります</div></td>${patterns.map(p => `<td>${man(p.tsumitate)}</td>`).join('')}</tr>`;
   // 合計額の内訳をその下に表示
-  tbody += `<tr class="row-total"><td>💰 現金＋法人留保</td>${patterns.map(p => `<td>${man(p.tedori)}</td>`).join('')}</tr>`;
+  tbody += `<tr class="row-total"><td>💰 現金手取り＋法人に残る利益</td>${patterns.map(p => `<td>${man(p.tedori)}</td>`).join('')}</tr>`;
   tbody += `<tr class="row-breakdown">
     <td>　└ 個人の現金手取り</td>
     ${patterns.map(p => `<td>${man(p.kojinTedori)}</td>`).join('')}
