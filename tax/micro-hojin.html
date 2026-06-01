@@ -65,6 +65,26 @@
       font-size: 11px; font-weight: 700; padding: 2px 8px;
       border-radius: 999px; margin-left: 6px; vertical-align: middle;
     }
+    .yakuin-quick-controls {
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px; margin: -6px 0 20px;
+    }
+    .yakuin-control-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 14px;
+    }
+    .yakuin-control-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+    .yakuin-control-card label { display: block; font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px; }
+    .yakuin-control-card .input-wrap { margin-bottom: 10px; }
+    .yakuin-step-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .yakuin-step-btn {
+      border: 1px solid var(--border); background: #F8FAFC; color: var(--text);
+      border-radius: 6px; padding: 8px 10px; font-size: 13px; font-weight: 700;
+      cursor: pointer;
+    }
+    .yakuin-step-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+    .yakuin-control-note { grid-column: 1 / -1; font-size: 11px; color: var(--text-secondary); line-height: 1.6; margin: -2px 0 0; }
+    @media (max-width: 720px) { .yakuin-quick-controls { grid-template-columns: 1fr; } }
 
     /* 比較テーブル */
     .cmp-table-wrap { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border); }
@@ -563,6 +583,37 @@
     <!-- 結果エリア -->
     <div class="result-area" id="result-area">
       <div class="summary-cards" id="summary-cards"></div>
+      <div class="yakuin-quick-controls" id="yakuin-quick-controls">
+        <div class="yakuin-control-card">
+          <div class="yakuin-control-title">② 法人（完全法人化）</div>
+          <label for="summaryYakuin2">役員報酬（月額）</label>
+          <div class="input-wrap">
+            <input type="number" id="summaryYakuin2" min="0" step="1000">
+            <span class="unit">円</span>
+          </div>
+          <div class="yakuin-step-grid">
+            <button type="button" class="yakuin-step-btn" data-yakuin-target="2" data-yakuin-delta="-10000">−1万円</button>
+            <button type="button" class="yakuin-step-btn" data-yakuin-target="2" data-yakuin-delta="10000">＋1万円</button>
+            <button type="button" class="yakuin-step-btn" data-yakuin-target="2" data-yakuin-delta="-1000">−1千円</button>
+            <button type="button" class="yakuin-step-btn" data-yakuin-target="2" data-yakuin-delta="1000">＋1千円</button>
+          </div>
+        </div>
+        <div class="yakuin-control-card">
+          <div class="yakuin-control-title">③ マイクロ法人（二刀流）</div>
+          <label for="summaryYakuin3">役員報酬（月額）</label>
+          <div class="input-wrap">
+            <input type="number" id="summaryYakuin3" min="0" step="1000">
+            <span class="unit">円</span>
+          </div>
+          <div class="yakuin-step-grid">
+            <button type="button" class="yakuin-step-btn" data-yakuin-target="3" data-yakuin-delta="-10000">−1万円</button>
+            <button type="button" class="yakuin-step-btn" data-yakuin-target="3" data-yakuin-delta="10000">＋1万円</button>
+            <button type="button" class="yakuin-step-btn" data-yakuin-target="3" data-yakuin-delta="-1000">−1千円</button>
+            <button type="button" class="yakuin-step-btn" data-yakuin-target="3" data-yakuin-delta="1000">＋1千円</button>
+          </div>
+        </div>
+        <p class="yakuin-control-note">役員報酬は試算用の調整欄です。実務上は原則として期中に自由変更できないため、金額決定前の比較にご利用ください。</p>
+      </div>
 
       <div class="cmp-table-wrap">
         <table class="cmp-table">
@@ -962,7 +1013,8 @@ function calcPattern3(inputs) {
 }
 
 // ========== メイン計算 ==========
-function calcAll() {
+function calcAll(options) {
+  const shouldScroll = !options || options.scroll !== false;
   const inputs = {
     uriage:           Number(document.getElementById('uriage').value),
     keihiKojin:       Number(document.getElementById('keihiKojin').value),
@@ -996,6 +1048,7 @@ function calcAll() {
   };
   document.getElementById('hojinUriage2Display').value = inputs.uriage.toLocaleString();
   document.getElementById('hojinKeihi2Display').value = inputs.keihiKojin.toLocaleString();
+  syncYakuinSummaryControls(inputs.yakuinHoshuTsuki2, inputs.yakuinHoshuTsuki3);
 
   const p1 = calcPattern1(inputs);
   const p2 = calcPattern2({ ...inputs, yakuinHoshuTsuki: inputs.yakuinHoshuTsuki2 });
@@ -1189,10 +1242,12 @@ function calcAll() {
 
   // 結果表示 & スクロール（NISAツールと同じ方式）
   document.getElementById('result-area').classList.add('show');
-  const target = document.getElementById('calc-button');
-  const header = document.querySelector('header');
-  const headerHeight = header ? header.getBoundingClientRect().height : 0;
-  window.scrollTo({ top: target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 24, behavior: 'smooth' });
+  if (shouldScroll) {
+    const target = document.getElementById('calc-button');
+    const header = document.querySelector('header');
+    const headerHeight = header ? header.getBoundingClientRect().height : 0;
+    window.scrollTo({ top: target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 24, behavior: 'smooth' });
+  }
 }
 </script>
 
@@ -1214,6 +1269,47 @@ function updateHojinTransferDisplay(){
   document.getElementById(id).addEventListener('input', updateHojinTransferDisplay);
 });
 updateHojinTransferDisplay();
+
+function isResultShown(){
+  return document.getElementById('result-area').classList.contains('show');
+}
+function syncYakuinSummaryControls(value2, value3){
+  const summary2 = document.getElementById('summaryYakuin2');
+  const summary3 = document.getElementById('summaryYakuin3');
+  if (document.activeElement !== summary2) summary2.value = Math.max(0, Number(value2 || 0));
+  if (document.activeElement !== summary3) summary3.value = Math.max(0, Number(value3 || 0));
+}
+function setYakuinHoshu(pattern, value, shouldRecalc){
+  const mainInput = document.getElementById(pattern === 2 ? 'yakuinHoshu2' : 'yakuinHoshu3');
+  const summaryInput = document.getElementById(pattern === 2 ? 'summaryYakuin2' : 'summaryYakuin3');
+  const safeValue = Math.max(0, Math.round(Number(value || 0)));
+  mainInput.value = safeValue;
+  summaryInput.value = safeValue;
+  if (shouldRecalc && isResultShown()) calcAll({ scroll: false });
+}
+function changeYakuinHoshu(pattern, delta){
+  const mainInput = document.getElementById(pattern === 2 ? 'yakuinHoshu2' : 'yakuinHoshu3');
+  setYakuinHoshu(pattern, Number(mainInput.value || 0) + delta, true);
+}
+['2', '3'].forEach(function(pattern){
+  const mainInput = document.getElementById(pattern === '2' ? 'yakuinHoshu2' : 'yakuinHoshu3');
+  const summaryInput = document.getElementById(pattern === '2' ? 'summaryYakuin2' : 'summaryYakuin3');
+  mainInput.addEventListener('input', function(){
+    setYakuinHoshu(Number(pattern), mainInput.value, true);
+  });
+  summaryInput.addEventListener('input', function(){
+    setYakuinHoshu(Number(pattern), summaryInput.value, true);
+  });
+});
+document.querySelectorAll('.yakuin-step-btn').forEach(function(button){
+  button.addEventListener('click', function(){
+    changeYakuinHoshu(Number(button.dataset.yakuinTarget), Number(button.dataset.yakuinDelta));
+  });
+});
+syncYakuinSummaryControls(
+  Number(document.getElementById('yakuinHoshu2').value),
+  Number(document.getElementById('yakuinHoshu3').value)
+);
 
 document.querySelectorAll('.nav-item').forEach(function(n){
   var link=n.querySelector('.nav-link');
