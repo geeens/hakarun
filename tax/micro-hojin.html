@@ -57,8 +57,8 @@
     .summary-card.best .card-tedori { color: var(--success); }
     .summary-card .card-detail { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; color: var(--text-secondary); margin: 6px auto 0; max-width: 230px; }
     .summary-card .card-detail strong { color: var(--text); }
-    .summary-card .card-detail:first-of-type { border-top: 1px solid var(--border); padding-top: 8px; margin-top: 10px; }
-    .summary-card .card-saving { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+    .summary-card .card-detail:first-of-type { border-top: 1px solid var(--border); padding-top: 8px; margin-top: 8px; }
+    .summary-card .card-saving { font-size: 15px; font-weight: 700; color: var(--text-secondary); margin: 5px 0 8px; }
     .badge-best {
       display: inline-block; background: var(--success); color: #fff;
       font-size: 11px; font-weight: 700; padding: 2px 8px;
@@ -1041,10 +1041,10 @@ function calcAll(options) {
       <div class="card-title">${t}${isBest ? '<span class="badge-best">金額最大</span>' : ''}</div>
       <div class="card-label">税引後合計</div>
       <div class="card-tedori">${manPlain(summaryTotals[i])}<span style="font-size:16px;font-weight:400">万円</span></div>
+      <div class="card-saving">${savingTxt}</div>
       <div class="card-detail"><span>現金手取り</span><strong>${manPlain(patterns[i].kojinTedori)}万円</strong></div>
       <div class="card-detail"><span>法人に残る利益</span><strong>${hojinRyuhoText}</strong></div>
       <div class="card-detail"><span>iDeCo・共済の積立</span><strong>${manPlain(patterns[i].assetTsumitate)}万円</strong></div>
-      <div class="card-saving">${savingTxt}</div>
       ${yakuinControl}
     </div>`;
   }).join('');
