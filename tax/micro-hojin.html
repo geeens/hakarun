@@ -1145,12 +1145,11 @@ function calcAll(options) {
   </tr>`;
 
   // ── 法人税 ──
-  const p2KeihibNote = `個人事業の経費 ${m(inputs.keihiKojin)}万＋法人維持費 ${m(inputs.hojinIjihi)}万 → 法人利益 ${m(p2._hojinRieki)}万`;
   tbody += `<tr>
     <td>【法人】法人税等</td>
     <td class="na-cell">−</td>
-    ${cell(p2.hojinzei, `${p2KeihibNote} × 21%(≦800万)/34%(超) ＋ 均等割7万`, true)}
-    ${cell(p3.hojinzei, `法人売上 ${m(p3._hojinUriage)}万 − 法人経費 ${m(p3._hojinKeihi)}万 − 法人維持費 ${m(inputs.microHojinIjihi)}万 → 法人利益 ${m(p3._hojinRieki)}万 × 21%(≦800万)/34%(超) ＋ 均等割7万`, true)}
+    ${cell(p2.hojinzei, `法人利益 ${m(p2._hojinRieki)}万 × 21%(≦800万)/34%(超) ＋ 均等割7万`, true)}
+    ${cell(p3.hojinzei, `法人利益 ${m(p3._hojinRieki)}万 × 21%(≦800万)/34%(超) ＋ 均等割7万`, true)}
   </tr>`;
 
   tbody += `<tr>
@@ -1170,7 +1169,9 @@ function calcAll(options) {
   </tr>`;
   tbody += `<tr class="row-hojin">
     <td>　法人に残る利益（税引後）</td>
-    ${patterns.map((p, i) => i === 0 ? '<td class="na-cell">−</td>' : `<td>${man(p.hojinRyuho)}</td>`).join('')}
+    <td class="na-cell">−</td>
+    ${cell(p2.hojinRyuho, `法人売上 ${m(p2._hojinUriage)}万 − 法人経費 ${m(inputs.keihiKojin)}万 − 法人維持費 ${m(inputs.hojinIjihi)}万 − 役員報酬 ${m(inputs.yakuinHoshuTsuki2 * 12)}万 − 会社負担社保 ${m(p2.shakaihokenJigyo)}万 − 消費税 ${m(p2.shohizei)}万 − 法人税等 ${m(p2.hojinzei)}万`)}
+    ${cell(p3.hojinRyuho, `法人売上 ${m(p3._hojinUriage)}万 − 法人経費 ${m(p3._hojinKeihi)}万 − 法人維持費 ${m(inputs.microHojinIjihi)}万 − 役員報酬 ${m(inputs.yakuinHoshuTsuki3 * 12)}万 − 会社負担社保 ${m(p3.shakaihokenJigyo)}万 − 消費税 ${m(Math.round(p3._hojinUriage * inputs.shohizeiRateMicro))}万 − 法人税等 ${m(p3.hojinzei)}万`)}
   </tr>`;
 
   const savingCells = saving.map((s, i) => {
