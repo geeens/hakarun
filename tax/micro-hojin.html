@@ -1180,7 +1180,7 @@ function calcAll(options) {
     if (s < 0)   return `<td class="saving-down">${manPlain(s)}万円</td>`;
     return `<td>変わらず</td>`;
   }).join('');
-  tbody += `<tr class="row-saving"><td><span class="step-num" style="width:18px;height:18px;font-size:11px;margin-right:5px">1</span>比 手残り差額</td>${savingCells}</tr>`;
+  tbody += `<tr class="row-saving"><td>①比 税引後合計差額</td>${savingCells}</tr>`;
 
   document.getElementById('result-tbody').innerHTML = tbody;
 
