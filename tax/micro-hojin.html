@@ -531,7 +531,7 @@
           </select>
           <p class="hint">市区町村の試算額が分かる場合は、直接入力の方が実態に近くなります</p>
         </div>
-        <div class="form-group">
+        <div class="form-group" id="kokuhoManualGroup" hidden>
           <label for="kokuhoManual">国民健康保険料（年間）</label>
           <div class="input-wrap">
             <input type="number" id="kokuhoManual" value="0" min="0">
@@ -1250,6 +1250,13 @@ function updateHojinTransferDisplay(){
   document.getElementById(id).addEventListener('input', updateHojinTransferDisplay);
 });
 updateHojinTransferDisplay();
+
+function updateKokuhoManualVisibility(){
+  const mode = document.getElementById('kokuhoMode').value;
+  document.getElementById('kokuhoManualGroup').hidden = mode !== 'manual';
+}
+document.getElementById('kokuhoMode').addEventListener('change', updateKokuhoManualVisibility);
+updateKokuhoManualVisibility();
 
 function isResultShown(){
   return document.getElementById('result-area').classList.contains('show');
