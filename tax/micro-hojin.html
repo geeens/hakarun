@@ -423,64 +423,6 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="kokuhoNinzu">国民健康保険の加入人数</label>
-          <div class="input-wrap">
-            <select id="kokuhoNinzu">
-              <option value="1" selected>1人</option>
-              <option value="2">2人</option>
-              <option value="3">3人</option>
-              <option value="4">4人</option>
-              <option value="5">5人</option>
-              <option value="6">6人</option>
-            </select>
-          </div>
-          <p class="hint">①個人事業主の国保計算に使用。16歳未満の子どもも含めます</p>
-        </div>
-        <div class="form-group">
-          <label for="kokuhoKaigoNinzu">うち40〜64歳の人数</label>
-          <div class="input-wrap">
-            <select id="kokuhoKaigoNinzu">
-              <option value="0">0人</option>
-              <option value="1" selected>1人</option>
-              <option value="2">2人</option>
-              <option value="3">3人</option>
-              <option value="4">4人</option>
-            </select>
-          </div>
-          <p class="hint">介護保険料の人数分を概算します</p>
-        </div>
-        <div class="form-group">
-          <label for="kokuhoKodomoNinzu">子育て分の対象人数</label>
-          <div class="input-wrap">
-            <select id="kokuhoKodomoNinzu">
-              <option value="0">0人</option>
-              <option value="1" selected>1人</option>
-              <option value="2">2人</option>
-              <option value="3">3人</option>
-              <option value="4">4人</option>
-              <option value="5">5人</option>
-              <option value="6">6人</option>
-            </select>
-          </div>
-          <p class="hint">国保の子育て支援分を概算。18歳未満は0円として扱います</p>
-        </div>
-        <div class="form-group">
-          <label for="kokuhoMode">国民健康保険の計算方法</label>
-          <select id="kokuhoMode">
-            <option value="standard" selected>標準モデルで計算</option>
-            <option value="manual">年間保険料を直接入力</option>
-          </select>
-          <p class="hint">自治体の試算額が分かる場合は直接入力できます</p>
-        </div>
-        <div class="form-group">
-          <label for="kokuhoManual">国民健康保険料（年間）</label>
-          <div class="input-wrap">
-            <input type="number" id="kokuhoManual" value="0" min="0">
-            <span class="unit">円</span>
-          </div>
-          <p class="hint">「年間保険料を直接入力」を選んだ場合のみ使用します</p>
-        </div>
-        <div class="form-group">
           <label for="fuyouIppan">一般扶養人数（16歳以上）</label>
           <div class="input-wrap">
             <select id="fuyouIppan">
@@ -535,9 +477,74 @@
       </div>
     </div>
 
-    <!-- B 保険・節税制度 -->
+    <!-- B 国民健康保険 -->
     <div class="calc-card">
-      <p class="section-lead"><span class="step-num">B</span>保険・節税制度</p>
+      <p class="section-lead"><span class="step-num">B</span>国民健康保険</p>
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label for="kokuhoNinzu">国民健康保険の加入人数</label>
+          <div class="input-wrap">
+            <select id="kokuhoNinzu">
+              <option value="1" selected>1人</option>
+              <option value="2">2人</option>
+              <option value="3">3人</option>
+              <option value="4">4人</option>
+              <option value="5">5人</option>
+              <option value="6">6人</option>
+            </select>
+          </div>
+          <p class="hint">①個人事業主の国保計算に使用。世帯で国保に入る家族を入力します</p>
+        </div>
+        <div class="form-group">
+          <label for="kokuhoKaigoNinzu">うち40〜64歳の人数</label>
+          <div class="input-wrap">
+            <select id="kokuhoKaigoNinzu">
+              <option value="0">0人</option>
+              <option value="1" selected>1人</option>
+              <option value="2">2人</option>
+              <option value="3">3人</option>
+              <option value="4">4人</option>
+            </select>
+          </div>
+          <p class="hint">介護分の保険料を概算。国保加入者のうち40〜64歳の人数を入れます</p>
+        </div>
+        <div class="form-group">
+          <label for="kokuhoKodomoNinzu">子育て支援分の対象人数（18歳以上）</label>
+          <div class="input-wrap">
+            <select id="kokuhoKodomoNinzu">
+              <option value="0">0人</option>
+              <option value="1" selected>1人</option>
+              <option value="2">2人</option>
+              <option value="3">3人</option>
+              <option value="4">4人</option>
+              <option value="5">5人</option>
+              <option value="6">6人</option>
+            </select>
+          </div>
+          <p class="hint">国保加入者のうち18歳以上の人数を入力。18歳未満は対象外として概算します</p>
+        </div>
+        <div class="form-group">
+          <label for="kokuhoMode">国民健康保険の計算方法</label>
+          <select id="kokuhoMode">
+            <option value="standard" selected>標準モデルで計算</option>
+            <option value="manual">年間保険料を直接入力</option>
+          </select>
+          <p class="hint">市区町村の試算額が分かる場合は、直接入力の方が実態に近くなります</p>
+        </div>
+        <div class="form-group">
+          <label for="kokuhoManual">国民健康保険料（年間）</label>
+          <div class="input-wrap">
+            <input type="number" id="kokuhoManual" value="0" min="0">
+            <span class="unit">円</span>
+          </div>
+          <p class="hint">「年間保険料を直接入力」を選んだ場合のみ、①個人事業主の計算に使用します</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- C 年金・節税制度 -->
+    <div class="calc-card">
+      <p class="section-lead"><span class="step-num">C</span>年金・節税制度</p>
       <div class="form-grid-2">
         <div class="form-group">
           <label for="nenkin">国民年金の支払い状況</label>
