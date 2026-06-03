@@ -80,30 +80,6 @@
       cursor: pointer;
     }
     .yakuin-step-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
-    .yakuin-search-btn {
-      width: 100%; border: 1px solid var(--primary); background: var(--primary-light);
-      color: var(--primary); border-radius: 6px; padding: 9px 10px;
-      font-size: 12px; font-weight: 700; margin-top: 10px; cursor: pointer;
-    }
-    .yakuin-search-btn:hover { background: var(--primary); color: #fff; }
-    .yakuin-suggestion {
-      margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px;
-      font-size: 11px; color: var(--text-secondary); line-height: 1.6;
-    }
-    .yakuin-suggestion-title { font-weight: 800; color: var(--text); margin-bottom: 6px; }
-    .yakuin-suggestion-row {
-      display: grid; grid-template-columns: 24px 1fr auto; gap: 6px;
-      align-items: center; padding: 5px 0; border-bottom: 1px solid #E2E8F0;
-    }
-    .yakuin-suggestion-row:last-of-type { border-bottom: 0; }
-    .yakuin-suggestion-row strong { color: var(--text); font-size: 12px; }
-    .yakuin-apply-btn {
-      border: 1px solid var(--border); background: #fff; color: var(--text);
-      border-radius: 6px; padding: 4px 7px; font-size: 11px; font-weight: 700;
-      cursor: pointer; white-space: nowrap;
-    }
-    .yakuin-apply-btn:hover { border-color: var(--primary); color: var(--primary); }
-    .yakuin-suggestion-note { margin-top: 8px; }
     .summary-yakuin-note { font-size: 11px; color: var(--text-secondary); line-height: 1.6; margin: -6px 0 20px; }
     .input-warning {
       background: var(--warning-light); border: 1px solid #FBBF24;
@@ -1000,10 +976,12 @@ function calcPattern3(inputs) {
 }
 
 // ========== メイン計算 ==========
-function collectInputs(useSummaryYakuin) {
+function calcAll(options) {
+  const shouldScroll = !options || options.scroll !== false;
+  const useSummaryYakuin = options && options.useSummaryYakuin === true;
   const summaryYakuin2 = document.getElementById('summaryYakuin2');
   const summaryYakuin3 = document.getElementById('summaryYakuin3');
-  return {
+  const inputs = {
     uriage:           Number(document.getElementById('uriage').value),
     keihiKojin:       Number(document.getElementById('keihiKojin').value),
     aoiro:            Number(document.getElementById('aoiro').value),
@@ -1032,13 +1010,6 @@ function collectInputs(useSummaryYakuin) {
     shohizeiRateHojin: Number(document.getElementById('shohizeiRateHojin').value),
     shohizeiRateMicro: Number(document.getElementById('shohizeiRateMicro').value),
   };
-}
-
-// ========== メイン計算 ==========
-function calcAll(options) {
-  const shouldScroll = !options || options.scroll !== false;
-  const useSummaryYakuin = options && options.useSummaryYakuin === true;
-  const inputs = collectInputs(useSummaryYakuin);
   document.getElementById('hojinUriage2Display').value = inputs.uriage.toLocaleString();
   document.getElementById('hojinKeihi2Display').value = inputs.keihiKojin.toLocaleString();
 
@@ -1314,8 +1285,6 @@ function yakuinControlHtml(pattern, value){
         <button type="button" class="yakuin-step-btn" data-yakuin-target="${pattern}" data-yakuin-delta="-1000">−1千円</button>
         <button type="button" class="yakuin-step-btn" data-yakuin-target="${pattern}" data-yakuin-delta="1000">＋1千円</button>
       </div>
-      <button type="button" class="yakuin-search-btn" data-yakuin-search="${pattern}">役員報酬の目安を探す</button>
-      <div class="yakuin-suggestion" id="yakuinSuggestion${pattern}" hidden></div>
     </div>
   </div>`;
 }
@@ -1332,52 +1301,6 @@ function commitSummaryYakuinInput(input){
 function changeYakuinHoshu(pattern, delta){
   const summaryInput = document.getElementById(`summaryYakuin${pattern}`);
   setSummaryYakuinHoshu(pattern, Number(summaryInput.value || 0) + delta, true);
-}
-function findYakuinSuggestions(pattern){
-  const inputs = collectInputs(true);
-  const maxSalary = pattern === 2 ? 1000000 : 300000;
-  const candidates = [];
-  for (let salary = 0; salary <= maxSalary; salary += 5000) {
-    const p = pattern === 2
-      ? calcPattern2({ ...inputs, yakuinHoshuTsuki: salary })
-      : calcPattern3({ ...inputs, yakuinHoshuTsuki: salary });
-    candidates.push({
-      salary,
-      total: p.tedori + p.assetTsumitate,
-      cash: p.kojinTedori,
-      hojin: p.hojinRyuho
-    });
-  }
-  return candidates
-    .sort(function(a, b){
-      if (b.total !== a.total) return b.total - a.total;
-      return a.salary - b.salary;
-    })
-    .slice(0, 3);
-}
-function renderYakuinSuggestions(pattern){
-  const target = document.getElementById(`yakuinSuggestion${pattern}`);
-  const suggestions = findYakuinSuggestions(pattern);
-  target.innerHTML = `
-    <div class="yakuin-suggestion-title">税引後合計が大きい候補</div>
-    ${suggestions.map(function(item, index){
-      return `<div class="yakuin-suggestion-row">
-        <span>${index + 1}位</span>
-        <div><strong>${item.salary.toLocaleString()}円/月</strong><br>税引後合計 ${manPlain(item.total)}万円</div>
-        <button type="button" class="yakuin-apply-btn" data-yakuin-apply="${pattern}" data-yakuin-value="${item.salary}">この金額で試算</button>
-      </div>`;
-    }).join('')}
-    <div class="yakuin-suggestion-note">役員報酬は原則として期中に自由変更できません。税金・社会保険料だけでなく、生活費、将来年金、法人の資金繰りも考慮してください。</div>
-  `;
-  target.hidden = false;
-  bindYakuinSuggestionApplyButtons(target);
-}
-function bindYakuinSuggestionApplyButtons(scope){
-  scope.querySelectorAll('.yakuin-apply-btn').forEach(function(button){
-    button.addEventListener('click', function(){
-      setSummaryYakuinHoshu(Number(button.dataset.yakuinApply), Number(button.dataset.yakuinValue), true);
-    });
-  });
 }
 function bindYakuinSummaryControls(){
   document.querySelectorAll('[id^="summaryYakuin"]').forEach(function(input){
@@ -1397,11 +1320,6 @@ function bindYakuinSummaryControls(){
   document.querySelectorAll('.yakuin-step-btn').forEach(function(button){
     button.addEventListener('click', function(){
       changeYakuinHoshu(Number(button.dataset.yakuinTarget), Number(button.dataset.yakuinDelta));
-    });
-  });
-  document.querySelectorAll('.yakuin-search-btn').forEach(function(button){
-    button.addEventListener('click', function(){
-      renderYakuinSuggestions(Number(button.dataset.yakuinSearch));
     });
   });
 }
