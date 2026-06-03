@@ -134,15 +134,14 @@
     .cmp-table .row-hojin td { background: #EFF6FF; font-size: 13px; }
     .cmp-table .row-hojin td:first-child { color: var(--text-secondary); padding-left: 20px; }
     .salary-charts {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px;
+      display: grid; grid-template-columns: 1fr; gap: 18px; margin-top: 20px;
     }
-    @media (max-width: 760px) { .salary-charts { grid-template-columns: 1fr; } }
     .salary-chart-card {
       border: 1px solid var(--border); border-radius: var(--radius);
-      background: var(--surface); padding: 14px;
+      background: var(--surface); padding: 18px;
     }
-    .salary-chart-title { font-size: 14px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
-    .salary-chart-subtitle { font-size: 11px; color: var(--text-secondary); margin-bottom: 10px; }
+    .salary-chart-title { font-size: 16px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+    .salary-chart-subtitle { font-size: 12px; color: var(--text-secondary); margin-bottom: 12px; }
     .salary-chart-svg { width: 100%; height: auto; display: block; overflow: visible; }
     .salary-chart-axis { stroke: #CBD5E1; stroke-width: 1; }
     .salary-chart-grid { stroke: #E2E8F0; stroke-width: 1; }
@@ -1300,8 +1299,8 @@ function salaryChartInfoHtml(item) {
 }
 
 function renderSalaryChartCard(config) {
-  const width = 640, height = 300;
-  const pad = { top: 24, right: 24, bottom: 48, left: 58 };
+  const width = 900, height = 380;
+  const pad = { top: 28, right: 32, bottom: 58, left: 66 };
   const plotW = width - pad.left - pad.right;
   const plotH = height - pad.top - pad.bottom;
   const allTotals = config.data.map(d => d.total).concat(config.current.total);
