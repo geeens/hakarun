@@ -1259,9 +1259,9 @@ function calcAll(options) {
   }
 }
 
-function buildSalaryChartData(inputs, pattern, maxSalary, currentSalary) {
+function buildSalaryChartData(inputs, pattern, maxSalary, currentSalary, step) {
   const data = [];
-  for (let salary = 0; salary <= maxSalary; salary += 10000) {
+  for (let salary = 0; salary <= maxSalary; salary += step) {
     const p = pattern === 2
       ? calcPattern2({ ...inputs, yakuinHoshuTsuki: salary })
       : calcPattern3({ ...inputs, yakuinHoshuTsuki: salary });
@@ -1352,8 +1352,8 @@ function renderSalaryChartCard(config) {
 }
 
 function renderSalaryCharts(inputs) {
-  const chart2 = buildSalaryChartData(inputs, 2, 1000000, inputs.yakuinHoshuTsuki2);
-  const chart3 = buildSalaryChartData(inputs, 3, 300000, inputs.yakuinHoshuTsuki3);
+  const chart2 = buildSalaryChartData(inputs, 2, 1000000, inputs.yakuinHoshuTsuki2, 10000);
+  const chart3 = buildSalaryChartData(inputs, 3, 300000, inputs.yakuinHoshuTsuki3, 5000);
   const configs = [
     { pattern: 2, title: '② 法人（完全法人化）：役員報酬と税引後合計', maxSalary: 1000000, ...chart2 },
     { pattern: 3, title: '③ マイクロ法人（二刀流）：役員報酬と税引後合計', maxSalary: 300000, ...chart3 }
