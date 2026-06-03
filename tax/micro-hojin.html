@@ -81,6 +81,13 @@
     }
     .yakuin-step-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
     .summary-yakuin-note { font-size: 11px; color: var(--text-secondary); line-height: 1.6; margin: -6px 0 20px; }
+    .input-warning {
+      background: var(--warning-light); border: 1px solid #FBBF24;
+      border-radius: 6px; color: #92400E; font-size: 12px;
+      line-height: 1.6; padding: 10px 12px; margin: -4px 0 14px;
+      font-weight: 600;
+    }
+    .input-warning[hidden] { display: none; }
 
     /* 比較テーブル */
     .cmp-table-wrap { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border); }
@@ -347,6 +354,7 @@
     <div class="calc-card">
       <p class="section-lead"><span class="step-num">3</span>マイクロ法人（二刀流）の設定</p>
       <p class="form-lead">③マイクロ法人（二刀流）は、①の個人事業のうちマイクロ法人側へ移す収入・経費を入力してください。個人事業と別実態の事業がある前提で設定します。</p>
+      <div class="input-warning" id="microTransferWarning" hidden></div>
       <div class="form-grid-2">
         <div class="form-group">
           <label for="hojinUriage">マイクロ法人に移す売上</label>
@@ -1225,9 +1233,30 @@ function updateHojinTransferDisplay(){
   const keihi = Number(document.getElementById('keihiKojin').value || 0);
   document.getElementById('hojinUriage2Display').value = uriage.toLocaleString();
   document.getElementById('hojinKeihi2Display').value = keihi.toLocaleString();
+  updateMicroTransferWarning();
+}
+
+function updateMicroTransferWarning(){
+  const uriage = Number(document.getElementById('uriage').value || 0);
+  const keihi = Number(document.getElementById('keihiKojin').value || 0);
+  const microUriage = Number(document.getElementById('hojinUriage').value || 0);
+  const microKeihi = Number(document.getElementById('hojinKeihi').value || 0);
+  const messages = [];
+  if (microUriage > uriage) {
+    messages.push(`マイクロ法人に移す売上が①の年間売上を超えています。計算では上限の${uriage.toLocaleString()}円として扱います。`);
+  }
+  if (microKeihi > keihi) {
+    messages.push(`マイクロ法人に移す経費が①の年間経費を超えています。計算では上限の${keihi.toLocaleString()}円として扱います。`);
+  }
+  const warning = document.getElementById('microTransferWarning');
+  warning.innerHTML = messages.join('<br>');
+  warning.hidden = messages.length === 0;
 }
 ['uriage', 'keihiKojin'].forEach(function(id){
   document.getElementById(id).addEventListener('input', updateHojinTransferDisplay);
+});
+['hojinUriage', 'hojinKeihi'].forEach(function(id){
+  document.getElementById(id).addEventListener('input', updateMicroTransferWarning);
 });
 updateHojinTransferDisplay();
 
