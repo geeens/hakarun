@@ -158,7 +158,7 @@
         <label>現在の貯蓄・資産</label>
         <div class="input-wrap"><input type="number" id="savings" placeholder="5000000" min="0"><span class="unit">円</span></div>
       </div>
-      <button class="btn btn-primary" onclick="calc()">計算する</button>
+      <button class="btn btn-primary" id="calc-button" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main"><div class="label">必要保障額（目安）</div><div class="value" id="res-main">—</div></div>
         <div class="result-table"><table><tbody>
@@ -256,6 +256,15 @@ function calc(){
   document.getElementById('r-hitsuyou').textContent=fmt(diff);
   document.getElementById('res-main').textContent=fmt(diff);
   document.getElementById('result').classList.add('show');
+  scrollToSeimeiResult();
+}
+function scrollToSeimeiResult() {
+  const target = document.getElementById('calc-button');
+  if (!target) return;
+  const header = document.querySelector('header');
+  const headerHeight = header ? header.getBoundingClientRect().height : 0;
+  const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 24;
+  window.scrollTo({ top: y, behavior: 'smooth' });
 }
 </script>
 </body>
