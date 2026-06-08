@@ -46,6 +46,22 @@
         "@type": "Answer",
         "text": "前月の給与額から算出した「賞与に対する源泉徴収税率表」を使って計算します。前月給与が高いほど税率も高くなります。"
       }
+    },
+    {
+      "@type": "Question",
+      "name": "前月の残業代が多いとボーナス手取りは減りますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "前月給与をもとに賞与の所得税率を決めるため、前月の残業代や手当が多いと、ボーナスから引かれる所得税が増えることがあります。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "ボーナスから住民税は引かれますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "住民税は通常、毎月の給与から天引きされるため、ボーナスからは原則として引かれません。"
+      }
     }
   ]
 }
@@ -169,6 +185,8 @@
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
+      <p class="form-lead">賞与明細や支給予定額をもとに、社会保険料・所得税を引いたボーナスの手取りを確認できます。前月の残業代が多かった場合や、40歳以降の介護保険料の影響を見たいときにも便利です。</p>
+
       <div class="form-group">
         <label>ボーナス支給額（額面）</label>
         <div class="input-wrap">
@@ -182,7 +200,7 @@
           <input type="number" id="prevSalary" placeholder="300000" min="0">
           <span class="unit">円</span>
         </div>
-        <p class="hint">ボーナスの所得税計算に使います（前月の月給を入力）</p>
+        <p class="hint">ボーナスの所得税計算に使います。給与明細の前月分の総支給額を目安に入力してください。</p>
       </div>
       <div class="form-group">
         <label>年齢</label>
@@ -225,9 +243,10 @@
             </tbody>
           </table>
         </div>
+        <div class="result-insight" id="result-insight" style="display:none"></div>
         <div class="info-box">
           <strong>⚠️ この計算はあくまで概算です。</strong><br>
-          ボーナスの所得税は「賞与に対する源泉徴収税額の算出率の表」に基づき計算しています。令和8年度からの子ども・子育て支援金も概算に含めています。実際の金額は給与明細でご確認ください。
+          ボーナスの所得税は「賞与に対する源泉徴収税額の算出率の表」をもとにした概算です。令和8年度からの子ども・子育て支援金も概算に含めています。実際の金額は給与明細でご確認ください。
         </div>
       </div>
     </div>
@@ -235,6 +254,9 @@
     <div class="article">
       <h2>ボーナスの手取りはなぜ少ない？</h2>
       <p>ボーナスからも毎月の給与と同じように、社会保険料と所得税が引かれます。そのため、額面の75〜85%程度が手取りになることが多いです。</p>
+      <h3>入力前に確認しておきたい数字</h3>
+      <p>ボーナス支給額は、賞与明細や支給予定通知に書かれている「支給額」「総支給額」を目安に入力してください。手取り額ではなく、税金や社会保険料が引かれる前の金額です。</p>
+      <p>前月の月収は、ボーナスの所得税率を決めるために使います。前月の給与明細にある総支給額を入力すると、残業代や手当が多かった月の影響も確認しやすくなります。</p>
       <h3>ボーナスに特有の計算方法</h3>
       <p>ボーナスの所得税は、前月の給与を使った特別な計算方法（源泉徴収税率表）で計算されます。前月の給与が高いほど、ボーナスの税率も高くなります。ただし、所得税は年末調整で最終的に精算されるため、引かれすぎていた場合は戻ることがあります。</p>
       <h3>住民税はボーナスから引かれない</h3>
@@ -319,6 +341,14 @@
         <div class="faq-a">前月の給与額から算出した「賞与に対する源泉徴収税率表」を使って計算します。前月給与が高いほど税率も高くなります。</div>
       </div>
       <div class="faq-item">
+        <div class="faq-q">Q. 前月の残業代が多いとボーナス手取りは減りますか？</div>
+        <div class="faq-a">はい、減ることがあります。賞与の所得税率は前月給与をもとに決まるため、前月の残業代や手当が多いと、ボーナスから引かれる所得税が増える場合があります。ただし年末調整で最終的に精算されます。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q. ボーナスから住民税は引かれますか？</div>
+        <div class="faq-a">通常、ボーナスから住民税は引かれません。住民税は前年の所得をもとに決まり、毎月の給与から分割して天引きされる仕組みです。</div>
+      </div>
+      <div class="faq-item">
         <div class="faq-q">Q. ボーナスで社会保険料が上がることはありますか？</div>
         <div class="faq-a">ボーナスにかかる社会保険料はボーナス額に直接保険料率をかけて計算します。月給の社会保険料に使う「標準報酬月額」には影響しないため、翌月以降の月給の控除額は変わりません。</div>
       </div>
@@ -363,6 +393,34 @@
 <script>
 function fmt(n) { return Math.round(n).toLocaleString('ja-JP') + ' 円'; }
 
+function buildBonusInsight(result) {
+  const points = [];
+  const rate = parseFloat(result.rate);
+  const socialShare = result.socialTotal / result.bonus;
+  const incomeShare = result.incomeTax / result.bonus;
+
+  if (rate >= 85) {
+    points.push('手取り率は高めです。所得税率が低く、社会保険料を差し引いた後も比較的多く残る水準です。');
+  } else if (rate >= 78) {
+    points.push('手取り率は一般的な目安に近い水準です。ボーナスは住民税が原則引かれない一方、社会保険料と所得税が差し引かれます。');
+  } else {
+    points.push('手取り率はやや低めです。前月給与が高い、またはボーナス額が大きいことで所得税の影響が強く出ている可能性があります。');
+  }
+
+  if (socialShare >= 0.14) {
+    points.push('控除の中では社会保険料の影響が大きめです。ボーナスは月給と違い、実際の賞与額に保険料率をかけて計算されます。');
+  }
+  if (incomeShare >= 0.08) {
+    points.push('所得税の割合が高めです。前月の残業代や手当が多い月のあとに賞与が出ると、源泉徴収される所得税が多く見えることがあります。');
+  }
+  if (result.isOver40) {
+    points.push('40歳以上として計算しているため、介護保険料も含めています。同じ賞与額でも40歳未満より手取りが少し下がります。');
+  }
+  points.push('住民税は通常ボーナスからは引かれません。ボーナスの使い道を考えるときは、毎月の住民税や固定費とは分けて見ておくと管理しやすくなります。');
+
+  return `<strong>今回の結果の見方</strong><ul>${points.map(point => `<li>${point}</li>`).join('')}</ul>`;
+}
+
 function calcBonus() {
   const bonus = parseFloat(document.getElementById('bonus').value);
   const prevSalary = parseFloat(document.getElementById('prevSalary').value);
@@ -403,6 +461,7 @@ function calcBonus() {
   const incomeTax = (bonus - socialTotal) * taxRate;
   const tedori = bonus - socialTotal - incomeTax;
   const rate = (tedori / bonus * 100).toFixed(1);
+  const result = { bonus, tedori, rate, socialTotal, incomeTax, isOver40 };
 
   document.getElementById('res-tedori').textContent = fmt(tedori);
   document.getElementById('res-rate').textContent = `手取り率 ${rate}%`;
@@ -414,6 +473,8 @@ function calcBonus() {
   document.getElementById('res-childcare').textContent = '- ' + fmt(childcareAmt);
   document.getElementById('res-income').textContent = '- ' + fmt(incomeTax);
   document.getElementById('res-total').textContent = fmt(tedori);
+  document.getElementById('result-insight').innerHTML = buildBonusInsight(result);
+  document.getElementById('result-insight').style.display = '';
   document.getElementById('result').classList.add('show');
 }
 </script>
