@@ -386,6 +386,7 @@
         <li><strong>所得税</strong>：その年の所得に応じて国に納める税金です。</li>
         <li><strong>住民税</strong>：前年の所得をもとに、住んでいる自治体へ納める税金です。</li>
       </ul>
+      <p>所得税は令和8年分の基礎控除・給与所得控除、住民税は令和8年度の給与所得控除の見直しを反映して概算しています。実際の金額は勤務先の年末調整、自治体、加入している健康保険によって変わります。</p>
 
       <h3>具体例：月収30万円・40万円・50万円の手取り目安</h3>
       <p>たとえば40歳未満・扶養家族なし・住民税ありで考えると、月収30万円の手取りはおおむね23万〜24万円前後、月収40万円の手取りは30万〜32万円前後、月収50万円の手取りは37万〜39万円前後がひとつの目安です。</p>
@@ -438,7 +439,7 @@
 
       <h3>結果を見るときの注意点</h3>
       <p>このページの結果は、全国どこでも使いやすいようにした概算です。実際の健康保険料は加入している健康保険組合や都道府県、会社の制度によって変わります。住民税も自治体や控除の状況によって差が出ます。</p>
-      <p>結果が給与明細と少し違う場合は、明細の「健康保険」「厚生年金」「雇用保険」「所得税」「住民税」を見比べてください。差が大きいときは、交通費、残業代、扶養の扱い、賞与の有無、社会保険の等級が影響していることがあります。</p>
+      <p>所得税は令和8年分以後の制度をもとに、給与所得控除の最低保障額65万円、合計所得金額に応じた基礎控除を使って計算しています。結果が給与明細と少し違う場合は、明細の「健康保険」「厚生年金」「雇用保険」「所得税」「住民税」を見比べてください。差が大きいときは、交通費、残業代、扶養の扱い、賞与の有無、社会保険の等級が影響していることがあります。</p>
 
       <h3>手取りを増やすには</h3>
       <p>手取りを増やす方法は、収入を上げることだけではありません。iDeCo（個人型確定拠出年金）や生命保険料控除、医療費控除、ふるさと納税などを活用すると、税負担を軽くできる場合があります。ただし制度には条件があるため、まずは概算で把握し、必要に応じて専門家や公式情報を確認するのがおすすめです。</p>
@@ -593,6 +594,28 @@ function getCommonConditions() {
   };
 }
 
+function calcSalaryIncomeDeduction(annualSalary) {
+  // 令和7年分以後：給与収入190万円以下は最低保障額65万円。
+  if (annualSalary <= 1900000) return Math.min(annualSalary, 650000);
+  if (annualSalary <= 3600000) return annualSalary * 0.3 + 80000;
+  if (annualSalary <= 6600000) return annualSalary * 0.2 + 440000;
+  if (annualSalary <= 8500000) return annualSalary * 0.1 + 1100000;
+  return 1950000;
+}
+
+function calcIncomeBasicDeduction(kyuyoShotoku) {
+  // 令和8年分の所得税：合計所得金額に応じた基礎控除。
+  if (kyuyoShotoku <= 1320000) return 950000;
+  if (kyuyoShotoku <= 3360000) return 880000;
+  if (kyuyoShotoku <= 4890000) return 680000;
+  if (kyuyoShotoku <= 6550000) return 630000;
+  if (kyuyoShotoku <= 23500000) return 580000;
+  if (kyuyoShotoku <= 24000000) return 480000;
+  if (kyuyoShotoku <= 24500000) return 320000;
+  if (kyuyoShotoku <= 25000000) return 160000;
+  return 0;
+}
+
 function calcTakehome(inputSalary, salaryType, conditions) {
   const salary = salaryType === 'annual' ? inputSalary / 12 : inputSalary;
   const annualSalary = salaryType === 'annual' ? inputSalary : inputSalary * 12;
@@ -618,20 +641,12 @@ function calcTakehome(inputSalary, salaryType, conditions) {
   // 所得税（年収換算で計算）
   const annualSocial = socialTotal * 12;
 
-  // 給与所得控除
-  let kyuyoKojo = 0;
-  if (annualSalary <= 1625000) kyuyoKojo = 550000;
-  else if (annualSalary <= 1800000) kyuyoKojo = annualSalary * 0.4 - 100000;
-  else if (annualSalary <= 3600000) kyuyoKojo = annualSalary * 0.3 + 80000;
-  else if (annualSalary <= 6600000) kyuyoKojo = annualSalary * 0.2 + 440000;
-  else if (annualSalary <= 8500000) kyuyoKojo = annualSalary * 0.1 + 1100000;
-  else kyuyoKojo = 1950000;
-
+  const kyuyoKojo = calcSalaryIncomeDeduction(annualSalary);
   const kyuyoShotoku = Math.max(0, annualSalary - kyuyoKojo);
 
-  // 基礎控除：480000円
-  // 扶養控除：扶養1人につき380000円
-  const kisoKojo = 480000;
+  // 所得税の基礎控除：令和8年分の所得税をもとに概算。
+  // 扶養控除：扶養1人につき38万円の簡易計算。
+  const kisoKojo = calcIncomeBasicDeduction(kyuyoShotoku);
   const fuyoKojo = dependents * 380000;
 
   const kazeiShotoku = Math.max(0, kyuyoShotoku - annualSocial - kisoKojo - fuyoKojo);
