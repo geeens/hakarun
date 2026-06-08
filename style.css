@@ -949,6 +949,28 @@ select:focus {
 }
 .info-box strong { font-weight: 700; }
 
+.result-insight {
+  background: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  font-size: 14px;
+  color: #1E3A8A;
+  margin-top: 16px;
+}
+.result-insight strong {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.result-insight ul {
+  margin: 0;
+  padding-left: 1.2em;
+}
+.result-insight li + li {
+  margin-top: 6px;
+}
+
 /* ===== ARTICLE (SEO用解説) ===== */
 .article {
   background: var(--surface);

@@ -351,6 +351,8 @@
           <div class="compare-bars stacked-bars" id="compare-bars" aria-label="3ケースの手取りと控除内訳の比較グラフ"></div>
         </div>
 
+        <div class="result-insight" id="result-insight" style="display:none"></div>
+
         <div class="info-box">
           <strong>⚠️ この計算はあくまで概算です。</strong><br>
           社会保険料や税金は年度・勤務先・住所・家族構成などにより変わります。ざっくりした目安として使い、正確な金額は給与明細または勤務先の担当者にご確認ください。
@@ -682,6 +684,63 @@ function signedFmt(n) {
   return sign + fmt(Math.abs(n));
 }
 
+function buildSingleInsight(result) {
+  const rate = parseFloat(result.rate);
+  const points = [];
+  const socialShare = result.socialTotal / result.totalDeduct;
+  const residentText = result.includeResidentTax
+    ? `住民税は月 ${fmt(result.monthlyJumin)} の概算です。前年の所得をもとに翌年6月ごろから引かれるため、転職直後や新社会人1年目とは見え方が変わることがあります。`
+    : '住民税を含めない計算です。新社会人1年目や転職直後の給与明細に近づけたいときに使えますが、翌年以降は住民税分だけ手取りが下がる可能性があります。';
+
+  if (rate >= 80) {
+    points.push('手取り率は比較的高めです。所得税や住民税の負担がまだ大きくなりにくい水準として見られます。');
+  } else if (rate >= 74) {
+    points.push('手取り率は一般的な目安に近い水準です。額面が増えるほど税金や社会保険料も増えるため、昇給時は手取り差で見るのがおすすめです。');
+  } else {
+    points.push('手取り率はやや低めに出ています。所得税、住民税、社会保険料の影響が大きくなっている可能性があります。');
+  }
+
+  if (socialShare >= 0.55) {
+    points.push('控除の中では社会保険料の割合が大きめです。健康保険料や厚生年金保険料は勤務先・加入先で変わるため、給与明細との差が出やすい項目です。');
+  }
+  if (result.isOver40) {
+    points.push('40歳以上として計算しているため、介護保険料も含まれています。40歳になった後に手取りが少し下がる場合は、この影響が考えられます。');
+  }
+  points.push(residentText);
+
+  return `<strong>今回の結果の見方</strong><ul>${points.map(point => `<li>${point}</li>`).join('')}</ul>`;
+}
+
+function buildCompareInsight(results, salaryType) {
+  const base = results[0];
+  const isAnnualMode = salaryType === 'annual';
+  const unitText = isAnnualMode ? '年' : '月';
+  const diffs = results.slice(1).map((result, index) => ({
+    label: `ケース${index + 2}`,
+    monthlyDiff: result.tedori - base.tedori,
+    annualDiff: (result.tedori - base.tedori) * 12,
+    grossDiff: isAnnualMode ? result.annualSalary - base.annualSalary : result.salary - base.salary
+  }));
+  const best = diffs.reduce((current, item) => item.monthlyDiff > current.monthlyDiff ? item : current, diffs[0]);
+  const points = [];
+  const displayDiff = isAnnualMode ? best.annualDiff : best.monthlyDiff;
+
+  points.push(`${best.label}はケース1と比べて、手取りが${unitText}あたり ${signedFmt(displayDiff)} の見込みです。額面差ではなく、実際に使える金額の差として見ると判断しやすくなります。`);
+
+  if (best.grossDiff > 0 && best.monthlyDiff > 0) {
+    const takehomeGainRate = isAnnualMode ? best.annualDiff / best.grossDiff : best.monthlyDiff / best.grossDiff;
+    points.push(`増えた額面のうち、手取りとして残る割合は約${Math.round(takehomeGainRate * 100)}%です。昇給や転職では、この差額を家賃・貯金・固定費の見直しに使えるか確認すると現実的です。`);
+  } else if (best.monthlyDiff < 0) {
+    points.push('手取りが下がるケースがあります。勤務時間短縮や転職条件の比較では、額面だけでなく年間差額も見ておくと安心です。');
+  }
+
+  if (!base.includeResidentTax) {
+    points.push('住民税を含めない条件で比較しています。翌年以降に住民税が始まると、ここで表示した手取りより少なくなる可能性があります。');
+  }
+
+  return `<strong>比較結果の見方</strong><ul>${points.map(point => `<li>${point}</li>`).join('')}</ul>`;
+}
+
 function calcTedori() {
   const mode = document.querySelector('input[name="calcMode"]:checked').value;
   const salaryType = document.querySelector('input[name="salaryType"]:checked').value;
@@ -715,6 +774,8 @@ function calcTedori() {
   document.getElementById('res-deduct-total').textContent = '- ' + fmt(result.totalDeduct);
   document.getElementById('res-total').textContent = fmt(result.tedori);
   document.getElementById('res-annual-total').textContent = fmt(result.annualTedori);
+  document.getElementById('result-insight').innerHTML = buildSingleInsight(result);
+  document.getElementById('result-insight').style.display = '';
 
   document.getElementById('result').classList.add('show');
   scrollToTedoriResult();
@@ -811,6 +872,8 @@ function calcCompare(salaryType, conditions) {
       <span class="bar-value">${fmt(displayTakehome)}${i === 0 ? '' : `（${signedFmt(diff)}）`}</span>
     </div>`;
   }).join('');
+  document.getElementById('result-insight').innerHTML = buildCompareInsight(results, salaryType);
+  document.getElementById('result-insight').style.display = '';
 
   document.getElementById('result').classList.add('show');
   scrollToTedoriResult();
