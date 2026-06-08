@@ -185,7 +185,7 @@
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
-      <p class="form-lead">賞与明細や支給予定額をもとに、社会保険料・所得税を引いたボーナスの手取りを確認できます。前月の残業代が多かった場合や、40歳以降の介護保険料の影響を見たいときにも便利です。</p>
+      <p class="form-lead">ボーナスの支給予定額や求人票の賞与条件から、実際に使える手取り額を事前に見積もれます。支給後は、賞与明細の控除額がどのように計算されているかを確認する用途にも使えます。</p>
 
       <div class="form-group">
         <label>ボーナス支給額（額面）</label>
@@ -246,7 +246,7 @@
         <div class="result-insight" id="result-insight" style="display:none"></div>
         <div class="info-box">
           <strong>⚠️ この計算はあくまで概算です。</strong><br>
-          ボーナスの所得税は「賞与に対する源泉徴収税額の算出率の表」をもとにした概算です。令和8年度からの子ども・子育て支援金も概算に含めています。実際の金額は給与明細でご確認ください。
+          ボーナスの所得税は「賞与に対する源泉徴収税額の算出率の表」をもとにした概算です。健康保険料率や端数処理は勤務先・加入先で異なるため、実際の金額は賞与明細でご確認ください。
         </div>
       </div>
     </div>
@@ -392,6 +392,13 @@
 </footer>
 <script>
 function fmt(n) { return Math.round(n).toLocaleString('ja-JP') + ' 円'; }
+function pct(rate) { return (rate * 100).toFixed(3).replace(/\.?0+$/, '') + '%'; }
+function amountWithFormula(amount, formula) {
+  return `${fmt(amount)}<div class="formula">${formula}</div>`;
+}
+function deductWithFormula(amount, formula) {
+  return `- ${amountWithFormula(amount, formula)}`;
+}
 
 function buildBonusInsight(result) {
   const points = [];
@@ -413,6 +420,7 @@ function buildBonusInsight(result) {
   if (incomeShare >= 0.08) {
     points.push('所得税の割合が高めです。前月の残業代や手当が多い月のあとに賞与が出ると、源泉徴収される所得税が多く見えることがあります。');
   }
+  points.push(`今回の所得税率は概算で ${pct(result.taxRate)} です。賞与額そのものではなく、前月給与から社会保険料を差し引いた金額をもとに税率を判定しています。`);
   if (result.isOver40) {
     points.push('40歳以上として計算しているため、介護保険料も含めています。同じ賞与額でも40歳未満より手取りが少し下がります。');
   }
@@ -441,37 +449,39 @@ function calcBonus() {
   const prevSocial = prevSalary * (0.04985 + (isOver40 ? 0.0081 : 0) + 0.0915 + 0.005 + 0.00115);
   const prevTaxable = Math.max(0, prevSalary - prevSocial) - (dependents * 31667);
 
-  // 簡易税率テーブル（国税庁 令和6年版）
+  // 簡易税率テーブル（賞与に対する源泉徴収税額の算出率表をもとにした概算）
   let taxRate = 0;
   if (prevTaxable <= 68000) taxRate = 0;
-  else if (prevTaxable <= 79000) taxRate = 0.02;
-  else if (prevTaxable <= 252000) taxRate = 0.04;
-  else if (prevTaxable <= 299000) taxRate = 0.06;
-  else if (prevTaxable <= 363000) taxRate = 0.08;
-  else if (prevTaxable <= 418000) taxRate = 0.10;
-  else if (prevTaxable <= 528000) taxRate = 0.12;
-  else if (prevTaxable <= 583000) taxRate = 0.14;
-  else if (prevTaxable <= 688000) taxRate = 0.16;
-  else if (prevTaxable <= 756000) taxRate = 0.18;
-  else if (prevTaxable <= 896000) taxRate = 0.20;
-  else if (prevTaxable <= 1008000) taxRate = 0.22;
-  else if (prevTaxable <= 1260000) taxRate = 0.24;
-  else taxRate = 0.28;
+  else if (prevTaxable <= 79000) taxRate = 0.02042;
+  else if (prevTaxable <= 252000) taxRate = 0.04084;
+  else if (prevTaxable <= 299000) taxRate = 0.06126;
+  else if (prevTaxable <= 363000) taxRate = 0.08168;
+  else if (prevTaxable <= 418000) taxRate = 0.10210;
+  else if (prevTaxable <= 528000) taxRate = 0.12252;
+  else if (prevTaxable <= 583000) taxRate = 0.14294;
+  else if (prevTaxable <= 688000) taxRate = 0.16336;
+  else if (prevTaxable <= 756000) taxRate = 0.18378;
+  else if (prevTaxable <= 896000) taxRate = 0.20420;
+  else if (prevTaxable <= 1008000) taxRate = 0.22462;
+  else if (prevTaxable <= 1260000) taxRate = 0.24504;
+  else taxRate = 0.28588;
 
   const incomeTax = (bonus - socialTotal) * taxRate;
   const tedori = bonus - socialTotal - incomeTax;
   const rate = (tedori / bonus * 100).toFixed(1);
-  const result = { bonus, tedori, rate, socialTotal, incomeTax, isOver40 };
+  const result = { bonus, tedori, rate, socialTotal, incomeTax, taxRate, isOver40 };
 
   document.getElementById('res-tedori').textContent = fmt(tedori);
   document.getElementById('res-rate').textContent = `手取り率 ${rate}%`;
   document.getElementById('res-bonus').textContent = fmt(bonus);
-  document.getElementById('res-health').textContent = '- ' + fmt(healthAmt);
-  document.getElementById('res-care').textContent = isOver40 ? '- ' + fmt(careAmt) : '- 0 円（40歳未満）';
-  document.getElementById('res-pension').textContent = '- ' + fmt(pensionAmt);
-  document.getElementById('res-employ').textContent = '- ' + fmt(employAmt);
-  document.getElementById('res-childcare').textContent = '- ' + fmt(childcareAmt);
-  document.getElementById('res-income').textContent = '- ' + fmt(incomeTax);
+  document.getElementById('res-health').innerHTML = deductWithFormula(healthAmt, `${fmt(bonus)} × 4.985%`);
+  document.getElementById('res-care').innerHTML = isOver40
+    ? deductWithFormula(careAmt, `${fmt(bonus)} × 0.81%`)
+    : '- 0 円<div class="formula">40歳未満のため対象外</div>';
+  document.getElementById('res-pension').innerHTML = deductWithFormula(pensionAmt, `${fmt(Math.min(bonus, 1500000))} × 9.15%`);
+  document.getElementById('res-employ').innerHTML = deductWithFormula(employAmt, `${fmt(bonus)} × 0.5%`);
+  document.getElementById('res-childcare').innerHTML = deductWithFormula(childcareAmt, `${fmt(bonus)} × 0.115%`);
+  document.getElementById('res-income').innerHTML = deductWithFormula(incomeTax, `(${fmt(bonus)} − 社会保険料 ${fmt(socialTotal)}) × ${pct(taxRate)}`);
   document.getElementById('res-total').textContent = fmt(tedori);
   document.getElementById('result-insight').innerHTML = buildBonusInsight(result);
   document.getElementById('result-insight').style.display = '';
