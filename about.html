@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>運営者情報｜はかるんツール</title>
-  <meta name="description" content="はかるんツールの運営者情報です。サイトの目的・コンセプト・運営者についてご紹介します。">
+  <title>運営者情報｜FP2級・日商簿記2級保有の運営者が確認｜はかるん</title>
+  <meta name="description" content="はかるんツールの運営者情報です。FP2級・日商簿記2級を保有する運営者が、計算ツールの作成方針・参考資料・更新方針を紹介します。">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
   <link rel="canonical" href="https://hakarun.net/about">
@@ -18,6 +18,34 @@
   </script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085"
        crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": "運営者情報",
+    "url": "https://hakarun.net/about",
+    "description": "はかるんツールの運営者情報、資格、計算ツールの確認方針、参考資料、更新方針を紹介します。",
+    "publisher": {
+      "@type": "Organization",
+      "name": "はかるん",
+      "url": "https://hakarun.net/"
+    },
+    "about": {
+      "@type": "Person",
+      "name": "はかるん運営者",
+      "hasCredential": [
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "2級ファイナンシャル・プランニング技能士"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "日商簿記検定2級"
+        }
+      ]
+    }
+  }
+  </script>
   <style>
     .about-profile {
       display: flex;
@@ -47,6 +75,44 @@
       font-size: 14px;
       margin: 0;
     }
+    .credential-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0 10px;
+      padding: 0;
+      list-style: none;
+    }
+    .credential-list li {
+      background: #EEF6FF;
+      border: 1px solid #BFDBFE;
+      border-radius: 999px;
+      color: #1D4ED8;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 6px 10px;
+    }
+    .policy-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin: 16px 0 24px;
+    }
+    .policy-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+    }
+    .policy-card h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+    .policy-card p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin: 0;
+    }
     .site-info-table {
       width: 100%;
       border-collapse: collapse;
@@ -68,6 +134,8 @@
     }
     @media (max-width: 600px) {
       .about-profile { flex-direction: column; text-align: center; }
+      .credential-list { justify-content: center; }
+      .policy-grid { grid-template-columns: 1fr; }
       .site-info-table th { width: auto; white-space: normal; }
     }
   </style>
@@ -191,11 +259,14 @@
     </div>
 
     <div class="about-profile">
-      <img src="blog/hakase-profile.webp" alt="はかるんツール運営者 ハカセ">
+      <img src="blog/hakase-profile.webp" alt="はかるんツールの案内キャラクター ハカセ">
       <div class="about-profile-text">
-        <div class="name">🦉 ハカセ（ペンネーム）</div>
-        <p>お金・健康・暮らしに関する計算をわかりやすく。<br>
-        難しい数字をツールで即解決できるサイト「はかるんツール」を運営しています。</p>
+        <div class="name">はかるん運営者</div>
+        <ul class="credential-list">
+          <li>2級ファイナンシャル・プランニング技能士</li>
+          <li>日商簿記検定2級</li>
+        </ul>
+        <p>お金・健康・暮らしに関する計算をわかりやすく。難しい数字を、日常で使いやすい計算ツールとして確認できるサイト「はかるんツール」を運営しています。</p>
       </div>
     </div>
 
@@ -204,6 +275,29 @@
       <p>「はかるんツール」は、日常生活で役立つ計算をすぐに・無料でできるツールを集めたWebサービスです。手取り計算・比較、税金計算、健康管理、投資シミュレーションなど、お金と暮らしに関する100以上の計算ツールを提供しています。</p>
       <p>「計算が苦手でも、自分の数字を知ってほしい」という思いから、入力欄にシンプルな数値を入れるだけで即座に結果がわかる設計にしています。アプリのインストール不要・会員登録不要・完全無料でご利用いただけます。</p>
       <p>計算ツールに加え、お金・節税・投資・暮らしに関するブログ記事も公開しています。ツールを使いながら関連する知識も身につけていただけるよう、わかりやすい解説を心がけています。</p>
+
+      <h2>運営者の資格と確認体制</h2>
+      <p>はかるんツールは、2級ファイナンシャル・プランニング技能士と日商簿記検定2級を保有する運営者が作成・確認しています。給与、税金、社会保険、家計管理など、暮らしに関わる数字を自分で確認しやすくすることを目的に運営しています。</p>
+      <p>ハカセは、はかるんツールの案内キャラクターです。キャラクターに資格を持たせるのではなく、計算式や解説内容は実在の運営者が確認する方針にしています。</p>
+
+      <div class="policy-grid">
+        <div class="policy-card">
+          <h3>計算根拠</h3>
+          <p>税金・社会保険・公的制度に関するツールは、国税庁、厚生労働省、日本年金機構、自治体などの公的情報を参考にしています。</p>
+        </div>
+        <div class="policy-card">
+          <h3>更新方針</h3>
+          <p>制度改正や料率変更がある分野は、公式資料を確認しながら必要に応じて計算式と本文を見直します。</p>
+        </div>
+        <div class="policy-card">
+          <h3>使い方の考え方</h3>
+          <p>結果は、給与明細、税金、保険料、家計の見通しを確認するための目安として使えるようにしています。</p>
+        </div>
+        <div class="policy-card">
+          <h3>免責</h3>
+          <p>個別の税務判断、社会保険の加入条件、医療費や投資判断は、勤務先、自治体、専門家、公式窓口でご確認ください。</p>
+        </div>
+      </div>
 
       <h2>コンテンツ一覧</h2>
       <p>現在、以下のカテゴリで計算ツールを提供しています。</p>
@@ -218,7 +312,7 @@
       </ul>
 
       <h2>計算の正確性について</h2>
-      <p>各計算ツールは、公的機関の資料・税率表・保険料率表をもとに作成しています。ただし、計算結果はあくまで目安です。実際の金額は個人の状況や制度改正によって異なる場合があります。重要な判断をされる際は、必ず専門家（税理士・ファイナンシャルプランナーなど）にご確認ください。</p>
+      <p>各計算ツールは、公的機関の資料・税率表・保険料率表を参考に作成しています。ただし、計算結果はあくまで目安です。実際の金額は個人の状況、勤務先の処理、自治体、加入している健康保険、制度改正によって異なる場合があります。重要な判断をされる際は、必ず公式資料や専門家にご確認ください。</p>
 
       <h2>運営者情報</h2>
       <table class="site-info-table">
@@ -232,7 +326,15 @@
         </tr>
         <tr>
           <th>運営者</th>
-          <td>ハカセ（ペンネーム）</td>
+          <td>はかるん運営者</td>
+        </tr>
+        <tr>
+          <th>保有資格</th>
+          <td>2級ファイナンシャル・プランニング技能士、日商簿記検定2級</td>
+        </tr>
+        <tr>
+          <th>ハカセについて</th>
+          <td>ハカセは、はかるんツールの案内キャラクターです。計算式や解説内容は、資格を保有する運営者が確認しています。</td>
         </tr>
         <tr>
           <th>開設</th>
