@@ -114,16 +114,15 @@
       margin: 0;
     }
     .hakase-info {
-      display: flex;
-      align-items: center;
-      gap: 14px;
+      display: block;
     }
     .hakase-info img {
       width: 64px;
       height: 64px;
       border-radius: 50%;
       object-fit: cover;
-      flex-shrink: 0;
+      display: block;
+      margin-top: 10px;
     }
     .hakase-info p {
       margin: 0 0 6px;
@@ -151,7 +150,6 @@
       .about-profile { flex-direction: column; text-align: center; }
       .credential-list { justify-content: center; }
       .policy-grid { grid-template-columns: 1fr; }
-      .hakase-info { align-items: flex-start; }
       .site-info-table th { width: auto; white-space: normal; }
     }
   </style>
@@ -293,9 +291,8 @@
       <p>計算ツールに加え、お金・節税・投資・暮らしに関するブログ記事も公開しています。ツールを使いながら関連する知識も身につけていただけるよう、わかりやすい解説を心がけています。</p>
       <p>運営者のハカル自身も、日々の家計管理や確定申告を自分で行っています。その中で「税金や手取りを、提出前にざっくり試算できるツールがあれば」と感じたことが、このサイトを作るきっかけになりました。FP・簿記の学習で得た知識をもとに、一つひとつの計算式を確認しながらツールを作っています。</p>
 
-      <h2>運営者の資格と確認体制</h2>
+      <h2>運営者の資格と運営目的</h2>
       <p>はかるんツールは、2級ファイナンシャル・プランニング技能士と日商簿記検定2級を保有する運営者が作成・確認しています。給与、税金、社会保険、家計管理など、暮らしに関わる数字を自分で確認しやすくすることを目的に運営しています。</p>
-      <p>ハカセは、はかるんツールの案内キャラクターです。むずかしい制度や計算結果を、読者が読み進めやすいようにやさしく案内します。</p>
 
       <div class="policy-grid">
         <div class="policy-card">
@@ -350,15 +347,15 @@
           <td>2級ファイナンシャル・プランニング技能士、日商簿記検定2級</td>
         </tr>
         <tr>
-          <th>ハカセについて</th>
-          <td>
+          <th>
             <div class="hakase-info">
+              <span>ハカセについて</span>
               <img src="blog/hakase-profile.webp" alt="はかるんツールの案内キャラクター ハカセ">
-              <div>
-                <p>ハカセは、はかるんツールの案内キャラクターです。計算結果や制度のポイントを、親しみやすく伝える役割を担っています。</p>
-                <a href="https://x.com/hakase_hakarun" target="_blank" rel="noopener">X（@hakase_hakarun）</a>
-              </div>
             </div>
+          </th>
+          <td>
+            <p>ハカセは、はかるんツールの案内キャラクターです。計算結果や制度のポイントを、親しみやすく伝える役割を担っています。</p>
+            <a href="https://x.com/hakase_hakarun" target="_blank" rel="noopener">X（@hakase_hakarun）</a>
           </td>
         </tr>
         <tr>
@@ -376,10 +373,6 @@
         <tr>
           <th>広告について</th>
           <td>当サイトはGoogle AdSenseによる広告を掲載しています。</td>
-        </tr>
-        <tr>
-          <th>お問い合わせ</th>
-          <td><a href="contact">お問い合わせフォーム</a>よりご連絡ください。</td>
         </tr>
       </table>
 
