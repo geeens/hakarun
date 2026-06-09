@@ -113,6 +113,21 @@
       font-size: 14px;
       margin: 0;
     }
+    .hakase-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .hakase-info img {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .hakase-info p {
+      margin: 0 0 6px;
+    }
     .site-info-table {
       width: 100%;
       border-collapse: collapse;
@@ -136,6 +151,7 @@
       .about-profile { flex-direction: column; text-align: center; }
       .credential-list { justify-content: center; }
       .policy-grid { grid-template-columns: 1fr; }
+      .hakase-info { align-items: flex-start; }
       .site-info-table th { width: auto; white-space: normal; }
     }
   </style>
@@ -279,7 +295,7 @@
 
       <h2>運営者の資格と確認体制</h2>
       <p>はかるんツールは、2級ファイナンシャル・プランニング技能士と日商簿記検定2級を保有する運営者が作成・確認しています。給与、税金、社会保険、家計管理など、暮らしに関わる数字を自分で確認しやすくすることを目的に運営しています。</p>
-      <p>ハカセは、はかるんツールの案内キャラクターです。キャラクターに資格を持たせるのではなく、計算式や解説内容は実在の運営者が確認する方針にしています。</p>
+      <p>ハカセは、はかるんツールの案内キャラクターです。むずかしい制度や計算結果を、読者が読み進めやすいようにやさしく案内します。</p>
 
       <div class="policy-grid">
         <div class="policy-card">
@@ -335,7 +351,15 @@
         </tr>
         <tr>
           <th>ハカセについて</th>
-          <td>ハカセは、はかるんツールの案内キャラクターです。計算式や解説内容は、資格を保有する運営者が確認しています。</td>
+          <td>
+            <div class="hakase-info">
+              <img src="blog/hakase-profile.webp" alt="はかるんツールの案内キャラクター ハカセ">
+              <div>
+                <p>ハカセは、はかるんツールの案内キャラクターです。計算結果や制度のポイントを、親しみやすく伝える役割を担っています。</p>
+                <a href="https://x.com/hakase_hakarun" target="_blank" rel="noopener">X（@hakase_hakarun）</a>
+              </div>
+            </div>
+          </td>
         </tr>
         <tr>
           <th>開設</th>
@@ -344,10 +368,6 @@
         <tr>
           <th>最終更新</th>
           <td>2026年6月</td>
-        </tr>
-        <tr>
-          <th>SNS</th>
-          <td><a href="https://x.com/hakase_hakarun" target="_blank" rel="noopener">X（@hakase_hakarun）</a></td>
         </tr>
         <tr>
           <th>主なコンテンツ</th>
