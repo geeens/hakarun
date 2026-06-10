@@ -549,6 +549,15 @@
 function fmt(n) {
   return Math.round(n).toLocaleString('ja-JP') + ' 円';
 }
+function pct(rate) {
+  return (rate * 100).toFixed(3).replace(/\.?0+$/, '') + '%';
+}
+function amountWithFormula(amount, formula) {
+  return `${fmt(amount)}<div class="formula">${formula}</div>`;
+}
+function deductWithFormula(amount, formula) {
+  return `- ${amountWithFormula(amount, formula)}`;
+}
 
 function updateSalaryLabel() {
   const salaryType = document.querySelector('input[name="salaryType"]:checked').value;
@@ -658,13 +667,16 @@ function calcTakehome(inputSalary, salaryType, conditions) {
 
   // 所得税率（累進課税）
   let incomeTax = 0;
-  if (kazeiShotoku <= 1950000) incomeTax = kazeiShotoku * 0.05;
-  else if (kazeiShotoku <= 3300000) incomeTax = kazeiShotoku * 0.10 - 97500;
-  else if (kazeiShotoku <= 6950000) incomeTax = kazeiShotoku * 0.20 - 427500;
-  else if (kazeiShotoku <= 9000000) incomeTax = kazeiShotoku * 0.23 - 636000;
-  else if (kazeiShotoku <= 18000000) incomeTax = kazeiShotoku * 0.33 - 1536000;
-  else if (kazeiShotoku <= 40000000) incomeTax = kazeiShotoku * 0.40 - 2796000;
-  else incomeTax = kazeiShotoku * 0.45 - 4796000;
+  let incomeTaxRate = 0;
+  let incomeTaxDeduction = 0;
+  if (kazeiShotoku <= 1950000) { incomeTaxRate = 0.05; incomeTaxDeduction = 0; }
+  else if (kazeiShotoku <= 3300000) { incomeTaxRate = 0.10; incomeTaxDeduction = 97500; }
+  else if (kazeiShotoku <= 6950000) { incomeTaxRate = 0.20; incomeTaxDeduction = 427500; }
+  else if (kazeiShotoku <= 9000000) { incomeTaxRate = 0.23; incomeTaxDeduction = 636000; }
+  else if (kazeiShotoku <= 18000000) { incomeTaxRate = 0.33; incomeTaxDeduction = 1536000; }
+  else if (kazeiShotoku <= 40000000) { incomeTaxRate = 0.40; incomeTaxDeduction = 2796000; }
+  else { incomeTaxRate = 0.45; incomeTaxDeduction = 4796000; }
+  incomeTax = kazeiShotoku * incomeTaxRate - incomeTaxDeduction;
   incomeTax *= 1.021; // 復興特別所得税
 
   const monthlyIncomeTax = Math.max(0, incomeTax / 12);
@@ -695,7 +707,17 @@ function calcTakehome(inputSalary, salaryType, conditions) {
     socialTotal,
     rate,
     isOver40,
-    includeResidentTax
+    includeResidentTax,
+    healthRate,
+    careRate,
+    pensionRate,
+    employRate,
+    childcareRate,
+    pensionBase,
+    kazeiShotoku,
+    incomeTaxRate,
+    incomeTaxDeduction,
+    juminKazei
   };
 }
 
@@ -782,18 +804,22 @@ function calcTedori() {
   document.getElementById('res-tedori').textContent = fmt(result.tedori);
   document.getElementById('res-rate').textContent = `手取り率 ${result.rate}%`;
   document.getElementById('res-annual-summary').textContent = `年間手取り ${fmt(result.annualTedori)}`;
-  document.getElementById('res-salary').textContent = fmt(result.salary);
-  document.getElementById('res-annual-salary').textContent = fmt(result.annualSalary);
-  document.getElementById('res-health').textContent = '- ' + fmt(result.healthAmt);
-  document.getElementById('res-care').textContent = result.isOver40 ? '- ' + fmt(result.careAmt) : '- 0 円（40歳未満）';
-  document.getElementById('res-pension').textContent = '- ' + fmt(result.pensionAmt);
-  document.getElementById('res-employ').textContent = '- ' + fmt(result.employAmt);
-  document.getElementById('res-childcare').textContent = '- ' + fmt(result.childcareAmt);
-  document.getElementById('res-income').textContent = '- ' + fmt(result.monthlyIncomeTax);
-  document.getElementById('res-resident').textContent = result.includeResidentTax ? '- ' + fmt(result.monthlyJumin) : '- 0 円（含めない）';
-  document.getElementById('res-deduct-total').textContent = '- ' + fmt(result.totalDeduct);
-  document.getElementById('res-total').textContent = fmt(result.tedori);
-  document.getElementById('res-annual-total').textContent = fmt(result.annualTedori);
+  document.getElementById('res-salary').innerHTML = amountWithFormula(result.salary, salaryType === 'annual' ? `${fmt(inputSalary)} ÷ 12` : '入力した月収');
+  document.getElementById('res-annual-salary').innerHTML = amountWithFormula(result.annualSalary, salaryType === 'annual' ? '入力した年収' : `${fmt(inputSalary)} × 12`);
+  document.getElementById('res-health').innerHTML = deductWithFormula(result.healthAmt, `${fmt(result.salary)} × ${pct(result.healthRate)}`);
+  document.getElementById('res-care').innerHTML = result.isOver40
+    ? deductWithFormula(result.careAmt, `${fmt(result.salary)} × ${pct(result.careRate)}`)
+    : '- 0 円<div class="formula">40歳未満のため対象外</div>';
+  document.getElementById('res-pension').innerHTML = deductWithFormula(result.pensionAmt, `${fmt(result.pensionBase)} × ${pct(result.pensionRate)}`);
+  document.getElementById('res-employ').innerHTML = deductWithFormula(result.employAmt, `${fmt(result.salary)} × ${pct(result.employRate)}`);
+  document.getElementById('res-childcare').innerHTML = deductWithFormula(result.childcareAmt, `${fmt(result.salary)} × ${pct(result.childcareRate)}`);
+  document.getElementById('res-income').innerHTML = deductWithFormula(result.monthlyIncomeTax, `年課税所得 ${fmt(result.kazeiShotoku)} × ${pct(result.incomeTaxRate)} − 控除 ${fmt(result.incomeTaxDeduction)}、復興特別所得税を含めて12分割`);
+  document.getElementById('res-resident').innerHTML = result.includeResidentTax
+    ? deductWithFormula(result.monthlyJumin, `年課税所得 ${fmt(result.juminKazei)} × 10% + 均等割 ${fmt(5000)} を12分割`)
+    : '- 0 円<div class="formula">住民税を含めない設定</div>';
+  document.getElementById('res-deduct-total').innerHTML = deductWithFormula(result.totalDeduct, '社会保険料 + 所得税 + 住民税');
+  document.getElementById('res-total').innerHTML = amountWithFormula(result.tedori, `${fmt(result.salary)} − 控除合計 ${fmt(result.totalDeduct)}`);
+  document.getElementById('res-annual-total').innerHTML = amountWithFormula(result.annualTedori, `${fmt(result.tedori)} × 12`);
   document.getElementById('result-insight').innerHTML = buildSingleInsight(result);
   document.getElementById('result-insight').style.display = '';
 
