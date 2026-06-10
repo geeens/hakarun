@@ -462,6 +462,11 @@ main { padding: 32px 0 60px; }
   color: var(--text-secondary);
   font-size: 15px;
 }
+.page-header .source-note {
+  color: var(--text-secondary);
+  font-size: 13px;
+  margin-top: 8px;
+}
 
 /* ===== CALCULATOR CARD ===== */
 .calc-card {
