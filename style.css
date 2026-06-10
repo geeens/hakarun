@@ -955,6 +955,9 @@ select:focus {
   margin-top: 16px;
 }
 .info-box strong { font-weight: 700; }
+.author-box {
+  margin-bottom: 24px;
+}
 
 .result-insight {
   background: #EFF6FF;
