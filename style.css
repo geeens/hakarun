@@ -956,6 +956,9 @@ select:focus {
 }
 .info-box strong { font-weight: 700; }
 .author-box {
+  background: #EFF6FF;
+  border-color: #BFDBFE;
+  color: #1E3A8A;
   margin-bottom: 24px;
 }
 
