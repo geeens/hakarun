@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>新NISAは月いくらで将来いくら？積立シミュレーションで見る複利の力｜はかるんツールブログ</title>
+  <meta name="description" content="新NISAで月1万・3万・5万円を積み立てると将来いくらになるのか、運用期間や想定利回り別にシミュレーション。複利の仕組みと、結果を過信しない見方をやさしく解説します。">
+
+  <meta property="og:title" content="新NISAは月いくらで将来いくら？積立シミュレーションで見る複利の力｜はかるんツールブログ">
+  <meta property="og:description" content="新NISAで月1万・3万・5万円を積み立てると将来いくらになるのか、運用期間や想定利回り別にシミュレーション。複利の仕組みと、結果を過信しない見方をやさしく解説します。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://hakarun.net/blog/nisa-simulation">
+  <meta property="og:image" content="https://hakarun.net/blog/eyecatch-nisa-simulation.webp">
+  <meta property="og:site_name" content="はかるんツール">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="新NISAは月いくらで将来いくら？積立シミュレーションで見る複利の力｜はかるんツールブログ">
+  <meta name="twitter:description" content="新NISAで月1万・3万・5万円を積み立てると将来いくらになるのか、運用期間や想定利回り別にシミュレーション。複利の仕組みと、結果を過信しない見方をやさしく解説します。">
+  <meta name="twitter:image" content="https://hakarun.net/blog/eyecatch-nisa-simulation.webp">
+  <link rel="canonical" href="https://hakarun.net/blog/nisa-simulation">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="blog.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR8XWPZCN9"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "新NISAは月いくらで将来いくら？積立シミュレーションで見る複利の力",
+    "description": "新NISAで月1万・3万・5万円を積み立てると将来いくらになるのか、運用期間や想定利回り別にシミュレーション。複利の仕組みと、結果を過信しない見方をやさしく解説します。",
+    "datePublished": "2026-06-17",
+    "dateModified": "2026-06-17",
+    "author": { "@type": "Organization", "name": "はかるんツール" },
+    "publisher": { "@type": "Organization", "name": "はかるんツール", "url": "https://hakarun.net" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {"@type":"Question","name":"新NISAで月3万円を20年積み立てると将来いくらになりますか？","acceptedAnswer":{"@type":"Answer","text":"想定利回り5%で運用できた場合の目安は約1,233万円です。積み立てた元本は720万円なので、運用で増えた分はおよそ513万円という計算になります。あくまで想定利回りでの試算で、結果を保証するものではありません。"}},
+      {"@type":"Question","name":"複利とは何ですか？","acceptedAnswer":{"@type":"Answer","text":"運用で増えたお金を引き出さず、そのまま運用に回すことで、増えた分にもさらに利益がついていく仕組みのことです。期間が長いほど効果が大きくなります。"}},
+      {"@type":"Question","name":"シミュレーションどおりに増えますか？","acceptedAnswer":{"@type":"Answer","text":"いいえ。シミュレーションは一定の利回りが毎年続いた前提の目安です。実際の相場は上下するため、想定より多いことも少ないこともあり、元本割れする可能性もあります。"}},
+      {"@type":"Question","name":"想定利回りは何%で計算すればいいですか？","acceptedAnswer":{"@type":"Answer","text":"絶対の正解はありませんが、世界株式の長期的な実績を踏まえて3〜5%程度の控えめな数字で試算しておくと、期待しすぎを防げます。"}}
+    ]
+  }
+  </script>
+</head>
+<body>
+<header>
+  <div class="container">
+    <a href="../" class="logo">📐 はかるんツール</a>
+    <nav>
+      <div class="nav-item"><a href="../money/" class="nav-link">お金・給与 <span class="nav-arrow">▾</span></a></div>
+      <div class="nav-item"><a href="../health/" class="nav-link">健康・医療 <span class="nav-arrow">▾</span></a></div>
+      <div class="nav-item"><a href="../life/" class="nav-link">暮らし・節約 <span class="nav-arrow">▾</span></a></div>
+      <div class="nav-item"><a href="../date/" class="nav-link">日付・時間 <span class="nav-arrow">▾</span></a></div>
+      <div class="nav-item"><a href="../tax/" class="nav-link">節税 <span class="nav-arrow">▾</span></a></div>
+      <div class="nav-item"><a href="../calc/" class="nav-link">計算・変換 <span class="nav-arrow">▾</span></a></div>
+      <div class="nav-item"><a href="../invest/" class="nav-link">投資・資産 <span class="nav-arrow">▾</span></a></div>
+      <div class="nav-item active"><a href="./" class="nav-link">📝 ブログ</a></div>
+    </nav>
+  </div>
+</header>
+
+<div class="article-hero" style="background: linear-gradient(135deg, #047857 0%, #059669 55%, #34D399 100%);">
+  <div class="container">
+    <div class="breadcrumb" style="font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:12px;">
+      <a href="../" style="color:rgba(255,255,255,0.7);">はかるんツール</a> ›
+      <a href="./" style="color:rgba(255,255,255,0.7);">ブログ</a> › 投資・資産
+    </div>
+    <span class="category-badge">📈 投資・資産</span>
+    <h1>新NISAは月いくらで将来いくら？積立シミュレーションで見る複利の力</h1>
+    <div class="meta">
+      <span>📅 2026年6月17日</span>
+      <span>⏱️ 約15分で読めます</span>
+      <span>✏️ はかるんツール編集部</span>
+    </div>
+  </div>
+</div>
+
+<main style="padding: 36px 0 60px;">
+  <div class="blog-layout">
+    <div>
+      <div class="ad-area" style="margin-bottom:28px;">広告</div>
+      <div class="article-body">
+        <div class="article-lead">
+          新NISAを始めると、多くの人が気になるのが「毎月コツコツ積み立てたら、将来いくらになるんだろう？」という点です。実は将来の金額は、たった3つの数字（毎月の積立額・運用する期間・想定利回り）で大きく変わります。この記事では、月1万・3万・5万円を積み立てた場合の将来額を、期間別・利回り別にシミュレーションしながら、「複利」という増え方の仕組みと、結果を過信しないための見方をやさしく解説します。なお、姉妹記事の<a href="nisa-tsumitate">「NISAは毎月いくら積み立てる？無理のない金額の決め方」</a>では家計目線での金額の決め方を扱っています。あわせて読むと、無理のない金額と将来のイメージの両方がつかめます。
+        </div>
+
+        <figure class="article-eyecatch">
+          <img src="eyecatch-nisa-simulation.webp" alt="新NISAの積立シミュレーションをハカセが将来額のグラフで解説するイラスト" width="1672" height="941">
+        </figure>
+
+        <div class="toc">
+          <div class="toc-title">📋 この記事でわかること</div>
+          <ol>
+            <li><a href="#section1">新NISAをかんたんにおさらい</a></li>
+            <li><a href="#section2">将来額を決める3つの数字</a></li>
+            <li><a href="#section3">月1万・3万・5万円だと将来いくら？</a></li>
+            <li><a href="#section4">期間の差が生む「複利の力」</a></li>
+            <li><a href="#section5">想定利回り別に比べてみる</a></li>
+            <li><a href="#section6">非課税枠1,800万円との関係</a></li>
+            <li><a href="#section7">シミュレーションを過信しない</a></li>
+            <li><a href="#section8">取り崩し（出口）の考え方</a></li>
+            <li><a href="#faq">よくある質問</a></li>
+            <li><a href="#tool">計算ツールで確認する</a></li>
+            <li><a href="#matome">まとめ</a></li>
+          </ol>
+        </div>
+
+        <h2 id="section1">1. 新NISAをかんたんにおさらい</h2>
+        <p>NISA（ニーサ）とは、投資で得た利益に税金がかからなくなる制度のことです。ふつう、投資で増えたお金には約20%の税金がかかります。たとえば10万円の利益が出ると、約2万円が税金で引かれます。NISAの口座を使えば、この税金がかからず、増えた分をまるごと受け取れます。</p>
+        <p>2024年から始まった新NISAでは、一生のうちに投資できる金額の上限（非課税で持てる枠）が1,800万円まで広がり、制度を使える期間の制限もなくなりました。長くコツコツ積み立てたい人にとって、使いやすい制度になっています。</p>
+        <ul>
+          <li><strong>利益に税金がかからない</strong>（通常は約20%かかる）</li>
+          <li><strong>非課税で持てる上限は1人あたり1,800万円</strong></li>
+          <li><strong>いつまで使えるかの期限がない</strong>（長期向き）</li>
+        </ul>
+
+        <div class="hakase-balloon">
+          <img src="hakase.png" alt="ハカセ" class="hakase-icon">
+          <div class="hakase-right">
+            <div class="hakase-name">ハカセ</div>
+            <div class="hakase-bubble">NISAは「税金がかからない箱」じゃと思えばいい。中に入れた投資が増えても、その利益に税金がかからん。だからこそ、長く運用するほどおトクが大きくなるんじゃ。</div>
+          </div>
+        </div>
+
+        <h2 id="section2">2. 将来額を決める3つの数字</h2>
+        <p>「将来いくらになるか」は、難しそうに見えて、実はたった3つの数字で決まります。</p>
+        <ol>
+          <li><strong>毎月の積立額</strong>……月1万円なのか、3万円なのか</li>
+          <li><strong>運用する期間</strong>……10年なのか、20年、30年なのか</li>
+          <li><strong>想定利回り</strong>……1年あたり何%で増えると考えるか</li>
+        </ol>
+        <p>このうち、特に効いてくるのが「期間」です。理由は次の章で出てくる「複利（ふくり）」の仕組みにあります。複利とは、増えたお金を引き出さずにそのまま運用に回すことで、増えた分にもさらに利益がついていく増え方のことです。雪だるまが転がるほど大きくなるのと同じイメージで、期間が長いほど効果が大きくなります。</p>
+        <p>反対に、よく注意したいのが「想定利回り」です。利回りは未来を保証する数字ではなく、「だいたいこれくらいで増えると仮定したら」という前提にすぎません。あとの章で、ここを過信しないための見方も説明します。</p>
+
+        <h2 id="section3">3. 月1万・3万・5万円だと将来いくら？</h2>
+        <p>まずは想定利回りを年5%、運用期間を20年でそろえて、毎月の積立額だけを変えて比べてみます。下の金額は、利回りが毎年5%で続いたと仮定した場合の目安です。</p>
+
+        <table class="blog-table">
+          <thead>
+            <tr><th>毎月の積立額</th><th>積み立てた元本（20年）</th><th>20年後の目安</th><th>増えた分の目安</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1万円</td><td>240万円</td><td>約411万円</td><td>約171万円</td></tr>
+            <tr><td>3万円</td><td>720万円</td><td>約1,233万円</td><td>約513万円</td></tr>
+            <tr><td>5万円</td><td>1,200万円</td><td>約2,055万円</td><td>約855万円</td></tr>
+          </tbody>
+        </table>
+        <p class="table-note">※想定利回り年5%・運用20年で試算した目安です。実際の結果を保証するものではありません。</p>
+
+        <p>「元本」とは、自分が積み立てた金額の合計のことです。月3万円を20年積み立てると元本は720万円ですが、運用がうまくいけば目安として約1,233万円、つまり元本より約513万円多くなる計算です。積立額が大きいほど将来額も大きくなりますが、ここで無理をして家計が苦しくなっては続きません。<a href="nisa-tsumitate">無理のない金額の決め方</a>も参考に、続けられる範囲で選びましょう。</p>
+
+        <div class="hakase-balloon">
+          <img src="hakase.png" alt="ハカセ" class="hakase-icon">
+          <div class="hakase-right">
+            <div class="hakase-name">ハカセ</div>
+            <div class="hakase-bubble">月1万円でも20年で171万円ほど増える計算じゃ。「少ないから意味がない」ことはない。まずは続けられる金額で始めて、余裕が出たら増やせばよいぞ。</div>
+          </div>
+        </div>
+
+        <h2 id="section4">4. 期間の差が生む「複利の力」</h2>
+        <p>次は、毎月3万円・想定利回り5%でそろえて、運用する期間だけを変えてみます。複利の力で、後半になるほど増え方が加速するのがポイントです。</p>
+
+        <table class="blog-table">
+          <thead>
+            <tr><th>運用期間</th><th>積み立てた元本</th><th>将来額の目安</th><th>増えた分の目安</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>10年</td><td>360万円</td><td>約466万円</td><td>約106万円</td></tr>
+            <tr><td>20年</td><td>720万円</td><td>約1,233万円</td><td>約513万円</td></tr>
+            <tr><td>30年</td><td>1,080万円</td><td>約2,497万円</td><td>約1,417万円</td></tr>
+          </tbody>
+        </table>
+        <p class="table-note">※毎月3万円・想定利回り年5%で試算した目安です。</p>
+
+        <p>注目したいのは「増えた分」です。10年では約106万円ですが、20年では約513万円、30年では約1,417万円と、期間が2倍・3倍になると増えた分はそれ以上のスピードで大きくなっています。これが複利の力です。早く始めて長く続けるほど有利になる、という言葉の意味がここにあります。</p>
+        <p>逆にいえば、複利の効果をしっかり受け取るには「時間」が必要です。短い期間だと、複利よりも「いくら積み立てたか（元本）」の影響が大きくなります。今すぐ大きく増やすための制度ではなく、じっくり育てるための制度だと考えておくと、相場が一時的に下がっても落ち着いて続けやすくなります。</p>
+
+        <h2 id="section5">5. 想定利回り別に比べてみる</h2>
+        <p>最後に、毎月3万円・期間20年でそろえて、想定利回りだけを3%・5%・7%で変えてみます。利回りの数字を少し変えるだけで、将来額が大きく変わることがわかります。</p>
+
+        <table class="blog-table">
+          <thead>
+            <tr><th>想定利回り</th><th>積み立てた元本</th><th>20年後の目安</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>年3%</td><td>720万円</td><td>約985万円</td></tr>
+            <tr><td>年5%</td><td>720万円</td><td>約1,233万円</td></tr>
+            <tr><td>年7%</td><td>720万円</td><td>約1,563万円</td></tr>
+          </tbody>
+        </table>
+        <p class="table-note">※毎月3万円・運用20年で試算した目安です。</p>
+
+        <p>同じ積立額・同じ期間でも、利回りが3%か7%かで将来額は約985万円〜約1,563万円と、600万円近い差になります。「だったら7%で計算しよう」と思いたくなりますが、ここは注意が必要です。利回りは自分で選べる数字ではなく、相場しだいで決まるもの。高い数字で計算すると、期待だけがふくらんでしまいます。</p>
+        <p>世界中の株式に分散して投資した場合、長期の実績としては年3〜5%程度を一つの目安にする人が多いです。シミュレーションをするときは、控えめな数字（3〜5%）で計算しておくと、「思ったより増えなかった」というガッカリを防げます。</p>
+
+        <div class="hakase-balloon">
+          <img src="hakase.png" alt="ハカセ" class="hakase-icon">
+          <div class="hakase-right">
+            <div class="hakase-name">ハカセ</div>
+            <div class="hakase-bubble">利回りは「皮算用」になりやすいところじゃ。ワシのおすすめは、低めの利回りで計画を立てて、それ以上に増えたら「ラッキー」と考えること。慎重なくらいがちょうどよいぞ。</div>
+          </div>
+        </div>
+
+        <h2 id="section6">6. 非課税枠1,800万円との関係</h2>
+        <p>新NISAでは、非課税で持てる上限が1人あたり1,800万円です。この枠の中に「つみたて投資枠」（年120万円まで）と「成長投資枠」（年240万円まで、上限のうち1,200万円まで）があります。難しく感じるかもしれませんが、毎月コツコツ積み立てる人は、まず「つみたて投資枠」を使えば十分なケースが多いです。</p>
+        <p>たとえば月3万円なら年36万円なので、つみたて投資枠（年120万円）の中に余裕で収まります。仮に月3万円を続けても、元本が1,800万円に届くのは50年後なので、枠を使い切る心配はほとんどいりません。枠の上限よりも、「無理なく続けられるか」を優先して考えましょう。</p>
+        <ul>
+          <li><strong>つみたて投資枠</strong>……年120万円まで。毎月の積立に向く</li>
+          <li><strong>成長投資枠</strong>……年240万円まで。まとまった額も入れられる</li>
+          <li><strong>合計の上限</strong>……生涯で1,800万円まで（うち成長投資枠は1,200万円まで）</li>
+        </ul>
+
+        <h2 id="section7">7. シミュレーションを過信しない</h2>
+        <p>ここまで将来額の目安を見てきましたが、いちばん大切なのは「シミュレーションはあくまで仮定の計算」だと理解することです。表の金額は、想定した利回りが毎年きれいに続いた場合の数字です。実際の相場はこんなふうにまっすぐ増えるわけではありません。</p>
+        <ul>
+          <li><strong>毎年同じ利回りにはならない</strong>……上がる年もあれば、大きく下がる年もあります。</li>
+          <li><strong>元本割れもあり得る</strong>……元本割れとは、投資した金額より評価額が下がることです。特に始めて数年は起こりやすいです。</li>
+          <li><strong>途中でやめると複利が活きない</strong>……下落で不安になって売ってしまうと、その後の回復を取り逃すことがあります。</li>
+        </ul>
+        <p>だからこそ、生活費や近い将来に使う予定のお金は投資に回さず、現金で確保しておくことが大事です。手元に当面の生活を支えるお金（生活防衛資金）があれば、相場が下がっても慌てて売らずに済みます。シミュレーションの数字は「未来の約束」ではなく「方向感をつかむ道具」として使いましょう。</p>
+
+        <h2 id="section8">8. 取り崩し（出口）の考え方</h2>
+        <p>積み立てた後、お金を使うときのことも少しだけ触れておきます。NISAは途中で売って引き出すこともできますが、せっかく育てた複利を活かすなら、必要になったぶんだけ少しずつ取り崩していくのが基本です。</p>
+        <p>たとえば老後に使う場合、全額を一度に売るのではなく、毎年あるいは毎月、生活に必要な分だけ取り崩していけば、残りは引き続き運用を続けられます。使う時期が近づいたら、値動きの大きい資産の割合を少しずつ減らして安定させる、という考え方もあります。出口のイメージまで持っておくと、積立の途中でも安心して続けやすくなります。</p>
+
+        <h2 id="faq">よくある質問</h2>
+        <div class="faq-item"><div class="faq-q">Q. 新NISAで月3万円を20年積み立てると将来いくらになりますか？</div><div class="faq-a">想定利回り5%で運用できた場合の目安は約1,233万円です。積み立てた元本は720万円なので、運用で増えた分はおよそ513万円という計算になります。あくまで想定利回りでの試算で、結果を保証するものではありません。</div></div>
+        <div class="faq-item"><div class="faq-q">Q. 複利とは何ですか？</div><div class="faq-a">運用で増えたお金を引き出さず、そのまま運用に回すことで、増えた分にもさらに利益がついていく仕組みのことです。期間が長いほど効果が大きくなります。</div></div>
+        <div class="faq-item"><div class="faq-q">Q. シミュレーションどおりに増えますか？</div><div class="faq-a">いいえ。シミュレーションは一定の利回りが毎年続いた前提の目安です。実際の相場は上下するため、想定より多いことも少ないこともあり、元本割れする可能性もあります。</div></div>
+        <div class="faq-item"><div class="faq-q">Q. 想定利回りは何%で計算すればいいですか？</div><div class="faq-a">絶対の正解はありませんが、世界株式の長期的な実績を踏まえて3〜5%程度の控えめな数字で試算しておくと、期待しすぎを防げます。</div></div>
+
+        <h2 id="tool">計算ツールで自分の場合を確認しよう</h2>
+        <p>この記事の表は「月3万円・5%・20年」など、決まった条件での目安です。実際には、あなたの積立額・期間・想定利回りで計算してみるのがいちばんです。数字を少し変えるだけで将来額が大きく動くので、いくつかのパターンを比べてみてください。</p>
+        <p>はかるんツールのNISA投資シミュレーションなら、毎月の積立額・運用期間・想定利回りを入れるだけで、将来額の目安をすぐに確認できます。</p>
+        <a href="../invest/nisa" class="tool-banner">
+          <div class="banner-icon">📈</div>
+          <div class="banner-text">
+            <div class="banner-label">無料で使えるツール</div>
+            <div class="banner-title">NISA投資シミュレーション</div>
+            <div class="banner-desc">毎月の積立額・運用期間・想定利回りから、将来の資産額を試算できます。</div>
+          </div>
+          <div class="banner-arrow">→</div>
+        </a>
+
+        <h2 id="matome">まとめ</h2>
+        <div class="summary-box">
+          <div class="summary-title">この記事のポイント</div>
+          <ul>
+            <li>将来額は「積立額・期間・想定利回り」の3つで決まる</li>
+            <li>特に「期間」が長いほど複利の力で増え方が加速する</li>
+            <li>月3万円・5%・20年なら目安は約1,233万円（元本720万円）</li>
+            <li>想定利回りは控えめ（3〜5%）に見積もるとガッカリしにくい</li>
+            <li>シミュレーションは保証ではなく、方向感をつかむ道具</li>
+            <li>生活防衛資金を残し、続けられる金額で取り組む</li>
+          </ul>
+        </div>
+
+        <p class="source-note">2026年時点の新NISA制度の一般的な考え方を参考にしています。将来の運用成果を保証するものではなく、税制や制度の詳細は変更される場合があります。投資の判断はご自身の責任で行ってください。</p>
+      </div>
+      <div class="ad-area" style="margin-top:28px;">広告</div>
+    </div>
+
+    <aside class="sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-title">📋 目次</div>
+        <div class="sidebar-toc">
+          <ol>
+            <li><a href="#section1">制度のおさらい</a></li>
+            <li><a href="#section2">将来額を決める3つ</a></li>
+            <li><a href="#section3">月1万・3万・5万</a></li>
+            <li><a href="#section4">複利の力</a></li>
+            <li><a href="#section5">利回り別の比較</a></li>
+            <li><a href="#section6">1,800万円の枠</a></li>
+            <li><a href="#section7">過信しない</a></li>
+            <li><a href="#section8">取り崩し</a></li>
+            <li><a href="#faq">よくある質問</a></li>
+            <li><a href="#tool">計算ツール</a></li>
+          </ol>
+        </div>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-title">🔧 関連ツール</div>
+        <div class="sidebar-tools">
+          <a href="../invest/nisa"><span class="tool-icon">📈</span>NISA投資シミュレーション</a>
+          <a href="../invest/tsumitate"><span class="tool-icon">🔧</span>積立投資シミュレーション</a>
+          <a href="../invest/fukuri"><span class="tool-icon">🔧</span>複利計算</a>
+        </div>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-title">📝 関連記事</div>
+        <div class="sidebar-tools">
+          <a href="nisa-tsumitate"><span class="tool-icon">📈</span>NISAは毎月いくら積み立てる？</a>
+          <a href="ideco-simulation"><span class="tool-icon">📈</span>iDeCoはいくら積み立てる？</a>
+          <a href="rogo-shikin"><span class="tool-icon">📈</span>老後資金はいくら必要？</a>
+        </div>
+      </div>
+      <div class="sidebar-card" style="background:var(--primary);border-color:var(--primary);">
+        <div style="color:#fff;font-size:14px;font-weight:700;margin-bottom:10px;">📐 はかるんツールとは？</div>
+        <div style="color:rgba(255,255,255,0.85);font-size:13px;line-height:1.7;margin-bottom:14px;">お金・健康・暮らしに関する計算ツールを無料で提供しています。</div>
+        <a href="../" style="display:block;background:#fff;color:var(--primary);font-weight:700;font-size:14px;text-align:center;padding:10px;border-radius:8px;text-decoration:none;">ツール一覧を見る →</a>
+      </div>
+    </aside>
+  </div>
+</main>
+<footer>
+  <div class="footer-logo">📐 はかるんツール</div>
+  <div class="footer-links">
+    <a href="../">トップ</a>
+    <a href="./">ブログ</a>
+    <a href="../about">運営者情報</a>
+    <a href="../privacy">プライバシーポリシー</a>
+    <a href="../disclaimer">免責事項</a>
+    <a href="../contact">お問い合わせ</a>
+  </div>
+  <div class="copyright">© 2026 はかるんツール</div>
+</footer>
+</body>
+</html>

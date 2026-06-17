@@ -1164,3 +1164,45 @@
   .step-flow { gap: 8px; }
   .step-item { max-width: 80px; }
 }
+
+/* 記事内の比較テーブル */
+.blog-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0 8px;
+  font-size: 15px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.blog-table thead th {
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+  text-align: center;
+  padding: 12px 10px;
+}
+.blog-table td {
+  padding: 12px 10px;
+  border-top: 1px solid var(--border);
+  color: var(--text);
+  text-align: center;
+}
+.blog-table td:first-child {
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+.blog-table tbody tr:nth-child(even) {
+  background: var(--primary-light);
+}
+.table-note {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0 0 24px;
+}
+
+@media (max-width: 480px) {
+  .blog-table { font-size: 13px; }
+  .blog-table thead th,
+  .blog-table td { padding: 8px 6px; }
+}
