@@ -3,10 +3,12 @@
 ハカセ🦉 X自動投稿ボット
 
 使い方:
-  python3 post.py --draft 5    # 下書きを5件生成して保存
+  python3 post.py --draft 5    # ツール紹介の下書きを5件生成して保存
+  python3 post.py --value 5    # 豆知識（ツール誘導なし）の下書きを5件生成して保存
   python3 post.py --list       # 保存済み下書きを一覧表示
   python3 post.py --send 3     # 下書き #3 をXに投稿
   python3 post.py --delete 3   # 下書き #3 を削除
+  python3 post.py --auto       # ツール紹介か豆知識をランダムに生成して即投稿
 """
 
 import os
@@ -83,6 +85,25 @@ TOOLS = [
     {'name': '生命保険必要額計算', 'url': 'https://hakarun.net/invest/seimei', 'cat': '投資', 'hint': '必要な保険金額は家族構成・年収・ローン残高によって大きく変わる'},
 ]
 
+# ===== 豆知識テーマ一覧（ツール誘導なし・暮らしや投資に役立つ話）=====
+VALUE_TOPICS = [
+    {'name': '複利の力', 'cat': '投資', 'hint': '毎月3万円を年利5%で30年積み立てると元本1,080万円が約2,500万円に。増えた分のほとんどは複利（利益にも利益がつく仕組み）'},
+    {'name': '72の法則', 'cat': '投資', 'hint': '72÷年利＝お金が2倍になる年数。年利5%なら約14年、年利7%なら約10年で2倍'},
+    {'name': '固定費の見直し', 'cat': '節約', 'hint': '月1万円の固定費を削ると年12万円。年利5%で20年運用すれば約411万円の差になる。一度見直せば自動で効き続ける'},
+    {'name': '生活防衛資金', 'cat': '投資', 'hint': '投資の前にまず現金を確保。目安は会社員で生活費の3〜6ヶ月分、自営業で6〜12ヶ月分。暴落時の狼狽売りを防げる'},
+    {'name': 'ドルコスト平均法', 'cat': '投資', 'hint': '毎月決まった額を買うと、高い時は少なく・安い時は多く買える。タイミングを読まなくていいので初心者ほど積立が向く'},
+    {'name': '手取りの実際', 'cat': 'お金', 'hint': '年収500万でも手取りは約390万円（月約32万）。社会保険料・所得税・住民税で約110万円が引かれる'},
+    {'name': '先取り貯金', 'cat': '節約', 'hint': '「残ったら貯金」ではなく「先に貯金してから残りで生活」。給料日に自動で別口座へ移すのがコツ'},
+    {'name': 'インフレと現金', 'cat': 'お金', 'hint': 'メガバンクの普通預金金利は2026年に過去最高水準の0.4%。それでもインフレ率（約2〜3%）には負けるので、現金だけでは価値が目減りする'},
+    {'name': '4%ルール', 'cat': '投資', 'hint': '年間生活費の25倍を貯めて年4%ずつ取り崩せば資産が長持ちする考え方。月20万生活なら必要額は約6,000万円'},
+    {'name': '早く始める価値', 'cat': '投資', 'hint': '月3万を年利5%で積立、25歳開始は65歳で約4,579万円、35歳開始は約2,497万円。たった10年で約2,000万円の差'},
+    {'name': '平均と中央値', 'cat': 'お金', 'hint': '20代の貯金「平均」は約180万だが「中央値（ど真ん中）」は約80万。平均は一部のお金持ちに引き上げられるので中央値で見るのが正解'},
+    {'name': '最初の100万円が一番大変', 'cat': '投資', 'hint': '序盤は複利がほぼ効かず自分の入金力だけで増やす世界。100万の年5%は年5万だが、1000万の年5%は年50万。最初の壁を越えると加速する'},
+    {'name': 'ふるさと納税の仕組み', 'cat': '節税', 'hint': '実質2,000円の負担で各地の特産品がもらえる制度。年収450万・独身なら上限の目安は約5万円。税金の使い道を自分で選べる'},
+    {'name': 'iDeCoの節税', 'cat': '節税', 'hint': '掛金が全額所得控除になる。年収500万の人が月2万円積み立てると年間約4.8万円の節税。ただし60歳まで引き出せない'},
+    {'name': 'ボーナスの手取り', 'cat': 'お金', 'hint': '額面100万円のボーナスでも社会保険料と所得税で約20万円引かれ、手取りは約80万円になることが多い'},
+]
+
 SYSTEM_PROMPT = """あなたはフクロウ博士「ハカセ」として、X（旧Twitter）に投稿する日本語のツイートを作成します。
 
 【キャラクター設定】
@@ -100,6 +121,24 @@ SYSTEM_PROMPT = """あなたはフクロウ博士「ハカセ」として、X（
 - ツイート本文のみ出力する（前置きや説明文は不要）"""
 
 
+VALUE_SYSTEM_PROMPT = """あなたはフクロウ博士「ハカセ」として、X（旧Twitter）に投稿する暮らしや投資に役立つ日本語の豆知識ツイートを作成します。
+
+【キャラクター設定】
+- 🦉 なんでも計算できる知識豊富なフクロウ博士
+- 親しみやすく、難しいことをわかりやすく解説するのが得意
+- 語尾は「〜だよ」「〜なんだ」「〜してみよう」などカジュアルかつ知的なトーン
+
+【ツイートのルール】
+- 必ず「🦉ハカセの豆知識」で書き始める
+- ハッシュタグを除いて140文字以内
+- 具体的な数字を必ず1つ以上含める
+- 改行を使って読みやすくする
+- 読んだだけで「へぇ！」「やってみよう」と思える、それ単体で完結した内容にする
+- URL・ツール名・サイト名は一切入れない（宣伝しない）
+- 関連するハッシュタグを2〜3個つける（例：#お金の知識 #投資 #NISA）
+- ツイート本文のみ出力する（前置きや説明文は不要）"""
+
+
 def load_drafts():
     """下書きファイルを読み込む"""
     if not DRAFTS_FILE.exists():
@@ -114,42 +153,67 @@ def save_drafts_file(data):
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 
-def generate_drafts(count):
-    """Claude を使って下書きを生成する"""
-    if not os.environ.get('CLAUDE_API_KEY'):
-        print("❌ CLAUDE_API_KEY が設定されていません。.env ファイルを確認してください。")
-        sys.exit(1)
-
-    client = anthropic.Anthropic(api_key=os.environ['CLAUDE_API_KEY'])
-    data = load_drafts()
-    new_drafts = []
-
-    print(f"✍️  {count}件の下書きを生成中...\n")
-
-    for i in range(count):
-        tool = random.choice(TOOLS)
-        print(f"  [{i+1}/{count}] 「{tool['name']}」の投稿を生成中...")
-
+def make_tweet(client, kind):
+    """Claude で1件分のツイート本文を生成する。
+    kind='tool' ならツール紹介、kind='value' なら豆知識（URLなし）。
+    戻り値: (本文, ネタの名前, カテゴリ)"""
+    if kind == 'value':
+        topic = random.choice(VALUE_TOPICS)
         response = client.messages.create(
             model="claude-haiku-4-5-20251001",
             max_tokens=400,
-            system=SYSTEM_PROMPT,
+            system=VALUE_SYSTEM_PROMPT,
             messages=[{
                 "role": "user",
-                "content": f"""以下のツールを紹介するツイートを1つ作成してください。
+                "content": f"""以下のテーマで、暮らしや投資に役立つ豆知識ツイートを1つ作成してください。
+
+テーマ：{topic['name']}
+カテゴリ：{topic['cat']}
+参考になる数字・情報：{topic['hint']}"""
+            }]
+        )
+        return response.content[0].text.strip(), topic['name'], topic['cat']
+
+    tool = random.choice(TOOLS)
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=400,
+        system=SYSTEM_PROMPT,
+        messages=[{
+            "role": "user",
+            "content": f"""以下のツールを紹介するツイートを1つ作成してください。
 
 ツール名：{tool['name']}
 カテゴリ：{tool['cat']}
 URL：{tool['url']}
 参考になる数字・情報：{tool['hint']}"""
-            }]
-        )
+        }]
+    )
+    return response.content[0].text.strip(), tool['name'], tool['cat']
 
-        tweet_text = response.content[0].text.strip()
+
+def generate_drafts(count, kind='tool'):
+    """Claude を使って下書きを生成する（kind='tool' or 'value'）"""
+    if not os.environ.get('CLAUDE_API_KEY'):
+        print("❌ CLAUDE_API_KEY が設定されていません。.env ファイルを確認してください。")
+        sys.exit(1)
+
+    label = '豆知識' if kind == 'value' else 'ツール紹介'
+    client = anthropic.Anthropic(api_key=os.environ['CLAUDE_API_KEY'])
+    data = load_drafts()
+    new_drafts = []
+
+    print(f"✍️  {label}の下書きを {count}件 生成中...\n")
+
+    for i in range(count):
+        tweet_text, name, cat = make_tweet(client, kind)
+        print(f"  [{i+1}/{count}] 「{name}」の投稿を生成中...")
+
         draft = {
             "id": data["next_id"],
-            "tool": tool["name"],
-            "category": tool["cat"],
+            "tool": name,
+            "category": cat,
+            "kind": kind,
             "text": tweet_text,
             "created_at": datetime.now().strftime('%Y-%m-%d %H:%M'),
             "posted": False
@@ -273,27 +337,12 @@ def auto_post():
             print(f"❌ {key} が設定されていません。")
             sys.exit(1)
 
-    # Claude でツイート生成
+    # Claude でツイート生成（ツール紹介と豆知識をランダムに選ぶ）
     claude_client = anthropic.Anthropic(api_key=os.environ['CLAUDE_API_KEY'])
-    tool = random.choice(TOOLS)
-    print(f"✍️  「{tool['name']}」の投稿を生成中...")
-
-    response = claude_client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=400,
-        system=SYSTEM_PROMPT,
-        messages=[{
-            "role": "user",
-            "content": f"""以下のツールを紹介するツイートを1つ作成してください。
-
-ツール名：{tool['name']}
-カテゴリ：{tool['cat']}
-URL：{tool['url']}
-参考になる数字・情報：{tool['hint']}"""
-        }]
-    )
-
-    tweet_text = response.content[0].text.strip()
+    kind = random.choice(['tool', 'value'])
+    tweet_text, name, cat = make_tweet(claude_client, kind)
+    label = '豆知識' if kind == 'value' else 'ツール紹介'
+    print(f"✍️  {label}「{name}」の投稿を生成中...")
 
     # X に投稿
     twitter_client = tweepy.Client(
@@ -311,8 +360,9 @@ URL：{tool['url']}
         data = load_drafts()
         data["drafts"].append({
             "id": data["next_id"],
-            "tool": tool["name"],
-            "category": tool["cat"],
+            "tool": name,
+            "category": cat,
+            "kind": kind,
             "text": tweet_text,
             "created_at": datetime.now().strftime('%Y-%m-%d %H:%M'),
             "posted": True,
@@ -334,7 +384,8 @@ URL：{tool['url']}
 def main():
     parser = argparse.ArgumentParser(description='ハカセ🦉 X自動投稿ボット')
     group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument('--draft', type=int, metavar='件数', help='下書きを生成する（例: --draft 5）')
+    group.add_argument('--draft', type=int, metavar='件数', help='ツール紹介の下書きを生成する（例: --draft 5）')
+    group.add_argument('--value', type=int, metavar='件数', help='豆知識（ツール誘導なし）の下書きを生成する（例: --value 5）')
     group.add_argument('--list', action='store_true', help='下書き一覧を表示する')
     group.add_argument('--send', type=int, metavar='番号', help='指定した下書きをXに投稿する（例: --send 3）')
     group.add_argument('--delete', type=int, metavar='番号', help='指定した下書きを削除する（例: --delete 3）')
@@ -343,7 +394,9 @@ def main():
     args = parser.parse_args()
 
     if args.draft:
-        generate_drafts(args.draft)
+        generate_drafts(args.draft, kind='tool')
+    elif args.value:
+        generate_drafts(args.value, kind='value')
     elif args.list:
         list_drafts()
     elif args.send:
