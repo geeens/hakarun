@@ -50,6 +50,22 @@
         "@type": "Answer",
         "text": "早ければ早いほど総利息の削減効果が大きくなります。返済初期は利息の割合が高いため、余裕資金ができたら早めの繰り上げ返済が効果的です。"
       }
+    },
+    {
+      "@type": "Question",
+      "name": "元利均等と元金均等はどちらが得ですか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "総支払額（利息）だけで見ると元金均等のほうが少なくなります。ただし元金均等は返済開始直後の負担が大きいため、家計に余裕があるかどうかで選びます。毎月の支払いを一定にして計画を立てやすくしたいなら元利均等が向いています。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "ボーナス返済は使ったほうがいいですか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "月々の返済額を抑えられるメリットがありますが、ボーナスが減ったりなくなったりすると返済が苦しくなります。ボーナス返済に回す割合は借入額の3〜4割以内にとどめ、ボーナスに頼りすぎない返済計画にすると安心です。"
+      }
     }
   ]
 }
@@ -180,14 +196,15 @@
           <input type="number" id="principal" placeholder="30000000" min="0">
           <span class="unit">円</span>
         </div>
+        <p class="hint" id="principal-yomi">例：30000000 と入力（3,000万円）</p>
       </div>
       <div class="form-group">
         <label>年利（金利）</label>
         <div class="input-wrap">
-          <input type="number" id="rate" placeholder="1.5" min="0" max="30" step="0.01">
+          <input type="number" id="rate" placeholder="1.0" min="0" max="30" step="0.01">
           <span class="unit">%</span>
         </div>
-        <p class="hint">住宅ローン変動金利の目安：0.3〜1.0%、固定金利：1.0〜3.0%</p>
+        <p class="hint">2026年の住宅ローン目安：変動0.3〜0.7%／固定（フラット35）1.8〜2.0%前後</p>
       </div>
       <div class="form-group">
         <label>返済期間</label>
@@ -196,34 +213,115 @@
           <span class="unit">年</span>
         </div>
       </div>
+      <div class="form-group">
+        <label>返済方式</label>
+        <div class="radio-group">
+          <label><input type="radio" name="method" value="ganri" checked> 元利均等（毎月一定）</label>
+          <label><input type="radio" name="method" value="gankin"> 元金均等（元金一定）</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>ボーナス返済分（任意）</label>
+        <div class="input-wrap">
+          <input type="number" id="bonus" placeholder="0" min="0">
+          <span class="unit">円</span>
+        </div>
+        <p class="hint">借入額のうちボーナスで返す分。年2回（6か月ごと）返済します。使わなければ空欄でOK。</p>
+      </div>
+      <details class="optional-settings">
+        <summary>繰り上げ返済をシミュレーション（任意）</summary>
+        <div class="optional-settings-body">
+          <div class="form-group">
+            <label>実行時期</label>
+            <div class="input-wrap">
+              <input type="number" id="prepay-year" placeholder="10" min="1">
+              <span class="unit">年後</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>繰り上げ返済額</label>
+            <div class="input-wrap">
+              <input type="number" id="prepay-amount" placeholder="1000000" min="0">
+              <span class="unit">円</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>タイプ</label>
+            <div class="radio-group">
+              <label><input type="radio" name="prepay-type" value="term" checked> 期間短縮型（期間を縮める）</label>
+              <label><input type="radio" name="prepay-type" value="amount"> 返済額軽減型（月々を減らす）</label>
+            </div>
+            <p class="hint">繰り上げ返済は「毎月返済分」に適用して計算します。元金均等は期間短縮型で計算します。</p>
+          </div>
+        </div>
+      </details>
       <button class="btn btn-primary" onclick="calcLoan()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
-          <div class="label">月々の返済額</div>
+          <div class="label" id="res-monthly-label">月々の返済額</div>
           <div class="value" id="res-monthly">—</div>
         </div>
         <div class="result-table">
           <table>
             <tbody>
               <tr><td>借入金額</td><td id="res-principal">—</td></tr>
-              <tr><td>月々の返済額</td><td id="res-monthly2">—</td></tr>
+              <tr><td id="res-monthly2-label">月々の返済額</td><td id="res-monthly2">—</td></tr>
+              <tr id="row-bonus" style="display:none"><td>ボーナス時返済額（年2回）</td><td id="res-bonus">—</td></tr>
               <tr><td>総返済額</td><td id="res-total">—</td></tr>
               <tr class="deduct"><td>総利息（利息の合計）</td><td id="res-interest">—</td></tr>
               <tr><td>利息の割合</td><td id="res-rate">—</td></tr>
+              <tr id="row-prepay" style="display:none"><td id="res-prepay-label">繰り上げ後の返済期間</td><td id="res-prepay">—</td></tr>
+              <tr id="row-saved" class="total" style="display:none"><td>繰り上げで減る利息</td><td id="res-saved">—</td></tr>
             </tbody>
           </table>
         </div>
+        <div class="loan-graph" id="loan-graph">
+          <div class="graph-title">総返済額の内訳</div>
+          <div class="takehome-bars">
+            <div class="bar-row">
+              <span class="bar-label">元金</span>
+              <div class="bar-track"><span class="bar-fill" id="bar-principal" style="width:0%"></span></div>
+              <span class="bar-value" id="bar-principal-val">—</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">利息</span>
+              <div class="bar-track"><span class="bar-fill interest" id="bar-interest" style="width:0%"></span></div>
+              <span class="bar-value" id="bar-interest-val">—</span>
+            </div>
+          </div>
+        </div>
         <div class="info-box"><strong>金利1%の違いで総返済額が大きく変わります。</strong>住宅ローンは金利が低いほど有利です。複数の金融機関を比較してみましょう。</div>
+        <details class="optional-settings loan-schedule" id="loan-schedule">
+          <summary>📋 返済予定表（年ごとの推移）を見る</summary>
+          <div class="optional-settings-body">
+            <div class="result-table wide-table sticky-first">
+              <table>
+                <thead>
+                  <tr><th>年目</th><th>年間返済額</th><th>うち元金</th><th>うち利息</th><th>年末残高</th></tr>
+                </thead>
+                <tbody id="schedule-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </details>
       </div>
     </div>
     <div class="ad-area">広告</div>
     <div class="article">
-      <h2>ローンの基本をわかりやすく解説</h2>
-      <p>ローンとは、お金を借りて分割して返す仕組みです。借りた金額（元金）に加えて、金利に応じた利息を支払います。</p>
-      <h3>元利均等返済とは</h3>
-      <p>このシミュレーションは「元利均等返済」（毎月同じ金額を返済する方式）で計算しています。最も一般的な返済方法です。</p>
-      <h3>繰り上げ返済の効果</h3>
-      <p>余裕があるときに繰り上げ返済（元金を多く返す）をすると、総利息を大幅に減らせます。住宅ローンでは特に効果的です。</p>
+      <h2>このシミュレーションでできること</h2>
+      <p>ローンとは、お金を借りて分割して返す仕組みです。借りた金額（元金）に加えて、金利に応じた利息を支払います。このツールは住宅ローン・カーローン・教育ローンなど、毎月返済するローン全般の試算に使えます。次の項目を切り替えて計算できます。</p>
+      <ul>
+        <li><strong>返済方式（元利均等／元金均等）</strong>：両方を切り替えて、月々の返済額と総利息を比べられます。</li>
+        <li><strong>ボーナス返済</strong>：借入額の一部をボーナス（年2回）で返す「ボーナス併用返済」に対応しています。</li>
+        <li><strong>返済予定表</strong>：1年ごとに「元金・利息・残高」がどう減っていくかを表で確認できます。</li>
+        <li><strong>繰り上げ返済</strong>：途中でまとまった金額を返したとき、利息がいくら減るか・期間がどれだけ縮むかを試算できます。</li>
+      </ul>
+      <h3>元利均等返済と元金均等返済の違い</h3>
+      <p>「元利均等返済」は毎月の支払額が一定になる方式で、最も広く使われています。家計の見通しが立てやすい反面、返済初期は利息の割合が高く、元金がなかなか減りません。「元金均等返済」は毎月返す元金を一定にする方式で、初回の返済額は高くなりますが、元金が早く減るぶん総利息は元利均等より少なくなります。上のフォームで両方を計算して見比べてみてください。</p>
+      <h3>ボーナス返済を使うときの注意</h3>
+      <p>ボーナス返済は月々の負担を軽くできますが、ボーナスが減った・なくなったときに返済が苦しくなるリスクがあります。借入額のうちボーナス返済に回す割合は、無理のない範囲（一般的には3〜4割以内が目安）にとどめるのが安心です。</p>
+      <h3>繰り上げ返済の「期間短縮型」と「返済額軽減型」</h3>
+      <p>繰り上げ返済には2つのタイプがあります。<strong>期間短縮型</strong>は毎月の返済額は変えずに返済期間を縮める方法で、利息の削減効果が大きいのが特長です。<strong>返済額軽減型</strong>は期間はそのままで毎月の返済額を下げる方法で、家計の余裕を作りたいときに向きます。一般に、総利息を減らしたいなら期間短縮型のほうが有利です。繰り上げ返済は早い時期に行うほど効果が大きくなります。</p>
     </div>
 
     <div class="article">
@@ -258,6 +356,14 @@
         <div class="faq-q">Q. 住宅ローン控除とは何ですか？</div>
         <div class="faq-a">住宅ローン控除（住宅借入金等特別控除）とは、住宅ローン残高の0.7%を所得税・住民税から最大13年間差し引ける制度です。新築・中古住宅ともに条件を満たせば適用できます。</div>
       </div>
+      <div class="faq-item">
+        <div class="faq-q">Q. 元利均等と元金均等はどちらが得ですか？</div>
+        <div class="faq-a">総支払額（利息）だけで見ると元金均等のほうが少なくなります。ただし元金均等は返済開始直後の負担が大きいため、家計に余裕があるかどうかで選びます。毎月の支払いを一定にして計画を立てやすくしたいなら元利均等が向いています。このツールで両方を計算して比べてみてください。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q. ボーナス返済は使ったほうがいいですか？</div>
+        <div class="faq-a">月々の返済額を抑えられるメリットがありますが、ボーナスが減ったりなくなったりすると返済が苦しくなります。ボーナス返済に回す割合は借入額の3〜4割以内にとどめ、ボーナスに頼りすぎない返済計画にすると安心です。</div>
+      </div>
     </div>
     <div class="article">
       <h2>関連ツール</h2>
@@ -289,28 +395,171 @@
   <p class="copyright" style="margin-top:8px">© 2026 はかるんツール</p>
 </footer>
 <script>
-function calcLoan() {
-  const P = parseFloat(document.getElementById('principal').value);
-  const annualRate = parseFloat(document.getElementById('rate').value);
-  const years = parseFloat(document.getElementById('years').value);
-  if (!P || annualRate === undefined || !years) { alert('すべての項目を入力してください'); return; }
-  const n = years * 12;
-  const r = annualRate / 100 / 12;
-  let monthly;
-  if (r === 0) { monthly = P / n; }
-  else { monthly = P * r * Math.pow(1+r, n) / (Math.pow(1+r, n) - 1); }
-  const total = monthly * n;
-  const interest = total - P;
-  const interestRate = (interest / P * 100).toFixed(1);
-  const fmt = n => Math.round(n).toLocaleString('ja-JP') + ' 円';
-  document.getElementById('res-monthly').textContent = fmt(monthly);
+var fmt = function(n){ return Math.round(n).toLocaleString('ja-JP') + ' 円'; };
+
+// 元利均等の毎回返済額（残高bal・1期あたり利率r・残り回数n）
+function levelPayment(bal, r, n){
+  if (n <= 0) return 0;
+  if (r === 0) return bal / n;
+  return bal * r * Math.pow(1+r, n) / (Math.pow(1+r, n) - 1);
+}
+
+// 1本のローンを期ごとにシミュレーション（毎月でも半年ごとでも共通）
+// prepay: {period, amount, type:'term'|'amount'} 期(回)指定。なければnull
+function simulate(P0, r, N, method, prepay){
+  var bal = P0;
+  var payment = (method === 'ganri') ? levelPayment(bal, r, N) : null;
+  var gankinPrin = (method === 'gankin') ? P0 / N : null;
+  var sched = [];               // 各期 {period, interest, principal, payment, balance}
+  var totalInterest = 0, totalPaid = 0;
+  var firstPayment = null, afterPrepayPayment = null, actualPeriods = 0;
+  for (var m = 1; m <= N && bal > 0.5; m++){
+    var extra = 0;
+    if (prepay && m === prepay.period){
+      extra = Math.min(prepay.amount, bal);
+      bal -= extra;
+      if (bal <= 0.5){ // 繰り上げで完済
+        sched.push({period:m, interest:0, principal:extra, payment:extra, balance:0});
+        totalPaid += extra; actualPeriods = m; break;
+      }
+      if (prepay.type === 'amount' && method === 'ganri'){
+        payment = levelPayment(bal, r, N - m + 1); // 返済額軽減型：残り回数で再計算
+        afterPrepayPayment = payment;
+      }
+    }
+    var interest = bal * r;
+    var prin, pay;
+    if (method === 'ganri'){
+      pay = payment;
+      prin = pay - interest;
+      if (prin > bal){ prin = bal; pay = prin + interest; }
+    } else {
+      prin = Math.min(gankinPrin, bal);
+      pay = prin + interest;
+    }
+    bal -= prin;
+    var totalPrinThis = prin + extra;
+    var totalPayThis = pay + extra;
+    totalInterest += interest;
+    totalPaid += totalPayThis;
+    if (firstPayment === null) firstPayment = pay;   // 初回の通常返済額
+    actualPeriods = m;
+    sched.push({period:m, interest:interest, principal:totalPrinThis, payment:totalPayThis, balance:Math.max(bal,0)});
+  }
+  return {schedule:sched, totalInterest:totalInterest, totalPaid:totalPaid,
+          firstPayment:firstPayment||0, afterPrepayPayment:afterPrepayPayment, actualPeriods:actualPeriods};
+}
+
+function calcLoan(){
+  var P = parseFloat(document.getElementById('principal').value);
+  var annualRate = parseFloat(document.getElementById('rate').value);
+  var years = parseFloat(document.getElementById('years').value);
+  if (!P || P <= 0 || isNaN(annualRate) || annualRate < 0 || !years || years <= 0){
+    alert('借入金額・金利・返済期間を入力してください'); return;
+  }
+  var method = document.querySelector('input[name="method"]:checked').value; // ganri / gankin
+  var bonusP = parseFloat(document.getElementById('bonus').value) || 0;
+  if (bonusP < 0) bonusP = 0;
+  if (bonusP > P) bonusP = P;
+  var monthlyP = P - bonusP;
+
+  var prepayYear = parseFloat(document.getElementById('prepay-year').value) || 0;
+  var prepayAmount = parseFloat(document.getElementById('prepay-amount').value) || 0;
+  var prepayTypeSel = document.querySelector('input[name="prepay-type"]:checked').value; // term / amount
+  var hasPrepay = prepayYear > 0 && prepayAmount > 0;
+  // 元金均等は期間短縮型で扱う
+  var prepayType = (method === 'gankin') ? 'term' : prepayTypeSel;
+
+  var N = Math.round(years * 12);   // 毎月返済の総回数
+  var rM = annualRate / 100 / 12;   // 月利
+  var NB = Math.round(years * 2);   // ボーナス返済の回数（年2回）
+  var rB = annualRate / 100 / 2;    // 半年あたりの利率
+
+  // 毎月返済分（繰り上げあり／なしの両方を計算して差分を出す）
+  var prepayObj = hasPrepay ? {period: Math.round(prepayYear*12), amount: prepayAmount, type: prepayType} : null;
+  var monthly = simulate(monthlyP, rM, N, method, prepayObj);
+  var baseMonthly = hasPrepay ? simulate(monthlyP, rM, N, method, null) : monthly;
+
+  // ボーナス返済分（6か月ごと、繰り上げなし）
+  var bonus = bonusP > 0 ? simulate(bonusP, rB, NB, method, null) : null;
+
+  var totalPaid = monthly.totalPaid + (bonus ? bonus.totalPaid : 0);
+  var totalInterest = monthly.totalInterest + (bonus ? bonus.totalInterest : 0);
+  var interestRate = (totalInterest / P * 100).toFixed(1);
+
+  // ===== 月ごとに合算（毎月＋ボーナス）して年次集計 =====
+  var monArr = [];
+  for (var i = 0; i <= N; i++) monArr.push({p:0, ii:0, pay:0});
+  monthly.schedule.forEach(function(e){ monArr[e.period].p += e.principal; monArr[e.period].ii += e.interest; monArr[e.period].pay += e.payment; });
+  if (bonus) bonus.schedule.forEach(function(e){ var mm = e.period*6; if (mm <= N){ monArr[mm].p += e.principal; monArr[mm].ii += e.interest; monArr[mm].pay += e.payment; } });
+
+  var rows = '';
+  var cumP = 0;
+  var totalYears = Math.ceil(N/12);
+  for (var y = 1; y <= totalYears; y++){
+    var yp = 0, yi = 0, ypay = 0;
+    for (var m2 = (y-1)*12+1; m2 <= y*12 && m2 <= N; m2++){ yp += monArr[m2].p; yi += monArr[m2].ii; ypay += monArr[m2].pay; }
+    if (ypay < 0.5) continue;
+    cumP += yp;
+    var endBal = Math.max(P - cumP, 0);
+    rows += '<tr><td>'+y+'年目</td><td>'+fmt(ypay)+'</td><td>'+fmt(yp)+'</td><td>'+fmt(yi)+'</td><td>'+fmt(endBal)+'</td></tr>';
+  }
+  document.getElementById('schedule-body').innerHTML = rows;
+
+  // ===== 結果表示 =====
+  var monthlyLabel = (method === 'gankin') ? '月々の返済額（初回）' : '月々の返済額';
+  document.getElementById('res-monthly-label').textContent = monthlyLabel;
+  document.getElementById('res-monthly2-label').textContent = monthlyLabel;
+  document.getElementById('res-monthly').textContent = fmt(monthly.firstPayment);
+  document.getElementById('res-monthly2').textContent = fmt(monthly.firstPayment);
   document.getElementById('res-principal').textContent = fmt(P);
-  document.getElementById('res-monthly2').textContent = fmt(monthly);
-  document.getElementById('res-total').textContent = fmt(total);
-  document.getElementById('res-interest').textContent = fmt(interest);
+  document.getElementById('res-total').textContent = fmt(totalPaid);
+  document.getElementById('res-interest').textContent = fmt(totalInterest);
   document.getElementById('res-rate').textContent = interestRate + '%';
+
+  // ボーナス行
+  var rowBonus = document.getElementById('row-bonus');
+  if (bonus){
+    rowBonus.style.display = '';
+    document.getElementById('res-bonus').textContent = fmt(bonus.firstPayment) + (method==='gankin' ? '（初回）' : '');
+  } else { rowBonus.style.display = 'none'; }
+
+  // 繰り上げ返済の効果
+  var rowPrepay = document.getElementById('row-prepay');
+  var rowSaved = document.getElementById('row-saved');
+  if (hasPrepay){
+    var saved = baseMonthly.totalInterest - monthly.totalInterest;
+    rowSaved.style.display = ''; document.getElementById('res-saved').textContent = fmt(saved);
+    rowPrepay.style.display = '';
+    if (prepayType === 'amount'){
+      document.getElementById('res-prepay-label').textContent = '軽減後の月々返済額';
+      document.getElementById('res-prepay').textContent = fmt(monthly.afterPrepayPayment || monthly.firstPayment);
+    } else {
+      document.getElementById('res-prepay-label').textContent = '繰り上げ後の返済期間';
+      var months = monthly.actualPeriods;
+      var yy = Math.floor(months/12), mm2 = months % 12;
+      document.getElementById('res-prepay').textContent = yy + '年' + (mm2 ? mm2 + 'か月' : '') + '（元の' + years + '年から短縮）';
+    }
+  } else { rowPrepay.style.display = 'none'; rowSaved.style.display = 'none'; }
+
+  // 内訳グラフ
+  var pPct = totalPaid > 0 ? (P/totalPaid*100) : 0;
+  var iPct = totalPaid > 0 ? (totalInterest/totalPaid*100) : 0;
+  document.getElementById('bar-principal').style.width = pPct.toFixed(1) + '%';
+  document.getElementById('bar-interest').style.width = iPct.toFixed(1) + '%';
+  document.getElementById('bar-principal-val').textContent = fmt(P);
+  document.getElementById('bar-interest-val').textContent = fmt(totalInterest);
+
   document.getElementById('result').classList.add('show');
 }
+
+// 借入金額の「○万円」読み上げヒント
+document.getElementById('principal').addEventListener('input', function(){
+  var v = parseFloat(this.value);
+  var el = document.getElementById('principal-yomi');
+  if (v && v > 0){ el.textContent = '≈ ' + (v/10000).toLocaleString('ja-JP') + '万円'; }
+  else { el.textContent = '例：30000000 と入力（3,000万円）'; }
+});
 </script>
 <script>
 document.querySelectorAll('input[type="number"]').forEach(function(input){

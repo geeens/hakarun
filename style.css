@@ -1148,6 +1148,18 @@ select:focus {
   text-align: right;
   white-space: nowrap;
 }
+.bar-fill.interest { background: var(--danger); }
+
+/* ===== ローン: 内訳グラフ・返済予定表 ===== */
+.loan-graph { margin: 4px 0 8px; }
+.loan-graph .graph-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.loan-schedule { margin: 8px 0 4px; }
+.loan-schedule .result-table { margin-top: 0; }
 
 /* ===== FOOTER ===== */
 footer {
