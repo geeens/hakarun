@@ -255,7 +255,7 @@
           </div>
         </div>
       </details>
-      <button class="btn btn-primary" onclick="calcLoan()">計算する</button>
+      <button class="btn btn-primary" id="calc-button" onclick="calcLoan()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
           <div class="label" id="res-monthly-label">月々の返済額</div>
@@ -551,6 +551,17 @@ function calcLoan(){
   document.getElementById('bar-interest-val').textContent = fmt(totalInterest);
 
   document.getElementById('result').classList.add('show');
+  scrollToCalcButton();
+}
+
+// 計算後、計算ボタンの位置までスクロール（ヘッダー分を考慮）
+function scrollToCalcButton(){
+  var target = document.getElementById('calc-button');
+  if (!target) return;
+  var header = document.querySelector('header');
+  var headerHeight = header ? header.getBoundingClientRect().height : 0;
+  var y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 24;
+  window.scrollTo({ top: y, behavior: 'smooth' });
 }
 
 // 借入金額の「○万円」読み上げヒント
