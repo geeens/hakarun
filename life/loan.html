@@ -430,9 +430,10 @@ function scheduleLabel(mode, idx, start){
 // prepays: [{period, amount, type:'term'|'amount'}, ...] 複数回OK。なければ空配列
 function simulate(P0, r, N, method, prepays){
   prepays = prepays || [];
+  // 実務に合わせて円単位で処理：毎回返済額は円に丸め、毎月の利息は切り捨て、最終回で残りを精算
   var bal = P0;
-  var payment = (method === 'ganri') ? levelPayment(bal, r, N) : null;
-  var gankinPrin = (method === 'gankin') ? P0 / N : null;
+  var payment = (method === 'ganri') ? Math.round(levelPayment(bal, r, N)) : null;
+  var gankinPrin = (method === 'gankin') ? Math.floor(P0 / N) : null;
   var sched = [];               // 各期 {period, interest, principal, payment, balance}
   var totalInterest = 0, totalPaid = 0;
   var firstPayment = null, afterPrepayPayment = null, actualPeriods = 0;
@@ -451,18 +452,21 @@ function simulate(P0, r, N, method, prepays){
       sched.push({period:m, interest:0, principal:extra, payment:extra, balance:0});
       totalPaid += extra; actualPeriods = m; break;
     }
-    if (recompute){ // 返済額軽減型：残り回数で毎回返済額を再計算
-      payment = levelPayment(bal, r, N - m + 1);
+    if (recompute){ // 返済額軽減型：残り回数で毎回返済額を再計算（円に丸め）
+      payment = Math.round(levelPayment(bal, r, N - m + 1));
       afterPrepayPayment = payment;
     }
-    var interest = bal * r;
+    var interest = Math.floor(bal * r);   // 毎月の利息は円未満切り捨て
+    var isLast = (m === N);
     var prin, pay;
     if (method === 'ganri'){
-      pay = payment;
-      prin = pay - interest;
-      if (prin > bal){ prin = bal; pay = prin + interest; }
-    } else {
-      prin = Math.min(gankinPrin, bal);
+      if (isLast){ prin = bal; pay = bal + interest; }        // 最終回は残り全部を精算
+      else {
+        pay = payment; prin = pay - interest;
+        if (prin >= bal){ prin = bal; pay = bal + interest; } // 端数で先に完済する場合
+      }
+    } else { // 元金均等
+      prin = isLast ? bal : Math.min(gankinPrin, bal);
       pay = prin + interest;
     }
     bal -= prin;
