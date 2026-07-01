@@ -774,6 +774,7 @@ function addRateRow(){
     inp.addEventListener('wheel', function(){ if (document.activeElement === inp) inp.blur(); });
   });
 }
+addRateRow(); // 初期表示で1行だけ用意
 
 // 計算後、計算ボタンの位置までスクロール（ヘッダー分を考慮）
 function scrollToCalcButton(){
