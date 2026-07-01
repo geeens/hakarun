@@ -461,7 +461,6 @@ function simulate(P0, r, N, method, prepays, rateChanges){
   var totalInterest = 0, totalPaid = 0;
   var firstPayment = null, afterPrepayPayment = null, actualPeriods = 0;
   for (var m = 1; m <= N && bal > 0.5; m++){
-    var extra = 0, recompute = false;
     // 金利変更：この期から利率を変更（元利均等は残り回数で返済額を再計算）
     for (var c = 0; c < rateChanges.length; c++){
       if (rateChanges[c].period === m){
@@ -469,25 +468,10 @@ function simulate(P0, r, N, method, prepays, rateChanges){
         if (method === 'ganri') payment = Math.round(levelPayment(bal, r, N - m + 1));
       }
     }
-    // この月に該当する繰り上げ返済（複数可）をまとめて適用
-    for (var k = 0; k < prepays.length; k++){
-      if (prepays[k].period === m){
-        var pre = Math.min(prepays[k].amount, bal);
-        bal -= pre; extra += pre;
-        if (prepays[k].type === 'amount' && method === 'ganri') recompute = true;
-        if (bal <= 0.5) break;
-      }
-    }
-    if (extra > 0 && bal <= 0.5){ // 繰り上げで完済
-      sched.push({period:m, interest:0, principal:extra, payment:extra, balance:0});
-      totalPaid += extra; actualPeriods = m; break;
-    }
-    if (recompute){ // 返済額軽減型：残り回数で毎回返済額を再計算（円に丸め）
-      payment = Math.round(levelPayment(bal, r, N - m + 1));
-      afterPrepayPayment = payment;
-    }
-    var interest = Math.floor(bal * r);   // 毎月の利息は円未満切り捨て
+    // ① その月の利息は「繰上げ前の残高」で計算（円未満切り捨て）
+    var interest = Math.floor(bal * r);
     var isLast = (m === N);
+    // ② 通常返済分の元金
     var prin, pay;
     if (method === 'ganri'){
       if (isLast){ prin = bal; pay = bal + interest; }        // 最終回は残り全部を精算
@@ -500,6 +484,21 @@ function simulate(P0, r, N, method, prepays, rateChanges){
       pay = prin + interest;
     }
     bal -= prin;
+    // ③ 繰り上げ返済（複数可）を通常返済のあとに元金へ充当
+    var extra = 0, recompute = false;
+    for (var k = 0; k < prepays.length; k++){
+      if (prepays[k].period === m){
+        var pre = Math.min(prepays[k].amount, bal);
+        bal -= pre; extra += pre;
+        if (prepays[k].type === 'amount' && method === 'ganri') recompute = true;
+        if (bal <= 0.5) break;
+      }
+    }
+    // ④ 返済額軽減型：繰上げ後の残高と残り回数（今月を除く）で次月以降を再計算
+    if (recompute && bal > 0.5){
+      payment = Math.round(levelPayment(bal, r, N - m));
+      afterPrepayPayment = payment;
+    }
     totalInterest += interest;
     totalPaid += pay + extra;
     if (firstPayment === null) firstPayment = pay;   // 初回の通常返済額
