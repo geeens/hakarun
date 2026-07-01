@@ -171,6 +171,13 @@ COLUMN_SYSTEM_PROMPT = """あなたはフクロウ博士「ハカセ」として
 - 「今さらだけど」「偉そうに語ってごめんね」のような、ひかえめで人間味のある一言を入れてよい
 - 最後はやわらかく誘導する（「気になった人は数字で確かめてみてね」程度。押し売りはしない）
 
+【絵文字の使い方（タイムラインで目を引くため）】
+- 段落の頭に内容に合った絵文字を置き、「見出し」のように区切る（例：💭問いかけ／⏳時間／💰お金／📈増える話／✨ポイント）
+- いちばん伝えたい数字は「720万円 → 📈約1,233万円」のように矢印や絵文字で視覚的に強調する
+- たとえ話は絵文字で見せる（例：🌱→🌳）と記憶に残りやすい
+- 誘導の直前は👇、URLの前は🔗を使うと自然に目立つ
+- ただし入れすぎは禁物。1〜2文に1個くらいの密度で、読み物としての落ち着きは保つ
+
 【ルール】
 - 本文（URL・ハッシュタグを除く）は150〜280文字程度。豆知識より長い読み物にする
 - 段落・改行を使って読みやすくする
@@ -193,13 +200,14 @@ def save_drafts_file(data):
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 
-def make_tweet(client, kind):
+def make_tweet(client, kind, item=None):
     """Claude で1件分のツイート本文を生成する。
     kind='tool' ならツール紹介、kind='value' なら豆知識（URLなし）、
     kind='column' ならブログ誘導のコラム（読み物）。
+    item にネタ（ツール/テーマ）を渡すとそれを使う。省略時はランダムに選ぶ。
     戻り値: (本文, ネタの名前, カテゴリ)"""
     if kind == 'column':
-        topic = random.choice(COLUMN_TOPICS)
+        topic = item or random.choice(COLUMN_TOPICS)
         response = client.messages.create(
             model="claude-haiku-4-5-20251001",
             max_tokens=700,
@@ -217,7 +225,7 @@ def make_tweet(client, kind):
         return response.content[0].text.strip(), topic['name'], topic['cat']
 
     if kind == 'value':
-        topic = random.choice(VALUE_TOPICS)
+        topic = item or random.choice(VALUE_TOPICS)
         response = client.messages.create(
             model="claude-haiku-4-5-20251001",
             max_tokens=400,
@@ -233,7 +241,7 @@ def make_tweet(client, kind):
         )
         return response.content[0].text.strip(), topic['name'], topic['cat']
 
-    tool = random.choice(TOOLS)
+    tool = item or random.choice(TOOLS)
     response = client.messages.create(
         model="claude-haiku-4-5-20251001",
         max_tokens=400,
@@ -262,10 +270,20 @@ def generate_drafts(count, kind='tool'):
     data = load_drafts()
     new_drafts = []
 
+    # 1回の生成でテーマ（ネタ）が重複しないように、先にネタを選んでおく。
+    # 件数がネタ数を超える場合だけ、足りない分をランダムに補充する。
+    source = {'value': VALUE_TOPICS, 'column': COLUMN_TOPICS}.get(kind, TOOLS)
+    if count <= len(source):
+        chosen_items = random.sample(source, count)
+    else:
+        chosen_items = random.sample(source, len(source))
+        chosen_items += random.choices(source, k=count - len(source))
+        random.shuffle(chosen_items)
+
     print(f"✍️  {label}の下書きを {count}件 生成中...\n")
 
-    for i in range(count):
-        tweet_text, name, cat = make_tweet(client, kind)
+    for i, item in enumerate(chosen_items):
+        tweet_text, name, cat = make_tweet(client, kind, item)
         print(f"  [{i+1}/{count}] 「{name}」の投稿を生成中...")
 
         draft = {
