@@ -5,3 +5,10 @@ x-bot/drafts.json
 # Pythonが自動生成する一時ファイル
 __pycache__/
 *.pyc
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
