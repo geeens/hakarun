@@ -781,13 +781,26 @@ function downloadCsv(mode){
 }
 
 // ===== パターン比較 =====
+var LOAN_COMPARE_KEY = 'hakarun_loan_compare';
 window._loanCompare = window._loanCompare || [];
 function yenC(n){ return Number(n).toLocaleString('ja-JP') + '円'; }
+function escAttr(s){ return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// localStorageへ保存／読み込み（見ている端末のブラウザにだけ残る）
+function saveCompare(){ try { localStorage.setItem(LOAN_COMPARE_KEY, JSON.stringify(window._loanCompare)); } catch(e){} }
+function loadCompare(){
+  try { var s = localStorage.getItem(LOAN_COMPARE_KEY); if (s) window._loanCompare = JSON.parse(s) || []; }
+  catch(e){ window._loanCompare = []; }
+}
 
 // 今回の計算結果を比較表に追加
 function addToCompare(){
   if (!window._loanResult){ alert('先に「計算する」を押してください'); return; }
-  window._loanCompare.push(Object.assign({}, window._loanResult));
+  var obj = Object.assign({}, window._loanResult);
+  obj.name = 'パターン' + (window._loanCompare.length + 1);
+  window._loanCompare.push(obj);
+  saveCompare();
   renderCompare();
   document.getElementById('loan-compare').scrollIntoView({behavior:'smooth', block:'start'});
 }
@@ -799,29 +812,31 @@ function renderCompare(){
   sec.style.display = '';
   var minInt = Math.min.apply(null, data.map(function(d){ return d.interest; }));
   document.getElementById('compare-head').innerHTML =
-    '<tr><th>パターン</th><th>借入額</th><th>金利</th><th>期間</th><th>方式</th><th>ボーナス</th><th>繰上げ</th><th>金利変更</th><th>月々(初回)</th><th>総返済額</th><th>総利息</th><th>完済</th><th></th></tr>';
+    '<tr><th>パターン名</th><th>借入額</th><th>金利</th><th>期間</th><th>方式</th><th>ボーナス</th><th>繰上げ</th><th>金利変更</th><th>月々(初回)</th><th>総返済額</th><th>総利息</th><th>最安との差</th><th>完済</th><th></th></tr>';
   var rows = '';
   for (var i = 0; i < data.length; i++){
     var d = data[i];
+    var name = d.name || ('パターン' + (i+1));
     var best = (d.interest === minInt && data.length > 1);
-    var only = (data.length === 1);
-    var intCell = yenC(d.interest) + (only ? '' : (d.interest === minInt
-      ? ' <span class="crown">👑最安</span>'
-      : ' <span class="diff">＋' + (d.interest - minInt).toLocaleString('ja-JP') + '円</span>'));
+    var diffCell;
+    if (data.length <= 1) diffCell = '—';
+    else if (d.interest === minInt) diffCell = '<span class="crown">👑最安</span>';
+    else diffCell = '<span class="diff">＋' + (d.interest - minInt).toLocaleString('ja-JP') + '円</span>';
     var bonus = d.bonus > 0 ? yenC(d.bonus) : 'なし';
     var prepay = d.prepay ? (d.prepay.n + '回 ' + yenC(d.prepay.total)) : 'なし';
     rows += '<tr' + (best ? ' class="best-row"' : '') + '>'
-      + '<td>パターン' + (i+1) + '</td>'
+      + '<td><input type="text" class="cmp-name" value="' + escAttr(name) + '" onchange="renameCompare(' + i + ', this.value)" aria-label="パターン名"></td>'
       + '<td>' + yenC(d.principal) + '</td>'
       + '<td>' + d.rate + '%</td>'
       + '<td>' + d.years + '年</td>'
       + '<td>' + d.method + '</td>'
       + '<td>' + bonus + '</td>'
       + '<td>' + prepay + '</td>'
-      + '<td>' + d.rateChange + '</td>'
+      + '<td>' + escHtml(d.rateChange) + '</td>'
       + '<td>' + yenC(d.monthly) + '</td>'
       + '<td>' + yenC(d.total) + '</td>'
-      + '<td>' + intCell + '</td>'
+      + '<td>' + yenC(d.interest) + '</td>'
+      + '<td>' + diffCell + '</td>'
       + '<td>' + d.payoff + '</td>'
       + '<td><button type="button" class="prepay-del" onclick="removeCompare(' + i + ')" aria-label="この行を削除">×</button></td>'
       + '</tr>';
@@ -829,24 +844,31 @@ function renderCompare(){
   document.getElementById('compare-body').innerHTML = rows;
 }
 
-function removeCompare(i){ window._loanCompare.splice(i, 1); renderCompare(); }
+function renameCompare(i, val){
+  if (!window._loanCompare[i]) return;
+  window._loanCompare[i].name = (val && val.trim()) ? val.trim() : ('パターン' + (i+1));
+  saveCompare();
+}
+function removeCompare(i){ window._loanCompare.splice(i, 1); saveCompare(); renderCompare(); }
 function clearCompare(){
-  if (window._loanCompare.length && confirm('比較表をすべて消去しますか？')){
-    window._loanCompare = []; renderCompare();
+  if (window._loanCompare.length && confirm('比較表をすべて消去しますか？（保存も消えます）')){
+    window._loanCompare = []; saveCompare(); renderCompare();
   }
 }
 
 function downloadCompareCsv(){
   var data = window._loanCompare || [];
   if (!data.length){ alert('比較するパターンがありません'); return; }
-  var head = ['パターン','借入額','金利(%)','期間(年)','返済方式','ボーナス返済分','繰上げ回数','繰上げ合計','金利変更','月々(初回)','総返済額','総利息','完済'];
+  var minInt = Math.min.apply(null, data.map(function(d){ return d.interest; }));
+  var head = ['パターン名','借入額','金利(%)','期間(年)','返済方式','ボーナス返済分','繰上げ回数','繰上げ合計','金利変更','月々(初回)','総返済額','総利息','最安との差(円)','完済'];
   var lines = [head.join(',')];
   for (var i = 0; i < data.length; i++){
     var d = data[i];
+    var nm = (d.name || ('パターン' + (i+1))).replace(/,/g, '、');
     lines.push([
-      'パターン' + (i+1), d.principal, d.rate, d.years, d.method, (d.bonus || 0),
+      nm, d.principal, d.rate, d.years, d.method, (d.bonus || 0),
       (d.prepay ? d.prepay.n : 0), (d.prepay ? d.prepay.total : 0),
-      (d.rateChange || 'なし').replace(/,/g, '、'), d.monthly, d.total, d.interest, d.payoff
+      (d.rateChange || 'なし').replace(/,/g, '、'), d.monthly, d.total, d.interest, (d.interest - minInt), d.payoff
     ].join(','));
   }
   var csv = '﻿' + lines.join('\r\n');
@@ -889,6 +911,10 @@ function addRateRow(){
   });
 }
 addRateRow(); // 初期表示で1行だけ用意
+
+// 保存済みの比較パターンを復元（リロード後も残す）
+loadCompare();
+renderCompare();
 
 // 計算後、計算ボタンの位置までスクロール（ヘッダー分を考慮）
 function scrollToCalcButton(){
