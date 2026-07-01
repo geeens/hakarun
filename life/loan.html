@@ -66,6 +66,14 @@
         "@type": "Answer",
         "text": "月々の返済額を抑えられるメリットがありますが、ボーナスが減ったりなくなったりすると返済が苦しくなります。ボーナス返済に回す割合は借入額の3〜4割以内にとどめ、ボーナスに頼りすぎない返済計画にすると安心です。"
       }
+    },
+    {
+      "@type": "Question",
+      "name": "変動金利で途中から金利が上がると返済額はどうなりますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "元利均等返済では、金利が変わったタイミングで残りの借入残高と残り期間から毎月の返済額が再計算されます。このツールの「金利が途中で変わる場合」に○年後から○％と入力すると、その後の返済額と総返済額の変化を確認できます。実際の変動金利には5年ルール・125％ルールがありますが、本ツールは考慮しない概算です。"
+      }
     }
   ]
 }
@@ -206,6 +214,15 @@
         </div>
         <p class="hint">2026年の住宅ローン目安：変動0.3〜0.7%／固定（フラット35）1.8〜2.0%前後</p>
       </div>
+      <details class="optional-settings">
+        <summary>金利が途中で変わる場合（任意・複数回OK）</summary>
+        <div class="optional-settings-body">
+          <label style="display:block;font-weight:600;margin-bottom:8px">「○年後から○％」を設定できます</label>
+          <div id="rate-list"></div>
+          <button type="button" class="btn btn-add" onclick="addRateRow()">＋ 金利変更を追加</button>
+          <p class="hint">例：10年後から1.5% → 最初の10年は上の金利、11年目以降は1.5%で計算します。元利均等はそのつど返済額を再計算します（変動金利の5年・125%ルールは考慮しない概算です）。</p>
+        </div>
+      </details>
       <div class="form-group">
         <label>返済期間</label>
         <div class="input-wrap">
@@ -314,6 +331,7 @@
       <ul>
         <li><strong>返済方式（元利均等／元金均等）</strong>：両方を切り替えて、月々の返済額と総利息を比べられます。</li>
         <li><strong>ボーナス返済</strong>：借入額の一部をボーナス（年2回）で返す「ボーナス併用返済」に対応しています。</li>
+        <li><strong>金利変更</strong>：「○年後から○％」と設定でき、途中で金利が上がる（下がる）場合の返済額の変化も試算できます。</li>
         <li><strong>返済予定表</strong>：1年ごとに「元金・利息・残高」がどう減っていくかを表で確認できます。</li>
         <li><strong>繰り上げ返済</strong>：途中でまとまった金額を返したとき、利息がいくら減るか・期間がどれだけ縮むかを試算できます。</li>
       </ul>
@@ -364,6 +382,10 @@
       <div class="faq-item">
         <div class="faq-q">Q. ボーナス返済は使ったほうがいいですか？</div>
         <div class="faq-a">月々の返済額を抑えられるメリットがありますが、ボーナスが減ったりなくなったりすると返済が苦しくなります。ボーナス返済に回す割合は借入額の3〜4割以内にとどめ、ボーナスに頼りすぎない返済計画にすると安心です。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q. 変動金利で途中から金利が上がると返済額はどうなりますか？</div>
+        <div class="faq-a">元利均等返済では、金利が変わったタイミングで残りの借入残高と残り期間から毎月の返済額が再計算されます。このツールの「金利が途中で変わる場合」に「○年後から○％」と入力すると、その後の返済額と総返済額の変化を確認できます（実際の変動金利には、返済額の急な上昇を抑える5年ルール・125％ルールがありますが、本ツールは考慮しない概算です）。</div>
       </div>
     </div>
     <div class="article">
@@ -428,8 +450,9 @@ function scheduleLabel(mode, idx, start){
 
 // 1本のローンを期ごとにシミュレーション（毎月でも半年ごとでも共通）
 // prepays: [{period, amount, type:'term'|'amount'}, ...] 複数回OK。なければ空配列
-function simulate(P0, r, N, method, prepays){
+function simulate(P0, r, N, method, prepays, rateChanges){
   prepays = prepays || [];
+  rateChanges = rateChanges || []; // [{period, r}] 各期の利率へ変更（rは1期あたり利率）
   // 実務に合わせて円単位で処理：毎回返済額は円に丸め、毎月の利息は切り捨て、最終回で残りを精算
   var bal = P0;
   var payment = (method === 'ganri') ? Math.round(levelPayment(bal, r, N)) : null;
@@ -439,6 +462,13 @@ function simulate(P0, r, N, method, prepays){
   var firstPayment = null, afterPrepayPayment = null, actualPeriods = 0;
   for (var m = 1; m <= N && bal > 0.5; m++){
     var extra = 0, recompute = false;
+    // 金利変更：この期から利率を変更（元利均等は残り回数で返済額を再計算）
+    for (var c = 0; c < rateChanges.length; c++){
+      if (rateChanges[c].period === m){
+        r = rateChanges[c].r;
+        if (method === 'ganri') payment = Math.round(levelPayment(bal, r, N - m + 1));
+      }
+    }
     // この月に該当する繰り上げ返済（複数可）をまとめて適用
     for (var k = 0; k < prepays.length; k++){
       if (prepays[k].period === m){
@@ -514,12 +544,28 @@ function calcLoan(){
   var hasPrepay = prepays.length > 0;
   var prepayTotal = prepays.reduce(function(s, p){ return s + p.amount; }, 0);
 
+  // 金利変更（複数行）を収集。毎月分は月単位、ボーナス分は半年単位の期に変換
+  var rateChgM = [], rateChgB = [];
+  document.querySelectorAll('#rate-list .rate-row').forEach(function(row){
+    var yv = parseFloat(row.querySelector('.rate-year').value) || 0;
+    var pv = parseFloat(row.querySelector('.rate-pct').value);
+    if (yv > 0 && !isNaN(pv) && pv >= 0){
+      var perM = yv * 12 + 1; // ○年後の翌月から
+      if (perM <= N){
+        rateChgM.push({period: perM, r: pv / 100 / 12});
+        rateChgB.push({period: yv * 2 + 1, r: pv / 100 / 2});
+      }
+    }
+  });
+  rateChgM.sort(function(a, b){ return a.period - b.period; });
+  rateChgB.sort(function(a, b){ return a.period - b.period; });
+
   // 毎月返済分（繰り上げあり／なしの両方を計算して差分を出す）
-  var monthly = simulate(monthlyP, rM, N, method, prepays);
-  var baseMonthly = hasPrepay ? simulate(monthlyP, rM, N, method, []) : monthly;
+  var monthly = simulate(monthlyP, rM, N, method, prepays, rateChgM);
+  var baseMonthly = hasPrepay ? simulate(monthlyP, rM, N, method, [], rateChgM) : monthly;
 
   // ボーナス返済分（6か月ごと、繰り上げなし）
-  var bonus = bonusP > 0 ? simulate(bonusP, rB, NB, method, []) : null;
+  var bonus = bonusP > 0 ? simulate(bonusP, rB, NB, method, [], rateChgB) : null;
 
   var totalPaid = monthly.totalPaid + (bonus ? bonus.totalPaid : 0);
   var totalInterest = monthly.totalInterest + (bonus ? bonus.totalInterest : 0);
@@ -713,6 +759,21 @@ function addPrepayRow(){
   });
 }
 addPrepayRow(); // 初期表示で1行だけ用意
+
+// 金利変更の入力行を追加
+function addRateRow(){
+  var list = document.getElementById('rate-list');
+  var row = document.createElement('div');
+  row.className = 'prepay-row rate-row';
+  row.innerHTML =
+    '<div class="input-wrap"><input type="number" class="rate-year" placeholder="10" min="1"><span class="unit">年後から</span></div>'
+    + '<div class="input-wrap"><input type="number" class="rate-pct" placeholder="1.5" min="0" max="30" step="0.01"><span class="unit">%</span></div>'
+    + '<button type="button" class="prepay-del" onclick="this.closest(\'.rate-row\').remove()" aria-label="この金利変更を削除">×</button>';
+  list.appendChild(row);
+  row.querySelectorAll('input[type=number]').forEach(function(inp){
+    inp.addEventListener('wheel', function(){ if (document.activeElement === inp) inp.blur(); });
+  });
+}
 
 // 計算後、計算ボタンの位置までスクロール（ヘッダー分を考慮）
 function scrollToCalcButton(){
