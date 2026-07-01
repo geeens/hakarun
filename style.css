@@ -1205,7 +1205,7 @@ select:focus {
   padding: 15px 16px;
 }
 .loan-schedule > summary::after {
-  content: "▼ タップで開く";
+  content: "▼ 開く";
   font-size: 13px;
   font-weight: 700;
   background: var(--primary);
