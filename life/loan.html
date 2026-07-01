@@ -214,6 +214,13 @@
         </div>
       </div>
       <div class="form-group">
+        <label>返済開始年月（任意）</label>
+        <div class="input-wrap">
+          <input type="month" id="start-ym">
+        </div>
+        <p class="hint">入力すると、予定表が実際の年月（例：2026年8月）で表示されます。空欄なら「○年目・○か月目」で表示します。</p>
+      </div>
+      <div class="form-group">
         <label>返済方式</label>
         <div class="radio-group">
           <label><input type="radio" name="method" value="ganri" checked> 元利均等（毎月一定）</label>
@@ -277,16 +284,16 @@
         </div>
         <div class="info-box"><strong>金利1%の違いで総返済額が大きく変わります。</strong>住宅ローンは金利が低いほど有利です。複数の金融機関を比較してみましょう。</div>
         <details class="optional-settings loan-schedule" id="loan-schedule">
-          <summary>📋 返済予定表を見る（年ごと／月ごと）</summary>
+          <summary>📋 返済予定表を見る（年単位／月単位）</summary>
           <div class="optional-settings-body">
             <div class="schedule-controls">
               <div class="radio-group sched-toggle">
-                <label><input type="radio" name="sched-mode" value="year" checked onclick="renderSchedule('year')"> 年ごと</label>
-                <label><input type="radio" name="sched-mode" value="month" onclick="renderSchedule('month')"> 月ごと</label>
+                <label><input type="radio" name="sched-mode" value="year" checked onclick="renderSchedule('year')"> 年単位</label>
+                <label><input type="radio" name="sched-mode" value="month" onclick="renderSchedule('month')"> 月単位</label>
               </div>
               <div class="dl-buttons">
-                <button type="button" class="btn btn-dl" onclick="downloadCsv('year')">📥 年ごとCSV</button>
-                <button type="button" class="btn btn-dl" onclick="downloadCsv('month')">📥 月ごとCSV</button>
+                <button type="button" class="btn btn-dl" onclick="downloadCsv('year')">📥 年単位CSV</button>
+                <button type="button" class="btn btn-dl" onclick="downloadCsv('month')">📥 月単位CSV</button>
               </div>
             </div>
             <p class="hint">CSVはExcel・Googleスプレッドシートでそのまま開けます。</p>
@@ -396,6 +403,27 @@ function levelPayment(bal, r, n){
   if (n <= 0) return 0;
   if (r === 0) return bal / n;
   return bal * r * Math.pow(1+r, n) / (Math.pow(1+r, n) - 1);
+}
+
+// 年月の加算（sm:1〜12、add:加算する月数）→ {y, mo}
+function ymAdd(sy, sm, add){
+  var total = sy * 12 + (sm - 1) + add;
+  return { y: Math.floor(total / 12), mo: (total % 12) + 1 };
+}
+
+// 予定表の1行目ラベル（開始年月があれば実際の年月、なければ○年目/○か月目）
+function scheduleLabel(mode, idx, start){
+  if (mode === 'month'){
+    if (start){ var t = ymAdd(start.y, start.m, idx - 1); return t.y + '年' + t.mo + '月'; }
+    return idx + 'か月目';
+  }
+  if (start){
+    var f = ymAdd(start.y, start.m, (idx - 1) * 12);
+    var lastOff = Math.min(idx * 12, window._loanLastMonth) - 1;
+    var l = ymAdd(start.y, start.m, lastOff);
+    return f.y + '年' + f.mo + '月〜' + l.y + '年' + l.mo + '月';
+  }
+  return idx + '年目';
 }
 
 // 1本のローンを期ごとにシミュレーション（毎月でも半年ごとでも共通）
@@ -516,6 +544,16 @@ function calcLoan(){
     cumPy += yp;
     yearData.push({idx:y, pay:Math.round(ypay), p:Math.round(yp), i:Math.round(yi), bal:Math.round(Math.max(P-cumPy,0))});
   }
+  // 返済開始年月（任意）
+  var startVal = document.getElementById('start-ym').value; // "2026-07" or ""
+  var startYm = null;
+  if (startVal){
+    var sp = startVal.split('-');
+    var sy = parseInt(sp[0], 10), sm = parseInt(sp[1], 10);
+    if (sy && sm >= 1 && sm <= 12) startYm = {y:sy, m:sm};
+  }
+  window._loanStart = startYm;
+  window._loanLastMonth = monthData.length ? monthData[monthData.length-1].idx : 0;
   window._loanYear = yearData;
   window._loanMonth = monthData;
   var modeEl = document.querySelector('input[name="sched-mode"]:checked');
@@ -583,14 +621,16 @@ function calcLoan(){
 function renderSchedule(mode){
   var data = (mode === 'month') ? window._loanMonth : window._loanYear;
   if (!data) return;
-  var head = '<tr><th>' + (mode === 'month' ? '回' : '年目') + '</th><th>'
+  var start = window._loanStart;
+  var firstHead = (mode === 'month') ? (start ? '年月' : '回') : (start ? '時期' : '年目');
+  var head = '<tr><th>' + firstHead + '</th><th>'
     + (mode === 'month' ? '返済額' : '年間返済額') + '</th><th>うち元金</th><th>うち利息</th><th>'
     + (mode === 'month' ? '残高' : '年末残高') + '</th></tr>';
   document.getElementById('schedule-head').innerHTML = head;
   var rows = '';
   for (var j = 0; j < data.length; j++){
     var d = data[j];
-    var label = (mode === 'month') ? (d.idx + 'か月目') : (d.idx + '年目');
+    var label = scheduleLabel(mode, d.idx, start);
     rows += '<tr><td>' + label + '</td><td>' + d.pay.toLocaleString('ja-JP') + ' 円</td><td>'
       + d.p.toLocaleString('ja-JP') + ' 円</td><td>' + d.i.toLocaleString('ja-JP') + ' 円</td><td>'
       + d.bal.toLocaleString('ja-JP') + ' 円</td></tr>';
@@ -602,20 +642,21 @@ function renderSchedule(mode){
 function downloadCsv(mode){
   var data = (mode === 'month') ? window._loanMonth : window._loanYear;
   if (!data || !data.length){ alert('先に「計算する」を押してください'); return; }
-  var head = (mode === 'month')
-    ? ['回(月)', '返済額', 'うち元金', 'うち利息', '残高']
-    : ['年', '年間返済額', 'うち元金', 'うち利息', '年末残高'];
+  var start = window._loanStart;
+  var firstHead = (mode === 'month') ? (start ? '年月' : '回(月)') : (start ? '時期' : '年');
+  var head = [firstHead, (mode === 'month' ? '返済額' : '年間返済額'), 'うち元金', 'うち利息', (mode === 'month' ? '残高' : '年末残高')];
   var lines = [head.join(',')];
   for (var j = 0; j < data.length; j++){
     var d = data[j];
-    lines.push([d.idx, d.pay, d.p, d.i, d.bal].join(','));
+    var first = start ? scheduleLabel(mode, d.idx, start) : d.idx;
+    lines.push([first, d.pay, d.p, d.i, d.bal].join(','));
   }
   var csv = '﻿' + lines.join('\r\n'); // BOM付きでExcelの文字化けを防ぐ
   var blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
   var url = URL.createObjectURL(blob);
   var a = document.createElement('a');
   a.href = url;
-  a.download = 'ローン返済予定表_' + (mode === 'month' ? '月ごと' : '年ごと') + '.csv';
+  a.download = 'ローン返済予定表_' + (mode === 'month' ? '月単位' : '年単位') + '.csv';
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
