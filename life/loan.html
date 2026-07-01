@@ -527,23 +527,6 @@ function calcLoan(){
   monthly.schedule.forEach(function(e){ monArr[e.period].p += e.principal; monArr[e.period].ii += e.interest; monArr[e.period].pay += e.payment; });
   if (bonus) bonus.schedule.forEach(function(e){ var mm = e.period*6; if (mm <= N){ monArr[mm].p += e.principal; monArr[mm].ii += e.interest; monArr[mm].pay += e.payment; } });
 
-  // 月ごとデータ
-  var monthData = [], cumPm = 0;
-  for (var m3 = 1; m3 <= N; m3++){
-    var e = monArr[m3];
-    if (e.pay < 0.5) continue;
-    cumPm += e.p;
-    monthData.push({idx:m3, pay:Math.round(e.pay), p:Math.round(e.p), i:Math.round(e.ii), bal:Math.round(Math.max(P-cumPm,0))});
-  }
-  // 年ごとデータ
-  var yearData = [], cumPy = 0, totalYears = Math.ceil(N/12);
-  for (var y = 1; y <= totalYears; y++){
-    var yp = 0, yi = 0, ypay = 0;
-    for (var m2 = (y-1)*12+1; m2 <= y*12 && m2 <= N; m2++){ yp += monArr[m2].p; yi += monArr[m2].ii; ypay += monArr[m2].pay; }
-    if (ypay < 0.5) continue;
-    cumPy += yp;
-    yearData.push({idx:y, pay:Math.round(ypay), p:Math.round(yp), i:Math.round(yi), bal:Math.round(Math.max(P-cumPy,0))});
-  }
   // 返済開始年月（任意）
   var startVal = document.getElementById('start-ym').value; // "2026-07" or ""
   var startYm = null;
@@ -552,6 +535,54 @@ function calcLoan(){
     var sy = parseInt(sp[0], 10), sm = parseInt(sp[1], 10);
     if (sy && sm >= 1 && sm <= 12) startYm = {y:sy, m:sm};
   }
+
+  // 月ごとデータ
+  var monthData = [], cumPm = 0;
+  for (var m3 = 1; m3 <= N; m3++){
+    var e = monArr[m3];
+    if (e.pay < 0.5) continue;
+    cumPm += e.p;
+    monthData.push({idx:m3, pay:Math.round(e.pay), p:Math.round(e.p), i:Math.round(e.ii), bal:Math.round(Math.max(P-cumPm,0))});
+  }
+
+  // 年ごとデータ
+  var yearData = [];
+  if (startYm){
+    // 開始年月あり：暦年（1〜12月）でまとめる（例：2026年（6月〜）→2027年→…→2061年（〜5月））
+    var groups = {}, order = [];
+    for (var a = 0; a < monthData.length; a++){
+      var md = monthData[a];
+      var t = ymAdd(startYm.y, startYm.m, md.idx - 1); // その回の暦年・暦月
+      if (!groups[t.y]){ groups[t.y] = {cy:t.y, pay:0, p:0, i:0, bal:0, minMo:t.mo, maxMo:t.mo}; order.push(t.y); }
+      var gg = groups[t.y];
+      gg.pay += md.pay; gg.p += md.p; gg.i += md.i; gg.bal = md.bal; // その年最後に支払った回の残高
+      if (t.mo < gg.minMo) gg.minMo = t.mo;
+      if (t.mo > gg.maxMo) gg.maxMo = t.mo;
+    }
+    for (var b = 0; b < order.length; b++){
+      var g = groups[order[b]];
+      var isFirst = (b === 0), isLast = (b === order.length - 1), suffix = '';
+      if (isFirst && isLast && (g.minMo !== 1 || g.maxMo !== 12)) suffix = '（' + g.minMo + '月〜' + g.maxMo + '月）';
+      else if (isFirst && g.minMo !== 1) suffix = '（' + g.minMo + '月〜）';
+      else if (isLast && g.maxMo !== 12) suffix = '（〜' + g.maxMo + '月）';
+      yearData.push({idx:g.cy, label:g.cy + '年' + suffix, pay:g.pay, p:g.p, i:g.i, bal:g.bal});
+    }
+  } else {
+    // 開始年月なし：返済開始からの12か月ブロック（○年目）
+    var totalYears = Math.ceil(N/12);
+    for (var y = 1; y <= totalYears; y++){
+      var yp = 0, yi = 0, ypay = 0, has = false;
+      for (var m2 = (y-1)*12+1; m2 <= y*12 && m2 <= N; m2++){
+        if (monArr[m2].pay < 0.5) continue;
+        yp += monArr[m2].p; yi += monArr[m2].ii; ypay += monArr[m2].pay; has = true;
+      }
+      if (!has) continue;
+      var blockEnd = Math.min(y*12, N), ybal = 0;
+      for (var z = monthData.length-1; z >= 0; z--){ if (monthData[z].idx <= blockEnd){ ybal = monthData[z].bal; break; } }
+      yearData.push({idx:y, label:y+'年目', pay:Math.round(ypay), p:Math.round(yp), i:Math.round(yi), bal:ybal});
+    }
+  }
+
   window._loanStart = startYm;
   window._loanLastMonth = monthData.length ? monthData[monthData.length-1].idx : 0;
   window._loanYear = yearData;
@@ -622,7 +653,7 @@ function renderSchedule(mode){
   var data = (mode === 'month') ? window._loanMonth : window._loanYear;
   if (!data) return;
   var start = window._loanStart;
-  var firstHead = (mode === 'month') ? (start ? '年月' : '回') : (start ? '時期' : '年目');
+  var firstHead = (mode === 'month') ? (start ? '年月' : '回') : (start ? '年' : '年目');
   var head = '<tr><th>' + firstHead + '</th><th>'
     + (mode === 'month' ? '返済額' : '年間返済額') + '</th><th>うち元金</th><th>うち利息</th><th>'
     + (mode === 'month' ? '残高' : '年末残高') + '</th></tr>';
@@ -630,7 +661,7 @@ function renderSchedule(mode){
   var rows = '';
   for (var j = 0; j < data.length; j++){
     var d = data[j];
-    var label = scheduleLabel(mode, d.idx, start);
+    var label = (mode === 'month') ? scheduleLabel('month', d.idx, start) : (d.label || (d.idx + '年目'));
     rows += '<tr><td>' + label + '</td><td>' + d.pay.toLocaleString('ja-JP') + ' 円</td><td>'
       + d.p.toLocaleString('ja-JP') + ' 円</td><td>' + d.i.toLocaleString('ja-JP') + ' 円</td><td>'
       + d.bal.toLocaleString('ja-JP') + ' 円</td></tr>';
@@ -643,12 +674,14 @@ function downloadCsv(mode){
   var data = (mode === 'month') ? window._loanMonth : window._loanYear;
   if (!data || !data.length){ alert('先に「計算する」を押してください'); return; }
   var start = window._loanStart;
-  var firstHead = (mode === 'month') ? (start ? '年月' : '回(月)') : (start ? '時期' : '年');
+  var firstHead = (mode === 'month') ? (start ? '年月' : '回(月)') : (start ? '年' : '年');
   var head = [firstHead, (mode === 'month' ? '返済額' : '年間返済額'), 'うち元金', 'うち利息', (mode === 'month' ? '残高' : '年末残高')];
   var lines = [head.join(',')];
   for (var j = 0; j < data.length; j++){
     var d = data[j];
-    var first = start ? scheduleLabel(mode, d.idx, start) : d.idx;
+    var first;
+    if (mode === 'month') first = start ? scheduleLabel('month', d.idx, start) : d.idx;
+    else first = start ? (d.label || d.idx) : d.idx;
     lines.push([first, d.pay, d.p, d.i, d.bal].join(','));
   }
   var csv = '﻿' + lines.join('\r\n'); // BOM付きでExcelの文字化けを防ぐ
