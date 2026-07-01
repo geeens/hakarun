@@ -1158,8 +1158,85 @@ select:focus {
   color: var(--text);
   margin-bottom: 6px;
 }
+/* 1本の積み上げバー（左=元金・右=利息） */
+.stack-bar {
+  display: flex;
+  width: 100%;
+  height: 34px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #E2E8F0;
+}
+.stack-seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  min-width: 0;
+  transition: width 0.4s ease;
+}
+.stack-seg.principal { background: var(--success); }
+.stack-seg.interest { background: var(--danger); }
+.stack-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 10px;
+  font-size: 14px;
+}
+.stack-legend .legend-item { display: flex; align-items: center; gap: 6px; color: var(--text); }
+.stack-legend .dot { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.stack-legend .dot.principal { background: var(--success); }
+.stack-legend .dot.interest { background: var(--danger); }
+
 .loan-schedule { margin: 8px 0 4px; }
-.loan-schedule .result-table { margin-top: 0; }
+.loan-schedule .result-table { margin-top: 0; max-height: 460px; overflow: auto; }
+.loan-schedule thead th { position: sticky; top: 0; z-index: 2; background: #F1F5F9; }
+.schedule-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.sched-toggle { gap: 8px; }
+.dl-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn-dl {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 13px;
+  padding: 8px 12px;
+}
+.btn-dl:hover { background: #F8FAFC; }
+
+/* ローン: 繰り上げ返済の複数行 */
+.prepay-row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
+.prepay-row .input-wrap { flex: 1; margin: 0; }
+.prepay-del {
+  flex: 0 0 auto;
+  width: 38px;
+  height: 40px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 8px;
+  color: var(--danger);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+.prepay-del:hover { background: #FEF2F2; }
+.btn-add {
+  background: var(--primary-light);
+  color: var(--primary);
+  font-size: 14px;
+  padding: 9px 16px;
+}
 
 /* ===== FOOTER ===== */
 footer {

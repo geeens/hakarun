@@ -229,24 +229,13 @@
         <p class="hint">借入額のうちボーナスで返す分。年2回（6か月ごと）返済します。使わなければ空欄でOK。</p>
       </div>
       <details class="optional-settings">
-        <summary>繰り上げ返済をシミュレーション（任意）</summary>
+        <summary>繰り上げ返済をシミュレーション（任意・複数回OK）</summary>
         <div class="optional-settings-body">
-          <div class="form-group">
-            <label>実行時期</label>
-            <div class="input-wrap">
-              <input type="number" id="prepay-year" placeholder="10" min="1">
-              <span class="unit">年後</span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>繰り上げ返済額</label>
-            <div class="input-wrap">
-              <input type="number" id="prepay-amount" placeholder="1000000" min="0">
-              <span class="unit">円</span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>タイプ</label>
+          <label style="display:block;font-weight:600;margin-bottom:8px">実行時期と金額（何回でも追加できます）</label>
+          <div id="prepay-list"></div>
+          <button type="button" class="btn btn-add" onclick="addPrepayRow()">＋ 繰り上げ返済を追加</button>
+          <div class="form-group" style="margin-top:16px">
+            <label>タイプ（すべての回に適用）</label>
             <div class="radio-group">
               <label><input type="radio" name="prepay-type" value="term" checked> 期間短縮型（期間を縮める）</label>
               <label><input type="radio" name="prepay-type" value="amount"> 返済額軽減型（月々を減らす）</label>
@@ -277,28 +266,33 @@
         </div>
         <div class="loan-graph" id="loan-graph">
           <div class="graph-title">総返済額の内訳</div>
-          <div class="takehome-bars">
-            <div class="bar-row">
-              <span class="bar-label">元金</span>
-              <div class="bar-track"><span class="bar-fill" id="bar-principal" style="width:0%"></span></div>
-              <span class="bar-value" id="bar-principal-val">—</span>
-            </div>
-            <div class="bar-row">
-              <span class="bar-label">利息</span>
-              <div class="bar-track"><span class="bar-fill interest" id="bar-interest" style="width:0%"></span></div>
-              <span class="bar-value" id="bar-interest-val">—</span>
-            </div>
+          <div class="stack-bar">
+            <div class="stack-seg principal" id="seg-principal" style="width:50%"><span>元金 —</span></div>
+            <div class="stack-seg interest" id="seg-interest" style="width:50%"><span>利息 —</span></div>
+          </div>
+          <div class="stack-legend">
+            <span class="legend-item"><i class="dot principal"></i>元金：<b id="lg-principal">—</b></span>
+            <span class="legend-item"><i class="dot interest"></i>利息：<b id="lg-interest">—</b></span>
           </div>
         </div>
         <div class="info-box"><strong>金利1%の違いで総返済額が大きく変わります。</strong>住宅ローンは金利が低いほど有利です。複数の金融機関を比較してみましょう。</div>
         <details class="optional-settings loan-schedule" id="loan-schedule">
-          <summary>📋 返済予定表（年ごとの推移）を見る</summary>
+          <summary>📋 返済予定表を見る（年ごと／月ごと）</summary>
           <div class="optional-settings-body">
+            <div class="schedule-controls">
+              <div class="radio-group sched-toggle">
+                <label><input type="radio" name="sched-mode" value="year" checked onclick="renderSchedule('year')"> 年ごと</label>
+                <label><input type="radio" name="sched-mode" value="month" onclick="renderSchedule('month')"> 月ごと</label>
+              </div>
+              <div class="dl-buttons">
+                <button type="button" class="btn btn-dl" onclick="downloadCsv('year')">📥 年ごとCSV</button>
+                <button type="button" class="btn btn-dl" onclick="downloadCsv('month')">📥 月ごとCSV</button>
+              </div>
+            </div>
+            <p class="hint">CSVはExcel・Googleスプレッドシートでそのまま開けます。</p>
             <div class="result-table wide-table sticky-first">
               <table>
-                <thead>
-                  <tr><th>年目</th><th>年間返済額</th><th>うち元金</th><th>うち利息</th><th>年末残高</th></tr>
-                </thead>
+                <thead id="schedule-head"></thead>
                 <tbody id="schedule-body"></tbody>
               </table>
             </div>
@@ -405,8 +399,9 @@ function levelPayment(bal, r, n){
 }
 
 // 1本のローンを期ごとにシミュレーション（毎月でも半年ごとでも共通）
-// prepay: {period, amount, type:'term'|'amount'} 期(回)指定。なければnull
-function simulate(P0, r, N, method, prepay){
+// prepays: [{period, amount, type:'term'|'amount'}, ...] 複数回OK。なければ空配列
+function simulate(P0, r, N, method, prepays){
+  prepays = prepays || [];
   var bal = P0;
   var payment = (method === 'ganri') ? levelPayment(bal, r, N) : null;
   var gankinPrin = (method === 'gankin') ? P0 / N : null;
@@ -414,18 +409,23 @@ function simulate(P0, r, N, method, prepay){
   var totalInterest = 0, totalPaid = 0;
   var firstPayment = null, afterPrepayPayment = null, actualPeriods = 0;
   for (var m = 1; m <= N && bal > 0.5; m++){
-    var extra = 0;
-    if (prepay && m === prepay.period){
-      extra = Math.min(prepay.amount, bal);
-      bal -= extra;
-      if (bal <= 0.5){ // 繰り上げで完済
-        sched.push({period:m, interest:0, principal:extra, payment:extra, balance:0});
-        totalPaid += extra; actualPeriods = m; break;
+    var extra = 0, recompute = false;
+    // この月に該当する繰り上げ返済（複数可）をまとめて適用
+    for (var k = 0; k < prepays.length; k++){
+      if (prepays[k].period === m){
+        var pre = Math.min(prepays[k].amount, bal);
+        bal -= pre; extra += pre;
+        if (prepays[k].type === 'amount' && method === 'ganri') recompute = true;
+        if (bal <= 0.5) break;
       }
-      if (prepay.type === 'amount' && method === 'ganri'){
-        payment = levelPayment(bal, r, N - m + 1); // 返済額軽減型：残り回数で再計算
-        afterPrepayPayment = payment;
-      }
+    }
+    if (extra > 0 && bal <= 0.5){ // 繰り上げで完済
+      sched.push({period:m, interest:0, principal:extra, payment:extra, balance:0});
+      totalPaid += extra; actualPeriods = m; break;
+    }
+    if (recompute){ // 返済額軽減型：残り回数で毎回返済額を再計算
+      payment = levelPayment(bal, r, N - m + 1);
+      afterPrepayPayment = payment;
     }
     var interest = bal * r;
     var prin, pay;
@@ -438,13 +438,11 @@ function simulate(P0, r, N, method, prepay){
       pay = prin + interest;
     }
     bal -= prin;
-    var totalPrinThis = prin + extra;
-    var totalPayThis = pay + extra;
     totalInterest += interest;
-    totalPaid += totalPayThis;
+    totalPaid += pay + extra;
     if (firstPayment === null) firstPayment = pay;   // 初回の通常返済額
     actualPeriods = m;
-    sched.push({period:m, interest:interest, principal:totalPrinThis, payment:totalPayThis, balance:Math.max(bal,0)});
+    sched.push({period:m, interest:interest, principal:prin+extra, payment:pay+extra, balance:Math.max(bal,0)});
   }
   return {schedule:sched, totalInterest:totalInterest, totalPaid:totalPaid,
           firstPayment:firstPayment||0, afterPrepayPayment:afterPrepayPayment, actualPeriods:actualPeriods};
@@ -463,10 +461,7 @@ function calcLoan(){
   if (bonusP > P) bonusP = P;
   var monthlyP = P - bonusP;
 
-  var prepayYear = parseFloat(document.getElementById('prepay-year').value) || 0;
-  var prepayAmount = parseFloat(document.getElementById('prepay-amount').value) || 0;
   var prepayTypeSel = document.querySelector('input[name="prepay-type"]:checked').value; // term / amount
-  var hasPrepay = prepayYear > 0 && prepayAmount > 0;
   // 元金均等は期間短縮型で扱う
   var prepayType = (method === 'gankin') ? 'term' : prepayTypeSel;
 
@@ -475,13 +470,24 @@ function calcLoan(){
   var NB = Math.round(years * 2);   // ボーナス返済の回数（年2回）
   var rB = annualRate / 100 / 2;    // 半年あたりの利率
 
+  // 繰り上げ返済（複数行）を収集
+  var prepays = [];
+  document.querySelectorAll('#prepay-list .prepay-row').forEach(function(row){
+    var yv = parseFloat(row.querySelector('.prepay-year').value) || 0;
+    var av = parseFloat(row.querySelector('.prepay-amount').value) || 0;
+    var per = Math.round(yv * 12);
+    if (yv > 0 && av > 0 && per <= N){ prepays.push({period: per, amount: av, type: prepayType}); }
+  });
+  prepays.sort(function(a, b){ return a.period - b.period; });
+  var hasPrepay = prepays.length > 0;
+  var prepayTotal = prepays.reduce(function(s, p){ return s + p.amount; }, 0);
+
   // 毎月返済分（繰り上げあり／なしの両方を計算して差分を出す）
-  var prepayObj = hasPrepay ? {period: Math.round(prepayYear*12), amount: prepayAmount, type: prepayType} : null;
-  var monthly = simulate(monthlyP, rM, N, method, prepayObj);
-  var baseMonthly = hasPrepay ? simulate(monthlyP, rM, N, method, null) : monthly;
+  var monthly = simulate(monthlyP, rM, N, method, prepays);
+  var baseMonthly = hasPrepay ? simulate(monthlyP, rM, N, method, []) : monthly;
 
   // ボーナス返済分（6か月ごと、繰り上げなし）
-  var bonus = bonusP > 0 ? simulate(bonusP, rB, NB, method, null) : null;
+  var bonus = bonusP > 0 ? simulate(bonusP, rB, NB, method, []) : null;
 
   var totalPaid = monthly.totalPaid + (bonus ? bonus.totalPaid : 0);
   var totalInterest = monthly.totalInterest + (bonus ? bonus.totalInterest : 0);
@@ -493,18 +499,27 @@ function calcLoan(){
   monthly.schedule.forEach(function(e){ monArr[e.period].p += e.principal; monArr[e.period].ii += e.interest; monArr[e.period].pay += e.payment; });
   if (bonus) bonus.schedule.forEach(function(e){ var mm = e.period*6; if (mm <= N){ monArr[mm].p += e.principal; monArr[mm].ii += e.interest; monArr[mm].pay += e.payment; } });
 
-  var rows = '';
-  var cumP = 0;
-  var totalYears = Math.ceil(N/12);
+  // 月ごとデータ
+  var monthData = [], cumPm = 0;
+  for (var m3 = 1; m3 <= N; m3++){
+    var e = monArr[m3];
+    if (e.pay < 0.5) continue;
+    cumPm += e.p;
+    monthData.push({idx:m3, pay:Math.round(e.pay), p:Math.round(e.p), i:Math.round(e.ii), bal:Math.round(Math.max(P-cumPm,0))});
+  }
+  // 年ごとデータ
+  var yearData = [], cumPy = 0, totalYears = Math.ceil(N/12);
   for (var y = 1; y <= totalYears; y++){
     var yp = 0, yi = 0, ypay = 0;
     for (var m2 = (y-1)*12+1; m2 <= y*12 && m2 <= N; m2++){ yp += monArr[m2].p; yi += monArr[m2].ii; ypay += monArr[m2].pay; }
     if (ypay < 0.5) continue;
-    cumP += yp;
-    var endBal = Math.max(P - cumP, 0);
-    rows += '<tr><td>'+y+'年目</td><td>'+fmt(ypay)+'</td><td>'+fmt(yp)+'</td><td>'+fmt(yi)+'</td><td>'+fmt(endBal)+'</td></tr>';
+    cumPy += yp;
+    yearData.push({idx:y, pay:Math.round(ypay), p:Math.round(yp), i:Math.round(yi), bal:Math.round(Math.max(P-cumPy,0))});
   }
-  document.getElementById('schedule-body').innerHTML = rows;
+  window._loanYear = yearData;
+  window._loanMonth = monthData;
+  var modeEl = document.querySelector('input[name="sched-mode"]:checked');
+  renderSchedule(modeEl ? modeEl.value : 'year');
 
   // ===== 結果表示 =====
   var monthlyLabel = (method === 'gankin') ? '月々の返済額（初回）' : '月々の返済額';
@@ -529,30 +544,97 @@ function calcLoan(){
   var rowSaved = document.getElementById('row-saved');
   if (hasPrepay){
     var saved = baseMonthly.totalInterest - monthly.totalInterest;
-    rowSaved.style.display = ''; document.getElementById('res-saved').textContent = fmt(saved);
+    rowSaved.style.display = '';
+    document.getElementById('res-saved').textContent = fmt(saved)
+      + '（繰り上げ' + prepays.length + '回・計' + fmt(prepayTotal) + '）';
     rowPrepay.style.display = '';
     if (prepayType === 'amount'){
       document.getElementById('res-prepay-label').textContent = '軽減後の月々返済額';
       document.getElementById('res-prepay').textContent = fmt(monthly.afterPrepayPayment || monthly.firstPayment);
     } else {
       document.getElementById('res-prepay-label').textContent = '繰り上げ後の返済期間';
-      var months = monthly.actualPeriods;
+      // 予定表（毎月＋ボーナス合算）の最終回を基準にする（表と一致させる）
+      var mData = window._loanMonth;
+      var months = (mData && mData.length) ? mData[mData.length-1].idx : monthly.actualPeriods;
       var yy = Math.floor(months/12), mm2 = months % 12;
-      document.getElementById('res-prepay').textContent = yy + '年' + (mm2 ? mm2 + 'か月' : '') + '（元の' + years + '年から短縮）';
+      var shortened = months < N;
+      document.getElementById('res-prepay').textContent = yy + '年' + (mm2 ? mm2 + 'か月' : '')
+        + (shortened ? '（元の' + years + '年から短縮）' : '');
     }
   } else { rowPrepay.style.display = 'none'; rowSaved.style.display = 'none'; }
 
-  // 内訳グラフ
-  var pPct = totalPaid > 0 ? (P/totalPaid*100) : 0;
-  var iPct = totalPaid > 0 ? (totalInterest/totalPaid*100) : 0;
-  document.getElementById('bar-principal').style.width = pPct.toFixed(1) + '%';
-  document.getElementById('bar-interest').style.width = iPct.toFixed(1) + '%';
-  document.getElementById('bar-principal-val').textContent = fmt(P);
-  document.getElementById('bar-interest-val').textContent = fmt(totalInterest);
+  // 内訳グラフ（1本の積み上げバー：左=元金・右=利息）
+  var pPct = totalPaid > 0 ? (P/totalPaid*100) : 50;
+  var iPct = totalPaid > 0 ? (totalInterest/totalPaid*100) : 50;
+  var segP = document.getElementById('seg-principal');
+  var segI = document.getElementById('seg-interest');
+  segP.style.width = pPct.toFixed(1) + '%';
+  segI.style.width = iPct.toFixed(1) + '%';
+  segP.querySelector('span').textContent = '元金 ' + pPct.toFixed(1) + '%';
+  segI.querySelector('span').textContent = '利息 ' + iPct.toFixed(1) + '%';
+  document.getElementById('lg-principal').textContent = fmt(P) + '（' + pPct.toFixed(1) + '%）';
+  document.getElementById('lg-interest').textContent = fmt(totalInterest) + '（' + iPct.toFixed(1) + '%）';
 
   document.getElementById('result').classList.add('show');
   scrollToCalcButton();
 }
+
+// 返済予定表の描画（年ごと／月ごと）
+function renderSchedule(mode){
+  var data = (mode === 'month') ? window._loanMonth : window._loanYear;
+  if (!data) return;
+  var head = '<tr><th>' + (mode === 'month' ? '回' : '年目') + '</th><th>'
+    + (mode === 'month' ? '返済額' : '年間返済額') + '</th><th>うち元金</th><th>うち利息</th><th>'
+    + (mode === 'month' ? '残高' : '年末残高') + '</th></tr>';
+  document.getElementById('schedule-head').innerHTML = head;
+  var rows = '';
+  for (var j = 0; j < data.length; j++){
+    var d = data[j];
+    var label = (mode === 'month') ? (d.idx + 'か月目') : (d.idx + '年目');
+    rows += '<tr><td>' + label + '</td><td>' + d.pay.toLocaleString('ja-JP') + ' 円</td><td>'
+      + d.p.toLocaleString('ja-JP') + ' 円</td><td>' + d.i.toLocaleString('ja-JP') + ' 円</td><td>'
+      + d.bal.toLocaleString('ja-JP') + ' 円</td></tr>';
+  }
+  document.getElementById('schedule-body').innerHTML = rows;
+}
+
+// 返済予定表をCSVでダウンロード（Excel・スプレッドシートで開ける）
+function downloadCsv(mode){
+  var data = (mode === 'month') ? window._loanMonth : window._loanYear;
+  if (!data || !data.length){ alert('先に「計算する」を押してください'); return; }
+  var head = (mode === 'month')
+    ? ['回(月)', '返済額', 'うち元金', 'うち利息', '残高']
+    : ['年', '年間返済額', 'うち元金', 'うち利息', '年末残高'];
+  var lines = [head.join(',')];
+  for (var j = 0; j < data.length; j++){
+    var d = data[j];
+    lines.push([d.idx, d.pay, d.p, d.i, d.bal].join(','));
+  }
+  var csv = '﻿' + lines.join('\r\n'); // BOM付きでExcelの文字化けを防ぐ
+  var blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'ローン返済予定表_' + (mode === 'month' ? '月ごと' : '年ごと') + '.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// 繰り上げ返済の入力行を追加
+function addPrepayRow(){
+  var list = document.getElementById('prepay-list');
+  var row = document.createElement('div');
+  row.className = 'prepay-row';
+  row.innerHTML =
+    '<div class="input-wrap"><input type="number" class="prepay-year" placeholder="10" min="1"><span class="unit">年後</span></div>'
+    + '<div class="input-wrap"><input type="number" class="prepay-amount" placeholder="1000000" min="0"><span class="unit">円</span></div>'
+    + '<button type="button" class="prepay-del" onclick="this.closest(\'.prepay-row\').remove()" aria-label="この回を削除">×</button>';
+  list.appendChild(row);
+  row.querySelectorAll('input[type=number]').forEach(function(inp){
+    inp.addEventListener('wheel', function(){ if (document.activeElement === inp) inp.blur(); });
+  });
+}
+addPrepayRow(); // 初期表示で1行だけ用意
 
 // 計算後、計算ボタンの位置までスクロール（ヘッダー分を考慮）
 function scrollToCalcButton(){
