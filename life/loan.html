@@ -453,9 +453,9 @@ function scheduleLabel(mode, idx, start){
 function simulate(P0, r, N, method, prepays, rateChanges){
   prepays = prepays || [];
   rateChanges = rateChanges || []; // [{period, r}] 各期の利率へ変更（rは1期あたり利率）
-  // 実務に合わせて円単位で処理：毎回返済額は円に丸め、毎月の利息は切り捨て、最終回で残りを精算
+  // 実務に合わせて円単位で処理：毎回返済額・毎月の利息は円未満切り捨て、最終回で残りを精算
   var bal = P0;
-  var payment = (method === 'ganri') ? Math.round(levelPayment(bal, r, N)) : null;
+  var payment = (method === 'ganri') ? Math.floor(levelPayment(bal, r, N)) : null;
   var gankinPrin = (method === 'gankin') ? Math.floor(P0 / N) : null;
   var sched = [];               // 各期 {period, interest, principal, payment, balance}
   var totalInterest = 0, totalPaid = 0;
@@ -465,7 +465,7 @@ function simulate(P0, r, N, method, prepays, rateChanges){
     for (var c = 0; c < rateChanges.length; c++){
       if (rateChanges[c].period === m){
         r = rateChanges[c].r;
-        if (method === 'ganri') payment = Math.round(levelPayment(bal, r, N - m + 1));
+        if (method === 'ganri') payment = Math.floor(levelPayment(bal, r, N - m + 1));
       }
     }
     // ① その月の利息は「繰上げ前の残高」で計算（円未満切り捨て）
@@ -496,7 +496,7 @@ function simulate(P0, r, N, method, prepays, rateChanges){
     }
     // ④ 返済額軽減型：繰上げ後の残高と残り回数（今月を除く）で次月以降を再計算
     if (recompute && bal > 0.5){
-      payment = Math.round(levelPayment(bal, r, N - m));
+      payment = Math.floor(levelPayment(bal, r, N - m));
       afterPrepayPayment = payment;
     }
     totalInterest += interest;
