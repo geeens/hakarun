@@ -288,6 +288,7 @@
             </tbody>
           </table>
         </div>
+        <button type="button" class="btn btn-compare" onclick="addToCompare()">＋ この条件を比較に追加</button>
         <div class="loan-graph" id="loan-graph">
           <div class="graph-title">総返済額の内訳</div>
           <div class="stack-bar">
@@ -324,6 +325,22 @@
         </details>
       </div>
     </div>
+    <section class="calc-card loan-compare-section" id="loan-compare" style="display:none">
+      <div class="compare-head">
+        <h2 class="compare-title">📊 パターン比較</h2>
+        <div class="dl-buttons">
+          <button type="button" class="btn btn-dl" onclick="downloadCompareCsv()">📥 比較表CSV</button>
+          <button type="button" class="btn btn-dl" onclick="clearCompare()">全消去</button>
+        </div>
+      </div>
+      <p class="hint">条件を変えて計算 →「＋ この条件を比較に追加」で、総利息などを並べて比べられます（総利息が最少の行に👑）。</p>
+      <div class="result-table wide-table sticky-first">
+        <table>
+          <thead id="compare-head"></thead>
+          <tbody id="compare-body"></tbody>
+        </table>
+      </div>
+    </section>
     <div class="ad-area">広告</div>
     <div class="article">
       <h2>このシミュレーションでできること</h2>
@@ -693,6 +710,26 @@ function calcLoan(){
   document.getElementById('lg-principal').textContent = fmt(P) + '（' + pPct.toFixed(1) + '%）';
   document.getElementById('lg-interest').textContent = fmt(totalInterest) + '（' + iPct.toFixed(1) + '%）';
 
+  // 比較用に今回の結果サマリーを保存
+  var lastM = window._loanLastMonth || 0;
+  var payoffLabel;
+  if (startYm){ var pt = ymAdd(startYm.y, startYm.m, lastM - 1); payoffLabel = pt.y + '年' + pt.mo + '月'; }
+  else { var pyy = Math.floor(lastM/12), pmm = lastM % 12; payoffLabel = pyy + '年' + (pmm ? pmm + 'か月' : ''); }
+  var rcLabel = rateChgM.length
+    ? rateChgM.map(function(rc){ return ((rc.period-1)/12) + '年後' + parseFloat((rc.r*1200).toFixed(3)) + '%'; }).join('、')
+    : 'なし';
+  window._loanResult = {
+    principal: P, rate: annualRate, years: years,
+    method: (method === 'ganri') ? '元利均等' : '元金均等',
+    bonus: bonusP > 0 ? bonusP : 0,
+    prepay: hasPrepay ? {n: prepays.length, total: prepayTotal} : null,
+    rateChange: rcLabel,
+    monthly: Math.round(monthly.firstPayment),
+    total: Math.round(totalPaid),
+    interest: Math.round(totalInterest),
+    payoff: payoffLabel
+  };
+
   document.getElementById('result').classList.add('show');
   scrollToCalcButton();
 }
@@ -739,6 +776,84 @@ function downloadCsv(mode){
   var a = document.createElement('a');
   a.href = url;
   a.download = 'ローン返済予定表_' + (mode === 'month' ? '月単位' : '年単位') + '.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ===== パターン比較 =====
+window._loanCompare = window._loanCompare || [];
+function yenC(n){ return Number(n).toLocaleString('ja-JP') + '円'; }
+
+// 今回の計算結果を比較表に追加
+function addToCompare(){
+  if (!window._loanResult){ alert('先に「計算する」を押してください'); return; }
+  window._loanCompare.push(Object.assign({}, window._loanResult));
+  renderCompare();
+  document.getElementById('loan-compare').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function renderCompare(){
+  var data = window._loanCompare || [];
+  var sec = document.getElementById('loan-compare');
+  if (!data.length){ sec.style.display = 'none'; return; }
+  sec.style.display = '';
+  var minInt = Math.min.apply(null, data.map(function(d){ return d.interest; }));
+  document.getElementById('compare-head').innerHTML =
+    '<tr><th>パターン</th><th>借入額</th><th>金利</th><th>期間</th><th>方式</th><th>ボーナス</th><th>繰上げ</th><th>金利変更</th><th>月々(初回)</th><th>総返済額</th><th>総利息</th><th>完済</th><th></th></tr>';
+  var rows = '';
+  for (var i = 0; i < data.length; i++){
+    var d = data[i];
+    var best = (d.interest === minInt && data.length > 1);
+    var only = (data.length === 1);
+    var intCell = yenC(d.interest) + (only ? '' : (d.interest === minInt
+      ? ' <span class="crown">👑最安</span>'
+      : ' <span class="diff">＋' + (d.interest - minInt).toLocaleString('ja-JP') + '円</span>'));
+    var bonus = d.bonus > 0 ? yenC(d.bonus) : 'なし';
+    var prepay = d.prepay ? (d.prepay.n + '回 ' + yenC(d.prepay.total)) : 'なし';
+    rows += '<tr' + (best ? ' class="best-row"' : '') + '>'
+      + '<td>パターン' + (i+1) + '</td>'
+      + '<td>' + yenC(d.principal) + '</td>'
+      + '<td>' + d.rate + '%</td>'
+      + '<td>' + d.years + '年</td>'
+      + '<td>' + d.method + '</td>'
+      + '<td>' + bonus + '</td>'
+      + '<td>' + prepay + '</td>'
+      + '<td>' + d.rateChange + '</td>'
+      + '<td>' + yenC(d.monthly) + '</td>'
+      + '<td>' + yenC(d.total) + '</td>'
+      + '<td>' + intCell + '</td>'
+      + '<td>' + d.payoff + '</td>'
+      + '<td><button type="button" class="prepay-del" onclick="removeCompare(' + i + ')" aria-label="この行を削除">×</button></td>'
+      + '</tr>';
+  }
+  document.getElementById('compare-body').innerHTML = rows;
+}
+
+function removeCompare(i){ window._loanCompare.splice(i, 1); renderCompare(); }
+function clearCompare(){
+  if (window._loanCompare.length && confirm('比較表をすべて消去しますか？')){
+    window._loanCompare = []; renderCompare();
+  }
+}
+
+function downloadCompareCsv(){
+  var data = window._loanCompare || [];
+  if (!data.length){ alert('比較するパターンがありません'); return; }
+  var head = ['パターン','借入額','金利(%)','期間(年)','返済方式','ボーナス返済分','繰上げ回数','繰上げ合計','金利変更','月々(初回)','総返済額','総利息','完済'];
+  var lines = [head.join(',')];
+  for (var i = 0; i < data.length; i++){
+    var d = data[i];
+    lines.push([
+      'パターン' + (i+1), d.principal, d.rate, d.years, d.method, (d.bonus || 0),
+      (d.prepay ? d.prepay.n : 0), (d.prepay ? d.prepay.total : 0),
+      (d.rateChange || 'なし').replace(/,/g, '、'), d.monthly, d.total, d.interest, d.payoff
+    ].join(','));
+  }
+  var csv = '﻿' + lines.join('\r\n');
+  var blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = 'ローン返済_パターン比較.csv';
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }

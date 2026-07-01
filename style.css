@@ -1217,6 +1217,27 @@ select:focus {
 .loan-schedule[open] > summary { border-bottom: 1px solid var(--border); }
 .loan-schedule .result-table { margin-top: 0; max-height: 460px; overflow: auto; }
 .loan-schedule thead th { position: sticky; top: 0; z-index: 2; background: #F1F5F9; }
+
+/* ローン: パターン比較 */
+.btn-compare {
+  width: 100%;
+  margin: 4px 0 8px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  font-size: 15px;
+}
+.btn-compare:hover { background: #DBEAFE; }
+.loan-compare-section { margin-top: 16px; }
+.compare-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+.compare-title { margin: 0; font-size: 18px; }
+.loan-compare-section .result-table { max-height: 440px; overflow: auto; margin-top: 10px; }
+.loan-compare-section thead th { position: sticky; top: 0; z-index: 2; background: #F1F5F9; }
+.loan-compare-section th, .loan-compare-section td { white-space: nowrap; }
+.loan-compare-section tr.best-row td { background: var(--primary-light); }
+.loan-compare-section tr.best-row td:first-child { background: var(--primary-light); }
+.crown { color: var(--primary); font-weight: 700; white-space: nowrap; }
+.diff { color: var(--danger); font-size: 12px; white-space: nowrap; }
 .schedule-controls {
   display: flex;
   flex-wrap: wrap;
