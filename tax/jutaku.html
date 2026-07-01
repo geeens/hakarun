@@ -224,7 +224,7 @@
           <label><input type="radio" name="filing-year" value="after"> 2年目以降</label>
         </div>
       </div>
-      <button class="btn btn-primary" onclick="calc()">計算する</button>
+      <button class="btn btn-primary" id="calc-button" onclick="calc()">計算する</button>
       <div class="result-area" id="result">
         <div class="result-main">
           <div class="label">控除期間合計の住宅ローン控除額（目安）</div>
@@ -517,6 +517,17 @@ function calc() {
   document.getElementById('yearly-body').innerHTML=yearlyRows;
   document.getElementById('res-note').textContent=note;
   document.getElementById('result').classList.add('show');
+  scrollToCalcButton();
+}
+
+// 計算後、計算ボタンの位置までスクロール（ヘッダー分を考慮）
+function scrollToCalcButton(){
+  var target = document.getElementById('calc-button');
+  if (!target) return;
+  var header = document.querySelector('header');
+  var headerHeight = header ? header.getBoundingClientRect().height : 0;
+  var y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 24;
+  window.scrollTo({ top: y, behavior: 'smooth' });
 }
 </script>
 <script>
