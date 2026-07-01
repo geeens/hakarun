@@ -1193,7 +1193,28 @@ select:focus {
 .stack-legend .dot.principal { background: var(--success); }
 .stack-legend .dot.interest { background: var(--danger); }
 
-.loan-schedule { margin: 8px 0 4px; }
+/* 返済予定表は見落とされやすいので目立たせる */
+.loan-schedule.optional-settings {
+  margin: 14px 0 8px;
+  border: 2px solid var(--primary);
+  background: var(--primary-light);
+}
+.loan-schedule > summary {
+  font-size: 16px;
+  color: var(--primary);
+  padding: 15px 16px;
+}
+.loan-schedule > summary::after {
+  content: "▼ タップで開く";
+  font-size: 13px;
+  font-weight: 700;
+  background: var(--primary);
+  color: #fff;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+.loan-schedule[open] > summary::after { content: "▲ 閉じる"; }
+.loan-schedule[open] > summary { border-bottom: 1px solid var(--border); }
 .loan-schedule .result-table { margin-top: 0; max-height: 460px; overflow: auto; }
 .loan-schedule thead th { position: sticky; top: 0; z-index: 2; background: #F1F5F9; }
 .schedule-controls {
