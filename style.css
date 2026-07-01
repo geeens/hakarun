@@ -1238,8 +1238,9 @@ select:focus {
 .loan-compare-section tr.best-row td:first-child { background: var(--primary-light); }
 .crown { color: var(--primary); font-weight: 700; white-space: nowrap; }
 .diff { color: var(--danger); font-size: 12px; white-space: nowrap; }
-.cmp-name {
-  width: 96px;
+.loan-compare-section .cmp-name {
+  width: 140px;
+  min-width: 140px;
   padding: 6px 8px;
   border: 1px solid var(--border);
   border-radius: 6px;
@@ -1248,7 +1249,7 @@ select:focus {
   color: var(--text);
   background: #fff;
 }
-.cmp-name:focus { outline: none; border-color: var(--primary); }
+.loan-compare-section .cmp-name:focus { outline: none; border-color: var(--primary); }
 .schedule-controls {
   display: flex;
   flex-wrap: wrap;
