@@ -54,6 +54,53 @@
   ]
 }
 </script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+  {
+   "@type": "ListItem",
+   "position": 1,
+   "name": "ホーム",
+   "item": "https://hakarun.net/"
+  },
+  {
+   "@type": "ListItem",
+   "position": 2,
+   "name": "日付・時間",
+   "item": "https://hakarun.net/date/"
+  },
+  {
+   "@type": "ListItem",
+   "position": 3,
+   "name": "日数計算",
+   "item": "https://hakarun.net/date/nissuu"
+  }
+ ]
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebPage",
+ "name": "日数計算｜2つの日付の間の日数・週数・月数を無料計算｜はかるんツール",
+ "url": "https://hakarun.net/date/nissuu",
+ "datePublished": "2026-05-08",
+ "dateModified": "2026-07-02",
+ "author": {
+  "@type": "Person",
+  "name": "ハカル",
+  "url": "https://hakarun.net/about"
+ },
+ "publisher": {
+  "@type": "Organization",
+  "name": "はかるんツール",
+  "url": "https://hakarun.net/"
+ },
+ "description": "開始日と終了日を選ぶだけで日数・週数・月数を無料計算。イベントまでの残り日数や記念日の確認にも使えます。"
+}
+</script>
 </head>
 <body>
 <header>
@@ -167,10 +214,11 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../">トップ</a> &rsaquo; 日数計算</div>
+      <div class="breadcrumb"><a href="../">トップ</a> &rsaquo; <a href="./">日付・時間</a> &rsaquo; 日数計算</div>
       <h1>📅 日数計算</h1>
       <p class="subtitle">2つの日付の間の日数・週数・月数を計算します</p>
       <p class="source-note">2026年時点の暦日・日数計算の一般的な考え方を参考にしています。</p>
+      <p class="page-meta">最終更新日：2026年7月2日</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
@@ -230,6 +278,22 @@
       <p>日数から週数・月数への換算も自動で表示します。また、入力した日付の曜日も表示されるため、締切日が何曜日かの確認にも便利です。記念日の経過日数・試験や出産予定日までのカウントダウン・有給休暇の管理など、ぜひご活用ください。</p>
     </div>
     <div class="article">
+      <h2>日数の数え方の公式ルール——「初日不算入」を知っていますか</h2>
+
+      <p>日数の数え方には、実は法律上の原則があります。民法では「期間の初日は数えない」という<strong>初日不算入の原則</strong>（民法第140条）が定められています。たとえば「契約日から30日以内に支払う」という場合、契約したその日は数えず、翌日を1日目として30日を数えるのが原則です。一方、年齢計算やホテルの宿泊数などは別のルールで数えるため、「何を計算したいか」によって『両端を含む/含まない』を切り替えることが大切です。本ツールの「両端を含む」オプションはこの使い分けのために用意しています。</p>
+      <h3>場面ごとの数え方の使い分け</h3>
+      <ul>
+        <li><strong>支払期限・クーリングオフ</strong> — 原則は初日不算入。「8日以内」のクーリングオフは契約書を受け取った日を1日目として数えます（こちらは例外的に初日算入）。制度ごとに決まりがあるので、重要な期限は必ず書面の記載で確認しましょう。</li>
+        <li><strong>宿泊・レンタル</strong> — 「2泊3日」のように、泊数と日数は1ずれます。レンタカーやレンタルサービスは24時間単位の課金も多く、日数と時間の両方の確認が必要です。</li>
+        <li><strong>給与・日割り家賃</strong> — 月の途中で入退去する場合の家賃は「日割り」で精算されます。その月の実日数（28〜31日）で割る方式が一般的で、月によって1日あたりの額が変わります。</li>
+        <li><strong>利息の計算</strong> — 預金や借入の利息は「年利÷365日×経過日数」で日割り計算されるのが基本です。経過日数が1日違うだけで利息額も変わるため、金融の世界では日数計算が非常に重要です。</li>
+      </ul>
+      <h3>「営業日」と「暦日」の違いに注意</h3>
+      <p>ビジネスでよく使う「3営業日以内」は、土日祝日を除いた日数です。暦の上での3日（暦日）とは大きく異なり、金曜日の午後に依頼した場合「3営業日後」は翌週の水曜日になります。銀行振込や役所の手続き、ネット通販の発送目安は営業日ベースで案内されることが多いので、本ツールで暦日を計算した上で、間の土日祝日の数を差し引いて考えると行き違いを防げます。</p>
+          <h3>月をまたぐ日数を暗算する「にしむくさむらい」</h3>
+      <p>日数の暗算で役立つのが、小の月（31日ない月）の覚え方「にしむくさむらい」です。2月・4月・6月・9月・11月（士＝十一）が31日未満で、それ以外は31日あります。たとえば3月15日から4月10日までなら、「3月の残り16日＋4月の10日＝26日」と月ごとに分けて足すのが暗算のコツです。ただし2月のうるう年判定や、両端を含むかどうかで結果は1日単位でずれます。契約や支払いに関わる正確な日数は暗算に頼らず、本ツールでの確認をおすすめします。暗算は「結果がだいたい合っているか」の検算に使うのが安全な役割分担です。</p>
+    </div>
+    <div class="article">
       <h2>よくある質問</h2>
       <div class="faq-item">
         <div class="faq-q">Q. 「両端を含む」とはどういう意味ですか？</div>
@@ -266,7 +330,14 @@
         <li><a href="../date/jikanzansan">🔗 時間の足し算・引き算</a> — 時間の計算をかんたんに</li>
       </ul>
     </div>
-  </div>
+      <div class="author-box">
+      <span class="author-box-icon">&#x1F989;</span>
+      <div class="author-box-body">
+        <p class="author-box-title">この計算ツールについて</p>
+        <p>FP2級（ファイナンシャル・プランニング技能士）・日商簿記2級を保有する運営者「ハカル」が作成し、計算式と計算結果を確認しています。詳しくは<a href="../about">運営者情報</a>をご覧ください。お気づきの点があれば<a href="../contact">お問い合わせ</a>からご連絡ください。</p>
+      </div>
+    </div>
+</div>
 </main>
 <footer>
   <div class="footer-logo">📐 はかるんツール</div>

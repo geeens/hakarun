@@ -961,10 +961,32 @@ select:focus {
 }
 .info-box strong { font-weight: 700; }
 .author-box {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
   background: #EFF6FF;
-  border-color: #BFDBFE;
-  color: #1E3A8A;
-  margin-bottom: 24px;
+  border: 1px solid #BFDBFE;
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-top: 24px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+.author-box-icon {
+  font-size: 30px;
+  line-height: 1;
+}
+.author-box-title {
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.author-box a { color: var(--primary); }
+.page-header .page-meta {
+  color: var(--text-secondary);
+  font-size: 13px;
+  margin-top: 4px;
 }
 
 .result-insight {

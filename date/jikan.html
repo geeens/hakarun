@@ -54,6 +54,53 @@
   ]
 }
 </script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+  {
+   "@type": "ListItem",
+   "position": 1,
+   "name": "ホーム",
+   "item": "https://hakarun.net/"
+  },
+  {
+   "@type": "ListItem",
+   "position": 2,
+   "name": "日付・時間",
+   "item": "https://hakarun.net/date/"
+  },
+  {
+   "@type": "ListItem",
+   "position": 3,
+   "name": "勤務時間計算",
+   "item": "https://hakarun.net/date/jikan"
+  }
+ ]
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebPage",
+ "name": "勤務時間計算｜出勤・退勤時刻と休憩から実労働時間を無料計算｜はかるんツール",
+ "url": "https://hakarun.net/date/jikan",
+ "datePublished": "2026-05-08",
+ "dateModified": "2026-07-02",
+ "author": {
+  "@type": "Person",
+  "name": "ハカル",
+  "url": "https://hakarun.net/about"
+ },
+ "publisher": {
+  "@type": "Organization",
+  "name": "はかるんツール",
+  "url": "https://hakarun.net/"
+ },
+ "description": "出勤・退勤時刻と休憩時間を入力するだけで実労働時間・残業時間・月間労働時間を無料計算。深夜勤務にも対応。"
+}
+</script>
 </head>
 <body>
 <header>
@@ -167,10 +214,11 @@
 <main>
   <div class="container">
     <div class="page-header">
-      <div class="breadcrumb"><a href="../">トップ</a> &rsaquo; 勤務時間計算</div>
+      <div class="breadcrumb"><a href="../">トップ</a> &rsaquo; <a href="./">日付・時間</a> &rsaquo; 勤務時間計算</div>
       <h1>⏱️ 勤務時間計算</h1>
       <p class="subtitle">出勤・退勤時刻と休憩時間から実労働時間を計算します</p>
       <p class="source-note">2026年時点の勤務時間計算の一般的な考え方を参考にしています。勤務先の集計ルールとは異なる場合があります。</p>
+      <p class="page-meta">最終更新日：2026年7月2日</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
@@ -265,7 +313,14 @@
         <li><a href="../date/nissuu">🔗 日数計算</a> — 2つの日付の間の日数を計算</li>
       </ul>
     </div>
-  </div>
+      <div class="author-box">
+      <span class="author-box-icon">&#x1F989;</span>
+      <div class="author-box-body">
+        <p class="author-box-title">この計算ツールについて</p>
+        <p>FP2級（ファイナンシャル・プランニング技能士）・日商簿記2級を保有する運営者「ハカル」が作成し、計算式と計算結果を確認しています。詳しくは<a href="../about">運営者情報</a>をご覧ください。お気づきの点があれば<a href="../contact">お問い合わせ</a>からご連絡ください。</p>
+      </div>
+    </div>
+</div>
 </main>
 <footer>
   <div class="footer-logo">📐 はかるんツール</div>
