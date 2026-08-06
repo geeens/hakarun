@@ -23,7 +23,7 @@
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR8XWPZCN9');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9735930242165085" crossorigin="anonymous"></script>
   <script type="application/ld+json">
-  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "年収500万円の税金はいくら？", "acceptedAnswer": { "@type": "Answer", "text": "年収500万円（独身・会社員）の場合、所得税約15万円、住民税約27万円、社会保険料約72万円、合計約114万円が差し引かれ、手取りはおよそ386万円（月約32万円）が目安です。" } },
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{ "@type": "Question", "name": "年収500万円の税金はいくら？", "acceptedAnswer": { "@type": "Answer", "text": "年収500万円（独身・会社員）の場合、令和8年分の基準では所得税約9万円、住民税約24万円、社会保険料約74万円、合計約107万円が差し引かれ、手取りはおよそ393万円（月約32.7万円）が目安です。" } },
     { "@type": "Question", "name": "年収が上がると税金はどれくらい増える？", "acceptedAnswer": { "@type": "Answer", "text": "日本の所得税は超過累進税率なので、年収が上がるほど増加分に対する税率が高くなります。ただし増えた収入すべてに高い税率がかかるわけではなく、超えた部分だけに高い税率が適用されます。" } },
     { "@type": "Question", "name": "社会保険料は年収の何パーセント？", "acceptedAnswer": { "@type": "Answer", "text": "会社員の社会保険料（健康保険・厚生年金・雇用保険など）の本人負担分は概ね年収の14〜15%前後です。令和8年度からは子ども・子育て支援金も医療保険料とあわせて徴収されます。ただし標準報酬月額の上限があるため、高年収になるほど実質的な率は下がります。" } }] }
   </script>
@@ -60,7 +60,7 @@
  "name": "年収別 手取り・税金シミュレーション｜年収アップ時の手取り差額を比較｜はかるんツール",
  "url": "https://hakarun.net/money/nenshuzei",
  "datePublished": "2026-05-08",
- "dateModified": "2026-07-02",
+ "dateModified": "2026-08-06",
  "author": {
   "@type": "Person",
   "name": "ハカル",
@@ -189,8 +189,8 @@
     <div class="page-header">
       <div class="breadcrumb"><a href="../">トップ</a> &rsaquo; <a href="./">お金・給与</a> &rsaquo; 年収別 手取り・税金シミュレーション</div>
       <h1>📋 年収別 手取り・税金シミュレーション</h1>
-      <p class="source-note">2026年度時点の公的資料・給与にかかる税金と社会保険料の一般的な考え方を参考にしています。</p>
-      <p class="page-meta">最終更新日：2026年7月2日</p>
+      <p class="source-note">令和8年度税制改正（令和8年12月1日施行・令和8年分以後の所得税に適用）を含む、2026年時点の公的資料を参考にしています。</p>
+      <p class="page-meta">最終更新日：2026年8月6日</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
@@ -313,23 +313,49 @@ document.querySelectorAll('input[type="number"]').forEach(function(input){
 <script>
 const fmt=n=>Math.round(n).toLocaleString('ja-JP')+' 円';
 
+// 給与所得控除（令和8年分以後：最低保障額は69万円＋特例5万円＝74万円）
+function calcSalaryIncomeDeduction(income){
+  if(income<=2200000)return Math.min(income,740000);
+  if(income<=3600000)return income*0.3+80000;
+  if(income<=6600000)return income*0.2+440000;
+  if(income<=8500000)return income*0.1+1100000;
+  return 1950000;
+}
+
+// 所得税の基礎控除（令和8年分：本則62万円＋合計所得金額に応じた加算額）
+function calcIncomeBasicDeduction(kyuyoShotoku){
+  if(kyuyoShotoku<=4890000)return 1040000;
+  if(kyuyoShotoku<=6550000)return 670000;
+  if(kyuyoShotoku<=23500000)return 620000;
+  if(kyuyoShotoku<=24000000)return 480000;
+  if(kyuyoShotoku<=24500000)return 320000;
+  if(kyuyoShotoku<=25000000)return 160000;
+  return 0;
+}
+
+// 社会保険料（労働者負担・全国平均に近い概算率。手取り計算ツールと同じ基準）
+function calcShakaihoken(income){
+  const salary=income/12;
+  const pensionBase=Math.min(salary,650000); // 厚生年金は標準報酬月額65万円が上限
+  const monthly=salary*0.04985      // 健康保険
+    + pensionBase*0.0915            // 厚生年金
+    + salary*0.005                  // 雇用保険
+    + salary*0.00115;               // 子ども・子育て支援金
+  return Math.round(monthly*12);
+}
+
 function calcIncome(income, fuyou){
-  let kj;
-  if(income<=1625000)kj=550000;
-  else if(income<=3600000)kj=income*0.3+180000;
-  else if(income<=6600000)kj=income*0.2+540000;
-  else if(income<=8500000)kj=income*0.1+1200000;
-  else kj=1950000;
-  const kyuyo=Math.max(0,income-kj);
-  const shakai=Math.round(income*0.15115);
-  const kiso=480000;
-  const fkj=fuyou*330000;
+  const kyuyo=Math.max(0,income-calcSalaryIncomeDeduction(income));
+  const shakai=calcShakaihoken(income);
+  const kiso=calcIncomeBasicDeduction(kyuyo);
+  const fkj=fuyou*380000;      // 扶養控除（所得税）
+  const fkjJumin=fuyou*330000; // 扶養控除（住民税）
   const kazei=Math.max(0,Math.floor((kyuyo-shakai-kiso-fkj)/1000)*1000);
   const brackets=[[1950000,0.05,0],[3300000,0.10,97500],[6950000,0.20,427500],[9000000,0.23,636000],[18000000,0.33,1536000],[40000000,0.40,2796000],[Infinity,0.45,4796000]];
   let shotoku=0;
   for(const[lim,r,d]of brackets){if(kazei<=lim){shotoku=Math.round(kazei*r-d)*1.021;break;}}
   shotoku=Math.round(shotoku);
-  const jkazei=Math.max(0,Math.floor((kyuyo-shakai-430000-fkj)/1000)*1000);
+  const jkazei=Math.max(0,Math.floor((kyuyo-shakai-430000-fkjJumin)/1000)*1000);
   const jumin=Math.round(jkazei*0.1)+5000;
   const totalTax=shakai+shotoku+jumin;
   const tedori=income-totalTax;

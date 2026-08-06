@@ -60,7 +60,7 @@
  "name": "確定申告 還付金計算｜所得税の還付額を無料計算｜はかるんツール",
  "url": "https://hakarun.net/tax/kanpu",
  "datePublished": "2026-05-08",
- "dateModified": "2026-07-02",
+ "dateModified": "2026-08-06",
  "author": {
   "@type": "Person",
   "name": "ハカル",
@@ -190,8 +190,8 @@
       <div class="breadcrumb"><a href="../">トップ</a> &rsaquo; <a href="./">節税</a> &rsaquo; 確定申告 還付金計算</div>
       <h1>💰 確定申告 還付金計算</h1>
       <p class="subtitle">源泉徴収税額と各種控除から所得税の還付見込み額を計算します</p>
-      <p class="source-note">2026年度時点の税制・国税庁など公的資料の一般的な考え方を参考にしています。</p>
-      <p class="page-meta">最終更新日：2026年7月2日</p>
+      <p class="source-note">令和8年度税制改正（令和8年12月1日施行・令和8年分以後の所得税に適用）を含む、2026年時点の公的資料を参考にしています。</p>
+      <p class="page-meta">最終更新日：2026年8月6日</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
@@ -309,16 +309,24 @@ function calc() {
   const furusato = parseFloat(document.getElementById('furusato').value) || 0;
   const other = parseFloat(document.getElementById('other').value) || 0;
   if (!income) { alert('年収を入力してください'); return; }
-  // 給与所得控除
+  // 給与所得控除（令和8年分：最低保障額74万円）
   let kyuyoKojo;
-  if (income <= 1625000) kyuyoKojo = 550000;
-  else if (income <= 3600000) kyuyoKojo = income * 0.3 + 180000;
-  else if (income <= 6600000) kyuyoKojo = income * 0.2 + 540000;
-  else if (income <= 8500000) kyuyoKojo = income * 0.1 + 1200000;
+  if (income <= 2200000) kyuyoKojo = Math.min(income, 740000);
+  else if (income <= 3600000) kyuyoKojo = income * 0.3 + 80000;
+  else if (income <= 6600000) kyuyoKojo = income * 0.2 + 440000;
+  else if (income <= 8500000) kyuyoKojo = income * 0.1 + 1100000;
   else kyuyoKojo = 1950000;
   const kyuyo = Math.max(0, income - kyuyoKojo);
   const shakai = Math.round(income * 0.15);
-  const kiso = 480000; // 基礎控除48万（2020年以降）
+  // 基礎控除（令和8年分：本則62万円＋合計所得金額に応じた加算額）
+  let kiso;
+  if (kyuyo <= 4890000) kiso = 1040000;
+  else if (kyuyo <= 6550000) kiso = 670000;
+  else if (kyuyo <= 23500000) kiso = 620000;
+  else if (kyuyo <= 24000000) kiso = 480000;
+  else if (kyuyo <= 24500000) kiso = 320000;
+  else if (kyuyo <= 25000000) kiso = 160000;
+  else kiso = 0;
   const addKojo = iryou + furusato + other;
   const kazei = Math.max(0, kyuyo - shakai - kiso - addKojo);
   // 所得税率（超過累進）
