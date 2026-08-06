@@ -60,7 +60,7 @@
  "name": "iDeCo節税計算｜毎月の掛金でいくら節税できるか無料計算｜はかるんツール",
  "url": "https://hakarun.net/tax/ideco",
  "datePublished": "2026-05-08",
- "dateModified": "2026-07-02",
+ "dateModified": "2026-08-06",
  "author": {
   "@type": "Person",
   "name": "ハカル",
@@ -190,8 +190,8 @@
       <div class="breadcrumb"><a href="../">トップ</a> &rsaquo; <a href="./">節税</a> &rsaquo; iDeCo節税計算</div>
       <h1>💎 iDeCo節税計算</h1>
       <p class="subtitle">iDeCoの掛金から年間の節税額と実質コストを計算します</p>
-      <p class="source-note">2026年度時点の税制・国税庁など公的資料の一般的な考え方を参考にしています。</p>
-      <p class="page-meta">最終更新日：2026年7月2日</p>
+      <p class="source-note">令和8年度税制改正（令和8年12月1日施行・令和8年分以後の所得税に適用）を含む、2026年時点の公的資料を参考にしています。</p>
+      <p class="page-meta">最終更新日：2026年8月6日</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
@@ -353,9 +353,13 @@ function calc(){
   const yearKakkin=kakkin*12;
   // 限界税率を概算
   let kj;
-  if(income<=1625000)kj=550000;else if(income<=3600000)kj=income*0.3+180000;
-  else if(income<=6600000)kj=income*0.2+540000;else if(income<=8500000)kj=income*0.1+1200000;else kj=1950000;
-  const kazei=Math.max(0,income-kj-income*0.15-480000);
+  // 給与所得控除（令和8年分：最低保障額74万円）
+  if(income<=2200000)kj=Math.min(income,740000);else if(income<=3600000)kj=income*0.3+80000;
+  else if(income<=6600000)kj=income*0.2+440000;else if(income<=8500000)kj=income*0.1+1100000;else kj=1950000;
+  // 基礎控除（令和8年分：合計所得489万円以下は104万円）
+  const kyuyoS=Math.max(0,income-kj);
+  const kisoK=kyuyoS<=4890000?1040000:kyuyoS<=6550000?670000:620000;
+  const kazei=Math.max(0,kyuyoS-income*0.15-kisoK);
   const brackets=[[1950000,0.05],[3300000,0.10],[6950000,0.20],[9000000,0.23],[18000000,0.33],[40000000,0.40],[Infinity,0.45]];
   let marginal=0.05;
   for(const[lim,r]of brackets){if(kazei<=lim){marginal=r;break;}}

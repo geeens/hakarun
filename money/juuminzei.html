@@ -60,7 +60,7 @@
  "name": "住民税計算｜年収から住民税を無料計算｜はかるんツール",
  "url": "https://hakarun.net/money/juuminzei",
  "datePublished": "2026-05-08",
- "dateModified": "2026-07-02",
+ "dateModified": "2026-08-06",
  "author": {
   "@type": "Person",
   "name": "ハカル",
@@ -190,8 +190,8 @@
       <div class="breadcrumb"><a href="../">トップ</a> &rsaquo; <a href="./">お金・給与</a> &rsaquo; 住民税計算</div>
       <h1>🏙️ 住民税計算</h1>
       <p class="subtitle">年収から住民税の目安額を計算します（給与所得者向け）</p>
-      <p class="source-note">2026年度時点の公的資料・住民税制度の一般的な考え方を参考にしています。</p>
-      <p class="page-meta">最終更新日：2026年7月2日</p>
+      <p class="source-note">令和8年度税制改正（令和8年12月1日施行・令和8年分以後の所得税に適用）を含む、2026年時点の公的資料を参考にしています。</p>
+      <p class="page-meta">最終更新日：2026年8月6日</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
@@ -360,10 +360,10 @@ function calc() {
   if (!income || income < 0) { alert('年収を入力してください'); return; }
   // 給与所得控除
   let kyuyoKojo;
-  if (income <= 1625000) kyuyoKojo = 550000;
-  else if (income <= 3600000) kyuyoKojo = income * 0.3 + 180000;
-  else if (income <= 6600000) kyuyoKojo = income * 0.2 + 540000;
-  else if (income <= 8500000) kyuyoKojo = income * 0.1 + 1200000;
+  if (income <= 2200000) kyuyoKojo = Math.min(income, 740000);
+  else if (income <= 3600000) kyuyoKojo = income * 0.3 + 80000;
+  else if (income <= 6600000) kyuyoKojo = income * 0.2 + 440000;
+  else if (income <= 8500000) kyuyoKojo = income * 0.1 + 1100000;
   else kyuyoKojo = 1950000;
   const kyuyo = Math.max(0, income - kyuyoKojo);
   // 社会保険料概算（年収の約15%）

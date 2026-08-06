@@ -73,7 +73,7 @@
  "name": "医療費控除・還付金計算｜セルフメディケーション税制と比較｜はかるんツール",
  "url": "https://hakarun.net/tax/iryouhi",
  "datePublished": "2026-05-08",
- "dateModified": "2026-07-02",
+ "dateModified": "2026-08-06",
  "author": {
   "@type": "Person",
   "name": "ハカル",
@@ -203,8 +203,8 @@
       <div class="breadcrumb"><a href="../">トップ</a> &rsaquo; <a href="./">節税</a> &rsaquo; 医療費控除・還付金計算</div>
       <h1>🏥 医療費控除・還付金計算</h1>
       <p class="subtitle">医療費控除額、所得税の還付、住民税の軽減額を計算します</p>
-      <p class="source-note">2026年度時点の税制・国税庁など公的資料の一般的な考え方を参考にしています。</p>
-      <p class="page-meta">最終更新日：2026年7月2日</p>
+      <p class="source-note">令和8年度税制改正（令和8年12月1日施行・令和8年分以後の所得税に適用）を含む、2026年時点の公的資料を参考にしています。</p>
+      <p class="page-meta">最終更新日：2026年8月6日</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
@@ -404,8 +404,8 @@
 function fmt(n){return Math.round(n).toLocaleString('ja-JP')+' 円';}
 function num(id){return parseFloat(document.getElementById(id).value)||0;}
 function salaryIncomeDeduction(income){
-  if(income<=1625000)return 550000;
-  if(income<=1800000)return income*0.4-100000;
+  // 令和8年分：最低保障額74万円
+  if(income<=2200000)return Math.min(income,740000);
   if(income<=3600000)return income*0.3+80000;
   if(income<=6600000)return income*0.2+440000;
   if(income<=8500000)return income*0.1+1100000;
@@ -437,7 +437,7 @@ function calc() {
 
   // 税率は、給与所得から社会保険料などの概算控除を引いて求める簡易計算です。
   const socialKojo=income*0.15115;
-  const taxable=Math.max(0,kyuyoShotoku-socialKojo-480000);
+  const taxable=Math.max(0,kyuyoShotoku-socialKojo-kisoKojoShotoku(kyuyoShotoku));
   const taxRate=incomeTaxRate(taxable);
   const incomeTaxBenefit=Math.floor(deduct*taxRate);
   const residentBenefit=Math.floor(deduct*0.10);
@@ -493,6 +493,17 @@ document.querySelectorAll('input[type="number"]').forEach(function(input){
   });
 });
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){var link=n.querySelector('.nav-link');var dropdown=n.querySelector('.dropdown');if(!link)return;link.addEventListener('click',function(e){if(!dropdown)return;if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
+<script>
+// 所得税の基礎控除（令和8年分：本則62万円＋合計所得金額に応じた加算額）
+function kisoKojoShotoku(shotoku){
+  if(shotoku<=4890000)return 1040000;
+  if(shotoku<=6550000)return 670000;
+  if(shotoku<=23500000)return 620000;
+  if(shotoku<=24000000)return 480000;
+  if(shotoku<=24500000)return 320000;
+  if(shotoku<=25000000)return 160000;
+  return 0;
+}
+document.querySelectorAll('.nav-item').forEach(function(n){var link=n.querySelector('.nav-link');var dropdown=n.querySelector('.dropdown');if(!link)return;link.addEventListener('click',function(e){if(!dropdown)return;if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

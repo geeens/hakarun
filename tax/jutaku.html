@@ -55,7 +55,7 @@
  "name": "住宅ローン控除・還付金計算｜年ごとの控除額を無料シミュレーション｜はかるんツール",
  "url": "https://hakarun.net/tax/jutaku",
  "datePublished": "2026-05-08",
- "dateModified": "2026-07-02",
+ "dateModified": "2026-08-06",
  "author": {
   "@type": "Person",
   "name": "ハカル",
@@ -185,8 +185,8 @@
       <div class="breadcrumb"><a href="../">トップ</a> &rsaquo; <a href="./">節税</a> &rsaquo; 住宅ローン控除・還付金計算</div>
       <h1>🏠 住宅ローン控除・還付金計算</h1>
       <p class="subtitle">借入額・金利・返済開始年月から、年ごとの住宅ローン控除額を概算します</p>
-      <p class="source-note">2026年度時点の税制・国税庁など公的資料の一般的な考え方を参考にしています。</p>
-      <p class="page-meta">最終更新日：2026年7月2日</p>
+      <p class="source-note">令和8年度税制改正（令和8年12月1日施行・令和8年分以後の所得税に適用）を含む、2026年時点の公的資料を参考にしています。</p>
+      <p class="page-meta">最終更新日：2026年8月6日</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
@@ -452,8 +452,8 @@ function getRule(type, year, familyType){
   return rules[type] || rules.certified;
 }
 function salaryIncomeDeduction(salary){
-  if(salary<=1625000)return 550000;
-  if(salary<=1800000)return salary*0.4-100000;
+  // 令和8年分：最低保障額74万円
+  if(salary<=2200000)return Math.min(salary,740000);
   if(salary<=3600000)return salary*0.3+80000;
   if(salary<=6600000)return salary*0.2+440000;
   if(salary<=8500000)return salary*0.1+1100000;
@@ -473,7 +473,7 @@ function estimateTaxes(salary){
   if(!salary)return {incomeTax:0,residentTax:0};
   const employmentIncome=Math.max(0,salary-salaryIncomeDeduction(salary));
   const social=Math.round(salary*0.15);
-  const incomeTaxable=Math.max(0,Math.floor((employmentIncome-social-480000)/1000)*1000);
+  const incomeTaxable=Math.max(0,Math.floor((employmentIncome-social-kisoKojoShotoku(employmentIncome))/1000)*1000);
   const residentTaxable=Math.max(0,Math.floor((employmentIncome-social-430000)/1000)*1000);
   const incomeTax=Math.floor(incomeTaxBase(incomeTaxable)*1.021);
   const residentTax=Math.max(0,Math.floor(residentTaxable*0.10)+5000);
@@ -593,6 +593,17 @@ document.querySelectorAll('input[type="number"]').forEach(function(input){
   });
 });
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){var link=n.querySelector('.nav-link');var dropdown=n.querySelector('.dropdown');if(!link)return;link.addEventListener('click',function(e){if(!dropdown)return;if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
+<script>
+// 所得税の基礎控除（令和8年分：本則62万円＋合計所得金額に応じた加算額）
+function kisoKojoShotoku(shotoku){
+  if(shotoku<=4890000)return 1040000;
+  if(shotoku<=6550000)return 670000;
+  if(shotoku<=23500000)return 620000;
+  if(shotoku<=24000000)return 480000;
+  if(shotoku<=24500000)return 320000;
+  if(shotoku<=25000000)return 160000;
+  return 0;
+}
+document.querySelectorAll('.nav-item').forEach(function(n){var link=n.querySelector('.nav-link');var dropdown=n.querySelector('.dropdown');if(!link)return;link.addEventListener('click',function(e){if(!dropdown)return;if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>

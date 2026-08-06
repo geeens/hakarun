@@ -110,7 +110,7 @@
  "name": "ふるさと納税 上限額・あといくら計算｜寄付済み額や控除も含めて無料シミュレーション｜はかるんツール",
  "url": "https://hakarun.net/tax/furusato",
  "datePublished": "2026-05-08",
- "dateModified": "2026-07-02",
+ "dateModified": "2026-08-06",
  "author": {
   "@type": "Person",
   "name": "ハカル",
@@ -240,8 +240,8 @@
       <div class="breadcrumb"><a href="../">トップ</a> &rsaquo; <a href="./">節税</a> &rsaquo; ふるさと納税 上限額・あといくら計算</div>
       <h1>🎎 ふるさと納税 上限額・あといくら計算</h1>
       <p class="subtitle">寄付上限額と、今年あといくら寄付できるかを計算します</p>
-      <p class="source-note">2026年度時点の税制・国税庁など公的資料の一般的な考え方を参考にしています。</p>
-      <p class="page-meta">最終更新日：2026年7月2日</p>
+      <p class="source-note">令和8年度税制改正（令和8年12月1日施行・令和8年分以後の所得税に適用）を含む、2026年時点の公的資料を参考にしています。</p>
+      <p class="page-meta">最終更新日：2026年8月6日</p>
     </div>
     <div class="ad-area">広告</div>
     <div class="calc-card">
@@ -561,8 +561,7 @@ function calcFurusato() {
 
   // 給与所得控除
   let kyuyoKojo = 0;
-  if (income <= 1625000) kyuyoKojo = 550000;
-  else if (income <= 1800000) kyuyoKojo = income * 0.4 - 100000;
+  if (income <= 2200000) kyuyoKojo = Math.min(income, 740000);
   else if (income <= 3600000) kyuyoKojo = income * 0.3 + 80000;
   else if (income <= 6600000) kyuyoKojo = income * 0.2 + 440000;
   else if (income <= 8500000) kyuyoKojo = income * 0.1 + 1100000;
@@ -591,7 +590,7 @@ function calcFurusato() {
 
   // 所得税率（ふるさと納税の控除計算用）
   let shotokuZeiritsu = 0.05;
-  const kazeiShotokuKokuzei = Math.max(0, kyuyoShotoku - socialKojo - 480000 - fuyoKojo - otherKojo);
+  const kazeiShotokuKokuzei = Math.max(0, kyuyoShotoku - socialKojo - kisoKojoShotoku(kyuyoShotoku) - fuyoKojo - otherKojo);
   if (kazeiShotokuKokuzei <= 1950000) shotokuZeiritsu = 0.05;
   else if (kazeiShotokuKokuzei <= 3300000) shotokuZeiritsu = 0.10;
   else if (kazeiShotokuKokuzei <= 6950000) shotokuZeiritsu = 0.20;
@@ -648,6 +647,17 @@ document.querySelectorAll('input[type="number"]').forEach(function(input){
   });
 });
 </script>
-<script>document.querySelectorAll('.nav-item').forEach(function(n){var link=n.querySelector('.nav-link');var dropdown=n.querySelector('.dropdown');if(!link)return;link.addEventListener('click',function(e){if(!dropdown)return;if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
+<script>
+// 所得税の基礎控除（令和8年分：本則62万円＋合計所得金額に応じた加算額）
+function kisoKojoShotoku(shotoku){
+  if(shotoku<=4890000)return 1040000;
+  if(shotoku<=6550000)return 670000;
+  if(shotoku<=23500000)return 620000;
+  if(shotoku<=24000000)return 480000;
+  if(shotoku<=24500000)return 320000;
+  if(shotoku<=25000000)return 160000;
+  return 0;
+}
+document.querySelectorAll('.nav-item').forEach(function(n){var link=n.querySelector('.nav-link');var dropdown=n.querySelector('.dropdown');if(!link)return;link.addEventListener('click',function(e){if(!dropdown)return;if(!window.matchMedia('(hover:hover)').matches){e.preventDefault();n.classList.toggle('open');document.querySelectorAll('.nav-item').forEach(function(x){if(x!==n)x.classList.remove('open');});}});});document.addEventListener('click',function(e){if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('open');});});</script>
 </body>
 </html>
