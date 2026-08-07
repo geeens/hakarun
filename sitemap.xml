@@ -14,7 +14,7 @@
   <url><loc>https://hakarun.net/money/gensen</loc><lastmod>2026-07-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/money/shokyuu</loc><lastmod>2026-08-06</lastmod><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/money/jikyu</loc><lastmod>2026-08-06</lastmod><priority>0.8</priority></url>
-  <url><loc>https://hakarun.net/health/bmi</loc><lastmod>2026-07-02</lastmod><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/health/bmi</loc><lastmod>2026-08-06</lastmod><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/health/metabolism</loc><lastmod>2026-07-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/health/calorie</loc><lastmod>2026-07-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/health/idealweight</loc><lastmod>2026-07-02</lastmod><priority>0.8</priority></url>
@@ -73,7 +73,7 @@
   <url><loc>https://hakarun.net/health/tekisei</loc><lastmod>2026-07-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/tax/kanpu</loc><lastmod>2026-08-06</lastmod><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/life/denkisetsuyaku</loc><lastmod>2026-07-02</lastmod><priority>0.8</priority></url>
-  <url><loc>https://hakarun.net/date/sankyuu</loc><lastmod>2026-07-02</lastmod><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/date/sankyuu</loc><lastmod>2026-08-06</lastmod><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/calc/tsubo</loc><lastmod>2026-08-06</lastmod><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/money/nenshuzei</loc><lastmod>2026-08-06</lastmod><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/money/fukugyo</loc><lastmod>2026-08-06</lastmod><priority>0.8</priority></url>
@@ -93,7 +93,7 @@
   <url><loc>https://hakarun.net/health/shiryoku</loc><lastmod>2026-07-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/life/chintai</loc><lastmod>2026-07-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/life/pet</loc><lastmod>2026-07-02</lastmod><priority>0.8</priority></url>
-  <url><loc>https://hakarun.net/date/kinzoku</loc><lastmod>2026-07-02</lastmod><priority>0.8</priority></url>
+  <url><loc>https://hakarun.net/date/kinzoku</loc><lastmod>2026-08-06</lastmod><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/tax/ideco</loc><lastmod>2026-08-06</lastmod><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/calc/rieki</loc><lastmod>2026-07-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://hakarun.net/invest/seimei</loc><lastmod>2026-07-02</lastmod><priority>0.8</priority></url>
